@@ -1,0 +1,11 @@
+.nav-container {
+    display: flex;
+    line-height: 100px;
+    justify-content: space-between;
+}
+
+.nav-inner {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-around;
+}

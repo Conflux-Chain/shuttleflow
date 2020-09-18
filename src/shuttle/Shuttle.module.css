@@ -1,0 +1,5 @@
+.nav {
+    display: flex;
+    justify-content: space-around;
+    line-height: 100px;
+}

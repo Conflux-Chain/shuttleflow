@@ -1,0 +1,11 @@
+.row {
+    display: flex;
+    align-items: center;
+    height: 100px;
+    justify-content: space-between;
+}
+
+.two-row {
+    display: flex;
+    flex-direction: column;
+}
