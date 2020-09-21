@@ -15,7 +15,6 @@ import Market from '../market/Market'
 
 
 export default function Main() {
-
     return (
         <Switch>
             <Redirect from={'/'} exact to='/shuttle' />

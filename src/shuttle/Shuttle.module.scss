@@ -1,0 +1,14 @@
+.nav {
+    display: flex;
+    justify-content: space-around;
+    .item {
+        display: flex;
+        flex-direction: column;
+    }
+    .active {
+        color: #44d7b6;
+        // * {
+        //     fill: #44d7b6;
+        // }
+    }
+}
