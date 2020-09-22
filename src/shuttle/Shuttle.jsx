@@ -15,28 +15,43 @@ import classNamesBind from "classnames/bind";
 import styles from './Shuttle.module.scss'
 import { useMedia } from 'react-media';
 
-import InLogo from './InLogo.jsx'
+import inActiveSvg from './in-active.svg'
+import inSvg from './in.svg'
+import outActiveSvg from './out-active.svg'
+import outSvg from './out.svg'
+import useIsSamll from '../component/useSmallScreen';
+
 
 const cx = classNamesBind.bind(styles)
 export default function Shuttle({ match: { path, url } }) {
-
     const { t } = useTranslation()
     const inUrl = `${url}/in`
+    const outUrl = `${url}/out`
+    const isSmall = useIsSamll()
     return <div>
-        <nav className={cx('nav')}>
-            <MenuLink to={inUrl} render={({ isSmall, active }) => {
-                console.log('actibe', active)
+        <nav className={cx(isSmall ? 'nav-sm' : 'nav-lg')}>
+            <MenuLink to={inUrl} render={({ active }) => {
                 return <div className={cx('item', { active })} >
-                    <InLogo active={active} />
-                    <Link to={`${url}/in`}>{t('word.shuttle-in')}</Link>
+
+                    <Link to={inUrl}>
+                        <img src={active ? inActiveSvg : inSvg}></img>
+                        <span>{t('word.shuttle-in')}</span>
+
+                    </Link>
+                </div>
+            }} />
+
+            <MenuLink to={outUrl} render={({ active }) => {
+                return <div className={cx('item', { active })} >
+
+                    <Link to={outUrl}>
+                        <img src={active ? outActiveSvg : outSvg}></img>
+                        <span>{t('word.shuttle-out')}</span>
+                    </Link>
                 </div>
             }} />
 
 
-            <div className={cx('item')}>
-                <InLogo />
-                <Link to={`${url}/out`}>{t('word.shuttle-out')}</Link>
-            </div>
 
         </nav>
         <Switch>
@@ -55,6 +70,6 @@ function MenuLink({ render, to }) {
         path: to,
         exact: false
     });
-    const isSmall = useMedia({ query: "(max-width: 900px)" });
-    return render({ active: !!active, isSmall })
+
+    return render({ active: !!active })
 }

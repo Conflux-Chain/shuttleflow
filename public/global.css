@@ -101,6 +101,7 @@ body {
     background-size: cover;
     font-family: CircularStd;
     color: #999999;
+    margin: 0;
 }
 
 @media screen and (min-width: 375px) {

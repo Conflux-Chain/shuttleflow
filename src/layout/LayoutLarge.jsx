@@ -32,7 +32,7 @@ export default function LayoutLarge() {
             </div>
         </header>
         <div className={cx('container', 'large')}>
-            <Main size='lg' />
+            <Main  />
         </div>
     </div>
 }

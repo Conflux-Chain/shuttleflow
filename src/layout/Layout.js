@@ -4,31 +4,18 @@ import {
 } from "react-router-dom";
 import '../i18n/i18n'
 
-
-import Media from 'react-media';
-
 import LayoutLarge from './LayoutLarge'
 import LayoutSmall from './LayoutSmall'
+import useIsSamll from "../component/useSmallScreen";
 
 
 export default function App() {
+  const isSmall = useIsSamll()
   return (
     <Router>
-      <Media queries={{
-        small: "(max-width: 900px)",
-      }}>
-        {
-          matches => {
-            if (matches.small) {
-              return <LayoutSmall />
-
-            } else {
-              return <LayoutLarge />
-            }
-          }
-        }
-
-      </Media>
+      {
+        isSmall ? <LayoutSmall /> : <LayoutLarge />
+      }
     </Router>
   );
 }

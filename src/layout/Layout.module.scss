@@ -1,5 +1,6 @@
 .container {
   margin: auto;
+  padding: 0 2rem;
 }
 
 .large {
@@ -7,7 +8,6 @@
   max-height: calc(100vh - 100px);
   overflow: scroll;
   background-color: #1b1b1b;
-  padding: 0 32px;
 }
 
 .small {

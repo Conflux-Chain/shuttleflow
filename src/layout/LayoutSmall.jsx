@@ -53,6 +53,6 @@ export default function LayoutSmall() {
             </div>
         </CSSTransition>
 
-        <Main size={'sm'} />
+        <Main />
     </div>
 }
