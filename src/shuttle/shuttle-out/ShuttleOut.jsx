@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Button, Input, Spacer } from '@cfxjs/react-ui'
 import { useTranslation } from 'react-i18next'
 
-import styles from '../input.module.css'
+import styles from '../input.module.scss'
 import classNamesBind from 'classnames/bind'
 const cx = classNamesBind.bind(styles)
 

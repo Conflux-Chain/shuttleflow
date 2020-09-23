@@ -12,29 +12,39 @@ import Caption from './caption/Caption';
 import { useTranslation } from "react-i18next";
 
 
+
 import classNamesBind from "classnames/bind";
-import styles from './Token.module.css'
+import styles from './Token.module.scss'
+import MenuLink from "../component/MenuLink";
 const cx = classNamesBind.bind(styles)
+
 
 
 export default function Token({ match: { path, url }, history, location: { search } }) {
     const { t } = useTranslation()
+    const captionUrl = `${url}/caption`
     return <div>
         <nav className={cx('nav-container')}>
             <div style={{ cursor: 'pointer', color: '#BBBBBB', flexGrow: 0 }} onClick={() => history.goBack()}>{'<'}</div>
             <div className={cx('nav-inner')}>
-                <Link to={{
-                    pathname: url,
-                    search: search
-                }}>{t('sentence.choose-token')}</Link>
-                <Link
-                    to={{
-                        pathname: `${url}/caption`,
-                        //search param should never be lost
-                        //even though in caption route
-                        search: search
-                    }}
-                >{t('sentence.token-caption')}</Link>
+                <MenuLink to={url} exact render={({ active }) => {
+                    return <div className={cx('item', { active })} >
+                        <Link to={{
+                            pathname: url,
+                            search: search
+                        }}>{t('sentence.choose-token')}</Link>
+                    </div>
+                }} />
+                <MenuLink to={captionUrl} render={({ active }) => {
+                    return <div className={cx('item', { active })} >
+                        <Link to={{
+                            pathname: captionUrl,
+                            search: search
+                        }}>{t('sentence.token-caption')}</Link>
+                    </div>
+                }} />
+
+
             </div>
 
         </nav>

@@ -3,7 +3,6 @@ import {
     Switch,
     Route,
     Link, Redirect,
-    useRouteMatch
 } from "react-router-dom";
 
 
@@ -13,12 +12,13 @@ import ShuttleOut from './shuttle-out/ShuttleOut'
 import { useTranslation } from "react-i18next";
 import classNamesBind from "classnames/bind";
 import styles from './Shuttle.module.scss'
-import { useMedia } from 'react-media';
 
 import inActiveSvg from './in-active.svg'
 import inSvg from './in.svg'
 import outActiveSvg from './out-active.svg'
 import outSvg from './out.svg'
+
+import MenuLink from '../component/MenuLink'
 import useIsSamll from '../component/useSmallScreen';
 
 
@@ -36,14 +36,12 @@ export default function Shuttle({ match: { path, url } }) {
                     <Link to={inUrl}>
                         <img src={active ? inActiveSvg : inSvg}></img>
                         <span>{t('word.shuttle-in')}</span>
-
                     </Link>
                 </div>
             }} />
 
             <MenuLink to={outUrl} render={({ active }) => {
                 return <div className={cx('item', { active })} >
-
                     <Link to={outUrl}>
                         <img src={active ? outActiveSvg : outSvg}></img>
                         <span>{t('word.shuttle-out')}</span>
@@ -65,11 +63,3 @@ export default function Shuttle({ match: { path, url } }) {
 
 
 
-function MenuLink({ render, to }) {
-    const active = useRouteMatch({
-        path: to,
-        exact: false
-    });
-
-    return render({ active: !!active })
-}

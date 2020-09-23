@@ -1,8 +1,9 @@
 import React, { Suspense } from 'react'
 import useTokenList from '../data/useTokenList'
 
-import styles from './TokenList.module.css'
+import styles from './TokenList.module.scss'
 import classNamesBind from 'classnames/bind'
+import Check from './Check.jsx'
 const cx = classNamesBind.bind(styles)
 
 function TokenList({ token, setToken, search = '', cToken, showMortgage }) {
@@ -11,9 +12,13 @@ function TokenList({ token, setToken, search = '', cToken, showMortgage }) {
         {tokenList.map(({ symbol, cSymbol, name, cName, erc20, notAvailable, mortgage }) => {
             const checked = token === symbol
             return <div key={symbol} className={cx('row')}>
-                <input type='checkbox'
-                    onChange={() => setToken(checked ? '' : symbol)}
-                    checked={checked} />
+                <label>
+                    <Check active={checked} />
+                    <input type='checkbox'
+                        onChange={() => setToken(checked ? '' : symbol)}
+                        checked={checked} />
+                </label>
+
                 <div className={cx('two-row')}>
                     <span>{cToken ? cSymbol : symbol}</span>
                     <span>{cToken ? cName : name}</span>
@@ -23,7 +28,6 @@ function TokenList({ token, setToken, search = '', cToken, showMortgage }) {
                     <span >{erc20}</span>
                     <span >{showMortgage && mortgage + 'cETH'}</span>
                 </div>
-
 
                 <span style={{ marginLeft: 10 }}>{notAvailable && 'notAvailable'}</span>
             </div>

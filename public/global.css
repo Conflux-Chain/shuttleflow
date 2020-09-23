@@ -104,6 +104,17 @@ body {
     margin: 0;
 }
 
+@media (max-width: 900px) {
+    body {
+        background-image: url(/img/mobile.png);
+    }
+}
+@media (min-width: 900px) {
+    body {
+        background-image: url(/img/pc.png);
+    }
+}
+
 @media screen and (min-width: 375px) {
     html {
         font-size: 12px;
@@ -138,3 +149,4 @@ body {
         overflow: hidden;
     }
 }
+

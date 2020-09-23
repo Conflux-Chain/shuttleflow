@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import '../i18n/i18n'
 
 import logo from './logo.svg'
@@ -21,6 +21,7 @@ const cx = classNamesBind.bind(styles)
 export default function LayoutSmall() {
     const [dropdown, setDropdown] = useState(false)
     const nodeRef = useRef(null)
+    // const {}= useRouteMatch()
     const { t } = useTranslation()
     return <div className={cx('container', 'small')}>
         <header className={cx('header-sm')}>

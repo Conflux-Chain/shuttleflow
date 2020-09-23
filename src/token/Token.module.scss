@@ -1,0 +1,20 @@
+.nav-container {
+    display: flex;
+    line-height: 100px;
+    justify-content: space-between;
+    .nav-inner {
+        display: flex;
+        flex-grow: 1;
+        justify-content: space-around;
+        .item {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .active {
+            font-size: 1.33rem;
+
+            color: #44d7b6;
+        }
+    }
+}

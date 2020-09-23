@@ -3,6 +3,12 @@
     align-items: center;
     height: 100px;
     justify-content: space-between;
+    label {
+        input {
+            width: 0;
+            height: 0;
+        }
+    }
 }
 
 .two-row {

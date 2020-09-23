@@ -6,6 +6,10 @@ import { Link } from 'react-router-dom'
 
 import { useTranslation } from 'react-i18next'
 
+import classNamesBind from "classnames/bind";
+import styles from './Choose.module.scss'
+const cx = classNamesBind.bind(styles)
+
 const FREQUENT_TOKENS = [
     ['BTC'], ['ETC'], ['USDT'], ['DAI'], ['USDC']
 ]
@@ -18,19 +22,22 @@ export default function ChooseToken({ location: { search } }) {
     //TODO which props should be used to generate wallet address
     const [token, setToken] = useState('')
     const { t } = useTranslation()
-    return <div>
-        <Input
-            onChange={e => { setSearchTxt(e.target.value) }}
-            width={'100%'}
-            value={searchTxt}
-            placeholder={t('placeholder.token-search')} />
-        <h6>{t('sentence.frequent-token')}</h6>
-        <div>
+    return <div className={cx('container')}>
+        <div className={cx('input-container')}>
+            <input
+                onChange={e => { setSearchTxt(e.target.value) }}
+                width={'100%'}
+                value={searchTxt}
+                placeholder={t('placeholder.token-search')} />
+        </div>
+
+        <div className={cx('title')}>{t('sentence.frequent-token')}</div>
+        <div className={cx('frequent-container')}>
             {FREQUENT_TOKENS.map(([name]) => {
-                return <Badge key={name}>{name}</Badge>
+                return <div className={cx('frequent')} key={name}>{name}</div>
             })}
         </div>
-        <h6>{t('sentence.token-list')}</h6>
+        <div className={cx('title')}>{t('sentence.token-list')}</div>
 
 
         <TokenList search={searchTxt} token={token} setToken={setToken} cToken={cToken} />
@@ -43,4 +50,6 @@ export default function ChooseToken({ location: { search } }) {
 
     </div>
 }
+
+
 

@@ -1,0 +1,37 @@
+.input {
+    position: relative;
+
+    :global(label div) {
+        color: white !important;
+        font-weight: 500;
+        font-size: 1.33rem;
+    }
+
+    :global(.input-wrapper) {
+        background-color: transparent !important;
+    }
+    :global(.input-container) {
+        height: 4.17rem !important;
+        background-color: rgba(248, 248, 248, 0.2) !important;
+        border-radius: 2px;
+    }
+    ::placeholder {
+        font-size: 1.17rem !important;
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    .button {
+        display: flex;
+        justify-content: center;
+    }
+    .arrow {
+        top: 0;
+        right: 10px;
+        bottom: 0;
+        position: absolute;
+        cursor: pointer;
+        margin: auto;
+        display: flex;
+    }
+}
+

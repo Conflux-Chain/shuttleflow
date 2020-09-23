@@ -1,0 +1,42 @@
+.container {
+    .input-container {
+        position: relative;
+        input {
+            width: 100%;
+            height: 3.67rem;
+            background-color: rgba($color: #000000, $alpha: 0.4);
+            color: white;
+            border: none;
+            padding-left: 3.17rem;
+        }
+        input:focus {
+            box-shadow: none;
+            outline: none;
+        }
+        input::placeholder {
+            font-weight: 500;
+            font-size: 1rem;
+            color: rgba($color: #ffffff, $alpha: 0.4);
+        }
+    }
+    .title {
+        color: #999999;
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
+    .frequent-container {
+        justify-content: space-between;
+        display: flex;
+        .frequent {
+            cursor: pointer;
+            padding: 0 1.83rem;
+            font-size: 1.25rem;
+            color: white;
+            height: 2.25rem;
+            display: flex;
+            border-radius: 1.125rem;
+            align-items: center;
+            background: rgba($color: #f8f8f8, $alpha: 0.2);
+        }
+    }
+}
