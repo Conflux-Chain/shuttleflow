@@ -1,18 +1,10 @@
-.container {
+.large {
   margin: auto;
   padding: 0 2rem;
-}
-
-.large {
   max-width: 544px;
   max-height: calc(100vh - 100px);
   overflow: scroll;
   background-color: #1b1b1b;
-}
-
-.small {
-  max-width: 95vw;
-  padding: 16px;
 }
 
 .header-lg {
@@ -48,66 +40,15 @@
   }
 }
 
-.header-sm {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  line-height: 60px;
-  height: 60px;
-  font-size: 1.125rem;
-  color: white;
-  .ham {
-    height: 2rem;
-  }
-  .right {
-    display: flex;
-    align-items: center;
-    //hamburger button or close
-    img {
-      margin-left: 15px;
-      cursor: pointer;
-      width: 1.25rem;
-    }
-  }
-  a {
-    display: flex;
-    img {
-      max-height: 2.5rem;
-    }
-  }
-}
+// .header-sm {
+//   display: flex;
+//   position: sticky;
+//   top: 0;
+//   justify-content: space-between;
+//   align-items: center;
+//   line-height: 60px;
+//   height: 60px;
+//   font-size: 1.125rem;
+//   color: white;
+// }
 
-.enter {
-  transform: scaleY(0.1);
-}
-
-.enterActive {
-  transform: scaleY(1);
-}
-.enterDone {
-  transform: scaleY(1);
-}
-.exitActive {
-  transform: scaleY(0.1);
-}
-
-.dropdown {
-  z-index: 1;
-  position: absolute;
-  left: 0;
-  right: 0;
-  color: white;
-  background-color: black;
-  transition: 0.2s;
-  transform-origin: top;
-
-  a,
-  div {
-    height: 3.75rem;
-    line-height: 3.75rem;
-    justify-content: center;
-    text-align: center;
-    font-size: 1.33rem;
-    display: block;
-  }
-}

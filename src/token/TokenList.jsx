@@ -9,7 +9,7 @@ const cx = classNamesBind.bind(styles)
 function TokenList({ token, setToken, search = '', cToken, showMortgage }) {
     const { tokenList } = useTokenList(search)
     return <div>
-        {tokenList.map(({ symbol, cSymbol, name, cName, erc20, notAvailable, mortgage }) => {
+        {tokenList.map(({ symbol, cSymbol, name, cName, erc20, notAvailable, mortgage, icon }) => {
             const checked = token === symbol
             return <div key={symbol} className={cx('row')}>
                 <label>
@@ -18,7 +18,7 @@ function TokenList({ token, setToken, search = '', cToken, showMortgage }) {
                         onChange={() => setToken(checked ? '' : symbol)}
                         checked={checked} />
                 </label>
-
+                <img width='3.33rem' src={icon} ></img>
                 <div className={cx('two-row')}>
                     <span>{cToken ? cSymbol : symbol}</span>
                     <span>{cToken ? cName : name}</span>

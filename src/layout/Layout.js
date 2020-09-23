@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  BrowserRouter as Router
+  BrowserRouter as Router, Route
 } from "react-router-dom";
 import '../i18n/i18n'
 
@@ -13,9 +13,7 @@ export default function App() {
   const isSmall = useIsSamll()
   return (
     <Router>
-      {
-        isSmall ? <LayoutSmall /> : <LayoutLarge />
-      }
+      <Route path='/' component={isSmall ? LayoutSmall : LayoutLarge} ></Route>
     </Router>
   );
 }

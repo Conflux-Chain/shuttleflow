@@ -1,0 +1,73 @@
+.container {
+    padding: 2rem;
+}
+.header {
+    z-index: 1;
+    position: sticky;
+    top: 0;
+    // background-color: #1b1b1b;
+
+    justify-content: space-between;
+    align-items: center;
+    line-height: 3.625rem;
+    margin-bottom: 5.75rem;
+
+    //address
+    font-size: 1.5rem;
+    color: white;
+    //hamburger button / close / back
+
+    .ham {
+        cursor: pointer;
+        width: 2.5rem;
+        margin-left: 2.75rem;
+    }
+}
+
+.top-level {
+    display: flex;
+    .right {
+        display: flex;
+        align-items: center;
+    }
+    a {
+        display: flex;
+        .logo {
+            width: 17.5rem;
+        }
+    }
+}
+
+.enter {
+    transform: scaleY(0.1);
+}
+.enterActive {
+    transform: scaleY(1);
+}
+.enterDone {
+    transform: scaleY(1);
+}
+.exitActive {
+    transform: scaleY(0.1);
+}
+
+.dropdown {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    color: white;
+    background-color: black;
+    transition: 0.2s;
+    transform-origin: top;
+
+    a,
+    div {
+        height: 3.75rem;
+        line-height: 3.75rem;
+        justify-content: center;
+        text-align: center;
+        font-size: 1.33rem;
+        display: block;
+    }
+}

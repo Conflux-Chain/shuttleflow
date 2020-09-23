@@ -8,35 +8,46 @@ import close from './close.svg'
 
 import Main from './Main'
 
+import { TokenNavigation } from '../token/Token'
+import tokenStyles from '../token/Token.module.scss'
 
 import classNamesBind from "classnames/bind";
-import styles from './Layout.module.scss'
+import layouyStyles from './LayoutSmall.module.scss'
 import { useTranslation } from "react-i18next";
 import { CSSTransition } from "react-transition-group";
-const cx = classNamesBind.bind(styles)
+const cx = classNamesBind.bind({ ...layouyStyles, ...tokenStyles })
+// 
 
 
 
-
-export default function LayoutSmall() {
+export default function LayoutSmall(props) {
     const [dropdown, setDropdown] = useState(false)
     const nodeRef = useRef(null)
-    // const {}= useRouteMatch()
+    const isTokenRoute = !!useRouteMatch('/token')
     const { t } = useTranslation()
-    return <div className={cx('container', 'small')}>
-        <header className={cx('header-sm')}>
-            <Link to='/'>
-                <img src={logo}></img>
-            </Link>
-            <div className={cx('right')}>
-                <span>Address</span>
-                <img className={cx('ham')} src={dropdown ? close : ham} onClick={
+    return <div className={cx('container')}>
+        {isTokenRoute ?
+            <div className={cx('header')}>
+                <TokenNavigation {...props} after={<img className={cx('ham')} src={dropdown ? close : ham} onClick={
                     () => {
                         setDropdown(x => !x)
                     }
-                }></img>
-            </div>
-        </header>
+                }></img>} />
+            </div> : <header className={cx('header', 'top-level')}>
+                <Link to='/'>
+                    <img className={cx('logo')} src={logo}></img>
+                </Link>
+                <div className={cx('right')}>
+                    <span>Address</span>
+                    <img className={cx('ham')} src={dropdown ? close : ham} onClick={
+                        () => {
+                            setDropdown(x => !x)
+                        }
+                    }></img>
+                </div>
+
+            </header>}
+
         <CSSTransition nodeRef={nodeRef}
             classNames={{
                 enter: cx('enter'),

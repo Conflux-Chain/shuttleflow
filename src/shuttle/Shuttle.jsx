@@ -32,7 +32,6 @@ export default function Shuttle({ match: { path, url } }) {
         <nav className={cx(isSmall ? 'nav-sm' : 'nav-lg')}>
             <MenuLink to={inUrl} render={({ active }) => {
                 return <div className={cx('item', { active })} >
-
                     <Link to={inUrl}>
                         <img src={active ? inActiveSvg : inSvg}></img>
                         <span>{t('word.shuttle-in')}</span>

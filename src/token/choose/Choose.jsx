@@ -1,19 +1,23 @@
 import React, { useState } from 'react'
 
-import { Input, Badge, Button } from '@cfxjs/react-ui'
+import { Button } from '@cfxjs/react-ui'
 import TokenList from '../TokenList'
+import searchIcon from '../search.svg'
 import { Link } from 'react-router-dom'
 
 import { useTranslation } from 'react-i18next'
 
 import classNamesBind from "classnames/bind";
-import styles from './Choose.module.scss'
-const cx = classNamesBind.bind(styles)
+import chooseStyles from './Choose.module.scss'
+import inputStyles from '../../component/input.module.scss'
+import useClass from '../../component/useStyle'
+const cx = classNamesBind.bind(chooseStyles)
 
 const FREQUENT_TOKENS = [
     ['BTC'], ['ETC'], ['USDT'], ['DAI'], ['USDC']
 ]
 export default function ChooseToken({ location: { search } }) {
+    const [chooseCx,inputCx]=useClass(chooseStyles,inputStyles)
     const [next, cToken] = ['next', 'cToken']
         .map(u => new URLSearchParams(decodeURI(search)).get(u))
 
@@ -23,8 +27,10 @@ export default function ChooseToken({ location: { search } }) {
     const [token, setToken] = useState('')
     const { t } = useTranslation()
     return <div className={cx('container')}>
-        <div className={cx('input-container')}>
+        <div className={chooseCx('input-container')}>
+            <img src={searchIcon}></img>
             <input
+                className={inputCx('input-common')}
                 onChange={e => { setSearchTxt(e.target.value) }}
                 width={'100%'}
                 value={searchTxt}

@@ -1,32 +1,34 @@
 .container {
     .input-container {
         position: relative;
-        input {
-            width: 100%;
-            height: 3.67rem;
-            background-color: rgba($color: #000000, $alpha: 0.4);
-            color: white;
-            border: none;
-            padding-left: 3.17rem;
+
+        &.small {
+            input {
+                padding-left: 4.75rem;
+            }
+            img {
+                width: 2rem;
+            }
         }
-        input:focus {
-            box-shadow: none;
-            outline: none;
-        }
-        input::placeholder {
-            font-weight: 500;
-            font-size: 1rem;
-            color: rgba($color: #ffffff, $alpha: 0.4);
+
+        img {
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            margin: auto;
         }
     }
     .title {
         color: #999999;
         font-size: 1.25rem;
         font-weight: 500;
+        margin-bottom: 1rem;
     }
     .frequent-container {
         justify-content: space-between;
         display: flex;
+        margin-bottom: 4.17rem;
         .frequent {
             cursor: pointer;
             padding: 0 1.83rem;

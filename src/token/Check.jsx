@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({ active }) => <svg width="29px" height="29px" viewBox="0 0 30 30" >
+export default ({ active }) => <svg style={{ cursor: 'pointer' }} width="29px" height="29px" viewBox="0 0 30 30" >
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" >
         <path d="M15.8117647,1.97647059 C8.17147059,1.97647059 1.97647059,8.17147059 1.97647059,15.8117647 C1.97647059,23.4520588 8.17147059,29.6470588 15.8117647,29.6470588 C23.4520588,29.6470588 29.6470588,23.4520588 29.6470588,15.8117647 C29.6470588,8.17147059 23.4520588,1.97647059 15.8117647,1.97647059 Z"
             fill={active ? '#44D7B6' : ''}

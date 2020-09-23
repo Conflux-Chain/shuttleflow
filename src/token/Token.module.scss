@@ -1,19 +1,25 @@
 .nav-container {
     display: flex;
-    line-height: 100px;
     justify-content: space-between;
-    .nav-inner {
+    .back {
+        cursor: pointer;
+        &.small {
+            width: 1rem;
+        }
+    }
+    .nav-tabs {
         display: flex;
         flex-grow: 1;
         justify-content: space-around;
         .item {
-            font-size: 1.1rem;
             font-weight: 500;
             color: rgba(255, 255, 255, 0.4);
         }
         .active {
-            font-size: 1.33rem;
-
+            &.small {
+                font-size: 2rem;   
+            }
+            border-bottom: solid 2px #44d7b6;
             color: #44d7b6;
         }
     }

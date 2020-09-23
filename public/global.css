@@ -82,7 +82,7 @@
     font-style: italic;
 }
 
-*{
+* {
     box-sizing: border-box;
 }
 a,
@@ -97,27 +97,37 @@ html {
 
 body {
     height: 100%;
-    background-image: url(/img/pc.png);
-    background-size: cover;
+    /* background-image: url(/img/pc.png);
+    background-size: cover; */
     font-family: CircularStd;
     color: #999999;
     margin: 0;
 }
 
+#root {
+    position: absolute;
+    width: 100%;
+}
+#background {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-size: 100% auto;
+}
 @media (max-width: 900px) {
-    body {
+    #background {
         background-image: url(/img/mobile.png);
     }
 }
 @media (min-width: 900px) {
-    body {
+    #background {
         background-image: url(/img/pc.png);
     }
 }
 
 @media screen and (min-width: 375px) {
     html {
-        font-size: 12px;
+        font-size: 8px;
     }
 }
 @media screen and (min-width: 506px) {
@@ -149,4 +159,3 @@ body {
         overflow: hidden;
     }
 }
-

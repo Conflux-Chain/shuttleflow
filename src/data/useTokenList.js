@@ -1,8 +1,10 @@
 import useSWR, { mutate } from 'swr'
+import icon from './icon.png'
 const TOKENS = [
     {
         symbol: 'BTC',
         cSymbol: 'cBTC',
+        icon,
         name: 'Bitcoin',
         cName: 'Conflux Bitcoin',
         mortgage: 1
@@ -10,6 +12,7 @@ const TOKENS = [
     {
         symbol: 'ETC',
         cSymbol: 'cETC',
+        icon,
         name: 'Ethereum',
         cName: 'Conflux Ethereum',
         mortgage: 2
@@ -17,6 +20,7 @@ const TOKENS = [
     {
         symbol: 'USDT',
         cSymbol: 'cUSDT',
+        icon,
         name: 'Tether USD',
         cName: 'Conflux Tether USD',
         erc20: '0xdac17f958d2ee523a2206206994597c13d831ec7',
@@ -25,6 +29,7 @@ const TOKENS = [
     {
         symbol: 'DAI',
         cSymbol: 'cDAI',
+        icon,
         name: 'DAI',
         cName: 'Conflux DAI',
         erc20: '0x6b175474e89094c44da98b954eedeac495271d0f',
@@ -36,6 +41,7 @@ const NOT_AVAILABLE = [
     {
         symbol: 'USDC',
         cSymbol: 'cUSDC',
+        icon,
         name: 'USD Coin',
         cName: 'Conflux USD Coin',
         erc20: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
