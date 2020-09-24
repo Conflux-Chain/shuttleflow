@@ -1,0 +1,18 @@
+.input {
+    position: relative;
+    &.small {
+        input {
+            padding-left: 4.75rem;
+        }
+        img {
+            width: 2rem;
+        }
+    }
+    img {
+        position: absolute;
+        left: 1rem;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+    }
+}

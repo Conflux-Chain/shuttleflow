@@ -1,56 +1,55 @@
 import React, { useState } from 'react'
 
-import { Button } from '@cfxjs/react-ui'
 import TokenList from '../TokenList'
-import searchIcon from '../search.svg'
-import { Link } from 'react-router-dom'
+import Search from '../Search'
 
 import { useTranslation } from 'react-i18next'
 
-import classNamesBind from "classnames/bind";
 import chooseStyles from './Choose.module.scss'
-import inputStyles from '../../component/input.module.scss'
-import useClass from '../../component/useStyle'
-const cx = classNamesBind.bind(chooseStyles)
+import buttonStyle from '../../component/button.module.scss'
+import useStyle from '../../component/useStyle'
+
 
 const FREQUENT_TOKENS = [
     ['BTC'], ['ETC'], ['USDT'], ['DAI'], ['USDC']
 ]
-export default function ChooseToken({ location: { search } }) {
-    const [chooseCx,inputCx]=useClass(chooseStyles,inputStyles)
+export default function ChooseToken({ location: { search }, history }) {
+    const [chooseCx, btnCx] = useStyle(chooseStyles, buttonStyle)
     const [next, cToken] = ['next', 'cToken']
         .map(u => new URLSearchParams(decodeURI(search)).get(u))
 
     const [searchTxt, setSearchTxt] = useState('')
-
+    const [isNotAvailable, setIsNotAvailable] = useState(false)
     //TODO which props should be used to generate wallet address
     const [token, setToken] = useState('')
     const { t } = useTranslation()
-    return <div className={cx('container')}>
-        <div className={chooseCx('input-container')}>
-            <img src={searchIcon}></img>
-            <input
-                className={inputCx('input-common')}
-                onChange={e => { setSearchTxt(e.target.value) }}
-                width={'100%'}
-                value={searchTxt}
-                placeholder={t('placeholder.token-search')} />
-        </div>
+    return <div className={chooseCx('container')}>
+        <Search searchTxt={searchTxt} setSearchTxt={setSearchTxt} />
 
-        <div className={cx('title')}>{t('sentence.frequent-token')}</div>
-        <div className={cx('frequent-container')}>
+        <div className={chooseCx('title')}>{t('sentence.frequent-token')}</div>
+        <div className={chooseCx('frequent-container')}>
             {FREQUENT_TOKENS.map(([name]) => {
-                return <div className={cx('frequent')} key={name}>{name}</div>
+                return <div className={chooseCx('frequent')} key={name}>{name}</div>
             })}
         </div>
-        <div className={cx('title')}>{t('sentence.token-list')}</div>
+        <div className={chooseCx('title')}>{t('sentence.token-list')}</div>
 
 
-        <TokenList search={searchTxt} token={token} setToken={setToken} cToken={cToken} />
+        <TokenList search={searchTxt} token={token}
+            setToken={setToken} cToken={cToken} setIsNotAvailable={setIsNotAvailable} />
 
-        <Link to={`${next}?token=${token}`}>
-            <Button disabled={!token} >{t('sentence.choose-token')}</Button>
-        </Link>
+        <div className={chooseCx('btn-container')}>
+            <button onClick={() => {
+                history.push({
+                    pathname: next,
+                    search: `?token=${token}`
+                })
+            }} className={btnCx('btn') + ' ' + chooseCx('btn')} disabled={!token && !isNotAvailable} >
+                {t(isNotAvailable ? 'sentence.add-token' : 'sentence.choose-token-btn')}
+            </button>
+        </div>
+
+
 
 
 

@@ -1,7 +1,7 @@
 import useIsSamll from './useSmallScreen'
 import classNamesBind from 'classnames/bind'
 
-const useClass = (...styles) => {
+const useStyle = (...styles) => {
     const isSmall = useIsSamll()
     return styles.map(style=>{
         const cx=classNamesBind.bind(style)
@@ -11,4 +11,4 @@ const useClass = (...styles) => {
     })
 }
 
-export default useClass
+export default useStyle

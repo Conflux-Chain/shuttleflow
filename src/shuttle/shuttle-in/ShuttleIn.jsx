@@ -14,27 +14,27 @@ import shuttleInStyles from './ShuttleIn.module.scss'
 
 
 export default function ShuttleIn({ location: { search }, match: { url } }) {
-    const [commonStyle, arrowStyle, shuttleStyle] = useStyle(commonInputStyles, arrowInputStyles, shuttleInStyles)
+    const [commonCx, arrowCx, shuttleInCx] = useStyle(commonInputStyles, arrowInputStyles, shuttleInStyles)
     const token = new URLSearchParams(search).get('token')
     const { t } = useTranslation()
-    return <div>
-        <div className={arrowStyle('input-arrow')}>
+    return <div className={shuttleInCx('container')}>
+        <div className={arrowCx('input-arrow')}>
             <input readOnly
-                className={commonStyle('input-common')}
+                className={commonCx('input-common')}
                 defaultValue={token || ''}
                 placeholder={t('placeholder.token-in')}
             />
             <Link to={{
                 pathname: '/token',
                 search: `?next=${url}`
-            }} ><img className={arrowStyle('arrow')} src={arrow}></img></Link>
+            }} ><img className={arrowCx('arrow')} src={arrow}></img></Link>
         </div>
-        <div className={shuttleStyle('down')}>
+        <div className={shuttleInCx('down')}>
             <img src={down}></img>
         </div>
-        <div className={arrowStyle('input-arrow')}>
+        <div className={arrowCx('input-arrow')}>
             <input readOnly
-                className={commonStyle('input-common')}
+                className={commonCx('input-common')}
                 defaultValue={token || ''}
                 defaultValue={!token ? '' : 'c' + token}
                 placeholder={t('placeholder.ctoken-in')}
@@ -42,15 +42,15 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             <Link to={{
                 pathname: '/token',
                 search: `?next=${url}`
-            }} ><img className={arrowStyle('arrow')} src={arrow}></img></Link>
+            }} ><img className={arrowCx('arrow')} src={arrow}></img></Link>
         </div>
-        <div className={shuttleStyle('title')}>
+        <div className={shuttleInCx('title')}>
             {t('sentence.shuttle-in-address')}
         </div>
 
-        <div className={arrowStyle('input-arrow')}>
+        <div className={arrowCx('input-arrow')}>
             <input readOnly
-                className={commonStyle('input-common')}
+                className={commonCx('input-common')}
                 placeholder={t('placeholder.shuttle-in-address')}
             />
         </div>

@@ -1,0 +1,16 @@
+.btn {
+    background: #44d7b6;
+    box-shadow: 0px 0px 0px transparent;
+    border: 0px solid transparent;
+    text-shadow: 0px 0px 0px transparent;
+    display: block;
+    margin: auto;
+    cursor: pointer;
+    &:disabled {
+        background: #9c9c9c;
+        cursor: not-allowed;
+    }
+    &.small {
+        height: 6.875rem;
+    }
+}

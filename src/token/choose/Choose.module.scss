@@ -1,44 +1,46 @@
 .container {
-    .input-container {
-        position: relative;
-
-        &.small {
-            input {
-                padding-left: 4.75rem;
-            }
-            img {
-                width: 2rem;
-            }
-        }
-
-        img {
-            position: absolute;
-            left: 1rem;
-            top: 0;
-            bottom: 0;
-            margin: auto;
-        }
-    }
     .title {
+        &.small {
+            font-size: 1.875rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+        }
         color: #999999;
-        font-size: 1.25rem;
         font-weight: 500;
-        margin-bottom: 1rem;
     }
     .frequent-container {
         justify-content: space-between;
         display: flex;
+        flex-wrap: wrap;
         margin-bottom: 4.17rem;
         .frequent {
+            &.small {
+                font-size: 1.875rem;
+                height: 3.375rem;
+                padding: 0 2.25rem;
+                border-radius: 1.6875rem;
+                margin-bottom: 1.5rem;
+                margin-right: 2rem;
+            }
             cursor: pointer;
-            padding: 0 1.83rem;
-            font-size: 1.25rem;
+
             color: white;
-            height: 2.25rem;
             display: flex;
-            border-radius: 1.125rem;
+
             align-items: center;
             background: rgba($color: #f8f8f8, $alpha: 0.2);
+        }
+    }
+    .btn-container {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 14rem;
+        background: black;
+        .btn {
+            margin-top: 3rem;
+            width: 90%;
         }
     }
 }

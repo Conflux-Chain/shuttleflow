@@ -1,21 +1,23 @@
+
 .container {
-    padding: 2rem;
+    padding: 0 2rem;
 }
 .header {
     z-index: 1;
     position: sticky;
     top: 0;
     // background-color: #1b1b1b;
+    
 
+    padding: 1rem 0;
     justify-content: space-between;
     align-items: center;
     line-height: 3.625rem;
-    margin-bottom: 5.75rem;
+    margin-bottom: 2rem;
 
     //address
     font-size: 1.5rem;
     color: white;
-    //hamburger button / close / back
 
     .ham {
         cursor: pointer;

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import '../i18n/i18n'
 
@@ -15,8 +15,13 @@ import classNamesBind from "classnames/bind";
 import layouyStyles from './LayoutSmall.module.scss'
 import { useTranslation } from "react-i18next";
 import { CSSTransition } from "react-transition-group";
+
+import { useRecoilState } from 'recoil';
+import LayoutButtomState from './LayoutButtomState'
+
+
 const cx = classNamesBind.bind({ ...layouyStyles, ...tokenStyles })
-// 
+
 
 
 
@@ -25,6 +30,8 @@ export default function LayoutSmall(props) {
     const nodeRef = useRef(null)
     const isTokenRoute = !!useRouteMatch('/token')
     const { t } = useTranslation()
+    const [bottomHeight] = useRecoilState(LayoutButtomState)
+
     return <div className={cx('container')}>
         {isTokenRoute ?
             <div className={cx('header')}>
@@ -64,7 +71,15 @@ export default function LayoutSmall(props) {
                 <div>{t('sentence.choose-lng')}</div>
             </div>
         </CSSTransition>
+        <div style={{
+            left: 0, padding: '0 1rem',
+            position: 'fixed', top: '5.625rem',
+            maxHeight: `calc(100vh - 5.625rem - ${bottomHeight})`,
+            overflow: 'scroll'
+        }}>
+            <Main />
+        </div>
 
-        <Main />
+
     </div>
 }

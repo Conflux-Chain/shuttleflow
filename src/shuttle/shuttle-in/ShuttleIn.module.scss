@@ -1,3 +1,8 @@
+.container {
+    &.small {
+        margin-top: 4rem;
+    }
+}
 .down {
     &.small {
         height: 5.5rem;

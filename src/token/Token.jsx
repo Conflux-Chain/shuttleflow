@@ -7,7 +7,7 @@ import {
 
 
 
-import Choose from './choose/Choose'
+import Choose from './choose/Choose.jsx'
 import Caption from './caption/Caption';
 import { useTranslation } from "react-i18next";
 
@@ -15,16 +15,13 @@ import back from './back.svg'
 
 
 
-import classNamesBind from "classnames/bind";
 import styles from './Token.module.scss'
 import MenuLink from "../component/MenuLink";
 import useIsSamll from "../component/useSmallScreen";
-import useClass from "../component/useStyle";
-// const cx = classNamesBind.bind(styles)
+import useStyle from "../component/useStyle";
 
 export function TokenNavigation({ history, location: { search }, after }) {
-    const [cx] = useClass(styles)
-    const small = useIsSamll()
+    const [cx] = useStyle(styles)
     const { t } = useTranslation()
     //we hard code the token url here because it not bound
     //to parrent route url, i.e. it will present in either
