@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import TokenList from '../TokenList'
 import Search from '../Search'
@@ -8,7 +8,10 @@ import { useTranslation } from 'react-i18next'
 import chooseStyles from './Choose.module.scss'
 import buttonStyle from '../../component/button.module.scss'
 import useStyle from '../../component/useStyle'
+import layoutBottomState from '../../layout/LayoutButtomState'
 
+import { useRecoilState } from 'recoil';
+import useIsSamll from '../../component/useSmallScreen'
 
 const FREQUENT_TOKENS = [
     ['BTC'], ['ETC'], ['USDT'], ['DAI'], ['USDC']
@@ -23,6 +26,20 @@ export default function ChooseToken({ location: { search }, history }) {
     //TODO which props should be used to generate wallet address
     const [token, setToken] = useState('')
     const { t } = useTranslation()
+    const isSmall = useIsSamll()
+
+    const [, setLayoutBottom] = useRecoilState(layoutBottomState)
+
+    useEffect(() => {
+        if (isSmall) {
+            setLayoutBottom('14rem')
+            return () => {
+                setLayoutBottom('0rem')
+            }
+        }
+
+    }, [isSmall])
+
     return <div className={chooseCx('container')}>
         <Search searchTxt={searchTxt} setSearchTxt={setSearchTxt} />
 

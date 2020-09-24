@@ -1,6 +1,6 @@
 .container {
     &.small {
-        margin-top: 4rem;
+        margin-top: 5.75rem;
     }
 }
 .down {
@@ -20,4 +20,13 @@
     margin-bottom: 2rem;
     color: white;
     font-size: 2rem;
+    display: flex;
+
+    &.small {
+        img {
+            width: 2.25rem;
+            margin-left: 1rem;
+            cursor: pointer;
+        }
+    }
 }

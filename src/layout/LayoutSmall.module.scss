@@ -1,15 +1,24 @@
+$padding: 2rem;
 
 .container {
-    padding: 0 2rem;
+    padding: 0 $padding;
+}
+
+.main {
+    left: 0;
+    right: 0;
+    padding: 0 $padding;
+    position: fixed;
+    top: 5.625rem;
+    overflow: scroll;
 }
 .header {
     z-index: 1;
     position: sticky;
     top: 0;
     // background-color: #1b1b1b;
-    
 
-    padding: 1rem 0;
+    padding: 2rem 0;
     justify-content: space-between;
     align-items: center;
     line-height: 3.625rem;

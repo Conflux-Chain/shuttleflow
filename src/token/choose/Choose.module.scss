@@ -1,4 +1,7 @@
 .container {
+    &.small {
+        margin-top: 2rem;
+    }
     .title {
         &.small {
             font-size: 1.875rem;
@@ -32,15 +35,17 @@
         }
     }
     .btn-container {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 14rem;
-        background: black;
-        .btn {
-            margin-top: 3rem;
-            width: 90%;
+        &.small {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 14rem;
+            // background: black;
+            .btn {
+                margin-top: 3rem;
+                width: 90%;
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import arrow from '../arrow.svg'
 import down from '../down.svg'
+import question from '../../component/question.svg'
 
 import useStyle from '../../component/useStyle'
 import commonInputStyles from '../../component/input.module.scss'
@@ -45,7 +46,11 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             }} ><img className={arrowCx('arrow')} src={arrow}></img></Link>
         </div>
         <div className={shuttleInCx('title')}>
-            {t('sentence.shuttle-in-address')}
+            <span>
+                {t('sentence.shuttle-in-address')}
+            </span>
+            <img src={question}></img>
+
         </div>
 
         <div className={arrowCx('input-arrow')}>

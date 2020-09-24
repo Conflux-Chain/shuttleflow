@@ -1,57 +1,57 @@
-.nav-lg {
+.nav {
     display: flex;
-    justify-content: space-around;
-    height: 6.25rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #979797;
-    .item {
-        display: flex;
-        align-items: center;
-    }
-
-    .item a {
-        display: flex;
-        align-items: center;
-        width: 6.4rem;
-        justify-content: space-between;
-        font-size: 1.25rem;
-        img {
-            width: 1.75rem;
+    &.small {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: black;
+        justify-content: space-around;
+        height: 8.5rem;
+        border-bottom: 1px solid #979797;
+        .item {
+            display: flex;
+            align-items: center;
+        }
+        .item a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 6.4rem;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            img {
+                width: 3rem;
+            }
+        }
+        .active {
+            color: #44d7b6;
         }
     }
-    .active {
-        color: #44d7b6;
-        border-bottom: solid 3px #44d7b6;
-    }
-}
-
-.nav-sm {
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: black;
-    justify-content: space-around;
-    height: 6.25rem;
-    border-bottom: 1px solid #979797;
-    .item {
-        display: flex;
-        align-items: center;
-    }
-    .item a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 6.4rem;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.25rem;
-        img {
-            width: 1.75rem;
+    &.large{
+        justify-content: space-around;
+        height: 6.25rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #979797;
+        .item {
+            display: flex;
+            align-items: center;
         }
-    }
-    .active {
-        color: #44d7b6;
+    
+        .item a {
+            display: flex;
+            align-items: center;
+            width: 6.4rem;
+            justify-content: space-between;
+            font-size: 1.25rem;
+            img {
+                width: 1.75rem;
+            }
+        }
+        .active {
+            color: #44d7b6;
+            border-bottom: solid 3px #44d7b6;
+        }
     }
 }

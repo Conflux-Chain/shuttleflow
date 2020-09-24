@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import '../i18n/i18n'
 
@@ -71,12 +71,10 @@ export default function LayoutSmall(props) {
                 <div>{t('sentence.choose-lng')}</div>
             </div>
         </CSSTransition>
-        <div style={{
-            left: 0, padding: '0 1rem',
-            position: 'fixed', top: '5.625rem',
-            maxHeight: `calc(100vh - 5.625rem - ${bottomHeight})`,
-            overflow: 'scroll'
-        }}>
+        <div className={cx('main')}
+            style={{
+                maxHeight: `calc(100vh - 5.625rem - ${bottomHeight})`,
+            }}>
             <Main />
         </div>
 

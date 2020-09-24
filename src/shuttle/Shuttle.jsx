@@ -10,7 +10,6 @@ import ShuttleIn from './shuttle-in/ShuttleIn'
 import ShuttleOut from './shuttle-out/ShuttleOut'
 
 import { useTranslation } from "react-i18next";
-import classNamesBind from "classnames/bind";
 import styles from './Shuttle.module.scss'
 
 import inActiveSvg from './in-active.svg'
@@ -20,16 +19,18 @@ import outSvg from './out.svg'
 
 import MenuLink from '../component/MenuLink'
 import useIsSamll from '../component/useSmallScreen';
+import useStyle from '../component/useStyle';
 
 
-const cx = classNamesBind.bind(styles)
+
 export default function Shuttle({ match: { path, url } }) {
+    const [cx]=useStyle(styles)
     const { t } = useTranslation()
     const inUrl = `${url}/in`
     const outUrl = `${url}/out`
     const isSmall = useIsSamll()
     return <div>
-        <nav className={cx(isSmall ? 'nav-sm' : 'nav-lg')}>
+        <nav className={cx(isSmall ? 'nav' : 'nav')}>
             <MenuLink to={inUrl} render={({ active }) => {
                 return <div className={cx('item', { active })} >
                     <Link to={inUrl}>
