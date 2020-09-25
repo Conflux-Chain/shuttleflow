@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/H5/arrowup-H5@2x</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="32" height="32"></rect>
+    </defs>
+    <g id="H5暗黑" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1-1-2Shuttle-In-&amp;Out选择cToken" transform="translate(-647.000000, -755.000000)">
+            <g id="arrowup" transform="translate(641.000000, 747.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="蒙版" fill="#000000" fill-rule="nonzero" opacity="0" xlink:href="#path-1"></use>
+                <g mask="url(#mask-2)" fill="#44D7B6" fill-rule="nonzero" id="路径">
+                    <g transform="translate(15.088852, 16.851087) rotate(-315.000000) translate(-15.088852, -16.851087) translate(3.088852, 4.851087)">
+                        <path d="M23.125,13.046875 L12.753125,1.09375 C12.35625,0.634375 11.64375,0.634375 11.24375,1.09375 L0.875,13.046875 C0.734375,13.209375 0.85,13.459375 1.0625,13.459375 L3.59375,13.459375 C3.7375,13.459375 3.875,13.396875 3.971875,13.2875 L10.8125,5.403125 L10.8125,23 C10.8125,23.1375 10.925,23.25 11.0625,23.25 L12.9375,23.25 C13.075,23.25 13.1875,23.1375 13.1875,23 L13.1875,5.403125 L20.028125,13.2875 C20.121875,13.396875 20.259375,13.459375 20.40625,13.459375 L22.9375,13.459375 C23.15,13.459375 23.265625,13.209375 23.125,13.046875 Z"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,88 @@
+.container {
+  // overflow: scroll;
+  // &.small {
+  //     max-height: 90rem;
+  // }
+  .row {
+    &.small {
+      svg {
+        width: 3rem;
+      }
+      .icon {
+        width: 5rem;
+      }
+      height: 9rem;
+    }
+    display: grid;
+    grid-template-columns: 2fr 2fr 5fr 5fr;
+    align-items: center;
+
+    .symbol {
+      color: white;
+      font-weight: 500;
+      &.small {
+        font-size: 2rem;
+      }
+    }
+
+    .name {
+      color: rgba($color: #ffffff, $alpha: 0.3);
+      &.small {
+        font-size: 1.5rem;
+      }
+    }
+
+    .link {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .link-img {
+      &.small {
+        margin-left: 0.5rem;
+        width: 1.2rem;
+      }
+    }
+
+    .link-txt {
+      color: rgba($color: #ffffff, $alpha: 0.4);
+      &.small {
+        font-size: 1.5rem;
+      }
+    }
+
+    label {
+      input {
+        width: 0;
+        height: 0;
+      }
+    }
+    .symbol-row {
+      display: flex;
+    }
+    .not-available {
+      color: black;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.3);
+      text-align: center;
+      vertical-align: middle;
+      &.small {
+        font-size: 1.25rem;
+        margin-left: 1rem;
+        width: 8.75rem;
+        line-height: 2.25rem;
+        height: 2.25rem;
+      }
+    }
+    .mortgage {
+      color: white;
+      &.small {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  .two-row {
+    display: flex;
+    flex-direction: column;
+  }
+}

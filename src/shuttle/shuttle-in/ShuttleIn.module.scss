@@ -1,0 +1,32 @@
+.container {
+  &.small {
+    margin-top: 5.75rem;
+  }
+}
+.down {
+  &.small {
+    height: 5.5rem;
+    img {
+      width: 1.5rem;
+    }
+  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  margin-top: 6.25rem;
+  margin-bottom: 2rem;
+  color: white;
+  font-size: 2rem;
+  display: flex;
+
+  &.small {
+    img {
+      width: 2.25rem;
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+  }
+}

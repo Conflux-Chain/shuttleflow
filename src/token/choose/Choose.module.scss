@@ -1,0 +1,51 @@
+.container {
+  &.small {
+    margin-top: 2rem;
+  }
+  .title {
+    &.small {
+      font-size: 1.875rem;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+    }
+    color: #999999;
+    font-weight: 500;
+  }
+  .frequent-container {
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 4.17rem;
+    .frequent {
+      &.small {
+        font-size: 1.875rem;
+        height: 3.375rem;
+        padding: 0 2.25rem;
+        border-radius: 1.6875rem;
+        margin-bottom: 1.5rem;
+        margin-right: 2rem;
+      }
+      cursor: pointer;
+
+      color: white;
+      display: flex;
+
+      align-items: center;
+      background: rgba($color: #f8f8f8, $alpha: 0.2);
+    }
+  }
+  .btn-container {
+    &.small {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 14rem;
+      // background: black;
+      .btn {
+        margin-top: 3rem;
+        width: 90%;
+      }
+    }
+  }
+}

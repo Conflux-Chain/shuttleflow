@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="20px" viewBox="0 0 12 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon@2x</title>
+    <g id="H5暗黑" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="0-H5首页" transform="translate(-662.000000, -307.000000)">
+            <g id="编组" transform="translate(646.000000, 297.000000)">
+                <g id="74-交换备份" transform="translate(20.000000, 20.000000) rotate(-90.000000) translate(-20.000000, -20.000000) ">
+                    <rect id="矩形" fill="#000000" fill-rule="nonzero" opacity="0" x="0" y="0" width="40" height="40"></rect>
+                    <polyline id="矩形" stroke="#BBBBBB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" transform="translate(20.000000, 18.000000) rotate(-315.000000) translate(-20.000000, -18.000000) " points="26 12 26 24 14 24"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
