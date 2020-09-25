@@ -1,28 +1,28 @@
 {
-    "word": {
-        "shuttle-in": "充值",
-        "shuttle-out": "提现",
-        "not-available": "Not Available"
-    },
-    "placeholder": {
-        "token-in": "选择Token",
-        "ctoken-in": "您将收到的Token",
-        "shuttle-in-address": "钱包地址",
-        
-        "token-search": "搜索 Token 名称或合约地址"
-    },
-    "sentence": {
-        "choose-lng": "选择语言",
-        "shuttle-in-address": "Shuttle In 地址",
-        "choose-token": "选择 Token",
-        "token-caption": "成为 Token Caption",
-        "frequent-token": "常用 Token",
-        "token-list": "Token 列表",
-        "choose-token-btn": "选择该 Token",
-        "add-token": "添加该 Token",
-        "out-amount": "Shuttle Out 数量",
-        "out-address": "Shuttle Out 地址",
-        "out-button": "Shuttle Out"
-    },
-    "para": {}
+  "word": {
+    "shuttle-in": "充值",
+    "shuttle-out": "提现",
+    "not-available": "Not Available"
+  },
+  "placeholder": {
+    "token-in": "选择Token",
+    "ctoken-in": "您将收到的Token",
+    "shuttle-in-address": "钱包地址",
+
+    "token-search": "搜索 Token 名称或合约地址"
+  },
+  "sentence": {
+    "choose-lng": "选择语言",
+    "shuttle-in-address": "Shuttle In 地址",
+    "choose-token": "选择 Token",
+    "token-caption": "成为 Token Caption",
+    "frequent-token": "常用 Token",
+    "token-list": "Token 列表",
+    "choose-token-btn": "选择该 Token",
+    "add-token": "添加该 Token",
+    "out-amount": "Shuttle Out 数量",
+    "out-address": "Shuttle Out 地址",
+    "out-button": "Shuttle Out"
+  },
+  "para": {}
 }

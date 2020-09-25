@@ -1,84 +1,84 @@
 $padding: 2rem;
 
 .container {
-    padding: 0 $padding;
+  padding: 0 $padding;
 }
 
 .main {
-    left: 0;
-    right: 0;
-    padding: 0 $padding;
-    position: fixed;
-    top: 6.625rem;
-    overflow: scroll;
+  left: 0;
+  right: 0;
+  padding: 0 $padding;
+  position: fixed;
+  top: 6.625rem;
+  overflow: scroll;
 }
 .header {
-    z-index: 1;
-    position: sticky;
-    top: 0;
-    // background-color: #1b1b1b;
+  z-index: 1;
+  position: sticky;
+  top: 0;
+  // background-color: #1b1b1b;
 
-    padding: 2rem 0;
-    justify-content: space-between;
-    align-items: center;
-    line-height: 3.625rem;
-    margin-bottom: 2rem;
+  padding: 2rem 0;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 3.625rem;
+  margin-bottom: 2rem;
 
-    //address
-    font-size: 1.5rem;
-    color: white;
+  //address
+  font-size: 1.5rem;
+  color: white;
 
-    .ham {
-        cursor: pointer;
-        width: 2.5rem;
-        margin-left: 2.75rem;
-    }
+  .ham {
+    cursor: pointer;
+    width: 2.5rem;
+    margin-left: 2.75rem;
+  }
 }
 
 .top-level {
+  display: flex;
+  .right {
     display: flex;
-    .right {
-        display: flex;
-        align-items: center;
+    align-items: center;
+  }
+  a {
+    display: flex;
+    .logo {
+      width: 17.5rem;
     }
-    a {
-        display: flex;
-        .logo {
-            width: 17.5rem;
-        }
-    }
+  }
 }
 
 .enter {
-    transform: scaleY(0.1);
+  transform: scaleY(0.1);
 }
 .enterActive {
-    transform: scaleY(1);
+  transform: scaleY(1);
 }
 .enterDone {
-    transform: scaleY(1);
+  transform: scaleY(1);
 }
 .exitActive {
-    transform: scaleY(0.1);
+  transform: scaleY(0.1);
 }
 
 .dropdown {
-    z-index: 1;
-    position: absolute;
-    left: 0;
-    right: 0;
-    color: white;
-    background-color: black;
-    transition: 0.2s;
-    transform-origin: top;
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  color: white;
+  background-color: black;
+  transition: 0.2s;
+  transform-origin: top;
 
-    a,
-    div {
-        height: 3.75rem;
-        line-height: 3.75rem;
-        justify-content: center;
-        text-align: center;
-        font-size: 1.33rem;
-        display: block;
-    }
+  a,
+  div {
+    height: 3.75rem;
+    line-height: 3.75rem;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.33rem;
+    display: block;
+  }
 }

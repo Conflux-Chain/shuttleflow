@@ -1,13 +1,11 @@
-import React from "react";
-import {
-  BrowserRouter as Router, Route
-} from "react-router-dom";
+import React from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import '../i18n/i18n'
 
 import LayoutLarge from './LayoutLarge'
 import LayoutSmall from './LayoutSmall'
-import useIsSamll from "../component/useSmallScreen";
-import { RecoilRoot } from 'recoil';
+import useIsSamll from '../component/useSmallScreen'
+import { RecoilRoot } from 'recoil'
 // import useConfluxPortal from '../data/portal/useConfluxPortal.js'
 
 export default function App() {
@@ -29,10 +27,10 @@ export default function App() {
   // );
   // console.log('address', address) //null
   return (
-    <RecoilRoot >
+    <RecoilRoot>
       <Router>
-        <Route path='/' component={isSmall ? LayoutSmall : LayoutLarge} ></Route>
+        <Route path="/" component={isSmall ? LayoutSmall : LayoutLarge}></Route>
       </Router>
     </RecoilRoot>
-  );
+  )
 }
