@@ -1,142 +1,58 @@
-import useSWR, { mutate } from 'swr'
+import useSWR from 'swr'
 import icon from './icon.png'
 const TOKENS = [
     {
-        symbol: 'BTC',
-        cSymbol: 'cBTC',
-        icon,
-        name: 'Bitcoin',
-        cName: 'Conflux Bitcoin',
-        mortgage: 1
+        "symbol": "BTC",
+        "cSymbol": "cBTC",
+        "icon": "https://via.placeholder.com/50",
+        "name": "Bitcoin",
+        "cName": "Conflux Bitcoin",
+        "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        "cAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        "minMortgage": 10,
     },
     {
-        symbol: 'ETC',
-        cSymbol: 'cETC',
-        icon,
-        name: 'Ethereum',
-        cName: 'Conflux Ethereum',
-        mortgage: 2
+        "symbol": "ETC",
+        "cSymbol": "cETC",
+        "icon": "https://via.placeholder.com/50",
+        "name": "Ethereum",
+        "cName": "Conflux Ethereum",
+        "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        "cAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        "minMortgage": 10,
+        "inFee": 0.2,
+        "outFee": 0.3,
+        "minIn": 3,
+        "minOut": 4
     },
     {
-        symbol: 'USDT',
-        cSymbol: 'cUSDT',
-        icon,
-        name: 'Tether USD',
-        cName: 'Conflux Tether USD',
-        address: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-        mortgage: 3
+        "symbol": "USDT",
+        "cSymbol": "cUSDT",
+        "icon": "https://via.placeholder.com/50",
+        "name": "Tether USD",
+        "cName": "Conflux Tether USD",
+        "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        "cAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        "minMortgage": 10,
+        "inFee": 0.2,
+        "outFee": 0.3,
+        "minIn": 3,
+        "minOut": 4
     },
     {
-        symbol: 'DAI',
-        cSymbol: 'cDAI',
-        icon,
-        name: 'DAI',
-        cName: 'Conflux DAI',
-        address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-        mortgage: 5
-    },
-    {
-        symbol: 'BTC1',
-        cSymbol: 'cBTC',
-        icon,
-        name: 'Bitcoin',
-        cName: 'Conflux Bitcoin',
-        mortgage: 1
-    },
-    {
-        symbol: 'ETC1',
-        cSymbol: 'cETC',
-        icon,
-        name: 'Ethereum',
-        cName: 'Conflux Ethereum',
-        mortgage: 2
-    },
-    {
-        symbol: 'USDT1',
-        cSymbol: 'cUSDT',
-        icon,
-        name: 'Tether USD',
-        cName: 'Conflux Tether USD',
-        address: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-        mortgage: 3
-    },
-    {
-        symbol: 'DAI1',
-        cSymbol: 'cDAI',
-        icon,
-        name: 'DAI',
-        cName: 'Conflux DAI',
-        address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-        mortgage: 5
-    },
-    {
-        symbol: 'BTC2',
-        cSymbol: 'cBTC',
-        icon,
-        name: 'Bitcoin',
-        cName: 'Conflux Bitcoin',
-        mortgage: 1
-    },
-    {
-        symbol: 'ETC2',
-        cSymbol: 'cETC',
-        icon,
-        name: 'Ethereum',
-        cName: 'Conflux Ethereum',
-        mortgage: 2
-    },
-    {
-        symbol: 'USDT2',
-        cSymbol: 'cUSDT',
-        icon,
-        name: 'Tether USD',
-        cName: 'Conflux Tether USD',
-        address: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-        mortgage: 3
-    },
-    {
-        symbol: 'DAI2',
-        cSymbol: 'cDAI',
-        icon,
-        name: 'DAI',
-        cName: 'Conflux DAI',
-        address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-        mortgage: 5
-    },
-    {
-        symbol: 'BTC3',
-        cSymbol: 'cBTC',
-        icon,
-        name: 'Bitcoin',
-        cName: 'Conflux Bitcoin',
-        mortgage: 1
-    },
-    {
-        symbol: 'ETC3',
-        cSymbol: 'cETC',
-        icon,
-        name: 'Ethereum',
-        cName: 'Conflux Ethereum',
-        mortgage: 2
-    },
-    {
-        symbol: 'USDT3',
-        cSymbol: 'cUSDT',
-        icon,
-        name: 'Tether USD',
-        cName: 'Conflux Tether USD',
-        address: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-        mortgage: 3
-    },
-    {
-        symbol: 'DAI3',
-        cSymbol: 'cDAI',
-        icon,
-        name: 'DAI',
-        cName: 'Conflux DAI',
-        address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-        mortgage: 5
-    },
+        "symbol": "DAI",
+        "cSymbol": "cDAI",
+        "icon": "https://via.placeholder.com/50",
+        "name": "DAI",
+        "cName": "Conflux DAI",
+        "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+        "cAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        "minMortgage": 10,
+        "inFee": 0.2,
+        "outFee": 0.3,
+        "minIn": 3,
+        "minOut": 4
+    }
 ]
 
 const NOT_AVAILABLE = [

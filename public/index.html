@@ -30,6 +30,24 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id='background'></div>
+  <script>
+    function setRem() {
+      const width = window.innerWidth
+      let fontSize
+      console.log(HTMLElement)
+      if (width <= 375) {
+        fontSize = 8
+      } else if (width <= 750) {
+        fontSize = width / 375 * 8
+      } else {
+        fontSize = 16
+      }
+      document.documentElement.style.fontSize = fontSize + 'px'
+    }
+
+    window.onresize=setRem
+
+  </script>
   <div id="root"></div>
   <!--
       This HTML file is a template.

@@ -1,9 +1,16 @@
-.input-arrow {
-    position: relative;
-    background-color: rgba($color: #e5e5e5, $alpha: 0.2);
-    .button {
-        display: flex;
-        justify-content: center;
+.with-icon {
+    &.small {
+        input {
+            padding-left: 6.5rem;
+        }
+        .icon {
+            position: absolute;
+            left: 2rem;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            width: 3rem;
+        }
     }
     .arrow {
         &.small {
@@ -17,4 +24,8 @@
         margin: auto;
         display: flex;
     }
+}
+.input-arrow {
+    position: relative;
+    background-color: rgba($color: #e5e5e5, $alpha: 0.2);
 }

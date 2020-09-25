@@ -73,7 +73,7 @@ export default function LayoutSmall(props) {
         </CSSTransition>
         <div className={cx('main')}
             style={{
-                maxHeight: `calc(100vh - 5.625rem - ${bottomHeight})`,
+                maxHeight: `calc(100vh - 6.625rem - ${bottomHeight})`,
             }}>
             <Main />
         </div>

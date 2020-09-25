@@ -20,32 +20,38 @@ function TokenList({ token, setToken, search = '', cToken, showMortgage, setIsNo
     }, [search])
 
     return <div className={cx('container')}>
-        {tokenList.map(({ symbol, cSymbol, name, cName, address, notAvailable, mortgage, icon }) => {
+        {tokenList.map(({ symbol, cSymbol, name, cName, address, cAddress, notAvailable, minMortgage, icon }) => {
             const checked = token === symbol
             if (notAvailable) {
                 isNotAvailable.current = true
+            }
+            let _address = address
+            if (cToken) {
+                symbol = cSymbol;
+                address = cAddress;
+                name = cName
             }
             return <div key={symbol} className={cx('row')}>
                 <label >
                     <Check active={checked} />
                     <input type='checkbox'
-                        onChange={() => setToken(checked ? '' : symbol)}
+                        onChange={() => setToken(checked ? '' : _address)}
                         checked={checked} />
                 </label>
                 <img className={cx('icon')} src={icon} ></img>
                 <div className={cx('two-row')}>
                     <div className={cx('symbol-row')}>
-                        <span className={cx('symbol')}>{cToken ? cSymbol : symbol}</span>
+                        <span className={cx('symbol')}>{symbol}</span>
 
                         {notAvailable && <span className={cx('not-available')}>{t('word.not-available')}</span>}
                     </div>
 
-                    <span className={cx('name')}>{cToken ? cName : name}</span>
+                    <span className={cx('name')}>{name}</span>
                 </div>
 
                 <div className={cx('two-row')} style={{ alignItems: 'flex-end' }}>
                     {
-                        showMortgage && <span className={cx('mortgage')}>{mortgage + 'cETH'}</span>
+                        showMortgage && <span className={cx('mortgage')}>{minMortgage + 'cETH'}</span>
                     }
 
                     <div className={cx('link')}>
@@ -54,8 +60,6 @@ function TokenList({ token, setToken, search = '', cToken, showMortgage, setIsNo
                         </span>
                         {address && <img className={cx('link-img')} src={linkSrc}></img>}
                     </div>
-
-
                 </div>
 
             </div>
