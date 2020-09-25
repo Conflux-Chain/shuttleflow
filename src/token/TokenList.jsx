@@ -21,11 +21,12 @@ function TokenList({ token, setToken, search = '', cToken, showMortgage, setIsNo
 
     return <div className={cx('container')}>
         {tokenList.map(({ symbol, cSymbol, name, cName, address, cAddress, notAvailable, minMortgage, icon }) => {
-            const checked = token === symbol
+            
             if (notAvailable) {
                 isNotAvailable.current = true
             }
             let _address = address
+            const checked = token === _address
             if (cToken) {
                 symbol = cSymbol;
                 address = cAddress;
