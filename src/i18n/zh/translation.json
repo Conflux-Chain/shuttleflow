@@ -7,8 +7,10 @@
   "placeholder": {
     "token-in": "选择Token",
     "ctoken-in": "您将收到的Token",
+    "shuttle-out-amount": "dynamic content",
     "shuttle-in-address": "钱包地址",
-
+    "input-amount": "输入数量",
+    "input-address": "输入钱包地址",
     "token-search": "搜索 Token 名称或合约地址"
   },
   "sentence": {
@@ -22,7 +24,12 @@
     "add-token": "添加该 Token",
     "out-amount": "Shuttle Out 数量",
     "out-address": "Shuttle Out 地址",
-    "out-button": "Shuttle Out"
+    "out-button": "Shuttle Out",
+    "shuttle-in-amount": "最小 Shuttle In 数量 {{amount}} {{token}}",
+    "shuttle-in-fee": "Shuttle In 手续费 {{amount}} {{ctoken}}",
+    "shuttle-out-fee": "手续费 {{amount}} {{ctoken}}",
+    "latest-address-please": "请使用最新的地址操作备份",
+    "qrcode": "查看地址二维码"
   },
   "para": {}
 }

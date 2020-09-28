@@ -55,3 +55,74 @@
     }
   }
 }
+
+.title {
+  color: white;
+  font-size: 2rem;
+  display: flex;
+
+  &.small {
+    img {
+      width: 2.25rem;
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+  }
+}
+
+.small-text {
+  color: rgba($color: white, $alpha: 0.6);
+  &.small{
+    font-size: 1.5rem;
+  }
+}
+
+.arrow {
+  &.small {
+    width: 1rem;
+    right: 2rem;
+  }
+  top: 0;
+  bottom: 0;
+  position: absolute;
+  cursor: pointer;
+  margin: auto;
+  display: flex;
+}
+
+.down {
+  &.small {
+    height: 5.5rem;
+    img {
+      width: 1.5rem;
+    }
+  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.with-icon {
+  input{
+    font-weight: bold;
+  }
+
+  &.small {
+    input {
+
+      font-size: 2rem;
+      padding-left: 6.5rem;
+    }
+    .icon {
+      position: absolute;
+      left: 2rem;
+      margin: auto;
+      top: 0;
+      bottom: 0;
+      width: 3rem;
+    }
+  }
+}
+.input-arrow {
+  position: relative;
+}

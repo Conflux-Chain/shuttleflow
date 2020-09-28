@@ -12,13 +12,14 @@ import layoutBottomState from '../../layout/LayoutButtomState'
 
 import { useRecoilState } from 'recoil'
 import useIsSamll from '../../component/useSmallScreen'
+import { buildSearch, parseSearch } from '../../component/urlSearch'
 
 const FREQUENT_TOKENS = [['BTC'], ['ETC'], ['USDT'], ['DAI'], ['USDC']]
 export default function ChooseToken({ location: { search }, history }) {
   const [chooseCx, btnCx] = useStyle(chooseStyles, buttonStyle)
-  const [next, cToken] = ['next', 'cToken'].map((u) =>
-    new URLSearchParams(decodeURI(search)).get(u)
-  )
+  const { next, cToken, ...extra } = parseSearch(search)
+
+
 
   const [searchTxt, setSearchTxt] = useState('')
   const [isNotAvailable, setIsNotAvailable] = useState(false)
@@ -67,7 +68,7 @@ export default function ChooseToken({ location: { search }, history }) {
           onClick={() => {
             history.push({
               pathname: next,
-              search: `?token=${token}`,
+              search: buildSearch({ token, ...extra }),
             })
           }}
           className={btnCx('btn') + ' ' + chooseCx('btn')}

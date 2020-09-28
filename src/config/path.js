@@ -1,0 +1,1 @@
+export const TOKEN_LIST = '/tokenList'

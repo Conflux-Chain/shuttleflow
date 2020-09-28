@@ -10,6 +10,9 @@
     background: #9c9c9c;
     cursor: not-allowed;
   }
+  &:focus{
+    outline: none;
+  }
   &.small {
     height: 6.875rem;
   }
