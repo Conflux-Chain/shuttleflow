@@ -17,3 +17,8 @@
     color: rgba($color: #ffffff, $alpha: 0.4);
   }
 }
+
+.error {
+  background-color: rgba($color: #F3504F, $alpha: 0.2);
+  border: solid 1px #F3504F;
+}

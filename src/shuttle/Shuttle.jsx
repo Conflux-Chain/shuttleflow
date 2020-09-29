@@ -32,7 +32,7 @@ export default function Shuttle({ match: { path, url } }) {
               <div className={cx('item', { active })}>
                 <Link to={inUrl}>
                   <img src={active ? inActiveSvg : inSvg}></img>
-                  <span>{t('word.shuttle-in')}</span>
+                  <span>{t('btn.shuttle-in')}</span>
                 </Link>
               </div>
             )
@@ -46,7 +46,7 @@ export default function Shuttle({ match: { path, url } }) {
               <div className={cx('item', { active })}>
                 <Link to={outUrl}>
                   <img src={active ? outActiveSvg : outSvg}></img>
-                  <span>{t('word.shuttle-out')}</span>
+                  <span>{t('btn.shuttle-out')}</span>
                 </Link>
               </div>
             )
