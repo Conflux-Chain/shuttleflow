@@ -1,0 +1,31 @@
+.amount-container {
+    display: block;
+    &.small {
+        margin-top: 4rem;
+    }
+}
+
+.amount-input {
+    &.small {
+        margin-top: 2rem;
+    }
+}
+
+.address-container {
+    display: block;
+    &.small {
+        margin-top: 7rem;
+    }
+}
+
+.address-input {
+    &.small {
+        margin-top: 2rem;
+    }
+}
+
+.btn {
+    &.small {
+        margin-top: 6rem;
+    }
+}

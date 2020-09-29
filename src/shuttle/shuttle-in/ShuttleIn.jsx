@@ -78,9 +78,9 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
 
       {tokenInfo && <div
         className={shuttleInCx('small-text') + ' ' + shuttleCx('small-text')}>
-        <span>{t('sentence.shuttle-in-amount', { amount: tokenInfo.inMin, token: tokenInfo.symbol })}</span>
+        <span>{t('txt.shuttle-in-amount', { amount: tokenInfo.inMin, token: tokenInfo.symbol })}</span>
         <span style={{ display: 'flex' }}>
-          <span>{t('sentence.shuttle-in-fee', { amount: tokenInfo.inFee, ctoken: tokenInfo.cSymbol })}</span>
+          <span>{t('txt.shuttle-in-fee', { amount: tokenInfo.inFee, ctoken: tokenInfo.cSymbol })}</span>
           <img src={question}></img>
         </span>
 
@@ -88,7 +88,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
 
 
       <div className={shuttleCx('title')}>
-        <span>{t('sentence.shuttle-in-address')}</span>
+        <span>{t('txt.shuttle-in-address')}</span>
         <img src={question}></img>
       </div>
 
@@ -103,11 +103,10 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       </div>
 
       <div
-        className={shuttleInCx('small-text') + ' ' + shuttleCx('small-text')}>
-        <span>{t('sentence.latest-address-please')}</span>
+        className={shuttleCx('small-text')}>
+        <span>{t('txt.latest-address-please')}</span>
         <span style={{ display: 'flex' }}>
-          <span>{t('sentence.qrcode')}</span>
-          {/* <img src={question}></img> */}
+          <span>{t('txt.qrcode')}</span>
         </span>
       </div>
     </div>

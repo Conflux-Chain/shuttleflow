@@ -5,7 +5,7 @@
     "shuttle-out-amount": "最少数量 {{outMin}}",
     "shuttle-in-address": "钱包地址",
     "input-amount": "输入数量",
-    "input-address": "输入钱包地址",
+    "input-address": "输入钱包地址", 
     "token-search": "搜索 Token 名称或合约地址"
   },
   "errors": {
@@ -25,14 +25,17 @@
     "out-button": "Shuttle Out"
   },
   "txt": {
-    "not-available": "Not Available",
-    "shuttle-in-address": "Shuttle In 地址",
-    "frequent-token": "常用 Token",
-    "token-list": "Token 列表",
-    "choose-token-btn": "选择该 Token",
     "out-amount": "Shuttle Out 数量", 
     "out-address": "Shuttle Out 地址",
-    "a":"钱包余额 543 cBTC",
+    "out-balance":"钱包余额 {{amount}} {{cSymbol}}",
+
+    "not-available": "Not Available",
+    "shuttle-in-address": "Shuttle In 地址",
+    "frequent-token": "常用 Token", 
+    "token-list": "Token 列表",
+    "choose-token-btn": "选择该 Token",
+
+
     "shuttle-in-amount": "最小 Shuttle In 数量 {{amount}} {{token}}",
     "shuttle-in-fee": "Shuttle In 手续费 {{amount}} {{ctoken}}",
     "shuttle-out-fee": "手续费 {{outFee}} {{cSymbol}}",

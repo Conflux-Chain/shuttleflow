@@ -40,7 +40,7 @@ export function TokenNavigation({ history, location: { search }, after }) {
                     search: search,
                   }}
                 >
-                  {t('sentence.choose-token')}
+                  {t('btn.choose-token')}
                 </Link>
               </div>
             )
@@ -57,7 +57,7 @@ export function TokenNavigation({ history, location: { search }, after }) {
                     search: search,
                   }}
                 >
-                  {t('sentence.token-caption')}
+                  {t('btn.token-caption')}
                 </Link>
               </div>
             )

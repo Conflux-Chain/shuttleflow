@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next'
 
 import inputStyles from '../../component/input.module.scss'
 import buttonStyles from '../../component/button.module.scss'
-import shuttleInput from '../Shuttle.module.scss'
+import shuttleStyle from '../Shuttle.module.scss'
+import shuttleOutStyles from './ShuttleOut.module.scss'
+
 import useStyle from '../../component/useStyle'
 import swrSearchTokenFetcher from '../../data/mock/swrSearchTokenFetcher'
 import { useForm } from "react-hook-form";
@@ -17,15 +19,18 @@ import { yupResolver } from '@hookform/resolvers';
 import * as yup from 'yup';
 import { ErrorMessage } from "@hookform/error-message";
 import { buildSearch, parseSearch } from '../../component/urlSearch'
+import History from '../../history/History'
 
 
 const __mock_balance = 100
 export default function ShuttleOut({ location: { search }, match: { url }, history }) {
-  const [commonCx, buttonCx, shuttleCx] = useStyle(
+  const [commonCx, buttonCx, shuttleCx, shuttleOutCx] = useStyle(
     inputStyles,
     buttonStyles,
-    shuttleInput,
+    shuttleStyle,
+    shuttleOutStyles
   )
+
   const { t } = useTranslation()
   const { token, ...extra } = parseSearch(search)
   const { data: tokenInfo } = useSWR(token ? ['/address', token] : null, swrSearchTokenFetcher)
@@ -34,8 +39,6 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
   const schema = yup.object().shape({
     outamount: yup
       .number()
-      .transform(value => (isNaN(value) ? undefined : value))
-      .required(t('errors.required'))
       .typeError(t('errors.number'))
       .moreThan(tokenInfo ? tokenInfo.outMin : 0, t('errors.min', tokenInfo))
       .lessThan(__mock_balance, t('errors.insufficient')),
@@ -62,7 +65,7 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
     return null //the token info is loading
   }
 
-  return (
+  return (<div className={shuttleCx('root')}>
     <form onSubmit={handleSubmit(onSubmit)}>
 
       {/* token */}
@@ -120,17 +123,15 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
 
 
       {/* shuttle out amount */}
-      <label>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between', alignItems: 'center'
-        }}>
+      <label className={shuttleOutCx('amount-container')}>
+        <div className={shuttleCx('small-text')}>
           <span className={shuttleCx('title')}>{t('txt.out-amount')} </span>
           {tokenInfo && <span className={shuttleCx('small-text')}>
             <span>
               {t('txt.shuttle-out-fee', tokenInfo)}
             </span>
-            <img src={question}></img></span>}
+            <img src={question}></img>
+          </span>}
 
         </div>
 
@@ -139,31 +140,47 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
           name='outamount'
           placeholder={!tokenInfo ? t('placeholder.input-amount') : t('placeholder.shuttle-out-amount', tokenInfo)}
           autoComplete='off'
-          className={commonCx('input-common', errors.outamount ? 'error' : '')}
+          className={
+            commonCx('input-common', errors.outamount ? 'error' : '') + ' ' +
+            shuttleOutCx('amount-input')
+          }
         />
       </label>
 
-      <ErrorMessage
-        errors={errors}
-        name="outamount"
-        render={({ message }) => {
-          return <p>{message}</p>
-        }}
-      />
+      <p
+        className={shuttleCx('small-text')}
+        style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {/* the dom element should exist ensuring the other txt flush to right */}
+        <div>
+          <ErrorMessage
+            errors={errors}
+            name="outamount"
+            render={({ message }) => {
+              return <span style={{ color: '#F3504F' }} className={shuttleCx('small-text')}>{message}</span>
+            }}
+          />
+        </div>
+
+        <span >{tokenInfo && t('txt.out-balance', { amount: __mock_balance, cSymbol: tokenInfo.cSymbol })}</span>
+      </p>
+
 
 
 
       {/* shuttle out address */}
-      <label>
+      <label className={shuttleOutCx('address-container')}>
         <div className={shuttleCx('title')}>
           <span>{t('txt.out-address')}</span>
+          <img src={question}></img>
         </div>
         <input
           ref={register}
           name='outaddress'
           autoComplete='off'
           placeholder={t('placeholder.input-address')}
-          className={commonCx('input-common', errors.outaddress ? 'error' : '')}
+          className={commonCx('input-common', errors.outaddress ? 'error' : '') + ' ' +
+            shuttleOutCx('address-input')
+          }
         />
       </label>
 
@@ -171,7 +188,7 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
         errors={errors}
         name="outaddress"
         render={({ message }) => {
-          return <p>{message}</p>
+          return <p style={{ color: '#F3504F' }} className={shuttleCx('small-text')}>{message}</p>
         }}
       />
 
@@ -179,10 +196,11 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
         disabled={!tokenInfo}
         type='submit'
         style={{ width: '90%' }}
-        className={buttonCx('btn')} />
-
+        className={buttonCx('btn') + ' ' + shuttleOutCx('btn')} />
 
     </form>
+    <History />
+  </div>
   )
 }
 
