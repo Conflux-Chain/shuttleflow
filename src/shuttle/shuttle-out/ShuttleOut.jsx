@@ -124,7 +124,7 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
 
       {/* shuttle out amount */}
       <label className={shuttleOutCx('amount-container')}>
-        <div className={shuttleCx('small-text')}>
+        <div>
           <span className={shuttleCx('title')}>{t('txt.out-amount')} </span>
           {tokenInfo && <span className={shuttleCx('small-text')}>
             <span>
@@ -147,7 +147,7 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
         />
       </label>
 
-      <p
+      <div
         className={shuttleCx('small-text')}
         style={{ display: 'flex', justifyContent: 'space-between' }}>
         {/* the dom element should exist ensuring the other txt flush to right */}
@@ -156,13 +156,13 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
             errors={errors}
             name="outamount"
             render={({ message }) => {
-              return <span style={{ color: '#F3504F' }} className={shuttleCx('small-text')}>{message}</span>
+              return <span style={{ color: '#F3504F' }}>{message}</span>
             }}
           />
         </div>
 
         <span >{tokenInfo && t('txt.out-balance', { amount: __mock_balance, cSymbol: tokenInfo.cSymbol })}</span>
-      </p>
+      </div>
 
 
 
@@ -197,7 +197,6 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
         type='submit'
         style={{ width: '90%' }}
         className={buttonCx('btn') + ' ' + shuttleOutCx('btn')} />
-
     </form>
     <History />
   </div>

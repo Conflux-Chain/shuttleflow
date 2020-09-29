@@ -32,8 +32,9 @@
   }
   &.large {
     justify-content: space-around;
-    height: 6.25rem;
-    margin-bottom: 1rem;
+    padding-top: 1rem;
+    height: 5.25rem;
+    margin-bottom: 2.125rem;
     border-bottom: 1px solid #979797;
     .item {
       display: flex;
@@ -67,12 +68,19 @@
 
 .title {
   color: white;
-  font-size: 2rem;
   display: flex;
-
   &.small {
+    font-size: 2rem;
     img {
       width: 2.25rem;
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+  }
+  &.large {
+    font-size: 1.25rem;
+    img {
+      width: 1.3125rem;
       margin-left: 1rem;
       cursor: pointer;
     }
@@ -84,6 +92,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 1rem 0;
   img {
     cursor: pointer;
   }
@@ -94,12 +103,23 @@
       margin-left: 1rem;
     }
   }
+  &.small {
+    font-size: 1rem;
+    img {
+      width: 0.75rem;
+      margin-left: 1rem;
+    }
+  }
 }
 
 .arrow {
   &.small {
     width: 1rem;
     right: 2rem;
+  }
+  &.large {
+    width: 0.75rem;
+    right: 2.0625rem;
   }
   top: 0;
   bottom: 0;
@@ -116,6 +136,12 @@
       width: 1.5rem;
     }
   }
+  &.large {
+    height: 3.75rem;
+    img {
+      width: 0.75rem;
+    }
+  }
   display: flex;
   justify-content: center;
   align-items: center;
@@ -126,18 +152,32 @@
     font-weight: bold;
   }
 
+  .icon {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+  }
+
   &.small {
     input {
       font-size: 2rem;
       padding-left: 6.5rem;
     }
     .icon {
-      position: absolute;
       left: 2rem;
-      margin: auto;
-      top: 0;
-      bottom: 0;
+
       width: 3rem;
+    }
+  }
+  &.large {
+    input {
+      font-size: 1.25rem;
+      padding-left: 4.5rem;
+    }
+    .icon {
+      left: 1.625rem;
+      width: 2rem;
     }
   }
 }

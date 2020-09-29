@@ -16,6 +16,9 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 4.17rem;
+    .active {
+      background-color: #44d7b6 !important;
+    }
     .frequent {
       &.small {
         font-size: 1.875rem;

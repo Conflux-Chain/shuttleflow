@@ -3,3 +3,22 @@
     margin-top: 5.75rem;
   }
 }
+
+.address {
+  display: block;
+  &.small {
+    margin-top: 6.25rem;
+  }
+  &.large {
+    margin-top: 3rem;
+  }
+}
+
+.address-input {
+  &.small {
+    margin-top: 2rem;
+  }
+  &.large {
+    margin-top: 1.5rem;
+  }
+}

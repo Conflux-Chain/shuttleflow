@@ -36,6 +36,65 @@ export const TOKENS = [
         createFee: 0.8
     },
     {
+        symbol: 'BNB',
+        cSymbol: 'cBNB',
+
+        icon: 'https://via.placeholder.com/50',
+
+        name: 'BNB',
+        cName: 'Conflux BNB',
+
+        address: '0x_address_of_bnb',
+        cAddress: '0x_c_address_of_bnb',
+
+        minMortgage: 10,
+        inFee: 0.1,
+        outFee: 0.2,
+        inMin: 2,
+        outMin: 3,
+        createFee: 0.8
+    },
+    {
+        symbol: 'USDC',
+        cSymbol: 'cUSDC',
+
+        icon: 'https://via.placeholder.com/50',
+
+        name: 'USD Coin',
+        cName: 'Conflux USD Coin',
+
+        address: '0x_address_of_usdc',
+        cAddress: '0x_c_address_of_usdc',
+
+        minMortgage: 10,
+        inFee: 0.1,
+        outFee: 0.2,
+        inMin: 2,
+        outMin: 3,
+        createFee: 0.8
+    },
+    
+    {
+        symbol: 'YFI',
+        cSymbol: 'cYFI',
+
+        icon: 'https://via.placeholder.com/50',
+
+        name: 'yearn.finance',
+        cName: 'Conflux yearn.finance',
+
+        address: '0x_address_of_yfi',
+        cAddress: '0x_c_address_of_yfi',
+
+        minMortgage: 10,
+        inFee: 0.1,
+        outFee: 0.2,
+        inMin: 2,
+        outMin: 3,
+        createFee: 0.8
+    },
+
+    {
         symbol: 'USDT',
         cSymbol: 'cUSDT',
 
@@ -77,9 +136,22 @@ export const TOKENS = [
 
 export const NOT_AVAILABLE = [
     {
-        symbol: 'USDC',
+        symbol: 'BNB',
+        cSymbol: 'cBNB',
+
         icon: 'https://via.placeholder.com/50',
-        name: 'USD Coin',
-        address: '0x_address_of_usdc',
+
+        name: 'BNB',
+        cName: 'Conflux BNB',
+
+        address: '0x_address_of_bnb',
+        cAddress: '0x_c_address_of_bnb',
+
+        minMortgage: 10,
+        inFee: 0.1,
+        outFee: 0.2,
+        inMin: 2,
+        outMin: 3,
+        createFee: 0.8
     },
 ]

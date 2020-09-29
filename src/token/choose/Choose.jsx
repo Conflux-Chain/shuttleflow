@@ -4,6 +4,8 @@ import TokenList from '../TokenList'
 import Search from '../Search'
 
 import { useTranslation } from 'react-i18next'
+import useSWR from 'swr'
+import swrTokenListFetcher from '../../data/mock/swrTokenListFetcher'
 
 import chooseStyles from './Choose.module.scss'
 import buttonStyle from '../../component/button.module.scss'
@@ -14,16 +16,22 @@ import { useRecoilState } from 'recoil'
 import useIsSamll from '../../component/useSmallScreen'
 import { buildSearch, parseSearch } from '../../component/urlSearch'
 
-const FREQUENT_TOKENS = [['BTC'], ['ETC'], ['USDT'], ['DAI'], ['USDC']]
+
+
+const FREQUENT_TOKENS = [
+  'btc',
+  'eth',
+  '0x_address_of_usdt',
+  '0x_address_of_dai',
+  '0x_address_of_usdc'
+]
 export default function ChooseToken({ location: { search }, history }) {
   const [chooseCx, btnCx] = useStyle(chooseStyles, buttonStyle)
   const { next, cToken, ...extra } = parseSearch(search)
-
-
+  const { data: tokenList } = useSWR('/tokenList', swrTokenListFetcher)
 
   const [searchTxt, setSearchTxt] = useState('')
   const [isNotAvailable, setIsNotAvailable] = useState(false)
-  //TODO which props should be used to generate wallet address
   const [token, setToken] = useState('')
   const { t } = useTranslation()
   const isSmall = useIsSamll()
@@ -43,17 +51,26 @@ export default function ChooseToken({ location: { search }, history }) {
     <div className={chooseCx('container')}>
       <Search searchTxt={searchTxt} setSearchTxt={setSearchTxt} />
 
-      <div className={chooseCx('title')}>{t('sentence.frequent-token')}</div>
+      <div className={chooseCx('title')}>{t('txt.frequent-token')}</div>
       <div className={chooseCx('frequent-container')}>
-        {FREQUENT_TOKENS.map(([name]) => {
+        {FREQUENT_TOKENS.map((_address) => {
+          let tokenData, active
+          if (tokenList) {
+            tokenData = tokenList.find(({ address }) => address === _address)
+
+            active = tokenData.address === token
+            console.log(tokenData.address, token, active)
+          }
           return (
-            <div className={chooseCx('frequent')} key={name}>
-              {name}
+            <div
+              onClick={tokenData && (() => setToken(tokenData.address))}
+              className={chooseCx({ active }, 'frequent')} key={_address}>
+              {tokenData && (cToken ? tokenData.cSymbok : tokenData.symbol)}
             </div>
           )
         })}
       </div>
-      <div className={chooseCx('title')}>{t('sentence.token-list')}</div>
+      <div className={chooseCx('title')}>{t('txt.token-list')}</div>
 
       <TokenList
         search={searchTxt}
@@ -75,10 +92,10 @@ export default function ChooseToken({ location: { search }, history }) {
           disabled={!token && !isNotAvailable}
         >
           {t(
-            isNotAvailable ? 'sentence.add-token' : 'sentence.choose-token-btn'
+            isNotAvailable ? 'btn.add-token' : 'btn.choose-token-btn'
           )}
         </button>
       </div>
-    </div>
+    </div >
   )
 }

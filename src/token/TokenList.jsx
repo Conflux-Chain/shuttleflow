@@ -1,6 +1,6 @@
-import React, { Suspense, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import useStyle from '../component/useStyle'
-import useSWR, { mutate } from 'swr'
+import useSWR from 'swr'
 
 import linkSrc from './link.svg'
 import styles from './TokenList.module.scss'
@@ -11,7 +11,7 @@ import swrTokenListFetcher from '../data/mock/swrTokenListFetcher'
 import swrSearchTokenFetcher from '../data/mock/swrSearchTokenFetcher'
 
 
-function TokenList({
+export default function TokenList({
     token,
     setToken,
     search = '',
@@ -20,7 +20,6 @@ function TokenList({
     setIsNotAvailable, //if the corresponsing cToken available
 }) {
     const isAddress = checkIsAddress(search)
-    console.log('isAddress', isAddress)
     const { data: tokenList } = useSWR(isAddress ? null : '/tokenList', swrTokenListFetcher)
     const { data: tokenSearchResult } = useSWR(isAddress ? ['/address', search] : null, swrSearchTokenFetcher)
 
@@ -46,7 +45,7 @@ function TokenList({
 
     //prefetch
     useEffect(() => {
-        console.log(token, 'is selected and prefetched')
+        // console.log(token, 'is selected and prefetched')
         // mutate(['/address', token], swrSearchTokenFetcher('/address', token))
     }, [token])
 
@@ -131,13 +130,13 @@ function short(txt) {
     return first6 + '...' + last4
 }
 
-export default function TokenListWithSuspense({ ...props }) {
-    return (
-        <Suspense fallback={<div>loading...</div>}>
-            <TokenList {...props} />
-        </Suspense>
-    )
-}
+// export default function TokenListWithSuspense({ ...props }) {
+//     return (
+//         <Suspense fallback={<div>loading...</div>}>
+//             <TokenList {...props} />
+//         </Suspense>
+//     )
+// }
 
 
 function checkIsAddress(v) {

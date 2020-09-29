@@ -76,7 +76,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         </Link>
       </div>
 
-      {tokenInfo && <div
+      {tokenInfo && <p
         className={shuttleInCx('small-text') + ' ' + shuttleCx('small-text')}>
         <span>{t('txt.shuttle-in-amount', { amount: tokenInfo.inMin, token: tokenInfo.symbol })}</span>
         <span style={{ display: 'flex' }}>
@@ -84,31 +84,31 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
           <img src={question}></img>
         </span>
 
-      </div>}
+      </p>}
 
+      <label className={shuttleInCx('address')}>
+        <div className={shuttleCx('title')}>
+          <span>{t('txt.shuttle-in-address')}</span>
+          <img src={question}></img>
+        </div>
 
-      <div className={shuttleCx('title')}>
-        <span>{t('txt.shuttle-in-address')}</span>
-        <img src={question}></img>
-      </div>
-
-      <div className={shuttleCx('input-arrow')}>
-        <input
-          readOnly
-          defaultValue={address}
-          className={commonCx('input-common')}
-          placeholder={t('placeholder.shuttle-in-address')}
-        />
-        <img className={shuttleCx('arrow')} style={{ width: '2rem' }} src={copy}></img>
-      </div>
-
-      <div
+        <div className={shuttleCx('input-arrow') + ' ' + shuttleInCx('address-input')}>
+          <input
+            readOnly
+            defaultValue={address}
+            className={commonCx('input-common')}
+            placeholder={t('placeholder.shuttle-in-address')}
+          />
+          <img className={shuttleCx('arrow')} style={{ width: '2rem' }} src={copy}></img>
+        </div>
+      </label>
+      <p
         className={shuttleCx('small-text')}>
         <span>{t('txt.latest-address-please')}</span>
         <span style={{ display: 'flex' }}>
           <span>{t('txt.qrcode')}</span>
         </span>
-      </div>
+      </p>
     </div>
   )
 }

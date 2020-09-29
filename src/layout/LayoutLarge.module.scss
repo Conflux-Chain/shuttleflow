@@ -1,13 +1,9 @@
-.large {
-  margin: auto;
-  padding: 0 2rem;
-  max-width: 544px;
-  max-height: calc(100vh - 100px);
-  overflow: scroll;
-  background-color: #1b1b1b;
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
-
-.header-lg {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -40,14 +36,14 @@
   }
 }
 
-// .header-sm {
-//   display: flex;
-//   position: sticky;
-//   top: 0;
-//   justify-content: space-between;
-//   align-items: center;
-//   line-height: 60px;
-//   height: 60px;
-//   font-size: 1.125rem;
-//   color: white;
-// }
+.main {
+  margin: auto;
+  border-radius: 0.5rem;
+  padding: 0 2rem;
+  width: 544px;
+  max-height: calc(100vh - 160px);
+  overflow: scroll;
+  background-color: #1b1b1b;
+  display: flex;
+  flex-direction: column;
+}

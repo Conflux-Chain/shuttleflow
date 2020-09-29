@@ -5,7 +5,7 @@
     "shuttle-out-amount": "最少数量 {{outMin}}",
     "shuttle-in-address": "钱包地址",
     "input-amount": "输入数量",
-    "input-address": "输入钱包地址", 
+    "input-address": "输入钱包地址",
     "token-search": "搜索 Token 名称或合约地址"
   },
   "errors": {
@@ -22,25 +22,22 @@
     "choose-token": "选择 Token",
     "token-caption": "成为 Token Caption",
     "add-token": "添加该 Token",
+    "choose-token-btn": "选择该 Token",
     "out-button": "Shuttle Out"
   },
   "txt": {
-    "out-amount": "Shuttle Out 数量", 
+    "out-amount": "Shuttle Out 数量",
     "out-address": "Shuttle Out 地址",
-    "out-balance":"钱包余额 {{amount}} {{cSymbol}}",
-
-    "not-available": "Not Available",
-    "shuttle-in-address": "Shuttle In 地址",
-    "frequent-token": "常用 Token", 
-    "token-list": "Token 列表",
-    "choose-token-btn": "选择该 Token",
-
-
+    "out-balance": "钱包余额 {{amount}} {{cSymbol}}",
     "shuttle-in-amount": "最小 Shuttle In 数量 {{amount}} {{token}}",
     "shuttle-in-fee": "Shuttle In 手续费 {{amount}} {{ctoken}}",
     "shuttle-out-fee": "手续费 {{outFee}} {{cSymbol}}",
     "latest-address-please": "请使用最新的地址操作备份",
-    "qrcode": "查看地址二维码"
+    "qrcode": "查看地址二维码",
+    "not-available": "Not Available",
+    "shuttle-in-address": "Shuttle In 地址",
+    "frequent-token": "常用 Token",
+    "token-list": "Token 列表"
   },
   "para": {}
 }

@@ -7,13 +7,13 @@ import Main from './Main'
 import logo from './logo.svg'
 
 import classNamesBind from 'classnames/bind'
-import styles from './Layout.module.scss'
+import styles from './LayoutLarge.module.scss'
 const cx = classNamesBind.bind(styles)
 
 export default function LayoutLarge() {
   return (
-    <div>
-      <header className={cx('header-lg')}>
+    <div className={cx('container')}>
+      <header className={cx('header')}>
         <Link to="/">
           <img src={logo}></img>
         </Link>
@@ -28,7 +28,7 @@ export default function LayoutLarge() {
           </Select>
         </div>
       </header>
-      <div className={cx('container', 'large')}>
+      <div className={cx('main')}>
         <Main />
       </div>
     </div>
