@@ -10,13 +10,15 @@ import classNamesBind from 'classnames/bind'
 import styles from './LayoutLarge.module.scss'
 const cx = classNamesBind.bind(styles)
 
-export default function LayoutLarge() {
+
+export default function LayoutLarge({ history }) {
+
   return (
     <div className={cx('container')}>
       <header className={cx('header')}>
-        <Link to="/">
-          <img src={logo}></img>
-        </Link>
+
+        <img onClick={()=>history.push('/')} src={logo}></img>
+
         <div className={cx('right')}>
           <span>Address</span>
           <Link to="/history">History</Link>

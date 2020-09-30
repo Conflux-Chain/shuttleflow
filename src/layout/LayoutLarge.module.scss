@@ -7,30 +7,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 18px;
-  line-height: 80px;
-  height: 80px;
   font-size: 1.125rem;
+  line-height: 5rem;
+  height: 5rem;
+
   color: white;
-  a {
-    display: flex;
-    img {
-      max-height: 40px;
-    }
+  img {
+    max-height: 2.5rem;
+    margin-left: 3.5rem;
   }
   .select {
     padding: 0 !important;
     border-radius: 1em !important;
     border: 1px solid rgba(255, 255, 255, 0.5) !important;
     background: transparent !important;
+    margin-right: 3.5rem /* 56/16 */;
   }
   .right {
     display: flex;
     align-items: center;
     span,
     a {
+      white-space: nowrap;
       display: block;
-      margin: 0 25px;
+      margin: 0 1.5625rem;
       font-weight: bold;
     }
   }
