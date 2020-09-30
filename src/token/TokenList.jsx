@@ -43,7 +43,7 @@ export default function TokenList({
         }
     }, [search])
 
-    //prefetch
+    //prefetch not work properly somehow
     useEffect(() => {
         // console.log(token, 'is selected and prefetched')
         // mutate(['/address', token], swrSearchTokenFetcher('/address', token))
@@ -78,7 +78,7 @@ export default function TokenList({
                             name = cName
                         }
                         return (
-                            <div key={symbol} className={cx('row')}>
+                            <div key={symbol} className={cx('row', { checked })}>
                                 <label>
                                     <Check active={checked} />
                                     <input
@@ -109,9 +109,9 @@ export default function TokenList({
 
                                     <div className={cx('link')}>
                                         <span className={cx('link-txt')}>
-                                            {address && short(address)}
+                                            {address && address.startsWith('0x') && short(address)}
                                         </span>
-                                        {address && (
+                                        {address && address.startsWith('0x') && (
                                             <img className={cx('link-img')} src={linkSrc}></img>
                                         )}
                                     </div>

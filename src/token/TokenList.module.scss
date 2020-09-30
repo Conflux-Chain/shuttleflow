@@ -1,9 +1,10 @@
 .container {
-  // overflow: scroll;
-  // &.small {
-  //     max-height: 90rem;
-  // }
   .row {
+    &.checked {
+      background: rgba($color: #f2f6fd, $alpha: 0.1);
+      margin: 0 -2rem;
+      padding: 0 2rem;
+    }
     &.small {
       svg {
         width: 3rem;
@@ -13,15 +14,30 @@
       }
       height: 9rem;
     }
+
+    &.large {
+      svg {
+        width: 2rem;
+      }
+      .icon {
+        width: 3rem;
+      }
+      height: 6.25rem;
+    }
     display: grid;
-    grid-template-columns: 2fr 2fr 5fr 5fr;
+    border-bottom: 1px solid rgba($color: #ffffff, $alpha: 0.2);
+    grid-template-columns: 3fr 4fr 10fr 10fr;
     align-items: center;
 
     .symbol {
       color: white;
       font-weight: 500;
+
       &.small {
         font-size: 2rem;
+      }
+      &.large {
+        font-size: 1.25rem;
       }
     }
 
@@ -29,6 +45,9 @@
       color: rgba($color: #ffffff, $alpha: 0.3);
       &.small {
         font-size: 1.5rem;
+      }
+      &.large {
+        font-size: 1rem;
       }
     }
 
@@ -40,6 +59,10 @@
       &.small {
         margin-left: 0.5rem;
         width: 1.2rem;
+      }
+      &.large {
+        margin-left: 0.5rem;
+        width: 1rem;
       }
     }
 

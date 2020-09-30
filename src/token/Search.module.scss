@@ -1,16 +1,28 @@
 .input {
   position: relative;
+  background-color: rgba($color: #000000, $alpha: 0.6);
   &.small {
     input {
       padding-left: 4.75rem;
     }
     img {
       width: 2rem;
+      left: 1rem;
+    }
+  }
+  &.large {
+    margin-top: 1.5rem;
+    input {
+      padding-left: 3.375rem;
+    }
+    img {
+      width: 1.375rem;
+      left: 1rem;
     }
   }
   img {
     position: absolute;
-    left: 1rem;
+
     top: 0;
     bottom: 0;
     margin: auto;

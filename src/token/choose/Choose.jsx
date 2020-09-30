@@ -17,6 +17,8 @@ import useIsSamll from '../../component/useSmallScreen'
 import { buildSearch, parseSearch } from '../../component/urlSearch'
 
 
+import PerfectScrollbar from 'react-perfect-scrollbar'
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const FREQUENT_TOKENS = [
   'btc',
@@ -51,34 +53,35 @@ export default function ChooseToken({ location: { search }, history }) {
     <div className={chooseCx('container')}>
       <Search searchTxt={searchTxt} setSearchTxt={setSearchTxt} />
 
-      <div className={chooseCx('title')}>{t('txt.frequent-token')}</div>
-      <div className={chooseCx('frequent-container')}>
-        {FREQUENT_TOKENS.map((_address) => {
-          let tokenData, active
-          if (tokenList) {
-            tokenData = tokenList.find(({ address }) => address === _address)
+      <div
+        style={{ maxHeight: 'calc(100vh - 32rem)', overflow: 'auto' }}>
+        <div className={chooseCx('title')}>{t('txt.frequent-token')}</div>
+        <div className={chooseCx('frequent-container')}>
+          {FREQUENT_TOKENS.map((_address) => {
+            let tokenData, active
+            if (tokenList) {
+              tokenData = tokenList.find(({ address }) => address === _address)
 
-            active = tokenData.address === token
-            console.log(tokenData.address, token, active)
-          }
-          return (
-            <div
-              onClick={tokenData && (() => setToken(tokenData.address))}
-              className={chooseCx({ active }, 'frequent')} key={_address}>
-              {tokenData && (cToken ? tokenData.cSymbok : tokenData.symbol)}
-            </div>
-          )
-        })}
+              active = tokenData.address === token
+            }
+            return (
+              <div
+                onClick={tokenData && (() => setToken(tokenData.address))}
+                className={chooseCx({ active }, 'frequent')} key={_address}>
+                {tokenData && (cToken ? tokenData.cSymbok : tokenData.symbol)}
+              </div>
+            )
+          })}
+        </div>
+        <div className={chooseCx('title')}>{t('txt.token-list')}</div>
+        <TokenList
+          search={searchTxt}
+          token={token}
+          setToken={setToken}
+          cToken={cToken}
+          setIsNotAvailable={setIsNotAvailable}
+        />
       </div>
-      <div className={chooseCx('title')}>{t('txt.token-list')}</div>
-
-      <TokenList
-        search={searchTxt}
-        token={token}
-        setToken={setToken}
-        cToken={cToken}
-        setIsNotAvailable={setIsNotAvailable}
-      />
 
       <div className={chooseCx('btn-container')}>
         <button
