@@ -30,10 +30,12 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
 
   const { data: tokenInfo } = useSWR(token ? ['/address', token] : null, swrSearchTokenFetcher)
 
+
   return (
     <div className={shuttleInCx('container')}>
       <div className={shuttleCx('input-arrow', { 'with-icon': !!tokenInfo })}>
         {tokenInfo && <img
+          alt='icon'
           className={shuttleCx('icon')}
           src={tokenInfo.icon}
         ></img>}
@@ -49,14 +51,15 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             search: `?next=${url}`,
           }}
         >
-          <img className={shuttleCx('arrow')} src={arrow}></img>
+          <img alt='arrow' className={shuttleCx('arrow')} src={arrow}></img>
         </Link>
       </div>
       <div className={shuttleCx('down')}>
-        <img src={down}></img>
+        <img alt='down' src={down}></img>
       </div>
       <div className={shuttleCx('input-arrow', { 'with-icon': !!tokenInfo })}>
         {tokenInfo && <img
+          alt='icon'
           className={shuttleCx('icon')}
           src={tokenInfo.icon}
         ></img>}
@@ -87,19 +90,19 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       </p>}
 
       <label className={shuttleInCx('address')}>
-        <div className={shuttleCx('title')}>
+        <div className={shuttleCx('title', 'with-question')}>
           <span>{t('txt.shuttle-in-address')}</span>
-          <img src={question}></img>
+          <img alt='?' src={question}></img>
         </div>
 
-        <div className={shuttleCx('input-arrow') + ' ' + shuttleInCx('address-input')}>
+        <div className={shuttleInCx('address-input')}>
           <input
             readOnly
             defaultValue={address}
             className={commonCx('input-common')}
             placeholder={t('placeholder.shuttle-in-address')}
           />
-          <img className={shuttleCx('arrow')} style={{ width: '2rem' }} src={copy}></img>
+          <img alt='copy' className={shuttleInCx('copy')} src={copy}></img>
         </div>
       </label>
       <p

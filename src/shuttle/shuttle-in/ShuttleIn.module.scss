@@ -15,10 +15,26 @@
 }
 
 .address-input {
+  position: relative;
   &.small {
     margin-top: 2rem;
   }
   &.large {
     margin-top: 1.5rem;
+  }
+}
+
+.copy {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  &.small {
+    right: 2rem;
+    width: 2rem;
+  }
+  &.large {
+    right: 1.625rem;
+    width: 1rem;
   }
 }

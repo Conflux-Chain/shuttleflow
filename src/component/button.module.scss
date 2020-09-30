@@ -1,5 +1,6 @@
 .btn {
   background: #44d7b6;
+  color: white;
   box-shadow: 0px 0px 0px transparent;
   border: 0px solid transparent;
   text-shadow: 0px 0px 0px transparent;
@@ -10,11 +11,12 @@
     background: #9c9c9c;
     cursor: not-allowed;
   }
-  &:focus{
+  &:focus {
     outline: none;
   }
   &.small {
     height: 6.875rem;
+    font-size: 2rem;
   }
   &.large {
     height: 4.5rem;

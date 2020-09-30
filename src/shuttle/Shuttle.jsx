@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Switch, Route, Link, Redirect } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+import layoutBottomState from '../layout/LayoutButtomState'
 
 import ShuttleIn from './shuttle-in/ShuttleIn'
 import ShuttleOut from './shuttle-out/ShuttleOut'
@@ -13,18 +15,24 @@ import outActiveSvg from './out-active.svg'
 import outSvg from './out.svg'
 
 import MenuLink from '../component/MenuLink'
-import useIsSamll from '../component/useSmallScreen'
 import useStyle from '../component/useStyle'
+
 
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation()
   const inUrl = `${url}/in`
   const outUrl = `${url}/out`
-  const isSmall = useIsSamll()
+  const [, setLayoutBottom] = useRecoilState(layoutBottomState)
+
+  useEffect(() => {
+    setLayoutBottom('8.5rem')
+    return () => setLayoutBottom('0rem')
+  }, [])
+
   return (
-    <div>
-      <nav className={cx(isSmall ? 'nav' : 'nav')}>
+    <>
+      <nav className={cx('nav')}>
         <MenuLink
           to={inUrl}
           render={({ active }) => {
@@ -58,6 +66,6 @@ export default function Shuttle({ match: { path, url } }) {
         <Route path={`${path}/in`} component={ShuttleIn} />
         <Route path={`${path}/out`} component={ShuttleOut} />
       </Switch>
-    </div>
+    </>
   )
 }
