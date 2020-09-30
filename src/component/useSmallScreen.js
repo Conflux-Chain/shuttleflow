@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const mediaQuery = window.matchMedia('(max-width: 900px)')
+const mediaQuery = window.matchMedia('(max-width: 675px)')
 
 export default function useIsSamll() {
   const [isSmall, setIsSmall] = useState(mediaQuery.matches)
