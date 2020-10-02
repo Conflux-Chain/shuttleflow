@@ -10,7 +10,7 @@ export default function Search({ searchTxt, setSearchTxt }) {
   const [searchCx, inputCx] = useStyle(seachStyle, inputStyle)
   return (
     <div className={searchCx('input')}>
-      <img src={searchIcon}></img>
+      <img alt='search' src={searchIcon}></img>
       <input
         className={inputCx('input-common')}
         onChange={(e) => {

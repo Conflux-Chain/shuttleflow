@@ -109,3 +109,41 @@
     flex-direction: column;
   }
 }
+
+.frequent-container {
+  justify-content: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  &.small {
+    margin-bottom: 4.17rem;
+  }
+
+  .active {
+    background-color: #44d7b6 !important;
+  }
+  .frequent {
+    cursor: pointer;
+    &.small {
+      font-size: 1.875rem;
+      height: 3.375rem;
+      padding: 0 2.25rem;
+      border-radius: 1.6875rem;
+      margin-bottom: 1.5rem;
+      margin-right: 2rem;
+    }
+    &.large {
+      font-size: 1.125rem;
+      height: 2.25rem;
+      padding: 0 2rem;
+      border-radius: 1.125rem;
+      margin-bottom: 1rem;
+      margin-right: 1.175rem;
+    }
+
+    color: white;
+    display: flex;
+
+    align-items: center;
+    background: rgba($color: #f8f8f8, $alpha: 0.2);
+  }
+}

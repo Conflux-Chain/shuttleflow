@@ -36,6 +36,7 @@ export default function LayoutSmall(props) {
             {...props}
             after={
               <img
+                alt='ham'
                 className={cx('ham')}
                 src={dropdown ? close : ham}
                 onClick={() => {
@@ -48,11 +49,12 @@ export default function LayoutSmall(props) {
       ) : (
           <header className={cx('header', 'top-level')}>
             <Link to="/">
-              <img className={cx('logo')} src={logo}></img>
+              <img alt='logo' className={cx('logo')} src={logo}></img>
             </Link>
             <div className={cx('right')}>
               <span>Address</span>
               <img
+                alt='ham'
                 className={cx('ham')}
                 src={dropdown ? close : ham}
                 onClick={() => {

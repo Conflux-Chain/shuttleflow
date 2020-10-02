@@ -113,6 +113,7 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
           placeholder={t('placeholder.ctoken-in')}
         />
         <img
+          alt='token'
           onClick={() => {
             history.push({
               pathname: '/token',
@@ -164,7 +165,7 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
             <span>
               {t('txt.shuttle-out-fee', tokenInfo)}
             </span>
-            <img src={question}></img>
+            <img alt='?' src={question}></img>
           </span>
         </div>
       }
@@ -184,7 +185,7 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
       <label className={shuttleOutCx('address-container')}>
         <div className={shuttleCx('title', 'with-question')}>
           <span>{t('txt.out-address')}</span>
-          <img src={question}></img>
+          <img alt='?' src={question}></img>
         </div>
         <div className={shuttleOutCx('address-input')}>
           <input

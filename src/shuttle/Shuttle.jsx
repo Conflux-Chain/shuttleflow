@@ -28,7 +28,7 @@ export default function Shuttle({ match: { path, url } }) {
   useEffect(() => {
     setLayoutBottom('8.5rem')
     return () => setLayoutBottom('0rem')
-  }, [])
+  }, [setLayoutBottom])
 
   return (
     <>
@@ -39,7 +39,7 @@ export default function Shuttle({ match: { path, url } }) {
             return (
               <div className={cx('item', { active })}>
                 <Link to={inUrl}>
-                  <img src={active ? inActiveSvg : inSvg}></img>
+                  <img alt='in' src={active ? inActiveSvg : inSvg}></img>
                   <span>{t('btn.shuttle-in')}</span>
                 </Link>
               </div>
@@ -53,7 +53,7 @@ export default function Shuttle({ match: { path, url } }) {
             return (
               <div className={cx('item', { active })}>
                 <Link to={outUrl}>
-                  <img src={active ? outActiveSvg : outSvg}></img>
+                  <img alt='out' src={active ? outActiveSvg : outSvg}></img>
                   <span>{t('btn.shuttle-out')}</span>
                 </Link>
               </div>

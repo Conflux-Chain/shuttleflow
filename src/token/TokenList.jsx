@@ -3,7 +3,8 @@ import useStyle from '../component/useStyle'
 import useSWR from 'swr'
 
 import linkSrc from './link.svg'
-import styles from './TokenList.module.scss'
+import tokenListStyles from './TokenList.module.scss'
+import titleStyles from './title.module.scss'
 import Check from './Check.jsx'
 import { useTranslation } from 'react-i18next'
 
@@ -11,11 +12,20 @@ import swrTokenListFetcher from '../data/mock/swrTokenListFetcher'
 import swrSearchTokenFetcher from '../data/mock/swrSearchTokenFetcher'
 
 
+const FREQUENT_TOKENS = [
+    'btc',
+    'eth',
+    '0x_address_of_usdt',
+    '0x_address_of_dai',
+    '0x_address_of_usdc'
+]
+
 export default function TokenList({
     token,
     setToken,
     search = '',
     cToken,
+    frequent,
     showMortgage,
     setIsNotAvailable, //if the corresponsing cToken available
 }) {
@@ -33,7 +43,7 @@ export default function TokenList({
 
 
     const { t } = useTranslation()
-    const [cx] = useStyle(styles)
+    const [ListCx, titleCx] = useStyle(tokenListStyles, titleStyles)
     const isNotAvailable = useRef(false)
 
 
@@ -41,7 +51,7 @@ export default function TokenList({
         if (setIsNotAvailable) {
             setIsNotAvailable(isNotAvailable.current)
         }
-    }, [search])
+    }, [search, setIsNotAvailable])
 
     //prefetch not work properly somehow
     useEffect(() => {
@@ -52,75 +62,113 @@ export default function TokenList({
 
 
 
+
+
     return (
-        <div className={cx('container')}>
-            {displayedList.length === 0 ? <h1>Not found</h1> :
-                displayedList.map(
-                    ({
-                        symbol,
-                        cSymbol,
-                        name,
-                        cName,
-                        address,
-                        cAddress,
-                        notAvailable,
-                        minMortgage,
-                        icon,
-                    }) => {
-                        if (notAvailable) {
-                            isNotAvailable.current = true
-                        }
-                        let _address = address
-                        const checked = token === _address
-                        if (cToken) {
-                            symbol = cSymbol
-                            address = cAddress
-                            name = cName
-                        }
-                        return (
-                            <div key={symbol} className={cx('row', { checked })}>
-                                <label>
-                                    <Check active={checked} />
-                                    <input
-                                        type="checkbox"
-                                        onChange={() => setToken(checked ? '' : _address)}
-                                        checked={checked}
-                                    />
-                                </label>
-                                <img className={cx('icon')} src={icon}></img>
-                                <div className={cx('two-row')}>
-                                    <div className={cx('symbol-row')}>
-                                        <span className={cx('symbol')}>{symbol}</span>
+        //we should combine frequent token and tokenlist in one component
+        //cause they share the same container of fixed height
+        <div
+            style={{ maxHeight: 'calc(100vh - 32rem)', overflow: 'auto' }}>
+            <div className={titleCx('title')}>{t('txt.frequent-token')}</div>
+            <div className={ListCx('frequent-container')}>
+                {FREQUENT_TOKENS.map((_address) => {
+                    let tokenData, active
+                    if (tokenList) {
+                        tokenData = tokenList.find(({ address }) => address === _address)
 
-                                        {notAvailable && (
-                                            <span className={cx('not-available')}>
-                                                {t('word.not-available')}
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    <span className={cx('name')}>{name}</span>
-                                </div>
-
-                                <div className={cx('two-row')} style={{ alignItems: 'flex-end' }}>
-                                    {showMortgage && (
-                                        <span className={cx('mortgage')}>{minMortgage + 'cETH'}</span>
-                                    )}
-
-                                    <div className={cx('link')}>
-                                        <span className={cx('link-txt')}>
-                                            {address && address.startsWith('0x') && short(address)}
-                                        </span>
-                                        {address && address.startsWith('0x') && (
-                                            <img className={cx('link-img')} src={linkSrc}></img>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        )
+                        active = tokenData.address === token
                     }
-                )}
+                    return (
+                        <div
+                            onClick={tokenData && (() => setToken(tokenData.address))}
+                            className={ListCx({ active }, 'frequent')} key={_address}>
+                            {tokenData && (cToken ? tokenData.cSymbok : tokenData.symbol)}
+                        </div>
+                    )
+                })}
+            </div>
+            <div className={titleCx('title')}>{t('txt.token-list')}</div>
+
+            <div className={ListCx('container')}>
+                {displayedList.length === 0 ? <h1>Not found</h1> :
+                    displayedList.map(
+                        ({
+                            symbol,
+                            cSymbol,
+                            name,
+                            cName,
+                            address,
+                            cAddress,
+                            notAvailable,
+                            minMortgage,
+                            icon,
+                        }) => {
+                            if (notAvailable) {
+                                isNotAvailable.current = true
+                            }
+                            let _address = address
+                            const checked = token === _address
+                            if (cToken) {
+                                symbol = cSymbol
+                                address = cAddress
+                                name = cName
+                            }
+                            return (
+                                <div key={symbol} className={ListCx('row', { checked })}>
+                                    <label>
+                                        <Check active={checked} />
+                                        <input
+                                            type="checkbox"
+                                            onChange={() => setToken(checked ? '' : _address)}
+                                            checked={checked}
+                                        />
+                                    </label>
+                                    <img alt='icon' className={ListCx('icon')} src={icon}></img>
+                                    <div className={ListCx('two-row')}>
+                                        <div className={ListCx('symbol-row')}>
+                                            <span className={ListCx('symbol')}>{symbol}</span>
+
+                                            {notAvailable && (
+                                                <span className={ListCx('not-available')}>
+                                                    {t('word.not-available')}
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <span className={ListCx('name')}>{name}</span>
+                                    </div>
+
+                                    <div className={ListCx('two-row')} style={{ alignItems: 'flex-end' }}>
+                                        {showMortgage && (
+                                            <span className={ListCx('mortgage')}>{minMortgage + 'cETH'}</span>
+                                        )}
+
+                                        <div className={ListCx('link')}>
+                                            <span className={ListCx('link-txt')}>
+                                                {address && address.startsWith('0x') && short(address)}
+                                            </span>
+                                            {address && address.startsWith('0x') && (
+                                                <img alt='link' className={ListCx('link-img')} src={linkSrc}></img>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        }
+                    )}
+            </div>
+
+
+            {/* <TokenList
+          search={searchTxt}
+          token={token}
+          setToken={setToken}
+          cToken={cToken}
+          setIsNotAvailable={setIsNotAvailable}
+        /> */}
         </div>
+
+
     )
 }
 
