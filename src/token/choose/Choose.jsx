@@ -1,43 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-import TokenList from '../TokenList'
-import Search from '../Search'
+import TokenList from './TokenList'
+import Search from './Search'
+import Button from './Button'
 
 import { useTranslation } from 'react-i18next'
 
 import chooseStyles from './Choose.module.scss'
-import buttonStyle from '../../component/button.module.scss'
 
 
 import useStyle from '../../component/useStyle'
-import layoutBottomState from '../../layout/LayoutButtomState'
-
-import { useRecoilState } from 'recoil'
-import useIsSamll from '../../component/useSmallScreen'
 import { buildSearch, parseSearch } from '../../component/urlSearch'
 
 
 
-export default function ChooseToken({ location: { search }, history }) {
-  const [chooseCx, btnCx] = useStyle(chooseStyles, buttonStyle)
-  const { next, cToken, ...extra } = parseSearch(search)
+export default function ChooseToken({ location: { search }, caption, next: nextFromProps }) {
+  const [chooseCx] = useStyle(chooseStyles)
+  const { next: nextFromUrl, cToken, ...extra } = parseSearch(search)
 
+  const next = nextFromProps || nextFromUrl
   const [searchTxt, setSearchTxt] = useState('')
   const [isNotAvailable, setIsNotAvailable] = useState(false)
   const [token, setToken] = useState('')
   const { t } = useTranslation()
-  const isSmall = useIsSamll()
 
-  const [, setLayoutBottom] = useRecoilState(layoutBottomState)
-
-  useEffect(() => {
-    if (isSmall) {
-      setLayoutBottom('14rem')
-      return () => {
-        setLayoutBottom('0rem')
-      }
-    }
-  }, [isSmall, setLayoutBottom])
 
   return (
     <div className={chooseCx('container')}>
@@ -51,22 +37,19 @@ export default function ChooseToken({ location: { search }, history }) {
         setIsNotAvailable={setIsNotAvailable}
       />
 
-      <div className={chooseCx('btn-container')}>
-        <button
-          onClick={() => {
-            history.push({
-              pathname: next,
-              search: buildSearch({ token, ...extra }),
-            })
-          }}
-          className={btnCx('btn') + ' ' + chooseCx('btn')}
-          disabled={!token && !isNotAvailable}
-        >
-          {t(
+      <Button
+        path={{
+          pathname: next,
+          search: buildSearch({ token, ...extra }),
+        }}
+        disabled={caption ? !token : (!token && !isNotAvailable)}>
+        {caption ? 'Be caption' :
+          t(
             isNotAvailable ? 'btn.add-token' : 'btn.choose-token-btn'
           )}
-        </button>
-      </div>
-    </div >
+      </Button>
+
+
+    </div>
   )
 }

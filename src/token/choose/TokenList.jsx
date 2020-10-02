@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import useStyle from '../component/useStyle'
+import useStyle from '../../component/useStyle'
 import useSWR from 'swr'
 
 import linkSrc from './link.svg'
@@ -8,8 +8,8 @@ import titleStyles from './title.module.scss'
 import Check from './Check.jsx'
 import { useTranslation } from 'react-i18next'
 
-import swrTokenListFetcher from '../data/mock/swrTokenListFetcher'
-import swrSearchTokenFetcher from '../data/mock/swrSearchTokenFetcher'
+import swrTokenListFetcher from '../../data/mock/swrTokenListFetcher'
+import swrSearchTokenFetcher from '../../data/mock/swrSearchTokenFetcher'
 
 
 const FREQUENT_TOKENS = [
@@ -68,14 +68,13 @@ export default function TokenList({
         //we should combine frequent token and tokenlist in one component
         //cause they share the same container of fixed height
         <div
-            style={{ maxHeight: 'calc(100vh - 32rem)', overflow: 'auto' }}>
+            style={{ height: 'calc(100vh - 32rem)', overflow: 'auto' }}>
             <div className={titleCx('title')}>{t('txt.frequent-token')}</div>
             <div className={ListCx('frequent-container')}>
                 {FREQUENT_TOKENS.map((_address) => {
                     let tokenData, active
                     if (tokenList) {
                         tokenData = tokenList.find(({ address }) => address === _address)
-
                         active = tokenData.address === token
                     }
                     return (
