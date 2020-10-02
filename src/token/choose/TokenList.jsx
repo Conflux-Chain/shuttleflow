@@ -69,23 +69,25 @@ export default function TokenList({
         //cause they share the same container of fixed height
         <div
             style={{ height: 'calc(100vh - 32rem)', overflow: 'auto' }}>
-            <div className={titleCx('title')}>{t('txt.frequent-token')}</div>
-            <div className={ListCx('frequent-container')}>
-                {FREQUENT_TOKENS.map((_address) => {
-                    let tokenData, active
-                    if (tokenList) {
-                        tokenData = tokenList.find(({ address }) => address === _address)
-                        active = tokenData.address === token
-                    }
-                    return (
-                        <div
-                            onClick={tokenData && (() => setToken(tokenData.address))}
-                            className={ListCx({ active }, 'frequent')} key={_address}>
-                            {tokenData && (cToken ? tokenData.cSymbok : tokenData.symbol)}
-                        </div>
-                    )
-                })}
-            </div>
+            {frequent && <>
+                <div className={titleCx('title')}>{t('txt.frequent-token')}</div>
+                <div className={ListCx('frequent-container')}>
+                    {FREQUENT_TOKENS.map((_address) => {
+                        let tokenData, active
+                        if (tokenList) {
+                            tokenData = tokenList.find(({ address }) => address === _address)
+                            active = tokenData.address === token
+                        }
+                        return (
+                            <div
+                                onClick={tokenData && (() => setToken(tokenData.address))}
+                                className={ListCx({ active }, 'frequent')} key={_address}>
+                                {tokenData && (cToken ? tokenData.cSymbok : tokenData.symbol)}
+                            </div>
+                        )
+                    })}
+                </div>
+            </>}
             <div className={titleCx('title')}>{t('txt.token-list')}</div>
 
             <div className={ListCx('container')}>

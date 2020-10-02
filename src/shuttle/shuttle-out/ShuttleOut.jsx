@@ -23,7 +23,7 @@ import clear from '../../component/clear.svg'
 import History from '../../history/History'
 
 
-const __mock_balance = 100
+const __mock_balance = 100  
 export default function ShuttleOut({ location: { search }, match: { url }, history }) {
   const [commonCx, buttonCx, shuttleCx, shuttleOutCx] = useStyle(
     inputStyles,
@@ -58,9 +58,6 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
     mode: 'onBlur'
   });
   const onSubmit = data => console.log(data);
-
-  console.log(token, tokenInfo, errors)
-
 
   if (token && !tokenInfo) {
     return null //the token info is loading
@@ -150,7 +147,7 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
               setValue('outamount', __mock_balance)
             }}
             className={shuttleOutCx('all') + ' ' + shuttleCx('small-text')}>
-            {t('btn.shuttle-out-all')}
+            {t('btn.all')}
           </div>
         </div>
 

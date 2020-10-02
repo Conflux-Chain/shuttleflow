@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import { buildSearch, parseSearch } from '../../component/urlSearch'
 
 import TokenList from './TokenList'
 import Search from './Search'
 import Button from './Button'
 
-import { useTranslation } from 'react-i18next'
-
-import chooseStyles from './Choose.module.scss'
-
 
 import useStyle from '../../component/useStyle'
-import { buildSearch, parseSearch } from '../../component/urlSearch'
-
+import chooseStyles from './Choose.module.scss'
 
 
 export default function ChooseToken({ location: { search }, caption, next: nextFromProps }) {
@@ -32,6 +30,8 @@ export default function ChooseToken({ location: { search }, caption, next: nextF
       <TokenList
         search={searchTxt}
         token={token}
+        frequent={!caption}
+        showMortgage={caption}
         setToken={setToken}
         cToken={cToken}
         setIsNotAvailable={setIsNotAvailable}
