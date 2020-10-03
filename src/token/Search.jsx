@@ -16,7 +16,7 @@ export default function Search({ searchTxt, setSearchTxt }) {
         onChange={(e) => {
           setSearchTxt(e.target.value)
         }}
-        width={'100%'}
+        style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
         value={searchTxt}
         placeholder={t('placeholder.token-search')}
       />

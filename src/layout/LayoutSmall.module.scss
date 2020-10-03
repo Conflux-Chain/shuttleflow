@@ -7,9 +7,6 @@ $padding: 2rem;
 .main {
   left: 0;
   right: 0;
-  padding: 0 $padding;
-  position: fixed;
-  top: 6.625rem;
   overflow: scroll;
 }
 .header {
@@ -22,7 +19,6 @@ $padding: 2rem;
   justify-content: space-between;
   align-items: center;
   line-height: 3.625rem;
-  margin-bottom: 2rem;
 
   //address
   font-size: 1.5rem;

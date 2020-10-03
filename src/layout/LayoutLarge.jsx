@@ -7,16 +7,18 @@ import Main from './Main'
 import logo from './logo.svg'
 
 import classNamesBind from 'classnames/bind'
-import styles from './Layout.module.scss'
+import styles from './LayoutLarge.module.scss'
 const cx = classNamesBind.bind(styles)
 
-export default function LayoutLarge() {
+
+export default function LayoutLarge({ history }) {
+
   return (
-    <div>
-      <header className={cx('header-lg')}>
-        <Link to="/">
-          <img src={logo}></img>
-        </Link>
+    <div className={cx('container')}>
+      <header className={cx('header')}>
+
+        <img onClick={()=>history.push('/')} src={logo}></img>
+
         <div className={cx('right')}>
           <span>Address</span>
           <Link to="/history">History</Link>
@@ -28,7 +30,7 @@ export default function LayoutLarge() {
           </Select>
         </div>
       </header>
-      <div className={cx('container', 'large')}>
+      <div className={cx('main')}>
         <Main />
       </div>
     </div>

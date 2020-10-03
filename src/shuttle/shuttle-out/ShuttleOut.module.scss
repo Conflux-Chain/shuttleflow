@@ -1,0 +1,65 @@
+.amount-container {
+    display: block;
+    &.small {
+        margin-top: 4rem;
+    }
+    &.large {
+        margin-top: 2.25rem;
+    }
+}
+
+.amount-input {
+    position: relative;
+    &.small {
+        margin-top: 2rem;
+    }
+    &.large {
+        margin-top: 1.5rem;
+    }
+}
+.all {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    color: #44d7b6;
+    cursor: pointer;
+    &.small {
+        right: 2rem;
+    }
+    &.large {
+        right: 1.5625rem;
+    }
+}
+
+.address-container {
+    display: block;
+
+    &.small {
+        margin-top: 7rem;
+    }
+    &.large {
+        margin-top: 3rem;
+    }
+}
+
+.address-input {
+    position: relative;
+    &.small {
+        margin-top: 2rem;
+    }
+    &.large {
+        margin-top: 1.5rem;
+    }
+}
+
+.btn {
+    &.small {
+        margin-top: 6rem;
+        width: 90%;
+    }
+    &.large {
+        width: 100%;
+        margin-top: 5.6875rem;
+    }
+}

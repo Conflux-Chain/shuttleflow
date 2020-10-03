@@ -1,28 +1,44 @@
 {
-  "word": {
-    "shuttle-in": "充值",
-    "shuttle-out": "提现",
-    "not-available": "Not Available"
-  },
   "placeholder": {
     "token-in": "选择Token",
     "ctoken-in": "您将收到的Token",
+    "shuttle-out-amount": "最少数量 {{outMin}} {{cSymbol}}",
     "shuttle-in-address": "钱包地址",
-
+    "input-amount": "输入数量",
+    "input-address": "输入钱包地址",
     "token-search": "搜索 Token 名称或合约地址"
   },
-  "sentence": {
+  "errors": {
+    "required": "此项为必填项",
+    "min": "数值必须大于等于 {{outMin}} {{cSymbol}}",
+    "insufficient": "余额不足",
+    "invalid-address": "钱包地址不正确",
+    "number": "输入必须为数字"
+  },
+  "btn": {
+    "shuttle-in": "充值",
+    "shuttle-out": "提现",
+    "shuttle-out-all": "全部",
     "choose-lng": "选择语言",
-    "shuttle-in-address": "Shuttle In 地址",
     "choose-token": "选择 Token",
     "token-caption": "成为 Token Caption",
-    "frequent-token": "常用 Token",
-    "token-list": "Token 列表",
-    "choose-token-btn": "选择该 Token",
     "add-token": "添加该 Token",
+    "choose-token-btn": "选择该 Token",
+    "out-button": "Shuttle Out"
+  },
+  "txt": {
     "out-amount": "Shuttle Out 数量",
     "out-address": "Shuttle Out 地址",
-    "out-button": "Shuttle Out"
+    "out-balance": "可用余额 {{amount}} {{cSymbol}}",
+    "shuttle-in-amount": "最小 Shuttle In 数量 {{amount}} {{token}}",
+    "shuttle-in-fee": "Shuttle In 手续费 {{amount}} {{ctoken}}",
+    "shuttle-out-fee": "手续费 {{outFee}} {{cSymbol}}",
+    "latest-address-please": "请使用最新的地址操作备份",
+    "qrcode": "查看地址二维码",
+    "not-available": "Not Available",
+    "shuttle-in-address": "Shuttle In 地址",
+    "frequent-token": "常用 Token",
+    "token-list": "Token 列表"
   },
   "para": {}
 }

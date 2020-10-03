@@ -46,22 +46,22 @@ export default function LayoutSmall(props) {
           />
         </div>
       ) : (
-        <header className={cx('header', 'top-level')}>
-          <Link to="/">
-            <img className={cx('logo')} src={logo}></img>
-          </Link>
-          <div className={cx('right')}>
-            <span>Address</span>
-            <img
-              className={cx('ham')}
-              src={dropdown ? close : ham}
-              onClick={() => {
-                setDropdown((x) => !x)
-              }}
-            ></img>
-          </div>
-        </header>
-      )}
+          <header className={cx('header', 'top-level')}>
+            <Link to="/">
+              <img className={cx('logo')} src={logo}></img>
+            </Link>
+            <div className={cx('right')}>
+              <span>Address</span>
+              <img
+                className={cx('ham')}
+                src={dropdown ? close : ham}
+                onClick={() => {
+                  setDropdown((x) => !x)
+                }}
+              ></img>
+            </div>
+          </header>
+        )}
 
       <CSSTransition
         nodeRef={nodeRef}
@@ -83,14 +83,15 @@ export default function LayoutSmall(props) {
           <div>{t('sentence.choose-lng')}</div>
         </div>
       </CSSTransition>
-      <div
+      <main
         className={cx('main')}
         style={{
-          maxHeight: `calc(100vh - 6.625rem - ${bottomHeight})`,
+          //7.625rem is the height header
+          maxHeight: `calc(100vh - 7.625rem - ${bottomHeight})`,
         }}
       >
         <Main />
-      </div>
+      </main>
     </div>
   )
 }

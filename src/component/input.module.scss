@@ -1,19 +1,55 @@
 .input-common {
   width: 100%;
-  background-color: rgba($color: #000000, $alpha: 0.4);
+  background-color: rgba(229, 229, 229, 0.2);
   color: white;
   border: none;
   &.small {
+    font-size: 1.875rem;
     height: 6.25rem;
     padding-left: 2rem;
+  }
+
+  &.large {
+    font-size: 1.25rem;
+    height: 4.25rem;
+    padding-left: 1.5rem;
   }
 
   &:focus {
     box-shadow: none;
     outline: none;
   }
+
   &::placeholder {
     font-weight: 500;
     color: rgba($color: #ffffff, $alpha: 0.4);
+  }
+  &.small::placeholder {
+    font-size: 1.875rem;
+  }
+  &.large::placeholder {
+    font-size: 1.25rem;
+  }
+}
+
+.error {
+  background-color: rgba($color: #f3504f, $alpha: 0.2);
+  border: solid 1px #f3504f;
+}
+
+.clear {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  cursor: pointer;
+
+  &.small {
+    width: 1.5rem;
+    right: 2rem;
+  }
+  &.large {
+    width: 1.5rem;
+    right: 2rem;
   }
 }

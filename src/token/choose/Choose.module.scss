@@ -8,15 +8,27 @@
       margin-top: 3rem;
       margin-bottom: 1.5rem;
     }
+    &.large {
+      font-size: 1.125rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
     color: #999999;
     font-weight: 500;
   }
   .frequent-container {
-    justify-content: space-between;
+    justify-content: flex-start;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 4.17rem;
+    &.small {
+      margin-bottom: 4.17rem;
+    }
+
+    .active {
+      background-color: #44d7b6 !important;
+    }
     .frequent {
+      cursor: pointer;
       &.small {
         font-size: 1.875rem;
         height: 3.375rem;
@@ -25,7 +37,14 @@
         margin-bottom: 1.5rem;
         margin-right: 2rem;
       }
-      cursor: pointer;
+      &.large {
+        font-size: 1.125rem;
+        height: 2.25rem;
+        padding: 0 2rem;
+        border-radius: 1.125rem;
+        margin-bottom: 1rem;
+        margin-right: 1.175rem;
+      }
 
       color: white;
       display: flex;
@@ -45,6 +64,14 @@
       .btn {
         margin-top: 3rem;
         width: 90%;
+      }
+    }
+    &.large {
+      .btn {
+        height: 4.5rem;
+        margin-top: 3rem;
+        width: 100%;
+        margin: 2.25rem 0;
       }
     }
   }

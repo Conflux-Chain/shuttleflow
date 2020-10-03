@@ -3,30 +3,38 @@
     margin-top: 5.75rem;
   }
 }
-.down {
+
+.address {
+  display: block;
   &.small {
-    height: 5.5rem;
-    img {
-      width: 1.5rem;
-    }
+    margin-top: 6.25rem;
   }
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  &.large {
+    margin-top: 3rem;
+  }
 }
 
-.title {
-  margin-top: 6.25rem;
-  margin-bottom: 2rem;
-  color: white;
-  font-size: 2rem;
-  display: flex;
-
+.address-input {
+  position: relative;
   &.small {
-    img {
-      width: 2.25rem;
-      margin-left: 1rem;
-      cursor: pointer;
-    }
+    margin-top: 2rem;
+  }
+  &.large {
+    margin-top: 1.5rem;
+  }
+}
+
+.copy {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  &.small {
+    right: 2rem;
+    width: 2rem;
+  }
+  &.large {
+    right: 1.625rem;
+    width: 1rem;
   }
 }
