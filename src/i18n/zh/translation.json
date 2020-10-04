@@ -16,7 +16,10 @@
     "invalid-address": "钱包地址不正确",
     "number": "输入必须为数字",
     "above-zero": "数值必须大于0",
-    "above-fee": "数值必须大于手续费",
+    "above-in-fee": "数值必须大于充值手续费",
+    "above-out-fee": "数值必须大于提现手续费",
+    "below-in-fee": "数值必须小于充值数量",
+    "below-out-fee": "数值必须小于提现数量",
     "above-current": "数值必须大于当前抵押"
   },
   "btn": {
@@ -28,7 +31,9 @@
     "token-caption": "成为 Token Caption",
     "add-token": "添加该 Token",
     "choose-token-btn": "选择该 Token",
-    "out-button": "Shuttle Out"
+    "out-button": "Shuttle Out",
+    "be-caption": "成为舰长",
+    "update": "更新"
   },
   "label": {
     "shuttle-in-fee": "Shuttle In 手续费",
@@ -55,7 +60,8 @@
     "pending-cost": "待处理交易预估成本",
     "lock-down": "规则解冻倒计时",
     "min-mortgage": "最小抵押数量 {{minMortgage}} cETH",
-    "ceth-balance": "钱包余额 {{amount}} cETH"
+    "ceth-balance": "钱包余额 {{amount}} cETH",
+    "for-not-update": "表示不更新抵押数量"
   },
   "para": {}
 }
