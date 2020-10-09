@@ -111,9 +111,19 @@
 
   &.small {
     font-size: 1.5rem;
+    img {
+      cursor: pointer;
+      width: 2rem;
+      margin-left: 1rem;
+    }
   }
   &.large {
     font-size: 1rem;
+    img {
+      cursor: pointer;
+      width: 1.25rem;
+      margin-left: 0.75rem;
+    }
   }
 }
 
