@@ -23,6 +23,7 @@ export function TokenNavigation({ history, location: { search }, after }) {
   return (
     <nav className={cx('nav-container')}>
       <img
+        alt='back'
         className={cx('back')}
         src={back}
         onClick={() => history.goBack()}

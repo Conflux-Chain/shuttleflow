@@ -1,6 +1,14 @@
 .nav-container {
   display: flex;
   justify-content: space-between;
+  position: sticky;
+  // todo: still not sure how z-index related to sticky and relative
+  z-index: 1; 
+
+  &.large {
+    background-color: #1b1b1b;
+  }
+  top: 0;
   .back {
     cursor: pointer;
     &.small {

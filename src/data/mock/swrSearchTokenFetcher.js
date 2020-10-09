@@ -21,7 +21,7 @@ export default function swrSearchTokenFetcher(url, address, type = 'token') {
         }
         setTimeout(() => {
             resolve(result)
-        }, 3000)
+        }, 1000)
 
 
     })

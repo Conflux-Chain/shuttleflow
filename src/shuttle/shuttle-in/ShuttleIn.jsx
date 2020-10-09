@@ -75,7 +75,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             search: `?next=${url}&cToken=1`,
           }}
         >
-          <img className={shuttleCx('arrow')} src={arrow}></img>
+          <img alt='arrow' className={shuttleCx('arrow')} src={arrow}></img>
         </Link>
       </div>
 
@@ -84,7 +84,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         <span>{t('txt.shuttle-in-amount', { amount: tokenInfo.inMin, token: tokenInfo.symbol })}</span>
         <span style={{ display: 'flex' }}>
           <span>{t('txt.shuttle-in-fee', { amount: tokenInfo.inFee, ctoken: tokenInfo.cSymbol })}</span>
-          <img src={question}></img>
+          <img alt='?' src={question}></img>
         </span>
 
       </p>}

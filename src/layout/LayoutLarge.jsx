@@ -17,7 +17,7 @@ export default function LayoutLarge({ history }) {
     <div className={cx('container')}>
       <header className={cx('header')}>
 
-        <img onClick={()=>history.push('/')} src={logo}></img>
+        <img alt='home' onClick={()=>history.push('/')} src={logo}></img>
 
         <div className={cx('right')}>
           <span>Address</span>
