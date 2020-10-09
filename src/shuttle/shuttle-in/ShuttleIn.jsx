@@ -3,10 +3,13 @@ import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import useSWR from 'swr'
+import QRCode from 'qrcode.react'
 
 import arrow from '../arrow.svg'
 import down from '../down.svg'
 import copy from './copy.svg'
+import tick from './tick.svg'
+import qr from './qr.svg'
 import question from '../../component/question.svg'
 import Modal from '../../component/Modal'
 import modalStyles from '../../component/modal.module.scss'
@@ -35,6 +38,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
   const [addressPopup, setAddressPopup] = useState(false)
   const [feePopup, setFeePopup] = useState(false)
   const [copyPopup, setCopyPopup] = useState(false)
+  const [qrPopup, setQrPopup] = useState(false)
 
   //useful for copying 
   const inputRef = useRef(null)
@@ -128,22 +132,40 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       <p
         className={shuttleCx('small-text')}>
         <span>{t('txt.latest-address-please')}</span>
-        <span style={{ display: 'flex' }}>
+        <span onClick={() => setQrPopup(true)} style={{ display: 'flex', cursor: 'pointer' }}>
+          <img style={{ marginRight: '1rem' }} alt='qr' src={qr}></img>
           <span>{t('txt.qrcode')}</span>
         </span>
       </p>
-      <Modal show={addressPopup}>
+      <Modal show={addressPopup} clickAway={() => setAddressPopup(false)}>
         <div className={modalCx('title')}>{t('popup.shuttle-in-title')}</div>
         <div className={modalCx('content')}>{t('popup.shuttle-in-address-content')}</div>
         <div className={modalCx('btn')} onClick={() => setAddressPopup(false)}>{t('popup.shuttle-in-btn')}</div>
       </Modal>
-      <Modal show={feePopup}>
+      <Modal show={feePopup} clickAway={() => setFeePopup(false)}>
         <div className={modalCx('title')}>{t('popup.shuttle-in-title')}</div>
         <div className={modalCx('content')}>{t('popup.shuttle-in-fee-content', tokenInfo)}</div>
         <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>{t('popup.shuttle-in-btn')}</div>
       </Modal>
-      <Modal show={copyPopup}>
-        <div className={modalCx('title')}>{'hello'}</div>
+      <Modal show={copyPopup} clickAway={() => setCopyPopup(false)}>
+        <div className={shuttleInCx('copy-popup')}>
+          <img alt='tick' src={tick}></img>
+          <div>{t('popup.copy')}</div>
+        </div>
+      </Modal>
+      <Modal show={copyPopup} clickAway={() => setCopyPopup(false)}>
+        <div className={shuttleInCx('copy-popup')}>
+          <img alt='tick' src={tick}></img>
+          <div>{t('popup.copy')}</div>
+        </div>
+      </Modal>
+      <Modal show={qrPopup} clickAway={() => setQrPopup(false)}>
+        <div >
+          <div className={modalCx('title')}>{t('popup.in-address')}</div>
+          <div style={{ display: 'flex', justifyContent: 'center', margin: '1.5rem' }}>
+            <QRCode value={address} />
+          </div>
+        </div>
       </Modal>
 
     </div>

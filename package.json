@@ -13,6 +13,7 @@
     "i18next": "^19.7.0",
     "json5-loader": "^4.0.0",
     "node-sass": "^4.14.1",
+    "qrcode.react": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.8.6",

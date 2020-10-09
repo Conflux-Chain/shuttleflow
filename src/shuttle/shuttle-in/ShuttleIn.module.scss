@@ -39,3 +39,26 @@
     width: 1rem;
   }
 }
+
+.copy-popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333333;
+  &.small {
+    font-size: 2rem;
+    img {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-right: 1.5rem;
+    }
+  }
+  &.large {
+    font-size: 1.5rem;
+    img {
+      width: 2rem;
+      height: 2rem;
+      margin-right: 1rem;
+    }
+  }
+}

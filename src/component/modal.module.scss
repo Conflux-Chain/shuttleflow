@@ -7,20 +7,28 @@
     right: 0;
     margin: auto;
     border-radius: 0.5rem;
-
+    background: white;
     &.small {
         padding: 2rem;
         width: 40rem;
-        background: white;
+    }
+    &.large {
+        padding: 1.5rem;
+        width: 28rem;
     }
 }
 
 .title {
     color: #333333;
     font-weight: bold;
+    text-align: center;
     &.small {
         font-size: 2rem;
         margin-top: 2rem;
+    }
+    &.large {
+        font-size: 1.5rem;
+        margin-top: 1rem;
         text-align: center;
     }
 }
@@ -31,6 +39,10 @@
     &.small {
         margin-top: 2rem;
         font-size: 1.75rem;
+    }
+    &.large {
+        margin-top: 1.5rem;
+        font-size: 1rem;
     }
 }
 
@@ -46,5 +58,11 @@
         padding: 0 9.5rem;
         height: 5.5rem;
         font-size: 1.75rem;
+    }
+    &.large {
+        margin: 2rem auto;
+        padding: 0 6.25rem;
+        height: 4.5rem;
+        font-size: 1.25rem;
     }
 }
