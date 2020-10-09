@@ -1,0 +1,78 @@
+.txt-container {
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    &.small {
+        line-height: 3rem;
+        margin-top: 6rem;
+        margin-bottom: 2.5rem;
+    }
+    &.large {
+        line-height: 1.75rem;
+        margin-top: 4rem;
+        margin-bottom: 1rem;
+    }
+    .left {
+        display: flex;
+        align-items: center;
+        .large-txt {
+            color: white;
+            &.small {
+                font-size: 2rem;
+                margin-right: 1.5rem;
+            }
+            &.large {
+                font-size: 1.375rem;
+                margin-right: 1rem;
+            }
+        }
+        .sync {
+            cursor: pointer;
+            &.small {
+                width: 2rem;
+                height: 2rem;
+            }
+            &.large{
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+        }
+
+        .loading {
+            animation: spin 4s linear infinite;
+        }
+    }
+    .right {
+        display: flex;
+        align-items: center;
+        color: rgba($color: #ffffff, $alpha: 0.4);
+        .small-txt {
+            cursor: pointer;
+            &.small {
+                font-size: 1.5rem;
+                margin-right: 1rem;
+            }
+            &.large{
+                font-size: 1rem;
+                margin-right: 0.5rem;
+            }
+        }
+        .more {
+            &.small {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+            &.large {
+                width: 0.8rem;
+                height: 0.8rem;
+            }
+        }
+    }
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}

@@ -20,7 +20,7 @@ import * as yup from 'yup';
 import { ErrorMessage } from "@hookform/error-message";
 import { buildSearch, parseSearch } from '../../component/urlSearch'
 import clear from '../../component/clear.svg'
-import History from '../../history/History'
+import History from './ShuttleOutHistory'
 
 
 const __mock_balance = 100  
@@ -218,6 +218,7 @@ export default function ShuttleOut({ location: { search }, match: { url }, histo
         value={t('btn.shuttle-out')}
         className={buttonCx('btn') + ' ' + shuttleOutCx('btn')} />
     </form>
+
     <History />
   </div>
   )

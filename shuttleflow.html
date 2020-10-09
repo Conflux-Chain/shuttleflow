@@ -24,15 +24,17 @@
 </p>
 <h4>Returns</h4>
 <h4>Example</h4>
-<pre><code class="lang-bash">$ curl -X POST --data '{"jsonrpc":"2.0","method":"getSpecificUserOperationList","params":[{"type":"mint","token":"eth","defi":"0x0000000000000000000000000000000000000000","address":"0x135d73d6ce217f8fe255f98e1589158972d8adc3","status":["doing","finished"]},0,10],"id":1}' -H "Content-Type: application/json" 127.0.0.1:8001
+<pre><code class="lang-bash">// finished:
+
+$ curl -X POST --data '{"jsonrpc":"2.0","method":"getSpecificUserOperationList","params":[{"type":"mint","token":"eth","defi":"0x0000000000000000000000000000000000000000","address":"0x135d73d6ce217f8fe255f98e1589158972d8adc3","status":["doing","finished"]},0,10],"id":1}' -H "Content-Type: application/json" 127.0.0.1:8001
 
 {
     "jsonrpc": "2.0",
     "id": 1,
     "result": {
         "txs": [{
-            "token": "eth",
-            "type": "cETH_mint",
+            "token": "eth", 
+            "type": "cETH_mint", 
             "nonce_or_txid": "0xf5fd4b2936d18395c4c6c1f282cef725c22770edf79029bbda97ee8d623222c2",
             "amount": "490000000000000000", 
             "user_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
@@ -103,7 +105,65 @@
         }],
         "total": 7
     }
+}
+
+// doing:
+
+$ curl -X POST --data '{"jsonrpc":"2.0","method":"getSpecificUserOperationList","params":[{"type":"mint","token":"0xe3e9ef570e9019cdce1aff76f3afb1fd8292556d","defi":"0x0000000000000000000000000000000000000000","address":"0x1a7b9a2238635d40536c12900ed637e739e6eb35","status":["doing"]},0,10],"id":1}' -H "Content-Type: application/json" 127.0.0.1:8001
+
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+        "txs": [{
+            "token": "0xe3e9ef570e9019cdce1aff76f3afb1fd8292556d",
+            "type": "cUSDT_mint",
+            "nonce_or_txid": "0x29015708e604e25ca2b27dcb3c62a528bdc222232fda13cab3992eafb235afc0",
+            "amount": "99000000",
+            "user_addr": "0x1a7b9a2238635d40536c12900ed637e739e6eb35",
+            "defi": "0x0000000000000000000000000000000000000000",
+            "to_addr": "0x1a7b9a2238635d40536c12900ed637e739e6eb35",
+            "signer": ["ppd", "fafa"],
+            "has_signed": true, 
+            "need": 2, 
+            "need_signers": ["fafa", "ppd"],
+            "status": "doing", 
+            "settled_tx": "0xf8e61e24590bed3f08b2b57a67bb45c2e12d0ebc029d6b95ebd6fb1f382cb145"
+        }],
+        "total": 1
+    }
 }</code></pre>
+<p>Explanation: 
+
+</p>
+<p>common fields for all operation status:
+
+</p>
+<p><code>status</code>: "confirming" (wait eth/btc/cfx confirmation) | "doing" (custodian signing &amp; settle on chain) | "finished"
+
+</p>
+<p><code>user_addr</code>: user conflux address
+
+</p>
+<p><code>to_addr</code>: user conflux address (for mint), or user bit/eth address (for burn)
+
+</p>
+<p><code>settled_tx</code>: transaction sent by custodian alliance to process user operation. If this field is not empty, it denotes that 
+the user operation is settled on chain and waiting for confirmation.
+
+</p>
+<p>special status for <code>confirming</code> and <code>doing</code> status:
+
+</p>
+<p><code>signer</code>: list of custodian members who already signed
+
+</p>
+<p><code>need</code>: total number of signatures
+
+</p>
+<p><code>has_signed</code>: Don't use this field to determine operation status! This field denotes whether the custodian member hosting the rpc node has signed the operation or not.
+
+</p>
 <h3>getUserReceiveWalletEth</h3>
 <p>Get user eth receive wallet.
 </p>
@@ -409,5 +469,6 @@ The token parameters of <code>ref</code> will also be replaced by the parameters
 
 </p>
 <p>This function helps the sponsor of token <code>ref</code> to change the token parameters if the token is not in cooldown.
+Edit By <a href="http://mahua.jser.me">MaHua</a>
 Edit By <a href="http://mahua.jser.me">MaHua</a></p>
 </body></html>

@@ -120,7 +120,7 @@ export const NOT_AVAILABLE = [
         symbol: 'BNB',
         cSymbol: 'cBNB',
         icon: 'https://via.placeholder.com/50',
-
+        notAvailable: true,
         name: 'BNB',
         address: '0x_address_of_bnb',
 

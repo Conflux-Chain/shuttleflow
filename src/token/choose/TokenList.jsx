@@ -131,7 +131,7 @@ export default function TokenList({
 
                                             {notAvailable && (
                                                 <span className={ListCx('not-available')}>
-                                                    {t('word.not-available')}
+                                                    {t('txt.not-available')}
                                                 </span>
                                             )}
                                         </div>
@@ -140,7 +140,7 @@ export default function TokenList({
                                     </div>
 
                                     <div className={ListCx('two-row')} style={{ alignItems: 'flex-end' }}>
-                                        {showMortgage && (
+                                        {showMortgage && minMortgage && (
                                             <span className={ListCx('mortgage')}>{minMortgage + 'cETH'}</span>
                                         )}
 
