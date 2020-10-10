@@ -4,6 +4,22 @@
   }
 }
 
+.input-question {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  cursor: pointer;
+
+  &.small {
+    width: 2.25rem;
+  }
+  &.large {
+    width: 1.25rem;
+  }
+}
+
 .address {
   display: block;
   &.small {
