@@ -23,10 +23,12 @@
     "above-current": "数值必须大于当前抵押"
   },
   "btn": {
+    "history": "历史记录",
+    "markets": "市场",
     "shuttle-in": "充值",
+    "choose-lng":"选择语言",
     "shuttle-out": "提现",
     "all": "全部",
-    "choose-lng": "选择语言",
     "choose-token": "选择 Token",
     "token-caption": "成为 Token Caption",
     "add-token": "添加该 Token",
@@ -54,13 +56,13 @@
     "in-address": "收款地址"
   },
   "txt": {
+
     "out-amount": "Shuttle Out 数量",
     "out-address": "Shuttle Out 地址",
     "out-balance": "可用余额 {{amount}} {{cSymbol}}",
     "shuttle-in-amount": "最小 Shuttle In 数量 {{amount}} {{token}}",
     "shuttle-in-fee": "Shuttle In 手续费 {{amount}} {{ctoken}}",
     "shuttle-out-fee": "手续费 {{outFee}} {{cSymbol}}",
-    "history": "历史记录",
     "latest-address-please": "请使用最新的地址操作备份",
     "qrcode": "查看地址二维码",
     "not-available": "暂无",

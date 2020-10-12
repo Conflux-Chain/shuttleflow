@@ -68,13 +68,30 @@ $padding: 2rem;
   transition: 0.2s;
   transform-origin: top;
 
-  a,
-  div {
-    height: 3.75rem;
-    line-height: 3.75rem;
+  .item {
+    height: 7.5rem;
+    display: flex;
     justify-content: center;
-    text-align: center;
-    font-size: 1.33rem;
-    display: block;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    border-bottom: solid 1px rgba($color: #ffffff, $alpha: 0.2);
+    cursor: pointer;
+  }
+
+  .up {
+    position: absolute;
+    right: 1rem;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  .lngOpen{
+    transform: rotate(180deg);
+  }
+
+  .lng-item {
+    font-size: 1.75rem;
+    background-color: rgba($color: #f8f8f8, $alpha: 0.1);
   }
 }
