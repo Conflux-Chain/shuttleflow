@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cfxjs/react-hooks": "^0.0.1",
     "@cfxjs/react-ui": "^1.1.0",
     "@hookform/error-message": "^0.0.4",
     "@hookform/resolvers": "^0.1.1",
