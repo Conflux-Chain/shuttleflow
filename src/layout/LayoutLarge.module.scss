@@ -26,12 +26,34 @@
   .right {
     display: flex;
     align-items: center;
-    span,
-    a {
-      white-space: nowrap;
-      display: block;
+    .address {
       margin: 0 1.5625rem;
+      color: #44d7b6;
+    }
+    .item {
+      cursor: pointer;
+      white-space: nowrap;
       font-weight: bold;
+      margin: 0 1.5625rem;
+    }
+    .active {
+      color: #44d7b6;
+      border-bottom: solid 2px #44d7b6;
+    }
+    .lng {
+      cursor: pointer;
+      width: 7.375rem;
+      height: 2.5rem;
+      text-align: center;
+      line-height: 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 1.24rem;
+    }
+    .dropdown-container {
+      color: #333333;
+      width: 8.75rem;
+      background-color: white;
+      border-radius: 0px 0px 0.25rem 0.25rem;
     }
   }
 }

@@ -7,6 +7,7 @@ import tokenListStyles from './TokenList.module.scss'
 import titleStyles from './title.module.scss'
 import Check from './Check.jsx'
 import { useTranslation } from 'react-i18next'
+import formatAddress from '../../component/formatAddress'
 
 import swrTokenListFetcher from '../../data/mock/swrTokenListFetcher'
 import swrSearchTokenFetcher from '../../data/mock/swrSearchTokenFetcher'
@@ -146,7 +147,7 @@ export default function TokenList({
 
                                         <div className={ListCx('link')}>
                                             <span className={ListCx('link-txt')}>
-                                                {address && address.startsWith('0x') && short(address)}
+                                                {address && address.startsWith('0x') && formatAddress(address)}
                                             </span>
                                             {address && address.startsWith('0x') && (
                                                 <img alt='link' className={ListCx('link-img')} src={linkSrc}></img>
@@ -172,20 +173,6 @@ export default function TokenList({
 
     )
 }
-
-function short(txt) {
-    const first6 = txt.slice(0, 6)
-    const last4 = txt.slice(txt.length - 4)
-    return first6 + '...' + last4
-}
-
-// export default function TokenListWithSuspense({ ...props }) {
-//     return (
-//         <Suspense fallback={<div>loading...</div>}>
-//             <TokenList {...props} />
-//         </Suspense>
-//     )
-// }
 
 
 function checkIsAddress(v) {
