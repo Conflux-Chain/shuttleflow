@@ -1,0 +1,12 @@
+{
+  "amount": "Shuttle Out 数量",
+  "address": "Shuttle Out 地址",
+  "placeholder": {
+    "address": "输入钱包地址"
+  },
+  "all": "全部",
+  "balance": "可用余额 {{amount}} {{cSymbol}}",
+  "fee": "手续费 {{burn_fee}} {{symbol}}",
+  "min-amount": "最少数量 {{minimal_burn_value}} {{symbol}}",
+  "out":"Shuttle Out"
+}

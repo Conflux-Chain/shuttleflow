@@ -1,0 +1,10 @@
+{
+  "placeholder": {
+    "out": "选择Token",
+    "in": "您将收到的Token"
+  },
+  "popup": {
+    "title": "温馨提示",
+    "ok": "我知道了"
+  }
+}

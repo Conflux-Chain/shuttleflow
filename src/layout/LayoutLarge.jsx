@@ -16,9 +16,7 @@ const cx = classNamesBind.bind(styles)
 
 export default function LayoutLarge({ history }) {
   // const address = 'sqdergtyju7'
-  const {
-    address,
-  } = useConfluxPortal()
+  const { address } = useConfluxPortal()
   const [expandLng, setExpandLng] = useState(false)
   const { t, i18n } = useTranslation()
   const clickAway = useCallback(() => {
@@ -88,6 +86,7 @@ export default function LayoutLarge({ history }) {
               >
                 <span>{i18n.language === 'zh' ? '中文' : 'English'}</span>
                 <img
+                  alt="up"
                   className={cx('up', { 'icon-active': !expandLng })}
                   src={triangle}
                 ></img>

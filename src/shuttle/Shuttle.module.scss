@@ -127,22 +127,7 @@
   }
 }
 
-.arrow {
-  &.small {
-    width: 1rem;
-    right: 2rem;
-  }
-  &.large {
-    width: 0.75rem;
-    right: 2.0625rem;
-  }
-  top: 0;
-  bottom: 0;
-  position: absolute;
-  cursor: pointer;
-  margin: auto;
-  display: flex;
-}
+
 
 .down {
   &.small {
@@ -160,57 +145,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.with-icon {
-  input {
-    font-weight: bold;
-  }
-
-  .icon {
-    position: absolute;
-    margin: auto;
-    top: 0;
-    bottom: 0;
-  }
-
-  .c-icon {
-    position: absolute;
-  }
-
-  &.small {
-    input {
-      font-size: 2rem;
-      padding-left: 6.5rem;
-    }
-    .icon {
-      left: 2rem;
-      width: 3rem;
-    }
-    .c-icon {
-      top: 51%;
-      left: 4rem;
-      width: 1.5rem;
-      height: 1.5rem;
-    }
-  }
-  &.large {
-    input {
-      font-size: 1.25rem;
-      padding-left: 4.5rem;
-    }
-    .icon {
-      left: 1.625rem;
-      width: 2rem;
-    }
-    .c-icon {
-      top: 51%;
-      left: 3rem;
-      width: 1rem;
-      height: 1rem;
-    }
-  }
-}
-.input-arrow {
-  position: relative;
 }

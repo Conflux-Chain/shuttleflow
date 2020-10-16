@@ -1,6 +1,8 @@
 import React from 'react'
 
 import { useTranslation } from 'react-i18next'
+import { useConfluxPortal } from '@cfxjs/react-hooks'
+import useCToken from '@cfxjs/react-hooks/lib/useCToken'
 
 import inputStyles from '../../component/input.module.scss'
 import buttonStyles from '../../component/button.module.scss'
@@ -9,10 +11,8 @@ import shuttleOutStyles from './ShuttleOut.module.scss'
 
 import useStyle from '../../component/useStyle'
 import { useForm } from 'react-hook-form'
-import arrow from '../arrow.svg'
 import down from '../down.svg'
 import question from '../../component/question.svg'
-import cIcon from '../../component/cIcon.svg'
 
 import { yupResolver } from '@hookform/resolvers'
 import * as yup from 'yup'
@@ -22,12 +22,12 @@ import clear from '../../component/clear.svg'
 import ShuttleHistory from '../../history/ShuttleHistory'
 import useTokenList from '../../data/useTokenList'
 
-const __mock_balance = 100
-export default function ShuttleOut({
-  location: { search },
-  match: { url },
-  history,
-}) {
+import Input from '../Input'
+
+// console.log(useCToken)
+// const { useCToken } = shuttleflow
+
+export default function ShuttleOut({ location: { search }, match: { url } }) {
   const [commonCx, buttonCx, shuttleCx, shuttleOutCx] = useStyle(
     inputStyles,
     buttonStyles,
@@ -35,13 +35,27 @@ export default function ShuttleOut({
     shuttleOutStyles
   )
 
-  const { t } = useTranslation()
+  const { t } = useTranslation(['shuttle-out', 'common'])
   const { token, ...extra } = parseSearch(search)
   const { tokens } = useTokenList(token)
+
   const tokenInfo = tokens && token ? tokens[0] : null
 
-  // console.log('tokenInfo ? tokenInfo.burn_fee', tokenInfo && tokenInfo.burn_fee)
+  console.log(tokenInfo)
 
+  const { burn } = useCToken(
+    tokenInfo ? tokenInfo.ctoken : '',
+    '0x82209899b1faa5f32ec80a7c7efb34aee7273d90'
+  )
+
+  const {
+    balances: [, [_balance]],
+  } = useConfluxPortal(token && [token])
+  let balance
+  if (_balance && tokenInfo) {
+    console.log()
+    balance = _balance / Math.pow(10, tokenInfo.decimals)
+  }
   const schema = yup.object().shape({
     outamount: yup
       .number()
@@ -50,7 +64,7 @@ export default function ShuttleOut({
         tokenInfo ? tokenInfo.minimal_burn_value : 0,
         t('errors.min', tokenInfo)
       )
-      .max(__mock_balance, t('errors.insufficient')),
+      .max(balance, t('errors.insufficient')),
     outaddress: yup
       .string()
       .required(t('errors.required'))
@@ -72,76 +86,41 @@ export default function ShuttleOut({
     <div className={shuttleCx('root')}>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* token */}
-        <div className={shuttleCx('input-arrow', { 'with-icon': !!tokenInfo })}>
-          {tokenInfo && (
-            <>
-              <img
-                alt="icon"
-                className={shuttleCx('icon')}
-                src={tokenInfo.icon}
-              ></img>
-              <img alt="icon" className={shuttleCx('c-icon')} src={cIcon}></img>
-            </>
-          )}
-          <input
-            readOnly
-            className={commonCx('input-common')}
-            defaultValue={tokenInfo?.symbol}
-            placeholder={t('placeholder.token-in')}
-          />
-          <img
-            onClick={() => {
-              history.push({
-                pathname: '/token',
-                search: buildSearch({ next: url, ...getValues() }),
-              })
-            }}
-            alt="arrow"
-            className={shuttleCx('arrow')}
-            src={arrow}
-          ></img>
-        </div>
+        <Input
+          icon={tokenInfo?.icon}
+          defaultValue={tokenInfo?.symbol}
+          placeholder={t('common:placeholder.out')}
+          to={{
+            pathname: '/token',
+            search: buildSearch({ next: url, cToken: 1, ...getValues() }),
+          }}
+          tokenInfo={tokenInfo}
+          cToken={() => {}}
+        />
 
         <div className={shuttleCx('down')}>
           <img alt="down" src={down}></img>
         </div>
 
         {/* conflux token */}
-        <div className={shuttleCx('input-arrow', { 'with-icon': !!tokenInfo })}>
-          {tokenInfo && (
-            <img
-              alt="icon"
-              className={shuttleCx('icon')}
-              src={tokenInfo.icon}
-            ></img>
-          )}
-          <input
-            readOnly
-            className={commonCx('input-common')}
-            defaultValue={tokenInfo?.reference_symbol}
-            placeholder={t('placeholder.ctoken-in')}
-          />
-          <img
-            alt="token"
-            onClick={() => {
-              history.push({
-                pathname: '/token',
-                search: buildSearch({
-                  next: url,
-                  cToken: 1,
-                  ...getValues(),
-                }),
-              })
-            }}
-            className={shuttleCx('arrow')}
-            src={arrow}
-          ></img>
-        </div>
+        <Input
+          icon={tokenInfo?.icon}
+          defaultValue={tokenInfo?.reference_symbol}
+          placeholder={t('common:placeholder.in')}
+          to={{
+            pathname: '/token',
+            search: buildSearch({
+              next: url,
+              ...getValues(),
+            }),
+          }}
+          tokenInfo={tokenInfo}
+        />
 
         {/* shuttle out amount */}
         <label className={shuttleOutCx('amount-container')}>
           <div>
-            <span className={shuttleCx('title')}>{t('txt.out-amount')} </span>
+            <span className={shuttleCx('title')}>{t('amount')} </span>
           </div>
 
           <div className={shuttleOutCx('amount-input')}>
@@ -151,9 +130,9 @@ export default function ShuttleOut({
               placeholder={
                 !tokenInfo
                   ? t('placeholder.input-amount')
-                  : t('txt.out-balance', {
-                      amount: __mock_balance,
-                      cSymbol: tokenInfo.symbol,
+                  : t('balance', {
+                      amount: balance,
+                      cSymbol: tokenInfo.reference_symbol,
                     })
               }
               autoComplete="off"
@@ -164,20 +143,20 @@ export default function ShuttleOut({
             />
             <div
               onClick={() => {
-                setValue('outamount', __mock_balance)
+                setValue('outamount', balance)
               }}
               className={shuttleOutCx('all') + ' ' + shuttleCx('small-text')}
             >
-              {t('btn.all')}
+              {t('all')}
             </div>
           </div>
         </label>
 
         {tokenInfo && (
           <div className={shuttleCx('small-text')}>
-            <span> {t('placeholder.shuttle-out-amount', tokenInfo)}</span>
+            <span> {t('min-amount', tokenInfo)}</span>
             <span className={shuttleCx('with-question')}>
-              <span>{t('txt.shuttle-out-fee', tokenInfo)}</span>
+              <span>{t('fee', tokenInfo)}</span>
               <img alt="?" src={question}></img>
             </span>
           </div>
@@ -203,7 +182,7 @@ export default function ShuttleOut({
         {/* shuttle out address */}
         <label className={shuttleOutCx('address-container')}>
           <div className={shuttleCx('title', 'with-question')}>
-            <span>{t('txt.out-address')}</span>
+            <span>{t('address')}</span>
             <img
               alt="?"
               onClick={(e) => {
@@ -219,7 +198,7 @@ export default function ShuttleOut({
               ref={register}
               name="outaddress"
               autoComplete="off"
-              placeholder={t('placeholder.input-address')}
+              placeholder={t('placeholder.address')}
               className={commonCx(
                 'input-common',
                 errors.outaddress ? 'error' : ''
@@ -254,7 +233,7 @@ export default function ShuttleOut({
         <input
           disabled={!tokenInfo}
           type="submit"
-          value={t('btn.shuttle-out')}
+          value={t('out')}
           className={buttonCx('btn') + ' ' + shuttleOutCx('btn')}
         />
       </form>
