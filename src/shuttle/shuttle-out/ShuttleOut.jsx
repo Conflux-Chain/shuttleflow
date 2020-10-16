@@ -56,6 +56,8 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     console.log()
     balance = _balance / Math.pow(10, tokenInfo.decimals)
   }
+  //to do fake a balance
+  balance = 100
   const schema = yup.object().shape({
     outamount: yup
       .number()
@@ -76,7 +78,20 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     defaultValues: extra,
     mode: 'onBlur',
   })
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = (data) => {
+    console.log(data)
+    const { outaddress, outamount } = data
+    
+    burn(outamount, outaddress)
+      .then((e) => {
+        console.log(e)
+        alert(e)
+      })
+      .catch((e) => {
+        console.log(e)
+        alert(e)
+      })
+  }
 
   if (token && !tokenInfo) {
     return null //the token info is loading
