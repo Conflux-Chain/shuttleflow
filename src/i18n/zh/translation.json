@@ -1,18 +1,10 @@
 {
   "placeholder": {
-
     "input-amount": "输入数量",
-
     "token-search": "搜索 Token 名称或合约地址",
     "enter": "请输入"
   },
   "errors": {
-    "required": "此项为必填项",
-    "min": "数值必须大于等于 {{minimal_burn_value}} {{symbol}}",
-    "insufficient": "余额不足",
-    "invalid-address": "钱包地址不正确",
-    "number": "输入必须为数字",
-    "above-zero": "数值必须大于0",
     "above-in-fee": "数值必须大于充值手续费",
     "above-out-fee": "数值必须大于提现手续费",
     "below-in-fee": "数值必须小于充值数量",
@@ -23,9 +15,8 @@
     "history": "历史记录",
     "markets": "市场",
     "shuttle-in": "充值",
-    "choose-lng":"选择语言",
+    "choose-lng": "选择语言",
     "shuttle-out": "提现",
-
     "choose-token": "选择 Token",
     "token-caption": "成为 Token Caption",
     "add-token": "添加该 Token",
@@ -44,7 +35,6 @@
     "in-address": "收款地址"
   },
   "txt": {
-
     "shuttle-out-fee": "手续费 {{burn_fee}} {{symbol}}",
     "not-available": "暂无",
     "frequent-token": "常用 Token",

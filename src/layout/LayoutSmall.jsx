@@ -120,6 +120,7 @@ export default function LayoutSmall(props) {
                   }}
                   className={cx('up', { lngOpen: !lngOpen })}
                   src={up}
+                  alt='up'
                 ></img>
               </div>
             }

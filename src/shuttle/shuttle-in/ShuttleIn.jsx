@@ -1,16 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import QRCode from 'qrcode.react'
 
-import arrow from '../arrow.svg'
 import down from '../down.svg'
 import copy from './copy.svg'
 import tick from './tick.svg'
 import qr from './qr.svg'
 import question from '../../component/question.svg'
-import cIcon from '../../component/cIcon.svg'
 
 import Modal from '../../component/Modal'
 import modalStyles from '../../component/modal.module.scss'

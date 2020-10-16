@@ -4,9 +4,20 @@
   "placeholder": {
     "address": "输入钱包地址"
   },
+  "error": {
+    "insufficient": "余额不足",
+    "invalid-address": "钱包地址不正确",
+    "min": "数值必须大于等于 {{minimal_burn_value}} {{symbol}}"
+  },
   "all": "全部",
   "balance": "可用余额 {{amount}} {{cSymbol}}",
   "fee": "手续费 {{burn_fee}} {{symbol}}",
   "min-amount": "最少数量 {{minimal_burn_value}} {{symbol}}",
-  "out":"Shuttle Out"
+  "out": "Shuttle Out",
+  "popup": {
+    "details": "查看详情",
+    "address": "1.请输入可以接收对应 token 资产的钱包地址，否则资产将不可找回。\n2.Shuttle Out 需要一定数量的区块确认才能到账。\n3.ShuttleFlow 是真正的去中心化产品，在任何情况下都接触不到用户的私钥。\n4.您的资产托管在智能合约 ShuttleFlow 中，合约通过第三方安全审计，并由 ShuttleFlow 跨链资产联盟多重签名防护。即使 ShuttleFlow 自身私钥泄露，黑客也无法盗取用户资产，平台自身也无法作恶。",
+    "fee": "手续费为当前 token 舰长设置的规则，若 token 舰长发生更换，数值可能会随之更新。建议尽快完成操作，避免手续费较大波动。",
+    "ctoken": "您收到的 token 可以在所有支持 Conflux 网络的钱包中查看，比如 ConfluxPortal. 若未找到该 token，可能需要您通过“添加代币”的方式自行添加。"
+  }
 }

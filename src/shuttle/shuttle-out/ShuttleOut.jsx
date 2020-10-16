@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { useConfluxPortal } from '@cfxjs/react-hooks'
@@ -8,40 +8,46 @@ import inputStyles from '../../component/input.module.scss'
 import buttonStyles from '../../component/button.module.scss'
 import shuttleStyle from '../Shuttle.module.scss'
 import shuttleOutStyles from './ShuttleOut.module.scss'
+import modalStyles from '../../component/modal.module.scss'
+import Modal from '../../component/Modal'
 
 import useStyle from '../../component/useStyle'
-import { useForm } from 'react-hook-form'
+
+import clear from '../../component/clear.svg'
 import down from '../down.svg'
 import question from '../../component/question.svg'
+import fail from './fail.svg'
+import sent from './sent.svg'
 
+import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers'
 import * as yup from 'yup'
 import { ErrorMessage } from '@hookform/error-message'
+
 import { buildSearch, parseSearch } from '../../component/urlSearch'
-import clear from '../../component/clear.svg'
-import ShuttleHistory from '../../history/ShuttleHistory'
 import useTokenList from '../../data/useTokenList'
 
+import ShuttleHistory from '../../history/ShuttleHistory'
 import Input from '../Input'
 
-// console.log(useCToken)
-// const { useCToken } = shuttleflow
-
 export default function ShuttleOut({ location: { search }, match: { url } }) {
-  const [commonCx, buttonCx, shuttleCx, shuttleOutCx] = useStyle(
+  const [commonCx, buttonCx, modalCx, shuttleCx, shuttleOutCx] = useStyle(
     inputStyles,
     buttonStyles,
+    modalStyles,
     shuttleStyle,
     shuttleOutStyles
   )
-
   const { t } = useTranslation(['shuttle-out', 'common'])
   const { token, ...extra } = parseSearch(search)
   const { tokens } = useTokenList(token)
-
   const tokenInfo = tokens && token ? tokens[0] : null
 
-  console.log(tokenInfo)
+  const [errorPopup, setErrorPopup] = useState(false)
+  const [successPopup, setSuccessPopup] = useState(false)
+  const [addrPopup, setAddrPopup] = useState(false)
+  const [feePopup, setFeePopup] = useState(false)
+  const [ctokenPopup, setCTokenPopup] = useState(false)
 
   const { burn } = useCToken(
     tokenInfo ? tokenInfo.ctoken : '',
@@ -61,16 +67,16 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   const schema = yup.object().shape({
     outamount: yup
       .number()
-      .typeError(t('errors.number'))
+      .typeError(t('common:error.number'))
       .min(
         tokenInfo ? tokenInfo.minimal_burn_value : 0,
-        t('errors.min', tokenInfo)
+        t('error.min', tokenInfo)
       )
-      .max(balance, t('errors.insufficient')),
+      .max(balance, t('error.insufficient')),
     outaddress: yup
       .string()
-      .required(t('errors.required'))
-      .matches(/^0x[0-9a-fA-F]{40}$/, t('errors.invalid-address')),
+      .required(t('common:error.required'))
+      .matches(/^0x[0-9a-fA-F]{40}$/, t('error.invalid-address')),
   })
 
   const { register, handleSubmit, getValues, setValue, errors } = useForm({
@@ -79,17 +85,16 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     mode: 'onBlur',
   })
   const onSubmit = (data) => {
-    console.log(data)
     const { outaddress, outamount } = data
-    
+
     burn(outamount, outaddress)
       .then((e) => {
         console.log(e)
-        alert(e)
+        setSuccessPopup(true)
       })
       .catch((e) => {
         console.log(e)
-        alert(e)
+        setErrorPopup(true)
       })
   }
 
@@ -110,7 +115,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
             search: buildSearch({ next: url, cToken: 1, ...getValues() }),
           }}
           tokenInfo={tokenInfo}
-          cToken={() => {}}
+          cToken={() => setCTokenPopup(true)}
         />
 
         <div className={shuttleCx('down')}>
@@ -172,7 +177,11 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
             <span> {t('min-amount', tokenInfo)}</span>
             <span className={shuttleCx('with-question')}>
               <span>{t('fee', tokenInfo)}</span>
-              <img alt="?" src={question}></img>
+              <img
+                alt="?"
+                onClick={() => setFeePopup(true)}
+                src={question}
+              ></img>
             </span>
           </div>
         )}
@@ -195,7 +204,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
         </div>
 
         {/* shuttle out address */}
-        <label className={shuttleOutCx('address-container')}>
+        <div className={shuttleOutCx('address-container')}>
           <div className={shuttleCx('title', 'with-question')}>
             <span>{t('address')}</span>
             <img
@@ -203,6 +212,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
               onClick={(e) => {
                 //disable input focus
                 e.preventDefault()
+                setAddrPopup(true)
               }}
               src={question}
             ></img>
@@ -228,7 +238,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
               className={commonCx('clear')}
             ></img>
           </div>
-        </label>
+        </div>
 
         <ErrorMessage
           errors={errors}
@@ -253,6 +263,41 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
         />
       </form>
 
+      <Modal show={errorPopup} clickAway={() => setErrorPopup(false)}>
+        <img alt="img" className={shuttleOutCx('img')} src={fail}></img>
+        <div className={modalCx('strong')}>{t('common:popup.fail')}</div>
+        <div className={modalCx('btn')} onClick={() => setErrorPopup(false)}>
+          {t('common:popup.ok')}
+        </div>
+      </Modal>
+      <Modal show={successPopup} clickAway={() => setSuccessPopup(false)}>
+        <img alt="img" className={shuttleOutCx('img')} src={sent}></img>
+        <div className={modalCx('strong')}>{t('common:popup.sent')}</div>
+        <div className={modalCx('btn')} onClick={() => setSuccessPopup(false)}>
+          {t('popup.details')}
+        </div>
+      </Modal>
+      <Modal show={addrPopup} clickAway={() => setAddrPopup(false)}>
+        <div className={modalCx('title')}>{t('common:popup.title')}</div>
+        <div className={modalCx('content')}>{t('popup.address')}</div>
+        <div className={modalCx('btn')} onClick={() => setAddrPopup(false)}>
+          {t('common:popup.ok')}
+        </div>
+      </Modal>
+      <Modal show={feePopup} clickAway={() => setFeePopup(false)}>
+        <div className={modalCx('title')}>{t('common:popup.title')}</div>
+        <div className={modalCx('content')}>{t('popup.fee')}</div>
+        <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
+          {t('common:popup.ok')}
+        </div>
+      </Modal>
+      <Modal show={ctokenPopup} clickAway={() => setCTokenPopup(false)}>
+        <div className={modalCx('title')}>{t('common:popup.title')}</div>
+        <div className={modalCx('content')}>{t('popup.ctoken')}</div>
+        <div className={modalCx('btn')} onClick={() => setCTokenPopup(false)}>
+          {t('common:popup.ok')}
+        </div>
+      </Modal>
       <ShuttleHistory />
     </div>
   )
