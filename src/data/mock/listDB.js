@@ -2,7 +2,7 @@ export const TOKENS = [
     {
         symbol: 'BTC',
         cSymbol: 'cBTC',
-
+        supply: 100,
         icon: 'https://via.placeholder.com/50',
 
         name: 'Bitcoin',
@@ -20,7 +20,7 @@ export const TOKENS = [
     {
         symbol: 'ETH',
         cSymbol: 'cETH',
-
+        supply: 200,
         icon: 'https://via.placeholder.com/50',
 
         name: 'Ethereum',
@@ -38,7 +38,7 @@ export const TOKENS = [
     {
         symbol: 'USDC',
         cSymbol: 'cUSDC',
-
+        supply: 300,
         icon: 'https://via.placeholder.com/50',
 
         name: 'USD Coin',
@@ -58,7 +58,7 @@ export const TOKENS = [
     {
         symbol: 'YFI',
         cSymbol: 'cYFI',
-
+        supply: 800,
         icon: 'https://via.placeholder.com/50',
 
         name: 'yearn.finance',
@@ -78,7 +78,7 @@ export const TOKENS = [
     {
         symbol: 'USDT',
         cSymbol: 'cUSDT',
-
+        supply: 500,
         icon: 'https://via.placeholder.com/50',
 
         name: 'Tether USD',
@@ -97,7 +97,7 @@ export const TOKENS = [
     {
         symbol: 'DAI',
         cSymbol: 'cDAI',
-
+        supply: 10,
         icon: 'https://via.placeholder.com/50',
 
         name: 'DAI',
@@ -120,7 +120,7 @@ export const NOT_AVAILABLE = [
         symbol: 'BNB',
         cSymbol: 'cBNB',
         icon: 'https://via.placeholder.com/50',
-
+        notAvailable: true,
         name: 'BNB',
         address: '0x_address_of_bnb',
 

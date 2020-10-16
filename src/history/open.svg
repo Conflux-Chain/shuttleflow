@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="65px" height="32px" viewBox="0 0 65 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path d="M32.4987378,-1.0658141e-13 C50.4486892,-1.0658141e-13 65,14.326888 65,32 L64.996,31.597 L-8.40622071e-06,31.5976777 C0.216624584,14.2861845 14.3950962,0.284703257 31.96127,0.00428708574 Z" id="path-1"></path>
+    </defs>
+    <g id="H5暗黑" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="0-H5" transform="translate(-345.000000, -1198.000000)">
+            <g id="74-交换备份-4" transform="translate(345.000000, 1198.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="蒙版" fill="#F2F6FD" opacity="0.2" xlink:href="#path-1"></use>
+                <g mask="url(#mask-2)" id="矩形">
+                    <g transform="translate(14.000000, 0.000000)">
+                        <rect stroke="none" fill="#000000" fill-rule="nonzero" opacity="0" x="0" y="0" width="36" height="36"></rect>
+                        <polyline stroke="#C4C9D5" stroke-width="2.7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(18.000000, 16.200000) rotate(-315.000000) translate(-18.000000, -16.200000) " points="23.4 10.8 23.4 21.6 12.6 21.6"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

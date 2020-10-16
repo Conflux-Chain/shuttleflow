@@ -1,66 +1,99 @@
-import useSWR from 'swr'
-import { TOKENS, NOT_AVAILABLE } from './listDB'
+import { useEffect, useReducer, useState } from 'react'
+import jsonrpc from './jsonrpc'
 
+const supportedTokens = fetchTokenSponsor('getTokenList')
+//prefetch the result even before the react started
+//tell if the promise resolved
+let supportedTokensResolved
+supportedTokens.then((x) => {
+  supportedTokensResolved = true
+})
 
-//the hook both frontend search and backend search
-export default function useTokenList(search = '') {
-  let txt, address
-  // return no result
-  if (search !== null) {
-    if (isName(search)) {
-      txt = search
-    } else {
-      address = search
+function reducer(state, action) {
+  return { ...state, ...action }
+}
+export default function useTokenList(search) {
+  const [state, setState] = useReducer(reducer, { tokens: [], isLoading: true })
+  useEffect(() => {
+    if (!supportedTokensResolved) {
+      setState({ isLoading: true })
     }
-  }
+    supportedTokens
+      .then((tokens) => {
+        supportedTokensResolved = true
+        if (search) {
+          search = search.toLowerCase()
+          const found = tokens.filter(
+            ({ ctoken, reference, reference_symbol, reference_name }) => {
+              return (
+                ctoken === search ||
+                reference === search ||
+                reference_symbol.toLowerCase().indexOf(search) > -1 ||
+                reference_name.toLowerCase().indexOf(search) > -1
+              )
+            }
+          )
 
-  console.log('searchKey', search)
-
-  let { data, error } = useSWR(
-    search === null ? false : ['/tokenList', address],
-    fetchTokenList,
-    // {
-    //   suspense: true,
-    // }
-  )
-
-  if (txt) {
-    data = data.filter(({ name, symbol }) => {
-      return (
-        name.toLowerCase().indexOf(txt) > -1 ||
-        symbol.toLowerCase().indexOf(txt) > -1
-      )
-    })
-  }
-  return {
-    tokenList: data.filter(({ name, symbol }) => {
-      return (
-        name.toLowerCase().indexOf(txt) > -1 ||
-        symbol.toLowerCase().indexOf(txt) > -1
-      )
-    }),
-    error: error,
-  }
+          if (found.length > 0) {
+            return found
+          } else {
+            if (isAddress(search)) {
+              return fetchTokenSponsor('searchToken', { params: [search] })
+            } else {
+              return []
+            }
+          }
+        } else {
+          return tokens
+        }
+      })
+      .then((tokens) => {
+        setState({ tokens, isLoading: false })
+      })
+  }, [search])
+  return state
 }
 
-export function fetchTokenList(url, address) {
-  console.log('fetch', url, address)
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      let tks
-      if (address) {
-        const existTk = TOKENS.find((tk) => tk.address === address)
-        const noExist = NOT_AVAILABLE.find((tk) => tk.address === address)
-        if (noExist) {
-          noExist['notAvailable'] = true
-        }
-        tks = [existTk || noExist].filter((x) => x)
-      }
-      resolve(tks ? tks : TOKENS)
-    }, 3000)
+function isAddress(x) {
+  return x.match(/^0x[0-9a-fA-F]{40}$/)
+}
+
+function fetchTokenSponsor(method = '', data = {}) {
+  return jsonrpc(method, { url: 'sponsor', ...data }).then((result) => {
+    return (
+      result
+        //todo walk around bug
+        .filter((x) => (method === 'getTokenList' ? x.ctoken : true))
+        .map((d) => {
+          // cToken的totalSupply和sponsor_value都是18位，除以1e18就行
+          // 其他的都是decimal
+          //todo symbol is undefined currently
+          const {
+            reference_symbol,
+            sponsor_value,
+            total_supply,
+            decimals,
+            minimal_burn_value,
+            minimal_mint_value,
+            mint_fee,
+            burn_fee,
+          } = d
+
+          return {
+            ...d,
+            symbol: 'c' + reference_symbol,
+            total_supply: format(total_supply, 18),
+            sponsor_value: format(sponsor_value, 18),
+            minimal_burn_value: format(minimal_burn_value, decimals),
+            minimal_mint_value: format(minimal_mint_value, decimals),
+            mint_fee: format(mint_fee, decimals),
+            burn_fee: format(burn_fee, decimals),
+          }
+        })
+    )
   })
 }
 
-function isName(search) {
-  return !search.startsWith('0x') && ['btc', 'eth'].indexOf(search) === -1
+function format(value, decimal) {
+  return parseFloat((parseFloat(value) / Math.pow(10, decimal)).toFixed(6))
 }

@@ -1,18 +1,29 @@
-import useSWR from 'swr'
-export default function useShuttleInAddress(tokenAddress, accountAddress) {
-  const { data } = useSWR(
-    tokenAddress ? `/api/shuttleIn/${accountAddress + tokenAddress}` : null,
-    fetcher
-  )
-  return data
-}
+import { useEffect, useState } from 'react'
+import { useConfluxPortal } from '@cfxjs/react-hooks'
+import jsonrpc from './jsonrpc'
 
-function fetcher() {
-  console.log('start fetch')
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log('resolve')
-      resolve('0xdac17f958d2ee523a2206206994597c13d831ec7')
-    }, 2000)
-  })
+export default function useShuttleInAddress(tokenInfo) {
+  const { address } = useConfluxPortal()
+  const { reference } = tokenInfo || {}
+  const [result, setResult] = useState('')
+  //the endpoint will be called over and over again
+  //OK though
+  useEffect(() => {
+    console.log('reference', reference)
+    if (address && reference) {
+      jsonrpc(
+        reference === 'btc'
+          ? 'getUserReceiveWalletBtc'
+          : 'getUserReceiveWalletEth',
+        {
+          url: 'node',
+          params: [address, '0x0000000000000000000000000000000000000000'],
+        }
+      ).then((e) => {
+        setResult(e)
+      })
+    }
+  }, [address, reference])
+
+  return result
 }

@@ -15,6 +15,7 @@
   img {
     max-height: 2.5rem;
     margin-left: 3.5rem;
+    cursor: pointer;
   }
   .select {
     padding: 0 !important;
@@ -26,12 +27,68 @@
   .right {
     display: flex;
     align-items: center;
-    span,
-    a {
-      white-space: nowrap;
-      display: block;
+    .address {
       margin: 0 1.5625rem;
+      color: #44d7b6;
+    }
+
+    .item {
+      cursor: pointer;
+      white-space: nowrap;
       font-weight: bold;
+      margin: 0 1.5625rem;
+    }
+    .active {
+      color: #44d7b6;
+      border-bottom: solid 2px #44d7b6;
+    }
+    .lng {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-around;
+      width: 7.375rem;
+      height: 2.5rem;
+      text-align: center;
+      line-height: 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 1.24rem;
+      margin-right: 2rem;
+      .up {
+        margin-left: 0;
+      }
+      .icon-active {
+        transform: rotate(180deg);
+      }
+    }
+    .dropdown-container {
+      color: #333333;
+      width: 8.75rem;
+      background-color: white;
+      border-radius: 0px 0px 0.25rem 0.25rem;
+      overflow: hidden;
+
+      .lng-item {
+        padding-left: 1rem;
+        line-height: 2.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+      .selected {
+        position: relative;
+        color: white;
+        background: #44d7b6;
+      }
+
+      .selected::after {
+        content: url(./tick.svg);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        height: 1.5rem;
+        width: 1.5rem;
+        right: 1rem;
+      }
     }
   }
 }

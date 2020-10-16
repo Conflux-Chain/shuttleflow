@@ -7,7 +7,7 @@ import Caption from '../token/caption/Caption'
 import History from '../history/History'
 import Market from '../market/Market'
 
-export default function Main() {
+function Main() {
   return (
     <Switch>
       <Redirect from={'/'} exact to="/shuttle" />
@@ -19,3 +19,5 @@ export default function Main() {
     </Switch>
   )
 }
+
+export default React.memo(Main)

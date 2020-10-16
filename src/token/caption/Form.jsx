@@ -13,6 +13,8 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers';
 import { ErrorMessage } from "@hookform/error-message";
 
+import profile from './profile.svg'
+
 
 const __mock_balance = 10000
 export default function CaptionForm({ token }) {
@@ -137,8 +139,6 @@ export default function CaptionForm({ token }) {
     },
   ]
 
-
-  console.log(errors)
   return (
     <div>
       <Head />
@@ -228,7 +228,11 @@ export default function CaptionForm({ token }) {
         </div>
         <div className={formCx('right')}>
           <div className={formCx('large-text')}>{(minMortgage || '--') + ' cETH'}</div>
-          <div className={formCx('small-text')}>{caption}</div>
+          <div className={formCx('small-text')}
+            style={{ display: 'flex', alignItems: 'center' }}>
+            <img className={formCx('profile')} src={profile}></img>
+            <span>{caption}</span>
+          </div>
         </div>
       </div>
       <div className={formCx('second-container')}>

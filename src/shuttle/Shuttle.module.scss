@@ -111,28 +111,23 @@
 
   &.small {
     font-size: 1.5rem;
+    img {
+      cursor: pointer;
+      width: 2rem;
+      margin-left: 1rem;
+    }
   }
   &.large {
     font-size: 1rem;
+    img {
+      cursor: pointer;
+      width: 1.25rem;
+      margin-left: 0.75rem;
+    }
   }
 }
 
-.arrow {
-  &.small {
-    width: 1rem;
-    right: 2rem;
-  }
-  &.large {
-    width: 0.75rem;
-    right: 2.0625rem;
-  }
-  top: 0;
-  bottom: 0;
-  position: absolute;
-  cursor: pointer;
-  margin: auto;
-  display: flex;
-}
+
 
 .down {
   &.small {
@@ -150,42 +145,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.with-icon {
-  input {
-    font-weight: bold;
-  }
-
-  .icon {
-    position: absolute;
-    margin: auto;
-    top: 0;
-    bottom: 0;
-  }
-
-  &.small {
-    input {
-      font-size: 2rem;
-      padding-left: 6.5rem;
-    }
-    .icon {
-      left: 2rem;
-
-      width: 3rem;
-    }
-  }
-  &.large {
-    input {
-      font-size: 1.25rem;
-      padding-left: 4.5rem;
-    }
-    .icon {
-      left: 1.625rem;
-      width: 2rem;
-    }
-  }
-}
-.input-arrow {
-  position: relative;
 }
