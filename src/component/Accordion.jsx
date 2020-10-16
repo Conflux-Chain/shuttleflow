@@ -1,14 +1,26 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 
-export default function Accordion({ expanded, title, content, contentStyle = {} }) {
-    const ref = useRef(null)
-    return <div>
-
+export default function Accordion({ expanded, title, content, contentStyle = {}, clickAway }) {
+    const scrollRef = useRef(null)
+    const clickAwayRef=useRef(null)
+    useEffect(() => {
+        if (clickAway) {
+            const listener = (e) => {
+                if ((!clickAwayRef.current.contains(e.target))) {
+                    clickAway()
+                }
+            }
+            window.addEventListener('mousedown', listener)
+            return () => {
+                window.removeEventListener('mousedown', listener)
+            }
+        }
+    }, [])
+    return <div ref={clickAwayRef}>
         {title}
-
-        <div ref={ref} style={
+        <div ref={scrollRef} style={
             {
-                maxHeight: (expanded ? ref.current && ref.current.scrollHeight : 0) + 'px',
+                maxHeight: (expanded ? scrollRef.current && scrollRef.current.scrollHeight : 0) + 'px',
                 overflow: 'hidden',
                 transition: 'max-height 0.3s',
                 ...contentStyle

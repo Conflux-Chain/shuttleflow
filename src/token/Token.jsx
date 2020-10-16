@@ -70,10 +70,14 @@ export function TokenNavigation({ history, location: { search }, after }) {
   )
 }
 
-export default function Token(props) {
+function Token(props) {
   const {
     match: { path },
   } = props
+
+
+
+  console.log('Token')
   const isSmall = useIsSamll()
   return (
     <div>
@@ -86,3 +90,11 @@ export default function Token(props) {
     </div>
   )
 }
+
+
+
+export default React.memo(Token, function areEqual(prevProps, nextProps) {
+  return JSON.stringify(prevProps) === JSON.stringify(nextProps)
+})
+
+

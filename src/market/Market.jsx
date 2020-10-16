@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import useStyle from '../component/useStyle'
 import swrTokenListFetcher from '../data/mock/swrTokenListFetcher'
 import styles from './Market.module.scss'
-import shuttle from '../component/shuttle.svg'
+import shuttle from '../component/cIcon.svg'
 
 import Triangle from './Triangle.jsx'
 import { useTranslation } from 'react-i18next'

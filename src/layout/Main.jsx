@@ -8,7 +8,7 @@ import History from '../history/History'
 import Market from '../market/Market'
 import Example from './Example'
 
-export default function Main() {
+function Main() {
   return (
     <Switch>
       <Redirect from={'/'} exact to="/shuttle" />
@@ -21,3 +21,5 @@ export default function Main() {
     </Switch>
   )
 }
+
+export default React.memo(Main)

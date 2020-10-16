@@ -2,7 +2,7 @@
   "placeholder": {
     "token-in": "选择Token",
     "ctoken-in": "您将收到的Token",
-    "shuttle-out-amount": "最少数量 {{outMin}} {{cSymbol}}",
+    "shuttle-out-amount": "最少数量 {{minimal_burn_value}} {{symbol}}",
     "shuttle-in-address": "钱包地址",
     "input-amount": "输入数量",
     "input-address": "输入钱包地址",
@@ -11,7 +11,7 @@
   },
   "errors": {
     "required": "此项为必填项",
-    "min": "数值必须大于等于 {{outMin}} {{cSymbol}}",
+    "min": "数值必须大于等于 {{minimal_burn_value}} {{symbol}}",
     "insufficient": "余额不足",
     "invalid-address": "钱包地址不正确",
     "number": "输入必须为数字",
@@ -62,7 +62,7 @@
     "out-balance": "可用余额 {{amount}} {{cSymbol}}",
     "shuttle-in-amount": "最小 Shuttle In 数量 {{amount}} {{token}}",
     "shuttle-in-fee": "Shuttle In 手续费 {{amount}} {{ctoken}}",
-    "shuttle-out-fee": "手续费 {{outFee}} {{cSymbol}}",
+    "shuttle-out-fee": "手续费 {{burn_fee}} {{symbol}}",
     "latest-address-please": "请使用最新的地址操作备份",
     "qrcode": "查看地址二维码",
     "not-available": "暂无",

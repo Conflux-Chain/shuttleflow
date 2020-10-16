@@ -1,4 +1,6 @@
 .container {
+  //width of scrollbar
+  padding-right: 20px;
   .row {
     &.checked {
       background: rgba($color: #f2f6fd, $alpha: 0.1);
@@ -56,6 +58,7 @@
       justify-content: flex-end;
     }
     .link-img {
+      cursor: pointer;
       &.small {
         margin-left: 0.5rem;
         width: 1.2rem;

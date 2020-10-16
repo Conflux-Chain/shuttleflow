@@ -11,7 +11,6 @@ export default function App() {
   const isSmall = useIsSamll()
 
   const {
-    address,
     useEnsurePortalLogin,
   } = useConfluxPortal([
     '0x87010faf5964d67ed070bc4b8dcafa1e1adc0997', // fc contract address
