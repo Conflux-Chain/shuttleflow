@@ -4,6 +4,15 @@
   }
 }
 
+.address {
+  &.large {
+    margin-top: 3rem;
+  }
+  &.small {
+    margin-top: 6.25rem;
+  }
+}
+
 .address-input {
   position: relative;
   &.small {

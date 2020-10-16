@@ -93,22 +93,22 @@ export default function LayoutSmall(props) {
           >
             {t('btn.history')}
           </div>
-          <div
+          {/* <div
             className={cx('item')}
             onClick={() => {
               history.push('/market')
             }}
           >
             {t('btn.markets')}
-          </div>
-          <div
+          </div> */}
+          {/* <div
             className={cx('item')}
             onClick={() => {
               history.push('/caption')
             }}
           >
             {t('btn.be-caption')}
-          </div>
+          </div> */}
           <Accordion
             expanded={lngOpen}
             title={

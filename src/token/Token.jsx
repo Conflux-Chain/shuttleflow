@@ -23,7 +23,7 @@ export function TokenNavigation({ history, location: { search }, after }) {
   return (
     <nav className={cx('nav-container')}>
       <img
-        alt='back'
+        alt="back"
         className={cx('back')}
         src={back}
         onClick={() => history.goBack()}
@@ -51,7 +51,10 @@ export function TokenNavigation({ history, location: { search }, after }) {
           to={captionUrl}
           render={({ active }) => {
             return (
-              <div className={cx('item', { active })}>
+              <div
+                style={{ display: 'none' }}
+                className={cx('item', { active })}
+              >
                 <Link
                   to={{
                     pathname: captionUrl,
@@ -75,8 +78,6 @@ function Token(props) {
     match: { path },
   } = props
 
-
-
   console.log('Token')
   const isSmall = useIsSamll()
   return (
@@ -91,10 +92,6 @@ function Token(props) {
   )
 }
 
-
-
 export default React.memo(Token, function areEqual(prevProps, nextProps) {
   return JSON.stringify(prevProps) === JSON.stringify(nextProps)
 })
-
-

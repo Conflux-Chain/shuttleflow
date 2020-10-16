@@ -45,7 +45,7 @@ export default function LayoutLarge({ history }) {
               )
             }}
           />
-          <MenuLink
+          {/* <MenuLink
             to="/market"
             render={({ active }) => {
               return (
@@ -57,8 +57,8 @@ export default function LayoutLarge({ history }) {
                 </div>
               )
             }}
-          />
-          <MenuLink
+          /> */}
+          {/* <MenuLink
             to="/caption"
             render={({ active }) => {
               return (
@@ -70,7 +70,7 @@ export default function LayoutLarge({ history }) {
                 </div>
               )
             }}
-          />
+          /> */}
           <Accordion
             contentStyle={{ position: 'absolute', right: '2rem', top: '5rem' }}
             clickAway={clickAway}

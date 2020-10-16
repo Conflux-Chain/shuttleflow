@@ -83,7 +83,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         </p>
       )}
 
-      <label className={shuttleInCx('address')}>
+      <div className={shuttleInCx('address')}>
         <div className={shuttleCx('title', 'with-question')}>
           <span>{t('address')}</span>
           <img
@@ -120,7 +120,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             ></img>
           )}
         </div>
-      </label>
+      </div>
       {tokenInfo && (
         <p className={shuttleCx('small-text')}>
           <span>{t('latest')}</span>
