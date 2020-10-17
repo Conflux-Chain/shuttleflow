@@ -6,7 +6,6 @@ import Token from '../token/Token'
 import Caption from '../token/caption/Caption'
 import History from '../history/History'
 import Market from '../market/Market'
-import Example from './Example'
 
 function Main() {
   return (
@@ -17,7 +16,6 @@ function Main() {
       <Route path="/caption" component={Caption} />
       <Route path="/history" component={History} />
       <Route path="/market" component={Market} />
-      <Route path="/example" component={Example} />
     </Switch>
   )
 }
