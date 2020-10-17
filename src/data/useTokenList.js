@@ -60,7 +60,9 @@ function isAddress(x) {
 
 function fetchTokenSponsor(method = '', data = {}) {
   return jsonrpc(method, { url: 'sponsor', ...data }).then((result) => {
+    console.log(result)
     return (
+      
       result
         //todo walk around bug
         .filter((x) => (method === 'getTokenList' ? x.ctoken : true))
