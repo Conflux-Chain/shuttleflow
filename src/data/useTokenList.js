@@ -2,6 +2,9 @@ import { useEffect } from 'react'
 import jsonrpc from './jsonrpc'
 import useState1 from './useState1'
 
+const REF_SYMBOL = { eth: 'ETH', btc: 'BTC' }
+const REF_NAME = { eth: 'Ethereum', btc: 'Bitcoin' }
+
 const supportedTokens = fetchTokenSponsor('getTokenList')
 //prefetch the result even before the react started
 //tell if the promise resolved
@@ -18,34 +21,38 @@ export default function useTokenList(search) {
     }
     supportedTokens
       .then((tokens) => {
-        supportedTokensResolved = true
-        if (search) {
-          search = search.toLowerCase()
-          const found = tokens.filter(
-            ({ ctoken, reference, reference_symbol, reference_name }) => {
-              return (
-                ctoken === search ||
-                reference === search ||
-                reference_symbol.toLowerCase().indexOf(search) > -1 ||
-                reference_name.toLowerCase().indexOf(search) > -1
-              )
-            }
-          )
+        tokens = tokens.map((t) => {
+          t.reference_name = t.reference_name || REF_NAME[t.reference]
+          t.reference_symbol = t.reference_symbol || REF_SYMBOL[t.reference]
+          return t
+        })
 
-          if (found.length > 0) {
-            return found
-          } else {
-            
-            if (isAddress(search)) {
-              // requirement change: no backend search
-              return []
-              // return fetchTokenSponsor('searchToken', { params: [search] })
-            } else {
-              return []
-            }
+        supportedTokensResolved = true
+
+        if (!search) return tokens
+
+        search = search.toLowerCase()
+        const found = tokens.filter(
+          ({ ctoken, reference, reference_symbol, reference_name }) => {
+            return (
+              ctoken === search ||
+              reference === search ||
+              reference_symbol.toLowerCase().indexOf(search) > -1 ||
+              reference_name.toLowerCase().indexOf(search) > -1
+            )
           }
+        )
+
+        if (found.length > 0) {
+          return found
         } else {
-          return tokens
+          if (isAddress(search)) {
+            // requirement change: no backend search
+            return []
+            // return fetchTokenSponsor('searchToken', { params: [search] })
+          } else {
+            return []
+          }
         }
       })
       .then((tokens) => {
@@ -61,9 +68,8 @@ function isAddress(x) {
 
 function fetchTokenSponsor(method = '', data = {}) {
   return jsonrpc(method, { url: 'sponsor', ...data }).then((result) => {
-    console.log(result)
+    console.log('fetchTokenSponsor', result)
     return (
-      
       result
         //todo walk around bug
         .filter((x) => (method === 'getTokenList' ? x.ctoken : true))
@@ -72,7 +78,9 @@ function fetchTokenSponsor(method = '', data = {}) {
           // 其他的都是decimal
           //todo symbol is undefined currently
           const {
+            symbol,
             reference_symbol,
+            reference_name,
             sponsor_value,
             total_supply,
             decimals,
@@ -80,11 +88,17 @@ function fetchTokenSponsor(method = '', data = {}) {
             minimal_mint_value,
             mint_fee,
             burn_fee,
+            reference,
           } = d
+
+          const refName = reference_name || REF_NAME[reference]
+          const refSymbol = reference_symbol || REF_SYMBOL[reference]
 
           return {
             ...d,
-            symbol: 'c' + reference_symbol,
+            reference_name: refName,
+            reference_symbol: refSymbol,
+            symbol: symbol || 'c' + refSymbol,
             total_supply: format(total_supply, 18),
             sponsor_value: format(sponsor_value, 18),
             minimal_burn_value: format(minimal_burn_value, decimals),
