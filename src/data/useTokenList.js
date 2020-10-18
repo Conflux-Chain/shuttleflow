@@ -3,7 +3,7 @@ import jsonrpc from './jsonrpc'
 import useState1 from './useState1'
 
 const REF_SYMBOL = { eth: 'ETH', btc: 'BTC' }
-const REF_NAME = { eth: 'Ethereum', btc: 'Bitcoin' }
+const REF_NAME = { eth: 'Ether', btc: 'Bitcoin' }
 
 const supportedTokens = fetchTokenSponsor('getTokenList')
 //prefetch the result even before the react started
