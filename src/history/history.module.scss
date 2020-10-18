@@ -1,52 +1,54 @@
 .history-container {
-    position: relative;
-    .select {
-        &.small {
-            //todo it can go outside
-            //overflow:scroll somehow
-            position: fixed;
-            left: -2rem;
-            right: -2rem;
-        }
-        &.large {
-            position: absolute;
-            left: -2rem;
-            right: -2rem;
-        }
-
-        .select-item {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            cursor: pointer;
-            &.small {
-                height: 7.75rem;
-                font-size: 2rem;
-            }
-            &.large {
-                height: 6.75rem;
-                font-size: 1.25rem;
-            }
-        }
-        .select-content {
-            background-color: black;
-        }
-        .active {
-            color: #44d7b6 !important;
-        }
-        .hover:hover {
-            background-color: rgba($color: #f2f6fd, $alpha: 0.1);
-        }
+  position: relative;
+  .select {
+    &.small {
+      //todo it can go outside
+      //overflow:scroll somehow
+      position: fixed;
+      z-index: 1;
+      left: -2rem;
+      right: -2rem;
     }
+    &.large {
+      position: absolute;
+      z-index: 1;
+      left: -2rem;
+      right: -2rem;
+    }
+
+    .select-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      cursor: pointer;
+      &.small {
+        height: 7.75rem;
+        font-size: 2rem;
+      }
+      &.large {
+        height: 6.75rem;
+        font-size: 1.25rem;
+      }
+    }
+    .select-content {
+      background-color: black;
+    }
+    .active {
+      color: #44d7b6 !important;
+    }
+    .hover:hover {
+      background-color: rgba($color: #f2f6fd, $alpha: 0.1);
+    }
+  }
 }
 
 .history-items {
-    //make room for the absolute filter at the top
-    &.small {
-        padding-top: 7.75rem;
-    }
-    &.large {
-        padding-top: 6.75rem;
-    }
+  //make room for the absolute filter at the top
+  &.small {
+    padding-top: 7.75rem;
+  }
+  &.large {
+    padding-top: 6.75rem;
+  }
 }

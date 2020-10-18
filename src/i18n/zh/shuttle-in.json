@@ -1,5 +1,5 @@
 {
-  "address": "Shuttle In 地址",
+  "address": "充值地址",
   "address-placeholder": "钱包地址",
   "amount": "最小 Shuttle In 数量 {{minimal_mint_value}} {{reference_symbol}}",
   "fee": "Shuttle In 手续费 {{mint_fee}} {{symbol}}",
