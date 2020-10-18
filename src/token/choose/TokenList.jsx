@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import formatAddress from '../../component/formatAddress'
 import useTokenList from '../../data/useTokenList'
 
-const FREQUENT_TOKENS = ['0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f']
+const FREQUENT_TOKENS = ['0x6b175474e89094c44da98b954eedeac495271d0f']
 
 function TokenList({
   token,
@@ -39,6 +39,7 @@ function TokenList({
     return <h1>Loading</h1>
   }
 
+  console.log(tokenList)
   return (
     //we should combine frequent token and tokenlist in one component
     //cause they share the same container of fixed height
@@ -53,6 +54,11 @@ function TokenList({
                 tokenData = tokenList.find(
                   ({ reference }) => reference === _preset_reference
                 )
+                //frequent token is hardcoded, in case the
+                //tokenlist change and hardcoded data not found
+                if (!tokenData) {
+                  return null
+                }
                 active = tokenData.reference === token
               }
               return (

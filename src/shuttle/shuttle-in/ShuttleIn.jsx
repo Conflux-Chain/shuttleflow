@@ -34,7 +34,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
   //display tokenInfo only when token is url available
   const tokenInfo = urlToken && tokens ? tokens[0] : null
   const { t } = useTranslation(['shuttle-in', 'common'])
-  console.log(tokenInfo)
+
   const address = useShuttleInAddress(tokenInfo)
 
   const [addressPopup, setAddressPopup] = useState(false)

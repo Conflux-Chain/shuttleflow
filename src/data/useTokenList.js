@@ -1,5 +1,6 @@
-import { useEffect, useReducer, useState } from 'react'
+import { useEffect } from 'react'
 import jsonrpc from './jsonrpc'
+import useState1 from './useState1'
 
 const supportedTokens = fetchTokenSponsor('getTokenList')
 //prefetch the result even before the react started
@@ -9,11 +10,8 @@ supportedTokens.then((x) => {
   supportedTokensResolved = true
 })
 
-function reducer(state, action) {
-  return { ...state, ...action }
-}
 export default function useTokenList(search) {
-  const [state, setState] = useReducer(reducer, { tokens: [], isLoading: true })
+  const [state, setState] = useState1({ tokens: [], isLoading: true })
   useEffect(() => {
     if (!supportedTokensResolved) {
       setState({ isLoading: true })
@@ -37,8 +35,11 @@ export default function useTokenList(search) {
           if (found.length > 0) {
             return found
           } else {
+            
             if (isAddress(search)) {
-              return fetchTokenSponsor('searchToken', { params: [search] })
+              // requirement change: no backend search
+              return []
+              // return fetchTokenSponsor('searchToken', { params: [search] })
             } else {
               return []
             }
@@ -62,7 +63,6 @@ function fetchTokenSponsor(method = '', data = {}) {
   return jsonrpc(method, { url: 'sponsor', ...data }).then((result) => {
     console.log(result)
     return (
-      
       result
         //todo walk around bug
         .filter((x) => (method === 'getTokenList' ? x.ctoken : true))
