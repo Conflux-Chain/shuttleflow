@@ -2,6 +2,10 @@ import { useEffect } from 'react'
 import useState1 from './useState1'
 
 import tokenList from './tokenList'
+import jsonrpc from './jsonrpc'
+
+const REF_SYMBOL = { eth: 'ETH', btc: 'BTC' }
+const REF_NAME = { eth: 'Ether', btc: 'Bitcoin' }
 
 let supportedTokensResolved
 tokenList.then((x) => {
@@ -16,8 +20,14 @@ export default function useTokenList(search) {
     }
     tokenList
       .then((tokens) => {
+        tokens = tokens.map((t) => {
+          t.reference_name = t.reference_name || REF_NAME[t.reference]
+          t.reference_symbol = t.reference_symbol || REF_SYMBOL[t.reference]
+          return t
+        })
+
         supportedTokensResolved = true
-        console.log(tokens)
+
         if (search) {
           const lowersearch = search.toLowerCase()
           const found = tokens.filter(
@@ -39,8 +49,6 @@ export default function useTokenList(search) {
           } else {
             return []
           }
-        } else {
-          return tokens
         }
       })
       .then((tokens) => {

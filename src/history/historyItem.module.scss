@@ -126,19 +126,6 @@
     justify-content: space-between;
     align-items: center;
 
-    .img {
-      cursor: pointer;
-      &.large {
-        width: 1rem;
-        height: 1rem;
-        margin-right: 1rem;
-      }
-    }
-
-    &.complete {
-      color: white;
-    }
-
     &.small {
       height: 6.25rem;
       font-size: 2rem;
@@ -151,8 +138,22 @@
       margin-bottom: 1rem;
       padding-left: 1rem;
     }
+
+    .img {
+      cursor: pointer;
+      &.large {
+        width: 1rem;
+        height: 1rem;
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  &.complete {
+    color: white;
   }
 }
+
 .dot-container {
   display: flex;
   align-items: center;

@@ -51,7 +51,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
 
   const { burn } = useCToken(
     tokenInfo ? tokenInfo.ctoken : '',
-    '0x82209899b1faa5f32ec80a7c7efb34aee7273d90'
+    '0x897c185209ed461070db137ae34b18f467bef8a8'
   )
 
   const {
