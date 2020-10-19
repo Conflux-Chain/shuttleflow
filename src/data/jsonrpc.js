@@ -1,5 +1,10 @@
 //https://dev.shuttleflow.io
 //http://23.102.224.244:8018
+
+//https://rinkeby.etherscan.io/tx/
+//https://etherscan.io/
+
+//https://confluxscan.io/
 const URLS = {
   node: 'https://dev.shuttleflow.io',
   sponsor: 'http://23.102.224.244:8018',

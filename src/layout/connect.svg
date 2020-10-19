@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Pc暗黑" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3-交易历史" transform="translate(-1254.000000, -35.000000)" stroke-width="0.8">
+            <g id="已连接" transform="translate(1254.000000, 35.000000)">
+                <circle id="椭圆形" stroke="#FFFFFF" fill="#44D7B6" cx="6" cy="6" r="3.6"></circle>
+                <circle id="椭圆形" stroke="#44D7B6" cx="6" cy="6" r="5.6"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

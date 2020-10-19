@@ -5,20 +5,16 @@ import HistoryItem from './HistoryItem'
 import styles from './ShuttleHistory.module.scss'
 import rightArrow from './right-arrow.svg'
 import sync from './sync.svg'
-import histories from '../data/mock/historyDB'
 import { useTranslation } from 'react-i18next'
 import useHistories from '../data/useHistory'
-import { useConfluxPortal } from '@cfxjs/react-hooks'
 
 export default function ShuttleHistory() {
   const { t } = useTranslation('common', 'history')
-  const { address } = useConfluxPortal()
 
   const history = useHistory()
   const { data: histories, reload, loading } = useHistories({
     status: ['doing'],
     limit: 3,
-    address,
   })
   const [cx] = useStyle(styles)
   return histories.length > 0 ? (

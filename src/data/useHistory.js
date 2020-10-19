@@ -4,36 +4,41 @@ import jsonrpc from './jsonrpc'
 import { tokenMap as tokeMapPms } from './tokenList'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import formatNum from './formatNum'
+import { useConfluxPortal } from '@cfxjs/react-hooks'
 
 export default function useHistory({
   token,
   status,
-  type,
-  address,
   limit = 100,
 } = {}) {
-  const [state, setState] = useState1({ data: [], loading: false })
+  const { address } = useConfluxPortal()
+  const [state, setState] = useState1({ data: [], loading: true })
   const reload = useRef(null)
   useDeepCompareEffect(() => {
-    const _reload = () => {
-      fetchHistory({ status, limit, address }).then((data) => {
-        setState({ data })
-      })
+
+    if (address) {
+      //portal is not connected
+      const _reload = () => {
+        setState({ loading: true })
+        return fetchHistory({ status, limit, address }).then((data) => {
+          setState({ data, loading: false })
+        })
+      }
+      reload.current = () => {
+        setState({ loading: true })
+        Promise.all([
+          new Promise((resolve) => {
+            setTimeout(() => {
+              resolve()
+            }, 3000)
+          }),
+          fetchHistory({ status, limit, address }),
+        ]).then(([_, data]) => {
+          setState({ data, loading: false })
+        })
+      }
+      _reload()
     }
-    reload.current = () => {
-      setState({ loading: true })
-      Promise.all([
-        new Promise((resolve) => {
-          setTimeout(() => {
-            resolve()
-          }, 3000)
-        }),
-        fetchHistory({ status }),
-      ]).then(([_, data]) => {
-        setState({ data, loading: false })
-      })
-    }
-    _reload()
   }, [token, status, setState, address])
 
   //   const reload = () => {}

@@ -100,8 +100,8 @@ export default function HistoryItem(props) {
                       let url
                       if (i <= 1) {
                         if (type === 'mint') {
-                          url =
-                            'https://etherscan.io/txsInternal' + nonce_or_txid
+                          console.log('nonce_or_txid', nonce_or_txid)
+                          url = 'https://etherscan.io/tx/' + nonce_or_txid
                         } else {
                           url =
                             'https://confluxscan.io/transactionsdetail/' +
@@ -113,7 +113,7 @@ export default function HistoryItem(props) {
                             'https://confluxscan.io/transactionsdetail/' +
                             settled_tx
                         } else {
-                          url = 'https://etherscan.io/txsInternal' + settled_tx
+                          url = 'https://etherscan.io/tx/' + settled_tx
                         }
                       }
                       window.open(url, '_blank')

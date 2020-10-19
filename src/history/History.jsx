@@ -5,7 +5,9 @@ import useStyle from '../component/useStyle'
 import Accordion from '../component/Accordion'
 import { useTranslation } from 'react-i18next'
 import useHistory from '../data/useHistory'
+import notFound from '../component/not-found.png'
 import { useConfluxPortal } from '@cfxjs/react-hooks'
+import open from './down.svg'
 
 const FILTERS = [
   ['all', ['doing', 'finished']],
@@ -16,12 +18,10 @@ const FILTERS = [
 export default function History() {
   const [cx] = useStyle(historyStyles)
   const { t } = useTranslation('history')
-  const { address } = useConfluxPortal()
   const [expanded, setExpanded] = useState(false)
   const [filter, setFilter] = useState(0)
-  const { data: histories } = useHistory({
+  const { data: histories, loading } = useHistory({
     status: FILTERS[filter][1],
-    // address,
   })
   console.log(histories)
   return (
@@ -31,15 +31,22 @@ export default function History() {
           expanded={expanded}
           title={
             <div
-              className={cx('select-item')}
               onClick={() => setExpanded((x) => !x)}
+              className={cx('filter-container')}
             >
-              {t(FILTERS[filter][0])}
+              <div className={cx('select-item', 'filter-txt')}>
+                {t(FILTERS[filter][0])}
+              </div>
+              <img
+                alt="open"
+                className={cx('down', { expanded })}
+                src={open}
+              ></img>
             </div>
           }
           content={
             <div className={cx('select-content')}>
-              {FILTERS.map((status, i) => (
+              {FILTERS.map((_, i) => (
                 <div
                   onClick={() => {
                     setExpanded(false)
@@ -47,7 +54,7 @@ export default function History() {
                   }}
                   key={i}
                   className={cx('select-item', 'hover', {
-                    active: status === filter,
+                    active: i === filter,
                   })}
                 >
                   {t(FILTERS[i][0])}
@@ -57,11 +64,21 @@ export default function History() {
           }
         />
       </div>
-      <div className={cx('history-items')}>
-        {histories.map((props, i) => {
-          return <HistoryItem key={i} {...props} />
-        })}
-      </div>
+      {loading ? null : (
+        <div className={cx('history-items')}>
+          {histories.length > 0 ? (
+            histories.map((props, i) => {
+              return <HistoryItem key={i} {...props} />
+            })
+          ) : (
+            <img
+              style={{ display: 'block', margin: 'auto' }}
+              alt="not found"
+              src={notFound}
+            />
+          )}
+        </div>
+      )}
     </div>
   )
 }
