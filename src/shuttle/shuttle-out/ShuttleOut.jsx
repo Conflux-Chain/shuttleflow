@@ -28,6 +28,7 @@ import useTokenList from '../../data/useTokenList'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
 import Input from '../Input'
+import formatNum from '../../data/formatNum'
 
 export default function ShuttleOut({ location: { search }, match: { url } }) {
   const [commonCx, buttonCx, modalCx, shuttleCx, shuttleOutCx] = useStyle(
@@ -55,14 +56,14 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
 
   const {
     balances: [, [_balance]],
-  } = useConfluxPortal(token && [token])
+  } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
   let balance
   if (_balance && tokenInfo) {
-    console.log()
-    balance = _balance / Math.pow(10, tokenInfo.decimals)
+    console.log(_balance.toString())
+    balance = formatNum(_balance, tokenInfo.decimals)
   }
   //to do fake a balance
-  balance = 100
+  // balance = 100
   const schema = yup.object().shape({
     outamount: yup
       .number()

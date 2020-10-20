@@ -6,21 +6,20 @@ import useDeepCompareEffect from 'use-deep-compare-effect'
 import formatNum from './formatNum'
 import { useConfluxPortal } from '@cfxjs/react-hooks'
 
-export default function useHistory({
-  token,
-  status,
-  limit = 100,
-} = {}) {
+export default function useHistory({ token, status, limit = 100 } = {}) {
   const { address } = useConfluxPortal()
   const [state, setState] = useState1({ data: [], loading: true })
   const reload = useRef(null)
   useDeepCompareEffect(() => {
-
     if (address) {
       //portal is not connected
       const _reload = () => {
         setState({ loading: true })
-        return fetchHistory({ status, limit, address }).then((data) => {
+        return fetchHistory({
+          status,
+          limit,
+          address,
+        }).then((data) => {
           setState({ data, loading: false })
         })
       }
