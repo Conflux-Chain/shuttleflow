@@ -1142,10 +1142,10 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@cfxjs/react-hooks@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@cfxjs/react-hooks/-/react-hooks-0.1.4.tgz#0de0b5cf9cb354cb3c7d925be1c9ec02224c5170"
-  integrity sha512-lxM8WA5rCVKqgCbt34YcC3f7aEHQuGutpvLhWpA6yBtY8gOcq5ZC1Y3Zs80E2qS3OOyfuAARU2i7Dqqi2YWrXg==
+"@cfxjs/react-hooks@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@cfxjs/react-hooks/-/react-hooks-0.1.7.tgz#593c9ae5589cd8a7668a6793316f1addd6f1b9c1"
+  integrity sha512-+HCV3NwJOWxTYZf8j1gke80zBYEC64nulL4CFdHgljAJjOVe1gQIQdPE1KxwvF1CyYwMPd6QweCAdqqMypvo5g==
   dependencies:
     big.js "^6.0.1"
     react-use "^15.3.4"
@@ -1507,6 +1507,11 @@
   integrity sha512-Pzh9O3sTK8V6I1olsXpCfj2k/ygO2q1X0vhhnDrEQyYLHZesWz+zMZMVcwXLCYf0U36EtmyYaFGPfXlTtDHe3A==
   dependencies:
     "@babel/types" "^7.3.0"
+
+"@types/big.js@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/big.js/-/big.js-6.0.0.tgz#44967c254a3b6dd8426f0a5e3a40717b487aa984"
+  integrity sha512-EESIS1UIBimpfgoO0Ns9C4wnu/dA5pGa6mZDBSwZkshPRAmgLPu9yHEM8xDsmhZRT5sy+q/o6y922G2tP5kY2w==
 
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"

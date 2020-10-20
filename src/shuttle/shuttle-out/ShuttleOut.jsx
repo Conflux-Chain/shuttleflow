@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import { useTranslation } from 'react-i18next'
 import { useConfluxPortal } from '@cfxjs/react-hooks'
 import useCToken from '@cfxjs/react-hooks/lib/useCToken'
@@ -63,7 +62,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     balance = _balance / Math.pow(10, tokenInfo.decimals)
   }
   //to do fake a balance
-  // balance = 100
+  balance = 100
   const schema = yup.object().shape({
     outamount: yup
       .number()
@@ -86,7 +85,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   })
   const onSubmit = (data) => {
     const { outaddress, outamount } = data
-
+    console.log(data)
     burn(outamount, outaddress)
       .then((e) => {
         console.log(e)
@@ -147,6 +146,15 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
             <input
               ref={register}
               name="outamount"
+              onChange={(e) => {
+                let value = e.target.value
+                let [p1, p2] = value.split('.')
+                if (p2) {
+                  p2 = p2.slice(0, 6)
+                  value = [p1, p2].join('.')
+                }
+                e.target.value = value
+              }}
               placeholder={
                 !tokenInfo
                   ? t('placeholder.input-amount')
