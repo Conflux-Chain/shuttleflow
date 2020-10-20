@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react'
-import { useConfluxPortal } from '@cfxjs/react-hooks'
 
 import Main from './Main'
 import logo from './logo.svg'
@@ -9,14 +8,13 @@ import classNamesBind from 'classnames/bind'
 import styles from './LayoutLarge.module.scss'
 import MenuLink from '../component/MenuLink'
 import { useTranslation } from 'react-i18next'
-import formatAddress from '../component/formatAddress'
+
 import Accordion from '../component/Accordion'
+import UserAddress from './UserAddress'
 
 const cx = classNamesBind.bind(styles)
 
 export default function LayoutLarge({ history }) {
-  // const address = 'sqdergtyju7'
-  const { address } = useConfluxPortal()
   const [expandLng, setExpandLng] = useState(false)
   const { t, i18n } = useTranslation()
   const clickAway = useCallback(() => {
@@ -29,9 +27,13 @@ export default function LayoutLarge({ history }) {
         <img alt="home" onClick={() => history.push('/')} src={logo}></img>
 
         <div className={cx('right')}>
-          <span className={cx('address')}>
-            {address ? formatAddress(address) : ''}
-          </span>
+          {/* <div>
+            <img src={connect} alt="connect"></img>
+            <span className={cx('address')}>
+              {address ? formatAddress(address) : ''}
+            </span>
+          </div> */}
+          <UserAddress />
           <MenuLink
             to="/history"
             render={({ active }) => {
@@ -45,7 +47,7 @@ export default function LayoutLarge({ history }) {
               )
             }}
           />
-          {/* <MenuLink
+          <MenuLink
             to="/market"
             render={({ active }) => {
               return (
@@ -57,7 +59,7 @@ export default function LayoutLarge({ history }) {
                 </div>
               )
             }}
-          /> */}
+          />
           {/* <MenuLink
             to="/caption"
             render={({ active }) => {

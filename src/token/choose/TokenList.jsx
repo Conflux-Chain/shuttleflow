@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import useStyle from '../../component/useStyle'
 
 import linkSrc from './link.svg'
+import notFound from '../../component/not-found.png'
+import shuttle from '../../component/cIcon.svg'
 import tokenListStyles from './TokenList.module.scss'
 import titleStyles from './title.module.scss'
 import Check from './Check.jsx'
@@ -43,7 +45,13 @@ function TokenList({
   return (
     //we should combine frequent token and tokenlist in one component
     //cause they share the same container of fixed height
-    <div style={{ height: 'calc(100vh - 32rem)', overflow: 'auto' }}>
+    <div
+      style={{
+        height: 'calc(100vh - 33.5rem)',
+        overflow: 'auto',
+        position: 'relative',
+      }}
+    >
       {frequent && !search && tokenList.length && (
         <>
           <div className={titleCx('title')}>{t('txt.frequent-token')}</div>
@@ -74,11 +82,16 @@ function TokenList({
           </div>
         </>
       )}
-      <div className={titleCx('title')}>{t('txt.token-list')}</div>
+      {!search && <div className={titleCx('title')}>{t('txt.token-list')}</div>}
 
       <div className={ListCx('container')}>
         {displayedList.length === 0 ? (
-          <h1>Not found</h1>
+          // <h1>Not found</h1>
+          <img
+            alt="not found"
+            className={ListCx('not-found')}
+            src={notFound}
+          ></img>
         ) : (
           displayedList.map(
             (
@@ -106,16 +119,21 @@ function TokenList({
                 link = `https://confluxscan.io/token/${ctoken}`
               }
               return (
-                <div key={i} className={ListCx('row', { checked })}>
-                  <label>
-                    <Check active={checked} />
-                    <input
-                      type="checkbox"
-                      onChange={() => setToken(checked ? '' : _address)}
-                      checked={checked}
+                <div
+                  key={i}
+                  className={ListCx('row', { checked })}
+                  onClick={() => setToken(checked ? '' : _address)}
+                >
+                  <Check active={checked} />
+                  <div className={ListCx('img-container')}>
+                    <img alt="icon" className={ListCx('icon')} src={icon}></img>
+                    <img
+                      src={shuttle}
+                      className={ListCx('cicon')}
+                      alt="ctoken"
                     />
-                  </label>
-                  <img alt="icon" className={ListCx('icon')} src={icon}></img>
+                  </div>
+
                   <div className={ListCx('two-row')}>
                     <div className={ListCx('symbol-row')}>
                       <span className={ListCx('symbol')}>

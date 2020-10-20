@@ -23,8 +23,6 @@ export default function Input({
 
   useEffect(() => {
     if (tokenInfo) {
-      console.log(cTokenInputRef)
-      console.log(cTokenInputRef.current)
       const input = getComputedStyle(cTokenInputRef.current)
       const font = input.getPropertyValue('font')
       const paddingLeft = input.getPropertyValue('padding-left')

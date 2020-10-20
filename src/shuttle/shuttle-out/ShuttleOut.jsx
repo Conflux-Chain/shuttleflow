@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import { useTranslation } from 'react-i18next'
 import { useConfluxPortal } from '@cfxjs/react-hooks'
 import useCToken from '@cfxjs/react-hooks/lib/useCToken'
@@ -29,6 +28,7 @@ import useTokenList from '../../data/useTokenList'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
 import Input from '../Input'
+import formatNum from '../../data/formatNum'
 
 export default function ShuttleOut({ location: { search }, match: { url } }) {
   const [commonCx, buttonCx, modalCx, shuttleCx, shuttleOutCx] = useStyle(
@@ -56,11 +56,11 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
 
   const {
     balances: [, [_balance]],
-  } = useConfluxPortal(token && [token])
+  } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
   let balance
   if (_balance && tokenInfo) {
-    console.log()
-    balance = _balance / Math.pow(10, tokenInfo.decimals)
+    console.log(_balance.toString())
+    balance = formatNum(_balance, tokenInfo.decimals)
   }
   //to do fake a balance
   // balance = 100
@@ -86,14 +86,11 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   })
   const onSubmit = (data) => {
     const { outaddress, outamount } = data
-
     burn(outamount, outaddress)
       .then((e) => {
-        console.log(e)
         setSuccessPopup(true)
       })
       .catch((e) => {
-        console.log(e)
         setErrorPopup(true)
       })
   }
@@ -147,6 +144,15 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
             <input
               ref={register}
               name="outamount"
+              onChange={(e) => {
+                let value = e.target.value
+                let [p1, p2] = value.split('.')
+                if (p2) {
+                  p2 = p2.slice(0, 6)
+                  value = [p1, p2].join('.')
+                }
+                e.target.value = value
+              }}
               placeholder={
                 !tokenInfo
                   ? t('placeholder.input-amount')

@@ -27,10 +27,7 @@
   .right {
     display: flex;
     align-items: center;
-    .address {
-      margin: 0 1.5625rem;
-      color: #44d7b6;
-    }
+
 
     .item {
       cursor: pointer;
@@ -97,6 +94,7 @@
   margin: auto;
   border-radius: 0.5rem;
   padding: 0 2rem;
+  padding-bottom: 2rem;
   width: 544px;
   max-height: calc(100vh - 10rem);
   overflow: scroll;

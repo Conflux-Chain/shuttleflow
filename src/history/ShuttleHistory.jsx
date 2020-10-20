@@ -5,20 +5,29 @@ import HistoryItem from './HistoryItem'
 import styles from './ShuttleHistory.module.scss'
 import rightArrow from './right-arrow.svg'
 import sync from './sync.svg'
-import histories from '../data/mock/historyDB'
 import { useTranslation } from 'react-i18next'
+import useHistories from '../data/useHistory'
 
-export default function ShuttleOutHistory() {
+export default function ShuttleHistory() {
   const { t } = useTranslation('common', 'history')
-  const history = useHistory()
 
+  const history = useHistory()
+  const { data: histories, reload, loading } = useHistories({
+    status: ['doing'],
+    limit: 3,
+  })
   const [cx] = useStyle(styles)
-  return (
+  return histories.length > 0 ? (
     <div>
       <div className={cx('txt-container')}>
         <div className={cx('left')}>
           <div className={cx('large-txt')}>{t('history')}</div>
-          <img alt="loading" className={cx('sync', 'loading')} src={sync}></img>
+          <img
+            alt="loading"
+            className={cx('sync', { loading })}
+            onClick={loading ? null : reload}
+            src={sync}
+          ></img>
         </div>
         <div className={cx('right')}>
           <div
@@ -34,5 +43,5 @@ export default function ShuttleOutHistory() {
         <HistoryItem {...props} key={i} />
       ))}
     </div>
-  )
+  ) : null
 }

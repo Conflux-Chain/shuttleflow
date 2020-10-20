@@ -1102,7 +1102,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.5", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.5", "@babel/runtime@^7.11.2", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
   version "7.12.1"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.1.tgz#b4116a6b6711d010b2dad3b7b6e43bf1b9954740"
   integrity sha512-J5AIf3vPj3UwXaAzb5j1xM4WAQDX3EMgemF8rjCP3SoW09LfRKAXQKt6CoVYl230P6iWdRcBbnLDDdnqWxZSCA==
@@ -1142,10 +1142,10 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@cfxjs/react-hooks@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@cfxjs/react-hooks/-/react-hooks-0.1.4.tgz#0de0b5cf9cb354cb3c7d925be1c9ec02224c5170"
-  integrity sha512-lxM8WA5rCVKqgCbt34YcC3f7aEHQuGutpvLhWpA6yBtY8gOcq5ZC1Y3Zs80E2qS3OOyfuAARU2i7Dqqi2YWrXg==
+"@cfxjs/react-hooks@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@cfxjs/react-hooks/-/react-hooks-0.1.7.tgz#593c9ae5589cd8a7668a6793316f1addd6f1b9c1"
+  integrity sha512-+HCV3NwJOWxTYZf8j1gke80zBYEC64nulL4CFdHgljAJjOVe1gQIQdPE1KxwvF1CyYwMPd6QweCAdqqMypvo5g==
   dependencies:
     big.js "^6.0.1"
     react-use "^15.3.4"
@@ -1508,6 +1508,11 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/big.js@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/big.js/-/big.js-6.0.0.tgz#44967c254a3b6dd8426f0a5e3a40717b487aa984"
+  integrity sha512-EESIS1UIBimpfgoO0Ns9C4wnu/dA5pGa6mZDBSwZkshPRAmgLPu9yHEM8xDsmhZRT5sy+q/o6y922G2tP5kY2w==
+
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -1566,15 +1571,35 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
+"@types/prop-types@*":
+  version "15.7.3"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
+  integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
+
 "@types/q@^1.5.1":
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.4.tgz#15925414e0ad2cd765bfef58842f7e26a7accb24"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
+"@types/react@*":
+  version "16.9.53"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.53.tgz#40cd4f8b8d6b9528aedd1fff8fcffe7a112a3d23"
+  integrity sha512-4nW60Sd4L7+WMXH1D6jCdVftuW7j4Za6zdp6tJ33Rqv0nk1ZAmQKML9ZLD4H0dehA3FZxXR/GM8gXplf82oNGw==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^3.0.2"
+
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
+
+"@types/use-deep-compare-effect@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@types/use-deep-compare-effect/-/use-deep-compare-effect-1.2.0.tgz#d55d9bda6fea5ff7c93038c53052db1b3145f5d9"
+  integrity sha512-2uNqaSobMvUTGR7G72tUHDX+Kx341q25OuM0m2B6VID7eljIvYuDaFTKfmDnbvej67yEhCc35zA6dmIYriwOXA==
+  dependencies:
+    "@types/react" "*"
 
 "@types/yargs-parser@*":
   version "15.0.0"
@@ -3709,7 +3734,7 @@ depd@~1.1.2:
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
   integrity sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=
 
-dequal@2.0.2:
+dequal@2.0.2, dequal@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/dequal/-/dequal-2.0.2.tgz#85ca22025e3a87e65ef75a7a437b35284a7e319d"
   integrity sha512-q9K8BlJVxK7hQYqa6XISGmBZbtQQWVXSrRrWreHC94rMt1QL/Impruc+7p2CYSYuVIUr+YCt6hjrs1kkdJRTug==
@@ -10964,6 +10989,15 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-deep-compare-effect@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/use-deep-compare-effect/-/use-deep-compare-effect-1.4.0.tgz#3f40e3fa5b0b8d79e4126e83be384ed602472405"
+  integrity sha512-46rF7ULcRnxI4+1Zoul95+KB48hpn1MUH1aXEBMyU+Sh1KJDqrTAkwhnxQL6ydBAqu3gLebYylcr0zpVBzbxxQ==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@types/use-deep-compare-effect" "^1.2.0"
+    dequal "^2.0.2"
 
 use@^3.1.0:
   version "3.1.1"

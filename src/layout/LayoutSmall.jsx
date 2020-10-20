@@ -93,14 +93,14 @@ export default function LayoutSmall(props) {
           >
             {t('btn.history')}
           </div>
-          {/* <div
+          <div
             className={cx('item')}
             onClick={() => {
               history.push('/market')
             }}
           >
             {t('btn.markets')}
-          </div> */}
+          </div>
           {/* <div
             className={cx('item')}
             onClick={() => {
@@ -120,7 +120,7 @@ export default function LayoutSmall(props) {
                   }}
                   className={cx('up', { lngOpen: !lngOpen })}
                   src={up}
-                  alt='up'
+                  alt="up"
                 ></img>
               </div>
             }

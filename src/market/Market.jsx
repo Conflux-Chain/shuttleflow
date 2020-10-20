@@ -1,34 +1,33 @@
 import React, { Suspense, useState } from 'react'
-import useSWR from 'swr'
 import useStyle from '../component/useStyle'
-import swrTokenListFetcher from '../data/mock/swrTokenListFetcher'
 import styles from './Market.module.scss'
 import shuttle from '../component/cIcon.svg'
 
 import Triangle from './Triangle.jsx'
 import { useTranslation } from 'react-i18next'
+import useTokenList from '../data/useTokenList'
 
 const sorts = {
   name: (a, b) => {
-    return a.cSymbol.localeCompare(b.cSymbol)
+    return a.symbol.localeCompare(b.symbol)
   },
   'name-reverse': (a, b) => {
-    return a.cSymbol.localeCompare(b.cSymbol) * -1
+    return a.symbol.localeCompare(b.symbol) * -1
   },
   supply: (a, b) => {
-    return a.supply - b.supply
+    return a.total_supply - b.total_supply
   },
   'supply-reverse': (a, b) => {
-    return b.supply - a.supply
+    return b.total_supply - a.total_supply
   },
 }
 
 function Market() {
-  const { data: tokens } = useSWR('/tokenList', swrTokenListFetcher, {
-    suspense: true,
-  })
+  const { tokens } = useTokenList()
   const [cx] = useStyle(styles)
   const { t } = useTranslation()
+
+  console.log('tokens', tokens)
   const [sort, setSort] = useState('name')
   return (
     <div>
@@ -75,28 +74,32 @@ function Market() {
           </div>
         </div>
       </div>
-      {tokens.sort(sorts[sort]).map(({ icon, cSymbol, cName, supply }) => {
-        return (
-          <div key={cSymbol} className={cx('list')}>
-            <div className={cx('left')}>
-              <div className={cx('img-container')}>
-                <img alt="icon" className={cx('img')} src={icon}></img>
-                <img
-                  alt="shuttle"
-                  className={cx('shuttle')}
-                  src={shuttle}
-                ></img>
-              </div>
+      {tokens
+        .sort(sorts[sort])
+        .map(({ icon, symbol, reference_name, total_supply }) => {
+          return (
+            <div key={symbol} className={cx('list')}>
+              <div className={cx('left')}>
+                <div className={cx('img-container')}>
+                  <img alt="icon" className={cx('img')} src={icon}></img>
+                  <img
+                    alt="shuttle"
+                    className={cx('shuttle')}
+                    src={shuttle}
+                  ></img>
+                </div>
 
-              <div className={cx('txt')}>
-                <div className={cx('large-txt')}>{cSymbol}</div>
-                <div className={cx('small-txt')}>{cName}</div>
+                <div className={cx('txt')}>
+                  <div className={cx('large-txt')}>{symbol}</div>
+                  <div className={cx('small-txt')}>
+                    {'conflux ' + reference_name}
+                  </div>
+                </div>
               </div>
+              <div className={cx('right')}>{total_supply}</div>
             </div>
-            <div className={cx('right')}>{supply}</div>
-          </div>
-        )
-      })}
+          )
+        })}
     </div>
   )
 }
