@@ -71,6 +71,7 @@
 
     .link-txt {
       color: rgba($color: #ffffff, $alpha: 0.4);
+      font-family: monospace;
       &.small {
         font-size: 1.5rem;
       }
@@ -145,7 +146,6 @@
 
     color: white;
     display: flex;
-
     align-items: center;
     background: rgba($color: #f8f8f8, $alpha: 0.2);
   }
@@ -161,5 +161,14 @@
   bottom: 0;
   &.large {
     width: 15rem;
+  }
+}
+
+.img-container {
+  position: relative;
+  .cicon {
+    position: absolute;
+    bottom: 0;
+    left: 2rem;
   }
 }

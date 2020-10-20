@@ -1,7 +1,12 @@
 import jsonrpc from './jsonrpc'
 import format from './formatNum'
+import btc from './bcoin.svg'
+import eth from './ether.svg'
 
-
+const icons = {
+  btc,
+  eth,
+}
 
 const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
   console.log(result)
@@ -10,6 +15,7 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
     // 其他的都是decimal
     //todo symbol is undefined currently
     const {
+      reference,
       reference_symbol,
       sponsor_value,
       total_supply,
@@ -18,8 +24,8 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
       minimal_mint_value,
       mint_fee,
       burn_fee,
+      icon,
     } = d
-
     return {
       ...d,
       symbol: 'c' + reference_symbol,
@@ -29,6 +35,7 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
       minimal_mint_value: format(minimal_mint_value, decimals),
       mint_fee: format(mint_fee, decimals),
       burn_fee: format(burn_fee, decimals),
+      icon: icon || icons[reference],
     }
   })
 })

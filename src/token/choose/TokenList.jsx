@@ -3,6 +3,7 @@ import useStyle from '../../component/useStyle'
 
 import linkSrc from './link.svg'
 import notFound from '../../component/not-found.png'
+import shuttle from '../../component/cIcon.svg'
 import tokenListStyles from './TokenList.module.scss'
 import titleStyles from './title.module.scss'
 import Check from './Check.jsx'
@@ -48,7 +49,7 @@ function TokenList({
       style={{
         height: 'calc(100vh - 33.5rem)',
         overflow: 'auto',
-        position:'relative'
+        position: 'relative',
       }}
     >
       {frequent && !search && tokenList.length && (
@@ -124,7 +125,15 @@ function TokenList({
                   onClick={() => setToken(checked ? '' : _address)}
                 >
                   <Check active={checked} />
-                  <img alt="icon" className={ListCx('icon')} src={icon}></img>
+                  <div className={ListCx('img-container')}>
+                    <img alt="icon" className={ListCx('icon')} src={icon}></img>
+                    <img
+                      src={shuttle}
+                      className={ListCx('cicon')}
+                      alt="ctoken"
+                    />
+                  </div>
+
                   <div className={ListCx('two-row')}>
                     <div className={ListCx('symbol-row')}>
                       <span className={ListCx('symbol')}>

@@ -86,14 +86,11 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   })
   const onSubmit = (data) => {
     const { outaddress, outamount } = data
-    console.log(data)
     burn(outamount, outaddress)
       .then((e) => {
-        console.log(e)
         setSuccessPopup(true)
       })
       .catch((e) => {
-        console.log(e)
         setErrorPopup(true)
       })
   }

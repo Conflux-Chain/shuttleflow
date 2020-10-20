@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import Accordion from '../component/Accordion'
 import useStyle from '../component/useStyle'
 import itemStyle from './historyItem.module.scss'
+import { useTranslation } from 'react-i18next'
+
 import open from './open.svg'
 import link from './link.svg'
-import { useTranslation } from 'react-i18next'
 
 const STEPS = {
   mint: ['init', 'main', 'shuttle', 'conflux'],
