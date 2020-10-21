@@ -10,8 +10,16 @@ import Check from './Check.jsx'
 import { useTranslation } from 'react-i18next'
 import formatAddress from '../../component/formatAddress'
 import useTokenList from '../../data/useTokenList'
+import { Scrollbars } from 'react-custom-scrollbars'
+import renderThumbVertical from '../../component/renderThumbVertical'
 
-const FREQUENT_TOKENS = ['0x6b175474e89094c44da98b954eedeac495271d0f']
+const FREQUENT_TOKENS = [
+  'btc',
+  'eth',
+  '0xdac17f958d2ee523a2206206994597c13d831ec7', //usdt
+  '0x6b175474e89094c44da98b954eedeac495271d0f', // dai
+  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', //usdc
+]
 
 function TokenList({
   token,
@@ -45,10 +53,11 @@ function TokenList({
   return (
     //we should combine frequent token and tokenlist in one component
     //cause they share the same container of fixed height
-    <div
+    <Scrollbars
+      autoHide
+      renderThumbVertical={renderThumbVertical}
       style={{
-        height: 'calc(100vh - 33.5rem)',
-        overflow: 'auto',
+        height: 'calc(100vh - 31rem)',
         position: 'relative',
       }}
     >
@@ -127,11 +136,13 @@ function TokenList({
                   <Check active={checked} />
                   <div className={ListCx('img-container')}>
                     <img alt="icon" className={ListCx('icon')} src={icon}></img>
-                    <img
-                      src={shuttle}
-                      className={ListCx('cicon')}
-                      alt="ctoken"
-                    />
+                    {cToken && (
+                      <img
+                        src={shuttle}
+                        className={ListCx('cicon')}
+                        alt="ctoken"
+                      />
+                    )}
                   </div>
 
                   <div className={ListCx('two-row')}>
@@ -182,7 +193,7 @@ function TokenList({
           )
         )}
       </div>
-    </div>
+    </Scrollbars>
   )
 }
 

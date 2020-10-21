@@ -34,8 +34,8 @@
     width: 2rem;
   }
   &.large {
-    right: 1.625rem;
-    width: 1rem;
+    right: 1.5rem;
+    width: 1.5rem;
   }
 }
 
@@ -58,6 +58,54 @@
       width: 2rem;
       height: 2rem;
       margin-right: 1rem;
+    }
+  }
+}
+
+.ctoken {
+  color: #333333;
+  &.large {
+    font-size: 1rem;
+  }
+
+  .contract-address {
+    &.large {
+      margin-top: 16px;
+      margin-bottom: 11px;
+    }
+  }
+
+  .ctoken-copy {
+    display: flex;
+    border: 1px solid rgba($color: #000000, $alpha: 0.1);
+    align-items: center;
+    justify-content: space-between;
+
+    &.large {
+      height: 3.375rem;
+    }
+    .popup-address {
+      margin-left: 0.75rem;
+      border: none;
+      outline: none;
+      width: 300px;
+      &:focus {
+        border: none;
+        outline: none;
+      }
+    }
+    .bar {
+      width: 1px;
+      height: 60%;
+      background-color: rgba($color: #000000, $alpha: 0.2);
+    }
+    .popup-copy {
+      cursor: pointer;
+      &.large {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 0.75rem;
+      }
     }
   }
 }

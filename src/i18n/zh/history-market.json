@@ -2,7 +2,8 @@
   "all": "全部",
   "success": "交易成功",
   "pending": "进行中",
-  "init": "Initiate cross-chain Shuttle In",
+  "init-in": "Initiate cross-chain Shuttle In",
+  "init-out": "Initiate cross-chain Shuttle Out",
   "main": "Confirm on mainnet ETH/BTC",
   "shuttle": "Confirm on ShuttleFlow",
   "conflux": "Confirm on Conflux"

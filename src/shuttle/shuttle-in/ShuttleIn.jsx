@@ -45,6 +45,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
 
   //useful for copying
   const copyInputRef = useRef(null)
+  const popupCopyRef = useRef(null)
 
   return (
     <div className={shuttleInCx('container')}>
@@ -133,7 +134,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
           </span>
         </p>
       )}
-      <ShuttleHistory />
+      <ShuttleHistory type="mint" />
       <Modal show={addressPopup} clickAway={() => setAddressPopup(false)}>
         <div className={modalCx('title')}>{t('common:popup.title')}</div>
         <div className={modalCx('content')}>{t('popup.address')}</div>
@@ -144,6 +145,36 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       <Modal show={cTokenPopup} clickAway={() => setCTokenPopup(false)}>
         <div className={modalCx('title')}>{t('common:popup.title')}</div>
         <div className={modalCx('content')}>{t('popup.ctoken')}</div>
+        <div className={shuttleInCx('ctoken')}>
+          <div className={shuttleInCx('contract-address')}>
+            {t('popup.contract', tokenInfo)}
+          </div>
+          <div className={shuttleInCx('ctoken-copy')}>
+            <input
+              ref={popupCopyRef}
+              value={address}
+              readOnly
+              className={shuttleInCx('popup-address')}
+            ></input>
+            <div className={shuttleInCx('bar')}></div>
+            <img
+              className={shuttleInCx('popup-copy')}
+              src={copy}
+              alt="copy"
+              onClick={() => {
+                popupCopyRef.current.select()
+                popupCopyRef.current.setSelectionRange(
+                  0,
+                  99999
+                ) /*For mobile devices*/
+                document.execCommand('copy')
+                setCTokenPopup(false)
+                setCopyPopup(true)
+              }}
+            ></img>
+          </div>
+        </div>
+
         <div className={modalCx('btn')} onClick={() => setCTokenPopup(false)}>
           {t('common:popup.ok')}
         </div>

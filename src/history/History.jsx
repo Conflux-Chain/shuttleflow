@@ -6,7 +6,7 @@ import Accordion from '../component/Accordion'
 import { useTranslation } from 'react-i18next'
 import useHistory from '../data/useHistory'
 import notFound from '../component/not-found.png'
-import { useConfluxPortal } from '@cfxjs/react-hooks'
+import Histories from './Histories'
 import open from './down.svg'
 
 const FILTERS = [
@@ -20,6 +20,7 @@ export default function History() {
   const { t } = useTranslation('history')
   const [expanded, setExpanded] = useState(false)
   const [filter, setFilter] = useState(0)
+
   const { data: histories, loading } = useHistory({
     status: FILTERS[filter][1],
   })
@@ -67,9 +68,7 @@ export default function History() {
       {loading ? null : (
         <div className={cx('history-items')}>
           {histories.length > 0 ? (
-            histories.map((props, i) => {
-              return <HistoryItem key={i} {...props} />
-            })
+            <Histories histories={histories} />
           ) : (
             <img
               style={{ display: 'block', margin: 'auto' }}

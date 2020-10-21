@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useConfluxPortal } from '@cfxjs/react-hooks'
 import useCToken from '@cfxjs/react-hooks/lib/useCToken'
@@ -29,6 +29,7 @@ import useTokenList from '../../data/useTokenList'
 import ShuttleHistory from '../../history/ShuttleHistory'
 import Input from '../Input'
 import formatNum from '../../data/formatNum'
+import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
 
 export default function ShuttleOut({ location: { search }, match: { url } }) {
   const [commonCx, buttonCx, modalCx, shuttleCx, shuttleOutCx] = useStyle(
@@ -51,7 +52,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
 
   const { burn } = useCToken(
     tokenInfo ? tokenInfo.ctoken : '',
-    '0x897c185209ed461070db137ae34b18f467bef8a8'
+    CUSTODIAN_CONTRACT_ADDR
   )
 
   const {
@@ -63,7 +64,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     balance = formatNum(_balance, tokenInfo.decimals)
   }
   //to do fake a balance
-  // balance = 100
+  balance = 12.12344567889
   const schema = yup.object().shape({
     outamount: yup
       .number()
@@ -84,10 +85,15 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     defaultValues: extra,
     mode: 'onBlur',
   })
+  //not necessarily trigger render
+  const tx = useRef('')
   const onSubmit = (data) => {
     const { outaddress, outamount } = data
+    console.log('outamount', outamount)
     burn(outamount, outaddress)
       .then((e) => {
+        console.log(e)
+        tx.current = e
         setSuccessPopup(true)
       })
       .catch((e) => {
@@ -235,7 +241,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
                 errors.outaddress ? 'error' : ''
               )}
             />
-
             <img
               style={{ display: !!getValues().outaddress ? 'block' : 'none' }}
               onClick={() => setValue('outaddress', '')}
@@ -268,7 +273,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           className={buttonCx('btn') + ' ' + shuttleOutCx('btn')}
         />
       </form>
-
+      <ShuttleHistory type="burn" />
       <Modal show={errorPopup} clickAway={() => setErrorPopup(false)}>
         <img alt="img" className={shuttleOutCx('img')} src={fail}></img>
         <div className={modalCx('strong')}>{t('common:popup.fail')}</div>
@@ -279,7 +284,13 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
       <Modal show={successPopup} clickAway={() => setSuccessPopup(false)}>
         <img alt="img" className={shuttleOutCx('img')} src={sent}></img>
         <div className={modalCx('strong')}>{t('common:popup.sent')}</div>
-        <div className={modalCx('btn')} onClick={() => setSuccessPopup(false)}>
+        <div
+          className={modalCx('btn')}
+          onClick={() => {
+            setSuccessPopup(false)
+            window.open(CONFLUXSCAN_TX + tx.current, '_blank')
+          }}
+        >
           {t('popup.details')}
         </div>
       </Modal>
@@ -304,7 +315,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           {t('common:popup.ok')}
         </div>
       </Modal>
-      <ShuttleHistory />
     </div>
   )
 }

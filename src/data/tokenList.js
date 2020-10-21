@@ -24,6 +24,7 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
       minimal_mint_value,
       mint_fee,
       burn_fee,
+      wallet_fee,
       icon,
     } = d
     return {
@@ -35,6 +36,7 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
       minimal_mint_value: format(minimal_mint_value, decimals),
       mint_fee: format(mint_fee, decimals),
       burn_fee: format(burn_fee, decimals),
+      wallet_fee: format(wallet_fee, decimals),
       icon: icon || icons[reference],
     }
   })
