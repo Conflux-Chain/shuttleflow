@@ -20,7 +20,7 @@ import useStyle from '../component/useStyle'
 
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
-  const { t } = useTranslation()
+  const { t } = useTranslation(['nav'])
   const inUrl = `${url}/in`
   const outUrl = `${url}/out`
   const [, setLayoutBottom] = useRecoilState(layoutBottomState)
@@ -40,7 +40,7 @@ export default function Shuttle({ match: { path, url } }) {
               <div className={cx('item', { active })}>
                 <Link to={inUrl}>
                   <img alt='in' src={active ? inActiveSvg : inSvg}></img>
-                  <span>{t('btn.shuttle-in')}</span>
+                  <span>{t('shuttle-in')}</span>
                 </Link>
               </div>
             )
@@ -54,7 +54,7 @@ export default function Shuttle({ match: { path, url } }) {
               <div className={cx('item', { active })}>
                 <Link to={outUrl}>
                   <img alt='out' src={active ? outActiveSvg : outSvg}></img>
-                  <span>{t('btn.shuttle-out')}</span>
+                  <span>{t('shuttle-out')}</span>
                 </Link>
               </div>
             )

@@ -15,7 +15,7 @@ export default function useHistory({ token, status, limit = 100, type } = {}) {
       //portal is not connected
       const getFetchHistory = () =>
         fetchHistory({
-          // status,
+          status,
           limit,
           type,
           // address,

@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import HistoryItem from './HistoryItem'
 import historyStyles from './history.module.scss'
 import useStyle from '../component/useStyle'
 import Accordion from '../component/Accordion'
 import { useTranslation } from 'react-i18next'
-import useHistory from '../data/useHistory'
+import useUserHistory from '../data/useHistory'
+import { useHistory } from 'react-router-dom'
 import notFound from '../component/not-found.png'
 import Histories from './Histories'
 import open from './down.svg'
+import { parseSearch } from '../component/urlSearch'
 
 const FILTERS = [
   ['all', ['doing', 'finished']],
@@ -15,24 +16,49 @@ const FILTERS = [
   ['pending', ['doing']],
 ]
 
-export default function History() {
+export default function History({ location: { search } }) {
   const [cx] = useStyle(historyStyles)
-  const { t } = useTranslation('history')
-  const [expanded, setExpanded] = useState(false)
+  const { t } = useTranslation(['history', 'nav'])
+  const [filterExpanded, setFilterExpanded] = useState(false)
   const [filter, setFilter] = useState(0)
+  const { type = 'mint' } = parseSearch(search)
+  const history = useHistory()
+  console.log('tab', type)
 
-  const { data: histories, loading } = useHistory({
+  const { data: histories, loading } = useUserHistory({
     status: FILTERS[filter][1],
+    type,
   })
-  console.log(histories)
   return (
     <div className={cx('history-container')}>
+      <div className={cx('tab-container')}>
+        <div
+          className={cx('tab', { 'active-tab': type === 'mint' })}
+          onClick={() =>
+            history.push({
+              search: '?type=mint',
+            })
+          }
+        >
+          {t('nav:shuttle-in')}
+        </div>
+        <div
+          className={cx('tab', { 'active-tab': type === 'burn' })}
+          onClick={() =>
+            history.push({
+              search: '?type=burn',
+            })
+          }
+        >
+          {t('nav:shuttle-out')}
+        </div>
+      </div>
       <div className={cx('select')}>
         <Accordion
-          expanded={expanded}
+          expanded={filterExpanded}
           title={
             <div
-              onClick={() => setExpanded((x) => !x)}
+              onClick={() => setFilterExpanded((x) => !x)}
               className={cx('filter-container')}
             >
               <div className={cx('select-item', 'filter-txt')}>
@@ -40,7 +66,7 @@ export default function History() {
               </div>
               <img
                 alt="open"
-                className={cx('down', { expanded })}
+                className={cx('down', { expanded: filterExpanded })}
                 src={open}
               ></img>
             </div>
@@ -50,7 +76,7 @@ export default function History() {
               {FILTERS.map((_, i) => (
                 <div
                   onClick={() => {
-                    setExpanded(false)
+                    setFilterExpanded(false)
                     setFilter(i)
                   }}
                   key={i}

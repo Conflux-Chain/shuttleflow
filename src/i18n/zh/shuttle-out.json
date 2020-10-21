@@ -1,8 +1,9 @@
 {
-  "amount": "Shuttle Out 数量",
-  "address": "Shuttle Out 地址",
+  "amount": "提现数量",
+  "address": "提现钱包地址",
   "placeholder": {
-    "address": "输入钱包地址"
+    "address": "输入提现钱包地址",
+    "input-amount": "输入提现数量"
   },
   "error": {
     "insufficient": "余额不足",

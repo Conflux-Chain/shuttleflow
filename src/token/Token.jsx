@@ -14,7 +14,7 @@ import useStyle from '../component/useStyle'
 
 export function TokenNavigation({ history, location: { search }, after }) {
   const [cx] = useStyle(styles)
-  const { t } = useTranslation()
+  const { t } = useTranslation(['token'])
   //we hard code the token url here because it not bound
   //to parrent route url, i.e. it will present in either
   //top level or nested level
@@ -29,7 +29,8 @@ export function TokenNavigation({ history, location: { search }, after }) {
         onClick={() => history.goBack()}
       ></img>
       <div className={cx('nav-tabs')}>
-        <MenuLink
+        <div className={cx('item')}>{t('choose')}</div>
+        {/* <MenuLink
           to={url}
           exact
           render={({ active }) => {
@@ -46,8 +47,8 @@ export function TokenNavigation({ history, location: { search }, after }) {
               </div>
             )
           }}
-        />
-        <MenuLink
+        /> */}
+        {/* <MenuLink
           to={captionUrl}
           render={({ active }) => {
             return (
@@ -66,7 +67,7 @@ export function TokenNavigation({ history, location: { search }, after }) {
               </div>
             )
           }}
-        />
+        /> */}
       </div>
       {after}
     </nav>

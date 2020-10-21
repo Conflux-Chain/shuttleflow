@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next'
 import zhShuttleIn from './zh/shuttle-in.json'
 import zhShuttleOut from './zh/shuttle-out.json'
 import zhCommon from './zh/common.json'
-import zhTrans from './zh/translation.json'
+import zhTokenTrans from './zh/token.json'
 //market and translation
 import zhMHTrans from './zh/history-market.json'
 import zhNavTrans from './zh/nav.json'
@@ -11,7 +11,7 @@ import zhNavTrans from './zh/nav.json'
 import enShuttleIn from './en/shuttle-in.json'
 import enShuttleOut from './en/shuttle-out.json'
 import enCommon from './en/common.json'
-import enTrans from './en/translation.json'
+import enTokenTrans from './en/token.json'
 import enMHTrans from './en/history-market.json'
 import enNavTrans from './en/nav.json'
 
@@ -26,7 +26,7 @@ i18n
         market: enMHTrans,
         history: enMHTrans,
         nav: enNavTrans,
-        translation: enTrans,
+        token: enTokenTrans,
       },
       zh: {
         'shuttle-in': zhShuttleIn,
@@ -35,11 +35,16 @@ i18n
         market: zhMHTrans,
         history: zhMHTrans,
         nav: zhNavTrans,
-        translation: zhTrans,
+        token: zhTokenTrans,
       },
+    },
+    react: {
+      nsMode: 'fallback',
     },
     lng: 'zh',
     fallbackLng: 'zh',
+    fallbackNS: ['nav', 'common'],
+    // debug: true,
 
     interpolation: {
       escapeValue: false,

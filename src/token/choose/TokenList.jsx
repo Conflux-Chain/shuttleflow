@@ -35,7 +35,7 @@ function TokenList({
     search
   )
 
-  const { t } = useTranslation()
+  const { t } = useTranslation(['token'])
   const [ListCx, titleCx] = useStyle(tokenListStyles, titleStyles)
   const isNotAvailable = useRef(false)
 
@@ -46,7 +46,7 @@ function TokenList({
   }, [search, setIsNotAvailable])
 
   if (isListLoading || isDisplayedLoading) {
-    return <h1>Loading</h1>
+    return <h1>......</h1>
   }
 
   console.log(tokenList)
@@ -63,7 +63,7 @@ function TokenList({
     >
       {frequent && !search && tokenList.length && (
         <>
-          <div className={titleCx('title')}>{t('txt.frequent-token')}</div>
+          <div className={titleCx('title')}>{t('frequent')}</div>
           <div className={ListCx('frequent-container')}>
             {FREQUENT_TOKENS.map((_preset_reference) => {
               let tokenData, active
@@ -91,7 +91,7 @@ function TokenList({
           </div>
         </>
       )}
-      {!search && <div className={titleCx('title')}>{t('txt.token-list')}</div>}
+      {!search && <div className={titleCx('title')}>{t('list')}</div>}
 
       <div className={ListCx('container')}>
         {displayedList.length === 0 ? (

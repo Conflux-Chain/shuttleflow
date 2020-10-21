@@ -39,7 +39,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     shuttleStyle,
     shuttleOutStyles
   )
-  const { t } = useTranslation(['shuttle-out', 'common'])
+  const { t } = useTranslation('shuttle-out')
   const { token, ...extra } = parseSearch(search)
   const { tokens } = useTokenList(token)
   const tokenInfo = tokens && token ? tokens[0] : null
@@ -64,11 +64,11 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     balance = formatNum(_balance, tokenInfo.decimals)
   }
   //to do fake a balance
-  balance = 12.12344567889
+  // balance = 12.12344567889
   const schema = yup.object().shape({
     outamount: yup
       .number()
-      .typeError(t('common:error.number'))
+      .typeError(t('error.number'))
       .min(
         tokenInfo ? tokenInfo.minimal_burn_value : 0,
         t('error.min', tokenInfo)
@@ -76,7 +76,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
       .max(balance, t('error.insufficient')),
     outaddress: yup
       .string()
-      .required(t('common:error.required'))
+      .required(t('error.required'))
       .matches(/^0x[0-9a-fA-F]{40}$/, t('error.invalid-address')),
   })
 
@@ -112,7 +112,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
         <Input
           icon={tokenInfo?.icon}
           defaultValue={tokenInfo?.symbol}
-          placeholder={t('common:placeholder.out')}
+          placeholder={t('placeholder.out')}
           to={{
             pathname: '/token',
             search: buildSearch({ next: url, cToken: 1, ...getValues() }),
@@ -129,7 +129,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
         <Input
           icon={tokenInfo?.icon}
           defaultValue={tokenInfo?.reference_symbol}
-          placeholder={t('common:placeholder.in')}
+          placeholder={t('placeholder.in')}
           to={{
             pathname: '/token',
             search: buildSearch({
@@ -222,8 +222,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
             <img
               alt="?"
               onClick={(e) => {
-                //disable input focus
-                e.preventDefault()
                 setAddrPopup(true)
               }}
               src={question}
@@ -269,21 +267,21 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
         <input
           disabled={!tokenInfo}
           type="submit"
-          value={t('out')}
+          value={t('shuttle-out')}
           className={buttonCx('btn') + ' ' + shuttleOutCx('btn')}
         />
       </form>
       <ShuttleHistory type="burn" />
       <Modal show={errorPopup} clickAway={() => setErrorPopup(false)}>
         <img alt="img" className={shuttleOutCx('img')} src={fail}></img>
-        <div className={modalCx('strong')}>{t('common:popup.fail')}</div>
+        <div className={modalCx('strong')}>{t('popup.fail')}</div>
         <div className={modalCx('btn')} onClick={() => setErrorPopup(false)}>
-          {t('common:popup.ok')}
+          {t('popup.ok')}
         </div>
       </Modal>
       <Modal show={successPopup} clickAway={() => setSuccessPopup(false)}>
         <img alt="img" className={shuttleOutCx('img')} src={sent}></img>
-        <div className={modalCx('strong')}>{t('common:popup.sent')}</div>
+        <div className={modalCx('strong')}>{t('popup.sent')}</div>
         <div
           className={modalCx('btn')}
           onClick={() => {
@@ -295,24 +293,24 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
         </div>
       </Modal>
       <Modal show={addrPopup} clickAway={() => setAddrPopup(false)}>
-        <div className={modalCx('title')}>{t('common:popup.title')}</div>
+        <div className={modalCx('title')}>{t('popup.title')}</div>
         <div className={modalCx('content')}>{t('popup.address')}</div>
         <div className={modalCx('btn')} onClick={() => setAddrPopup(false)}>
-          {t('common:popup.ok')}
+          {t('popup.ok')}
         </div>
       </Modal>
       <Modal show={feePopup} clickAway={() => setFeePopup(false)}>
-        <div className={modalCx('title')}>{t('common:popup.title')}</div>
+        <div className={modalCx('title')}>{t('popup.title')}</div>
         <div className={modalCx('content')}>{t('popup.fee')}</div>
         <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
-          {t('common:popup.ok')}
+          {t('popup.ok')}
         </div>
       </Modal>
       <Modal show={ctokenPopup} clickAway={() => setCTokenPopup(false)}>
-        <div className={modalCx('title')}>{t('common:popup.title')}</div>
+        <div className={modalCx('title')}>{t('popup.title')}</div>
         <div className={modalCx('content')}>{t('popup.ctoken')}</div>
         <div className={modalCx('btn')} onClick={() => setCTokenPopup(false)}>
-          {t('common:popup.ok')}
+          {t('popup.ok')}
         </div>
       </Modal>
     </div>

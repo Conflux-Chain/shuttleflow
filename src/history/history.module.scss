@@ -1,5 +1,23 @@
 .history-container {
   position: relative;
+
+  .tab-container {
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+
+    .tab {
+      line-height: 40px;
+      cursor: pointer;
+    }
+    .active-tab {
+      color: #44d7b6 !important;
+      border-bottom: solid 2px #44d7b6;
+    }
+  }
+
   .select {
     &.small {
       //todo it can go outside
