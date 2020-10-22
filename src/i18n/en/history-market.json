@@ -1,5 +1,12 @@
 {
   "all": "全部状态",
-  "success": "交易成功",
-  "pending": ""
+  "success": "???success",
+  "pending": "Pending",
+  "conflux": "Confirm on Conflux mainnet",
+  "init-in": "Initiate cross-chain Shuttle In",
+  "init-out": "Initiate cross-chain Shuttle Out",
+  "main": "Confirm on mainnet ETH/BTC",
+  "shuttle": "Confirm on ShuttleFlow",
+  "supply": "Token Supply",
+  "token": "Token"
 }

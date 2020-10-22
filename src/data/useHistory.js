@@ -6,20 +6,23 @@ import useDeepCompareEffect from 'use-deep-compare-effect'
 import formatNum from './formatNum'
 import { useConfluxPortal } from '@cfxjs/react-hooks'
 
-export default function useHistory({ token, status, limit = 100 } = {}) {
+export default function useHistory({ token, status, limit = 100, type } = {}) {
   const { address } = useConfluxPortal()
   const [state, setState] = useState1({ data: [], loading: true })
   const reload = useRef(null)
   useDeepCompareEffect(() => {
     if (address) {
       //portal is not connected
-      const _reload = () => {
-        setState({ loading: true })
-        return fetchHistory({
+      const getFetchHistory = () =>
+        fetchHistory({
           status,
           limit,
+          type,
           address,
-        }).then((data) => {
+        })
+      const _reload = () => {
+        setState({ loading: true })
+        return getFetchHistory().then((data) => {
           setState({ data, loading: false })
         })
       }
@@ -31,14 +34,14 @@ export default function useHistory({ token, status, limit = 100 } = {}) {
               resolve()
             }, 3000)
           }),
-          fetchHistory({ status, limit, address }),
+          getFetchHistory(),
         ]).then(([_, data]) => {
           setState({ data, loading: false })
         })
       }
       _reload()
     }
-  }, [token, status, setState, address])
+  }, [token, status, type, setState, address])
 
   //   const reload = () => {}
   return { data: state.data, loading: state.loading, reload: reload.current }
@@ -54,7 +57,7 @@ function fetchHistory({
   token = null,
   limit,
   status = ['comfirming', 'doing', 'finished'],
-  address = '0x1080dea70b357b836a6c77494894b1718f45371e',
+  address = '0x1d09cd4830CA044a9B6a3B47e81ebA857D58aD9C',
 } = {}) {
   return Promise.all([
     tokeMapPms,
@@ -86,12 +89,12 @@ function historyAdapter({
   //todo remove 8; test only
   decimals = 8,
   reference_symbol,
-  icon,
   type,
   nonce_or_txid,
   amount,
   status,
   settled_tx,
+  ...rest
 }) {
   type = type.split('_')[1]
   let step
@@ -110,6 +113,7 @@ function historyAdapter({
   return {
     //btc and eth do not have symbol
     //todo remove USDT; test only
+    ...rest,
     symbol: reference_symbol || reference || 'USDT',
     type,
     step,

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import QRCode from 'qrcode.react'
 
 import down from '../down.svg'
@@ -33,18 +33,23 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
   const { tokens } = useTokenList(urlToken)
   //display tokenInfo only when token is url available
   const tokenInfo = urlToken && tokens ? tokens[0] : null
-  const { t } = useTranslation(['shuttle-in', 'common'])
+  const { t } = useTranslation('shuttle-in')
 
-  const address = useShuttleInAddress(tokenInfo)
+  let address = useShuttleInAddress(tokenInfo)
+  if (address) {
+    address = address.toLocaleLowerCase()
+  }
 
   const [addressPopup, setAddressPopup] = useState(false)
   const [cTokenPopup, setCTokenPopup] = useState(false)
+  const [minPopup, setMinPopup] = useState(false)
   const [feePopup, setFeePopup] = useState(false)
   const [copyPopup, setCopyPopup] = useState(false)
   const [qrPopup, setQrPopup] = useState(false)
 
   //useful for copying
   const copyInputRef = useRef(null)
+  const popupCopyRef = useRef(null)
 
   return (
     <div className={shuttleInCx('container')}>
@@ -55,7 +60,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         }}
         tokenInfo={tokenInfo}
         defaultValue={tokenInfo?.reference_symbol}
-        placeholder={t('common:placeholder.out')}
+        placeholder={t('placeholder.out')}
         icon={tokenInfo?.icon}
       />
       <div className={shuttleCx('down')}>
@@ -75,7 +80,11 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
 
       {tokenInfo && (
         <p className={shuttleCx('small-text')}>
-          <span>{t('amount', tokenInfo)}</span>
+          <span style={{ display: 'flex' }}>
+            <span>{t('amount', tokenInfo)}</span>
+            <img alt="?" onClick={() => setMinPopup(true)} src={question}></img>
+          </span>
+
           <span style={{ display: 'flex' }}>
             <span>{t('fee', tokenInfo)}</span>
             <img alt="?" onClick={() => setFeePopup(true)} src={question}></img>
@@ -123,7 +132,15 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       </div>
       {tokenInfo && (
         <p className={shuttleCx('small-text')}>
-          <span>{t('latest')}</span>
+          <span>
+            <Trans
+              t={t}
+              i18nKey="latest"
+              values={{
+                type: t(tokenInfo.reference === 'btc' ? 'btc' : 'eth'),
+              }}
+            ></Trans>
+          </span>
           <span
             onClick={() => setQrPopup(true)}
             style={{ display: 'flex', cursor: 'pointer' }}
@@ -133,26 +150,61 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
           </span>
         </p>
       )}
-      <ShuttleHistory />
-      <Modal show={addressPopup} clickAway={() => setAddressPopup(false)}>
-        <div className={modalCx('title')}>{t('common:popup.title')}</div>
+      <ShuttleHistory type="mint" />
+      <Modal show={addressPopup} title clickAway={() => setAddressPopup(false)}>
         <div className={modalCx('content')}>{t('popup.address')}</div>
         <div className={modalCx('btn')} onClick={() => setAddressPopup(false)}>
-          {t('common:popup.ok')}
+          {t('popup.ok')}
         </div>
       </Modal>
-      <Modal show={cTokenPopup} clickAway={() => setCTokenPopup(false)}>
-        <div className={modalCx('title')}>{t('common:popup.title')}</div>
+      <Modal show={cTokenPopup} title clickAway={() => setCTokenPopup(false)}>
         <div className={modalCx('content')}>{t('popup.ctoken')}</div>
+        <div className={shuttleInCx('ctoken')}>
+          <div className={shuttleInCx('contract-address')}>
+            {t('popup.contract', tokenInfo)}
+          </div>
+          <div className={shuttleInCx('ctoken-copy')}>
+            <input
+              ref={popupCopyRef}
+              value={address}
+              readOnly
+              className={shuttleInCx('popup-address')}
+            ></input>
+            <div className={shuttleInCx('bar')}></div>
+            <img
+              className={shuttleInCx('popup-copy')}
+              src={copy}
+              alt="copy"
+              onClick={() => {
+                popupCopyRef.current.select()
+                popupCopyRef.current.setSelectionRange(
+                  0,
+                  99999
+                ) /*For mobile devices*/
+                document.execCommand('copy')
+                setCTokenPopup(false)
+                setCopyPopup(true)
+              }}
+            ></img>
+          </div>
+        </div>
+
         <div className={modalCx('btn')} onClick={() => setCTokenPopup(false)}>
-          {t('common:popup.ok')}
+          {t('popup.ok')}
         </div>
       </Modal>
-      <Modal show={feePopup} clickAway={() => setFeePopup(false)}>
-        <div className={modalCx('title')}>{t('common:popup.title')}</div>
-        <div className={modalCx('content')}>{t('popup.fee', tokenInfo)}</div>
+      <Modal show={feePopup} title clickAway={() => setFeePopup(false)}>
+        <div className={modalCx('content')}>
+          <Trans values={tokenInfo} t={t} i18nKey="popup.fee"></Trans>
+        </div>
         <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
-          {t('common:popup.ok')}
+          {t('popup.ok')}
+        </div>
+      </Modal>
+      <Modal show={minPopup} title clickAway={() => setMinPopup(false)}>
+        <div className={modalCx('content')}>{t('popup.min')}</div>
+        <div className={modalCx('btn')} onClick={() => setMinPopup(false)}>
+          {t('popup.ok')}
         </div>
       </Modal>
       <Modal show={copyPopup} clickAway={() => setCopyPopup(false)}>

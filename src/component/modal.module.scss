@@ -1,5 +1,6 @@
 .container {
   position: fixed;
+  // width: fit-content;
   top: 0;
   bottom: 0;
   height: fit-content;
@@ -10,11 +11,12 @@
   background: white;
   &.small {
     padding: 2rem;
-    width: 40rem;
+    min-width: 40rem;
   }
   &.large {
     padding: 1.5rem;
-    width: 28rem;
+    width: 448px;
+    // width: 28rem;
   }
 }
 
@@ -36,6 +38,7 @@
 .content {
   white-space: pre-wrap;
   color: #333333;
+  // font-family: PingFangSC-Light, sans-serif;
   &.small {
     margin-top: 2rem;
     font-size: 1.75rem;

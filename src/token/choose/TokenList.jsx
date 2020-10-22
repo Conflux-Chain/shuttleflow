@@ -10,8 +10,16 @@ import Check from './Check.jsx'
 import { useTranslation } from 'react-i18next'
 import formatAddress from '../../component/formatAddress'
 import useTokenList from '../../data/useTokenList'
+import { Scrollbars } from 'react-custom-scrollbars'
+import renderThumbVertical from '../../component/renderThumbVertical'
 
-const FREQUENT_TOKENS = ['0x6b175474e89094c44da98b954eedeac495271d0f']
+const FREQUENT_TOKENS = [
+  'btc',
+  'eth',
+  '0xdac17f958d2ee523a2206206994597c13d831ec7', //usdt
+  '0x6b175474e89094c44da98b954eedeac495271d0f', // dai
+  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', //usdc
+]
 
 function TokenList({
   token,
@@ -27,7 +35,7 @@ function TokenList({
     search
   )
 
-  const { t } = useTranslation()
+  const { t } = useTranslation(['token'])
   const [ListCx, titleCx] = useStyle(tokenListStyles, titleStyles)
   const isNotAvailable = useRef(false)
 
@@ -38,23 +46,24 @@ function TokenList({
   }, [search, setIsNotAvailable])
 
   if (isListLoading || isDisplayedLoading) {
-    return <h1>Loading</h1>
+    return <h1>......</h1>
   }
 
   console.log(tokenList)
   return (
     //we should combine frequent token and tokenlist in one component
     //cause they share the same container of fixed height
-    <div
+    <Scrollbars
+      autoHide
+      renderThumbVertical={renderThumbVertical}
       style={{
-        height: 'calc(100vh - 33.5rem)',
-        overflow: 'auto',
+        height: 'calc(100vh - 31rem)',
         position: 'relative',
       }}
     >
       {frequent && !search && tokenList.length && (
         <>
-          <div className={titleCx('title')}>{t('txt.frequent-token')}</div>
+          <div className={titleCx('title')}>{t('frequent')}</div>
           <div className={ListCx('frequent-container')}>
             {FREQUENT_TOKENS.map((_preset_reference) => {
               let tokenData, active
@@ -82,7 +91,7 @@ function TokenList({
           </div>
         </>
       )}
-      {!search && <div className={titleCx('title')}>{t('txt.token-list')}</div>}
+      {!search && <div className={titleCx('title')}>{t('list')}</div>}
 
       <div className={ListCx('container')}>
         {displayedList.length === 0 ? (
@@ -127,11 +136,13 @@ function TokenList({
                   <Check active={checked} />
                   <div className={ListCx('img-container')}>
                     <img alt="icon" className={ListCx('icon')} src={icon}></img>
-                    <img
-                      src={shuttle}
-                      className={ListCx('cicon')}
-                      alt="ctoken"
-                    />
+                    {cToken && (
+                      <img
+                        src={shuttle}
+                        className={ListCx('cicon')}
+                        alt="ctoken"
+                      />
+                    )}
                   </div>
 
                   <div className={ListCx('two-row')}>
@@ -182,7 +193,7 @@ function TokenList({
           )
         )}
       </div>
-    </div>
+    </Scrollbars>
   )
 }
 

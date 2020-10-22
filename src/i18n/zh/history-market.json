@@ -2,8 +2,11 @@
   "all": "全部",
   "success": "交易成功",
   "pending": "进行中",
-  "init": "Initiate cross-chain Shuttle In",
-  "main": "Confirm on mainnet ETH/BTC",
-  "shuttle": "Confirm on ShuttleFlow",
-  "conflux": "Confirm on Conflux"
+  "init-in": "开始跨链充值",
+  "init-out": "开始跨链提现",
+  "main": "ETH/BTC 主网已确认",
+  "shuttle": "ShuttleFlow 跨链联盟已确认",
+  "conflux": "Conflux 主网已确认",
+  "token": "Token",
+  "supply": "Token Supply"
 }

@@ -11,6 +11,8 @@ import { useTranslation } from 'react-i18next'
 
 import Accordion from '../component/Accordion'
 import UserAddress from './UserAddress'
+import { Scrollbars } from 'react-custom-scrollbars'
+import renderThumbVertical from '../component/renderThumbVertical'
 
 const cx = classNamesBind.bind(styles)
 
@@ -27,12 +29,6 @@ export default function LayoutLarge({ history }) {
         <img alt="home" onClick={() => history.push('/')} src={logo}></img>
 
         <div className={cx('right')}>
-          {/* <div>
-            <img src={connect} alt="connect"></img>
-            <span className={cx('address')}>
-              {address ? formatAddress(address) : ''}
-            </span>
-          </div> */}
           <UserAddress />
           <MenuLink
             to="/history"
@@ -42,7 +38,7 @@ export default function LayoutLarge({ history }) {
                   onClick={() => history.push('/history')}
                   className={cx('item', { active })}
                 >
-                  {t('btn.history')}
+                  {t('history')}
                 </div>
               )
             }}
@@ -55,7 +51,7 @@ export default function LayoutLarge({ history }) {
                   onClick={() => history.push('/market')}
                   className={cx('item', { active })}
                 >
-                  {t('btn.markets')}
+                  {t('markets')}
                 </div>
               )
             }}
@@ -123,9 +119,25 @@ export default function LayoutLarge({ history }) {
           ></Accordion>
         </div>
       </header>
-      <div className={cx('main')}>
+      <Scrollbars
+        autoHide
+        renderView={function renderView({ style, ...props }) {
+          const viewStyle = {
+            padding: '0 2rem 2rem',
+          }
+          return <div style={{ ...style, ...viewStyle }} {...props} />
+        }}
+        renderThumbVertical={renderThumbVertical}
+        style={{
+          height: 'calc(100vh - 10rem)',
+          width: 544,
+          margin: 'auto',
+          borderRadius: '0.5rem',
+          backgroundColor: '#1b1b1b',
+        }}
+      >
         <Main />
-      </div>
+      </Scrollbars>
     </div>
   )
 }

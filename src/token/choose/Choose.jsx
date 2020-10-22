@@ -20,7 +20,7 @@ export default function ChooseToken({ location: { search }, caption, next: nextF
   const [searchTxt, setSearchTxt] = useState('')
   const [isNotAvailable, setIsNotAvailable] = useState(false)
   const [token, setToken] = useState('')
-  const { t } = useTranslation()
+  const { t } = useTranslation(['token'])
 
 
   return (
@@ -45,7 +45,7 @@ export default function ChooseToken({ location: { search }, caption, next: nextF
         disabled={caption ? !token : (!token && !isNotAvailable)}>
         {caption ? 'Be caption' :
           t(
-            isNotAvailable ? 'btn.add-token' : 'btn.choose-token-btn'
+            isNotAvailable ? 'btn.add-token' : 'choose-btn'
           )}
       </Button>
 

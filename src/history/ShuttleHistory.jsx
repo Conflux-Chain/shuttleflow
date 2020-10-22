@@ -7,14 +7,16 @@ import rightArrow from './right-arrow.svg'
 import sync from './sync.svg'
 import { useTranslation } from 'react-i18next'
 import useHistories from '../data/useHistory'
+import Histories from './Histories'
 
-export default function ShuttleHistory() {
+export default function ShuttleHistory({ type }) {
   const { t } = useTranslation('common', 'history')
 
   const history = useHistory()
   const { data: histories, reload, loading } = useHistories({
     status: ['doing'],
     limit: 3,
+    type,
   })
   const [cx] = useStyle(styles)
   return histories.length > 0 ? (
@@ -39,9 +41,7 @@ export default function ShuttleHistory() {
           <img alt="more" className={cx('more')} src={rightArrow}></img>
         </div>
       </div>
-      {histories.slice(0, 3).map((props, i) => (
-        <HistoryItem {...props} key={i} />
-      ))}
+      <Histories histories={histories} />
     </div>
   ) : null
 }

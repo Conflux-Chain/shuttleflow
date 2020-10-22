@@ -1,3 +1,7 @@
 {
-  "connect": "连接钱包"
+  "connect": "连接钱包",
+  "history": "交易历史",
+  "markets": "市场",
+  "shuttle-in": "充值",
+  "shuttle-out": "提现"
 }

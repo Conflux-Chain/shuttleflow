@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import useStyle from '../../component/useStyle'
 
 export default function Search({ searchTxt, setSearchTxt }) {
-  const { t } = useTranslation()
+  const { t } = useTranslation(['token'])
   const [searchCx, inputCx] = useStyle(seachStyle, inputStyle)
   return (
     <div className={searchCx('input')}>
@@ -18,7 +18,7 @@ export default function Search({ searchTxt, setSearchTxt }) {
         }}
         style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
         value={searchTxt}
-        placeholder={t('placeholder.token-search')}
+        placeholder={t('search')}
       />
     </div>
   )

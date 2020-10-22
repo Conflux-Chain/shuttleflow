@@ -25,16 +25,14 @@ const sorts = {
 function Market() {
   const { tokens } = useTokenList()
   const [cx] = useStyle(styles)
-  const { t } = useTranslation()
-
-  console.log('tokens', tokens)
+  const { t } = useTranslation('market')
   const [sort, setSort] = useState('name')
   return (
     <div>
       <div className={cx('header')}>
         <div className={cx('item')}>
           <div>
-            <span>{t('Token')}</span>
+            <span>{t('token')}</span>
           </div>
           <div className={cx('btn')}>
             <Triangle
@@ -55,7 +53,7 @@ function Market() {
 
         <div className={cx('item')}>
           <div>
-            <span>{t('Total Supply')}</span>
+            <span>{t('supply')}</span>
           </div>
           <div className={cx('btn')}>
             <Triangle
