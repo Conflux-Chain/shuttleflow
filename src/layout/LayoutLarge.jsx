@@ -38,7 +38,7 @@ export default function LayoutLarge({ history }) {
                   onClick={() => history.push('/history')}
                   className={cx('item', { active })}
                 >
-                  {t('btn.history')}
+                  {t('history')}
                 </div>
               )
             }}
@@ -51,7 +51,7 @@ export default function LayoutLarge({ history }) {
                   onClick={() => history.push('/market')}
                   className={cx('item', { active })}
                 >
-                  {t('btn.markets')}
+                  {t('markets')}
                 </div>
               )
             }}

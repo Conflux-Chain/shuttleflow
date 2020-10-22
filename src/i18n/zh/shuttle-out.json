@@ -14,7 +14,6 @@
   "balance": "可用余额 {{amount}} {{cSymbol}}",
   "fee": "手续费 {{burn_fee}} {{symbol}}",
   "min-amount": "最少数量 {{minimal_burn_value}} {{symbol}}",
-  "out": "Shuttle Out",
   "popup": {
     "details": "查看详情",
     "address": "1.请输入可以接收对应 token 资产的钱包地址，否则资产将不可找回。\n2.Shuttle Out 需要一定数量的区块确认才能到账。\n3.ShuttleFlow 是真正的去中心化产品，在任何情况下都接触不到用户的私钥。\n4.您的资产托管在智能合约 ShuttleFlow 中，合约通过第三方安全审计，并由 ShuttleFlow 跨链资产联盟多重签名防护。即使 ShuttleFlow 自身私钥泄露，黑客也无法盗取用户资产，平台自身也无法作恶。",

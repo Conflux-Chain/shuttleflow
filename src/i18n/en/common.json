@@ -2,5 +2,18 @@
   "placeholder": {
     "out": "Select a token",
     "in": "Token to be received"
+  },
+  "history": "History",
+  "more": "View More",
+  "popup": {
+    "fail": "Transaction Failed ",
+    "ok": "Transaction Successful",
+    "sent": "Transaction Submitted",
+    "title": "Tips"
+  },
+  "error": {
+    "above-zero": "The value must be greater than or equal to 0",
+    "number": "Input must be a number",
+    "required": "？？？required"
   }
 }

@@ -1,1 +1,7 @@
-{}
+{
+  "connect": "Connect Wallet",
+  "history": "History",
+  "markets": "Markets",
+  "shuttle-in": "Shuttle In",
+  "shuttle-out": "Shuttle Out"
+}

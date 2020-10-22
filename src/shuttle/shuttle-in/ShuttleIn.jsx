@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import QRCode from 'qrcode.react'
 
 import down from '../down.svg'
@@ -33,7 +33,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
   const { tokens } = useTokenList(urlToken)
   //display tokenInfo only when token is url available
   const tokenInfo = urlToken && tokens ? tokens[0] : null
-  const { t } = useTranslation(['shuttle-in', 'common'])
+  const { t } = useTranslation('shuttle-in')
 
   const address = useShuttleInAddress(tokenInfo)
 
@@ -136,14 +136,14 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       )}
       <ShuttleHistory type="mint" />
       <Modal show={addressPopup} clickAway={() => setAddressPopup(false)}>
-        <div className={modalCx('title')}>{t('common:popup.title')}</div>
+        <div className={modalCx('title')}>{t('popup.title')}</div>
         <div className={modalCx('content')}>{t('popup.address')}</div>
         <div className={modalCx('btn')} onClick={() => setAddressPopup(false)}>
-          {t('common:popup.ok')}
+          {t('popup.ok')}
         </div>
       </Modal>
       <Modal show={cTokenPopup} clickAway={() => setCTokenPopup(false)}>
-        <div className={modalCx('title')}>{t('common:popup.title')}</div>
+        <div className={modalCx('title')}>{t('popup.title')}</div>
         <div className={modalCx('content')}>{t('popup.ctoken')}</div>
         <div className={shuttleInCx('ctoken')}>
           <div className={shuttleInCx('contract-address')}>
@@ -176,14 +176,16 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         </div>
 
         <div className={modalCx('btn')} onClick={() => setCTokenPopup(false)}>
-          {t('common:popup.ok')}
+          {t('popup.ok')}
         </div>
       </Modal>
       <Modal show={feePopup} clickAway={() => setFeePopup(false)}>
-        <div className={modalCx('title')}>{t('common:popup.title')}</div>
-        <div className={modalCx('content')}>{t('popup.fee', tokenInfo)}</div>
+        <div className={modalCx('title')}>{t('popup.title')}</div>
+        <div className={modalCx('content')}>
+          <Trans values={tokenInfo} t={t} i18nKey="popup.fee"></Trans>
+        </div>
         <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
-          {t('common:popup.ok')}
+          {t('popup.ok')}
         </div>
       </Modal>
       <Modal show={copyPopup} clickAway={() => setCopyPopup(false)}>
