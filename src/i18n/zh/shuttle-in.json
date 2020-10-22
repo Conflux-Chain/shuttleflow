@@ -3,14 +3,17 @@
   "address-placeholder": "钱包地址",
   "amount": "最小数量 {{minimal_mint_value}} {{reference_symbol}}",
   "fee": "手续费 {{mint_fee}} {{symbol}}",
-  "latest": "使用{以太坊/比特币}钱包转账，而非Conflux钱包",
+  "latest": "使用<strong>{{type}}</strong>钱包转账，而<strong>非</strong>Conflux钱包",
   "qr": "查看地址二维码",
   "popup": {
     "copy": "复制成功",
     "contract": "{{symbol}} 合约地址",
+    "min": "充值数量若小于最小数量规则，需要再累计充值达到最小数量规则的数量后方可继续处理。",
     "address": "1.请勿向上述地址转账任何非对应 token 的资产，否则资产将不可找回。\n2.充值地址可能会更新，请以最新的地址为准。\n3.充值需要一定数量的区块确认才能到账。\n4.ShuttleFlow 是真正的去中心化产品，在任何情况下都接触不到用户的私钥。\n5.您的资产托管在智能合约 ShuttleFlow 中，合约通过第三方安全审计，并由 ShuttleFlow 跨链资产联盟多重签名防护。即使 ShuttleFlow 自身私钥泄露，黑客也无法盗取用户资产，平台自身也无法作恶。",
     "fee": "手续费为当前 token 舰长设置的规则，若 token 舰长发生更换，数值可能会随之更新。建议尽快完成操作，避免手续费较大波动。第一次充值时会收取地址创建费 <strong>{{wallet_fee}} {{symbol}}</strong>。",
     "ctoken": "您收到的 token 可以在所有支持 Conflux 网络的钱包中查看，比如 ConfluxPortal. 若未找到该 token，可能需要您通过“添加代币”的方式自行添加。",
     "in-address": "收款地址"
-  }
+  },
+  "btc": "比特币",
+  "eth": "以太坊"
 }

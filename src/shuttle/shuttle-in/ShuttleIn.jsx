@@ -35,10 +35,14 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
   const tokenInfo = urlToken && tokens ? tokens[0] : null
   const { t } = useTranslation('shuttle-in')
 
-  const address = useShuttleInAddress(tokenInfo)
+  let address = useShuttleInAddress(tokenInfo)
+  if (address) {
+    address = address.toLocaleLowerCase()
+  }
 
   const [addressPopup, setAddressPopup] = useState(false)
   const [cTokenPopup, setCTokenPopup] = useState(false)
+  const [minPopup, setMinPopup] = useState(false)
   const [feePopup, setFeePopup] = useState(false)
   const [copyPopup, setCopyPopup] = useState(false)
   const [qrPopup, setQrPopup] = useState(false)
@@ -56,7 +60,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         }}
         tokenInfo={tokenInfo}
         defaultValue={tokenInfo?.reference_symbol}
-        placeholder={t('common:placeholder.out')}
+        placeholder={t('placeholder.out')}
         icon={tokenInfo?.icon}
       />
       <div className={shuttleCx('down')}>
@@ -76,7 +80,11 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
 
       {tokenInfo && (
         <p className={shuttleCx('small-text')}>
-          <span>{t('amount', tokenInfo)}</span>
+          <span style={{ display: 'flex' }}>
+            <span>{t('amount', tokenInfo)}</span>
+            <img alt="?" onClick={() => setMinPopup(true)} src={question}></img>
+          </span>
+
           <span style={{ display: 'flex' }}>
             <span>{t('fee', tokenInfo)}</span>
             <img alt="?" onClick={() => setFeePopup(true)} src={question}></img>
@@ -124,7 +132,15 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       </div>
       {tokenInfo && (
         <p className={shuttleCx('small-text')}>
-          <span>{t('latest')}</span>
+          <span>
+            <Trans
+              t={t}
+              i18nKey="latest"
+              values={{
+                type: t(tokenInfo.reference === 'btc' ? 'btc' : 'eth'),
+              }}
+            ></Trans>
+          </span>
           <span
             onClick={() => setQrPopup(true)}
             style={{ display: 'flex', cursor: 'pointer' }}
@@ -135,15 +151,13 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         </p>
       )}
       <ShuttleHistory type="mint" />
-      <Modal show={addressPopup} clickAway={() => setAddressPopup(false)}>
-        <div className={modalCx('title')}>{t('popup.title')}</div>
+      <Modal show={addressPopup} title clickAway={() => setAddressPopup(false)}>
         <div className={modalCx('content')}>{t('popup.address')}</div>
         <div className={modalCx('btn')} onClick={() => setAddressPopup(false)}>
           {t('popup.ok')}
         </div>
       </Modal>
-      <Modal show={cTokenPopup} clickAway={() => setCTokenPopup(false)}>
-        <div className={modalCx('title')}>{t('popup.title')}</div>
+      <Modal show={cTokenPopup} title clickAway={() => setCTokenPopup(false)}>
         <div className={modalCx('content')}>{t('popup.ctoken')}</div>
         <div className={shuttleInCx('ctoken')}>
           <div className={shuttleInCx('contract-address')}>
@@ -179,12 +193,17 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
           {t('popup.ok')}
         </div>
       </Modal>
-      <Modal show={feePopup} clickAway={() => setFeePopup(false)}>
-        <div className={modalCx('title')}>{t('popup.title')}</div>
+      <Modal show={feePopup} title clickAway={() => setFeePopup(false)}>
         <div className={modalCx('content')}>
           <Trans values={tokenInfo} t={t} i18nKey="popup.fee"></Trans>
         </div>
         <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
+          {t('popup.ok')}
+        </div>
+      </Modal>
+      <Modal show={minPopup} title clickAway={() => setMinPopup(false)}>
+        <div className={modalCx('content')}>{t('popup.min')}</div>
+        <div className={modalCx('btn')} onClick={() => setMinPopup(false)}>
           {t('popup.ok')}
         </div>
       </Modal>
