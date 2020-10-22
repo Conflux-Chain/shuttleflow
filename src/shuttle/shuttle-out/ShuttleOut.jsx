@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useConfluxPortal } from '@cfxjs/react-hooks'
 import useCToken from '@cfxjs/react-hooks/lib/useCToken'
 
@@ -114,7 +114,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
 
   return (
     <div className={shuttleCx('root')}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         {/* token */}
         <Input
           icon={tokenInfo?.icon}
@@ -237,7 +237,20 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
               style={{ fontWeight: 'lighter' }}
               ref={register}
               name="outaddress"
-              placeholder={t('placeholder.address')}
+              error={errors.outaddress}
+              placeholder={
+                <Trans
+                  values={{
+                    type: token
+                      ? token === 'btc'
+                        ? t('btc')
+                        : t('eth')
+                      : t('btc') + '/' + t('eth'),
+                  }}
+                  i18nKey={'placeholder.address'}
+                  t={t}
+                ></Trans>
+              }
             />
             <img
               style={{ display: !!getValues().outaddress ? 'block' : 'none' }}

@@ -29,10 +29,6 @@ function Input(
   const localRef = useRef(null)
   const cTokenInputRef = ref || localRef
   const [shuttleCx, commonCx] = useStyle(inputStyles, commonInputStyles)
-  console.log(
-    cTokenInputRef && cTokenInputRef.current && cTokenInputRef.current.value,
-    placeholder
-  )
   useEffect(() => {
     if (tokenInfo && cTokenInputRef.current) {
       const input = getComputedStyle(cTokenInputRef.current)
@@ -55,6 +51,7 @@ function Input(
       )}
       <input
         data-lpignore="true"
+        autoComplete="new-password"
         onChange={onChange}
         ref={cTokenInputRef}
         readOnly={!name}
@@ -62,8 +59,6 @@ function Input(
         style={style}
         className={commonCx('input-common', { error })}
         defaultValue={defaultValue}
-        // placeholder={placeholder}
-        autoComplete="off"
       />
       {fontWidth && cToken && (
         <img
@@ -79,7 +74,9 @@ function Input(
           <img alt="arrow" className={shuttleCx('arrow')} src={arrow}></img>
         </Link>
       )}
-      {!value && !defaultValue && <div className={commonCx('placeholder')}>{placeholder}</div>}
+      {!value && !defaultValue && (
+        <div className={commonCx('placeholder')}>{placeholder}</div>
+      )}
     </div>
   )
 }

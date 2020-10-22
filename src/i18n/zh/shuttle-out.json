@@ -2,7 +2,7 @@
   "amount": "提现数量",
   "address": "提现钱包地址",
   "placeholder": {
-    "address": "输入提现钱包地址",
+    "address": "输入<strong>{{type}}</strong>钱包地址，而非Conflux地址",
     "input-amount": "输入提现数量"
   },
   "error": {

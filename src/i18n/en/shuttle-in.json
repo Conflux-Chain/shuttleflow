@@ -13,7 +13,5 @@
     "in-address": "？？？Shuttle In Address",
     "min": "If the Shuttle-In quantity is less than the minimum quantity, the user needs to accumulate the Shuttle-In amount to reach the minimum quantity requirement before continuing processing."
   },
-  "qr": "??? QR Code",
-  "btc": "BTC",
-  "eth": "Ethereum"
+  "qr": "??? QR Code"
 }

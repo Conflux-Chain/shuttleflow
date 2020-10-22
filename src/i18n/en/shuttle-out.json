@@ -11,7 +11,7 @@
     "min": "The value must be greater than or equal to {{minimal_burn_value}} {{symbol}}"
   },
   "placeholder": {
-    "address": "??? Enter Shuttle Out Address",
+    "address": "Enter  <strong>{{type}}</strong>  address, NOT Conflux address",
     "input-amount": "??? Enter Shuttle Out Amount"
   },
   "popup": {

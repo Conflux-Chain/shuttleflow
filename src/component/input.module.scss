@@ -36,6 +36,8 @@
   font-weight: 500;
   color: rgba($color: #ffffff, $alpha: 0.4);
   pointer-events: none;
+  white-space: pre;
+
   &.small {
     padding-left: 2rem;
     font-size: 1.875rem;

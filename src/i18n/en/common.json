@@ -15,5 +15,7 @@
     "above-zero": "The value must be greater than or equal to 0",
     "number": "Input must be a number",
     "required": "？？？required"
-  }
+  },
+  "btc": "BTC",
+  "eth": "Ethereum"
 }

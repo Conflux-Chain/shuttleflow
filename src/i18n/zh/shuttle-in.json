@@ -13,7 +13,5 @@
     "fee": "手续费为当前 token 舰长设置的规则，若 token 舰长发生更换，数值可能会随之更新。建议尽快完成操作，避免手续费较大波动。第一次充值时会收取地址创建费 <strong>{{wallet_fee}} {{symbol}}</strong>。",
     "ctoken": "您收到的 token 可以在所有支持 Conflux 网络的钱包中查看，比如 ConfluxPortal. 若未找到该 token，可能需要您通过“添加代币”的方式自行添加。",
     "in-address": "收款地址"
-  },
-  "btc": "比特币",
-  "eth": "以太坊"
+  }
 }
