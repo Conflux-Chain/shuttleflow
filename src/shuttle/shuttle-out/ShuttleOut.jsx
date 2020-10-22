@@ -64,7 +64,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     balance = formatNum(_balance, tokenInfo.decimals)
   }
   //to do fake a balance
-  // balance = 12.12344567889
+  balance = 12.12344567889
   const schema = yup.object().shape({
     outamount: yup
       .number()
@@ -80,7 +80,14 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
       .matches(/^0x[0-9a-fA-F]{40}$/, t('error.invalid-address')),
   })
 
-  const { register, handleSubmit, getValues, setValue, errors } = useForm({
+  const {
+    register,
+    watch,
+    handleSubmit,
+    getValues,
+    setValue,
+    errors,
+  } = useForm({
     resolver: yupResolver(schema),
     defaultValues: extra,
     mode: 'onBlur',
@@ -147,9 +154,11 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           </div>
 
           <div className={shuttleOutCx('amount-input')}>
-            <input
-              ref={register}
+            <Input
+              value={watch('outamount')}
               name="outamount"
+              ref={register}
+              error={errors.outamount}
               onChange={(e) => {
                 let value = e.target.value
                 let [p1, p2] = value.split('.')
@@ -167,11 +176,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
                       cSymbol: tokenInfo.reference_symbol,
                     })
               }
-              autoComplete="off"
-              className={commonCx(
-                'input-common',
-                errors.outamount ? 'error' : ''
-              )}
             />
             <div
               onClick={() => {
@@ -228,16 +232,12 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
             ></img>
           </div>
           <div className={shuttleOutCx('address-input')}>
-            <input
-              data-lpignore="true"
+            <Input
+              value={watch('outaddress')}
+              style={{ fontWeight: 'lighter' }}
               ref={register}
               name="outaddress"
-              autoComplete="off"
               placeholder={t('placeholder.address')}
-              className={commonCx(
-                'input-common',
-                errors.outaddress ? 'error' : ''
-              )}
             />
             <img
               style={{ display: !!getValues().outaddress ? 'block' : 'none' }}

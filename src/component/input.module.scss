@@ -20,17 +20,6 @@
     box-shadow: none;
     outline: none;
   }
-
-  &::placeholder {
-    font-weight: 500;
-    color: rgba($color: #ffffff, $alpha: 0.4);
-  }
-  &.small::placeholder {
-    font-size: 1.875rem;
-  }
-  &.large::placeholder {
-    font-size: 1.25rem;
-  }
 }
 
 .error {
@@ -38,6 +27,24 @@
   border: solid 1px #f3504f;
 }
 
+.placeholder {
+  position: absolute;
+  top: 0;
+  align-items: center;
+  display: flex;
+  bottom: 0;
+  font-weight: 500;
+  color: rgba($color: #ffffff, $alpha: 0.4);
+  pointer-events: none;
+  &.small {
+    padding-left: 2rem;
+    font-size: 1.875rem;
+  }
+  &.large {
+    padding-left: 1.5rem;
+    font-size: 1.25rem;
+  }
+}
 .clear {
   position: absolute;
   top: 0;

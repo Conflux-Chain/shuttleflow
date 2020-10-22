@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, forwardRef } from 'react'
 import useStyle from '../component/useStyle'
 import inputStyles from './Input.module.scss'
 import commonInputStyles from '../component/input.module.scss'
@@ -9,27 +9,39 @@ import question from '../component/question.svg'
 import arrow from './arrow.svg'
 import cIcon from '../component/cIcon.svg'
 
-export default function Input({
-  tokenInfo,
-  to,
-  defaultValue,
-  placeholder,
-  icon,
-  cToken,
-}) {
+function Input(
+  {
+    value, //only useful to decide placeholder
+    tokenInfo,
+    to,
+    name,
+    error,
+    defaultValue,
+    placeholder,
+    icon,
+    cToken,
+    onChange,
+    style,
+  },
+  ref
+) {
   const [fontWidth, setFontWidth] = useState('')
-  const cTokenInputRef = useRef(null)
+  const localRef = useRef(null)
+  const cTokenInputRef = ref || localRef
   const [shuttleCx, commonCx] = useStyle(inputStyles, commonInputStyles)
-
+  console.log(
+    cTokenInputRef && cTokenInputRef.current && cTokenInputRef.current.value,
+    placeholder
+  )
   useEffect(() => {
-    if (tokenInfo) {
+    if (tokenInfo && cTokenInputRef.current) {
       const input = getComputedStyle(cTokenInputRef.current)
       const font = input.getPropertyValue('font')
       const paddingLeft = input.getPropertyValue('padding-left')
       const width = get_tex_width(tokenInfo.symbol, font)
       setFontWidth(`calc(${width}px + ${paddingLeft} + 1rem)`)
     }
-  }, [tokenInfo])
+  }, [tokenInfo, cTokenInputRef])
 
   return (
     <div className={shuttleCx('container', { 'with-icon': !!tokenInfo })}>
@@ -42,11 +54,16 @@ export default function Input({
         </>
       )}
       <input
+        data-lpignore="true"
+        onChange={onChange}
         ref={cTokenInputRef}
-        readOnly
-        className={commonCx('input-common')}
+        readOnly={!name}
+        name={name}
+        style={style}
+        className={commonCx('input-common', { error })}
         defaultValue={defaultValue}
-        placeholder={placeholder}
+        // placeholder={placeholder}
+        autoComplete="off"
       />
       {fontWidth && cToken && (
         <img
@@ -57,12 +74,17 @@ export default function Input({
           src={question}
         ></img>
       )}
-      <Link to={to}>
-        <img alt="arrow" className={shuttleCx('arrow')} src={arrow}></img>
-      </Link>
+      {!name && (
+        <Link to={to}>
+          <img alt="arrow" className={shuttleCx('arrow')} src={arrow}></img>
+        </Link>
+      )}
+      {!value && !defaultValue && <div className={commonCx('placeholder')}>{placeholder}</div>}
     </div>
   )
 }
+
+export default forwardRef(Input)
 
 function get_tex_width(txt, font) {
   const element = document.createElement('canvas')
