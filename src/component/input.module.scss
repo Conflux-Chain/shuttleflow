@@ -3,6 +3,10 @@
   background-color: rgba(229, 229, 229, 0.2);
   color: white;
   border: none;
+
+  &::placeholder {
+    font-weight: 500;
+  }
   &.small {
     font-size: 1.875rem;
     height: 6.25rem;
@@ -26,7 +30,7 @@
   background-color: rgba($color: #f3504f, $alpha: 0.2);
   border: solid 1px #f3504f;
 }
-
+// .input-common input::placeholder,
 .placeholder {
   position: absolute;
   top: 0;
