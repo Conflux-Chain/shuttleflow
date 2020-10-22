@@ -18,7 +18,7 @@ export default function useHistory({ token, status, limit = 100, type } = {}) {
           status,
           limit,
           type,
-          // address,
+          address,
         })
       const _reload = () => {
         setState({ loading: true })
