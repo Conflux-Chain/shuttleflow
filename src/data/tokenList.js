@@ -16,7 +16,7 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
     //todo symbol is undefined currently
     const {
       reference,
-      reference_symbol,
+      // reference_symbol,
       sponsor_value,
       total_supply,
       decimals,
@@ -29,7 +29,7 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
     } = d
     return {
       ...d,
-      symbol: 'c' + reference_symbol,
+      // symbol: 'c' + reference_symbol,
       total_supply: format(total_supply, 18),
       sponsor_value: format(sponsor_value, 18),
       minimal_burn_value: format(minimal_burn_value, decimals),

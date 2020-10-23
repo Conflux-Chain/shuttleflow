@@ -3,11 +3,12 @@ import useStyle from '../component/useStyle'
 import inputStyles from './Input.module.scss'
 import commonInputStyles from '../component/input.module.scss'
 
-import { Link } from 'react-router-dom'
-
 import question from '../component/question.svg'
 import arrow from './arrow.svg'
 import cIcon from '../component/cIcon.svg'
+import { useHistory } from 'react-router-dom'
+
+console.log(inputStyles)
 
 function Input(
   {
@@ -26,9 +27,11 @@ function Input(
   ref
 ) {
   const [fontWidth, setFontWidth] = useState('')
+  const history = useHistory()
   const localRef = useRef(null)
   const cTokenInputRef = ref || localRef
   const [shuttleCx, commonCx] = useStyle(inputStyles, commonInputStyles)
+
   useEffect(() => {
     if (tokenInfo && cTokenInputRef.current) {
       const input = getComputedStyle(cTokenInputRef.current)
@@ -40,7 +43,13 @@ function Input(
   }, [tokenInfo, cTokenInputRef])
 
   return (
-    <div className={shuttleCx('container', { 'with-icon': !!tokenInfo })}>
+    <div
+      className={shuttleCx(
+        'container',
+        { 'with-icon': !!tokenInfo },
+        { to: !!to }
+      )}
+    >
       {tokenInfo && (
         <>
           <img alt="icon" className={shuttleCx('icon')} src={icon}></img>
@@ -69,10 +78,17 @@ function Input(
           src={question}
         ></img>
       )}
-      {!name && (
-        <Link to={to}>
-          <img alt="arrow" className={shuttleCx('arrow')} src={arrow}></img>
-        </Link>
+      {to && (
+        <img
+          onClick={() => {
+            if (typeof to === 'object') {
+              history.push(to)
+            }
+          }}
+          alt="arrow"
+          className={shuttleCx('arrow')}
+          src={arrow}
+        ></img>
       )}
       {!value && !defaultValue && (
         <div className={commonCx('placeholder')}>{placeholder}</div>

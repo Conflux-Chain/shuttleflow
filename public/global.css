@@ -120,6 +120,7 @@
 
 * {
   box-sizing: border-box;
+  font-family: CircularStd;
 }
 a,
 a:visited {
@@ -133,7 +134,6 @@ html {
 
 body {
   height: 100%;
-  font-family: CircularStd;
   color: #999999;
   margin: 0;
 }
