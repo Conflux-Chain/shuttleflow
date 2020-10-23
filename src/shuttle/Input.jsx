@@ -44,11 +44,6 @@ function Input(
 
   return (
     <div
-      onClick={() => {
-        if (typeof to === 'object') {
-          history.push(to)
-        }
-      }}
       className={shuttleCx(
         'container',
         { 'with-icon': !!tokenInfo },
@@ -83,7 +78,18 @@ function Input(
           src={question}
         ></img>
       )}
-      {to && <img alt="arrow" className={shuttleCx('arrow')} src={arrow}></img>}
+      {to && (
+        <img
+          onClick={() => {
+            if (typeof to === 'object') {
+              history.push(to)
+            }
+          }}
+          alt="arrow"
+          className={shuttleCx('arrow')}
+          src={arrow}
+        ></img>
+      )}
       {!value && !defaultValue && (
         <div className={commonCx('placeholder')}>{placeholder}</div>
       )}
