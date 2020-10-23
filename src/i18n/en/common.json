@@ -6,8 +6,8 @@
   "history": "History",
   "more": "View More",
   "popup": {
-    "fail": "Transaction Failed ",
-    "ok": "Transaction Successful",
+    "fail": "Transaction Failed",
+    "ok": "I Understand",
     "sent": "Transaction Submitted",
     "title": "Tips"
   },

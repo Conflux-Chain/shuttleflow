@@ -60,7 +60,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
   let balance
   if (_balance && tokenInfo) {
-    console.log(_balance.toString())
     balance = formatNum(_balance, tokenInfo.decimals)
   }
   //to do fake a balance
@@ -96,10 +95,8 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   const tx = useRef('')
   const onSubmit = (data) => {
     const { outaddress, outamount } = data
-    console.log('outamount', outamount)
     burn(outamount, outaddress)
       .then((e) => {
-        console.log(e)
         tx.current = e
         setSuccessPopup(true)
       })
@@ -299,6 +296,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           className={modalCx('btn')}
           onClick={() => {
             setSuccessPopup(false)
+            setValue('outamount', 0)
             window.open(CONFLUXSCAN_TX + tx.current, '_blank')
           }}
         >

@@ -8,6 +8,7 @@ import copy from './copy.svg'
 import tick from './tick.svg'
 import qr from './qr.svg'
 import question from '../../component/question.svg'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import Modal from '../../component/Modal'
 import modalStyles from '../../component/modal.module.scss'
@@ -35,9 +36,9 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
   const tokenInfo = urlToken && tokens ? tokens[0] : null
   const { t } = useTranslation('shuttle-in')
 
-  let address = useShuttleInAddress(tokenInfo)
-  if (address) {
-    address = address.toLocaleLowerCase()
+  let shuttleInAddress = useShuttleInAddress(tokenInfo)
+  if (shuttleInAddress) {
+    shuttleInAddress = shuttleInAddress.toLocaleLowerCase()
   }
 
   const [addressPopup, setAddressPopup] = useState(false)
@@ -106,9 +107,10 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
 
         <div className={shuttleInCx('address-input')}>
           <input
+            style={{ cursor: 'default' }}
             ref={copyInputRef}
             readOnly
-            defaultValue={address}
+            defaultValue={shuttleInAddress}
             className={commonCx('input-common')}
             placeholder={t('address-placeholder')}
           />
@@ -166,26 +168,25 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
           <div className={shuttleInCx('ctoken-copy')}>
             <input
               ref={popupCopyRef}
-              value={address}
+              value={shuttleInAddress}
               readOnly
               className={shuttleInCx('popup-address')}
             ></input>
             <div className={shuttleInCx('bar')}></div>
-            <img
-              className={shuttleInCx('popup-copy')}
-              src={copy}
-              alt="copy"
-              onClick={() => {
-                popupCopyRef.current.select()
-                popupCopyRef.current.setSelectionRange(
-                  0,
-                  99999
-                ) /*For mobile devices*/
-                document.execCommand('copy')
+            <CopyToClipboard
+              text={shuttleInAddress}
+              onCopy={() => {
                 setCTokenPopup(false)
                 setCopyPopup(true)
+                console.log('copy')
               }}
-            ></img>
+            >
+              <img
+                className={shuttleInCx('popup-copy')}
+                src={copy}
+                alt="copy"
+              ></img>
+            </CopyToClipboard>
           </div>
         </div>
 
@@ -224,7 +225,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
               margin: '1.5rem',
             }}
           >
-            <QRCode value={address} />
+            <QRCode value={shuttleInAddress} />
           </div>
         </div>
       </Modal>

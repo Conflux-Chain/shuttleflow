@@ -1,17 +1,17 @@
 {
-  "address": "??? Shuttle Out Address",
   "all": "All",
   "amount": "Shuttle-Out Amount",
+  "address": "Shuttle-Out Address",
   "balance": "??? Balance: {{amount}} {{cSymbol}}",
   "fee": "Fees {{burn_fee}} {{symbol}}",
-  "min-amount": "??? Minimum Amount {{minimal_burn_value}} {{symbol}}",
+  "min-amount": "Minimum Amount {{minimal_burn_value}} {{reference_symbol}}",
   "error": {
     "insufficient": "Insufficient balance",
     "invalid-address": "Address is invalid",
     "min": "The value must be greater than or equal to {{minimal_burn_value}} {{symbol}}"
   },
   "placeholder": {
-    "address": "Enter  <strong>{{type}}</strong>  address, NOT Conflux address",
+    "address": "Enter <strong>{{type}}</strong> address, <strong>NOT</strong> Conflux address",
     "input-amount": "??? Enter Shuttle Out Amount"
   },
   "popup": {

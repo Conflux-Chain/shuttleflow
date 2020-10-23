@@ -10,7 +10,6 @@
   font-size: 1.125rem;
   line-height: 5rem;
   height: 5rem;
-
   color: white;
   img {
     max-height: 2.5rem;
@@ -27,7 +26,6 @@
   .right {
     display: flex;
     align-items: center;
-
 
     .item {
       cursor: pointer;
@@ -68,6 +66,7 @@
         padding-left: 1rem;
         line-height: 2.5rem;
         font-size: 1rem;
+        z-index: 1;
         cursor: pointer;
       }
       .selected {

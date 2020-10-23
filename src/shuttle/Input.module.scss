@@ -1,4 +1,18 @@
+//in order to cover underlying input cursor
+//todo why content not work
+// .to::before {
+//   cursor: default;
+//   pointer-events: none;
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   top: 0;
+//   bottom: 0;
+// }
 .container {
+  &::before {
+    content: '';
+  }
   position: relative;
   input {
     font-weight: bold;
@@ -28,7 +42,7 @@
     bottom: 0;
     margin: auto;
     cursor: pointer;
-  
+
     &.small {
       width: 2.25rem;
     }
@@ -36,7 +50,6 @@
       width: 1.25rem;
     }
   }
-  
 }
 
 .with-icon {
