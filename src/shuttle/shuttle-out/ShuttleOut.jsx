@@ -63,7 +63,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     balance = formatNum(_balance, tokenInfo.decimals)
   }
   //to do fake a balance
-  balance = 12.12344567889
+  // balance = 12.12344567889
   const schema = yup.object().shape({
     outamount: yup
       .number()
