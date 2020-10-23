@@ -166,19 +166,18 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             {t('popup.contract', tokenInfo)}
           </div>
           <div className={shuttleInCx('ctoken-copy')}>
-            <input
-              ref={popupCopyRef}
-              value={shuttleInAddress}
-              readOnly
-              className={shuttleInCx('popup-address')}
-            ></input>
+            <div className={shuttleInCx('popup-address')}>
+              {tokenInfo && tokenInfo.ctoken}
+            </div>
             <div className={shuttleInCx('bar')}></div>
             <CopyToClipboard
-              text={shuttleInAddress}
+              text={tokenInfo && tokenInfo.ctoken}
               onCopy={() => {
                 setCTokenPopup(false)
                 setCopyPopup(true)
-                console.log('copy')
+                setTimeout(() => {
+                  setCopyPopup(false)
+                }, 2000)
               }}
             >
               <img
@@ -208,7 +207,12 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
           {t('popup.ok')}
         </div>
       </Modal>
-      <Modal show={copyPopup} clickAway={() => setCopyPopup(false)}>
+      <Modal
+        show={copyPopup}
+        clickAway={() => {
+          setCopyPopup(false)
+        }}
+      >
         <div className={shuttleInCx('copy-popup')}>
           <img alt="tick" src={tick}></img>
           <div>{t('popup.copy')}</div>
