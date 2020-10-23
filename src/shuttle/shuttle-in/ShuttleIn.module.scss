@@ -86,24 +86,22 @@
     }
     .popup-address {
       margin-left: 0.75rem;
-      border: none;
-      outline: none;
-      width: 300px;
-      &:focus {
-        border: none;
-        outline: none;
-      }
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
     .bar {
-      width: 1px;
+      width: 2px;
       height: 60%;
+      margin-left: 0.75rem;
       background-color: rgba($color: #000000, $alpha: 0.2);
     }
     .popup-copy {
+      cursor: pointer;
       &.large {
         width: 1.5rem;
         height: 1.5rem;
-        margin-right: 0.75rem;
+        margin: 0 0.75rem;
       }
     }
   }
