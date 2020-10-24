@@ -28,14 +28,17 @@ function Inner({ children, clickAway, title }) {
     }
   }, [clickAway])
   return createPortal(
-    <div ref={ref} className={cx('container')}>
-      {title && (
-        <div className={cx('title')}>
-          {typeof title === 'string' ? title : t('popup.title')}
-        </div>
-      )}
-      {children}
-    </div>,
+    <>
+      <div className={cx('backdrop')}></div>
+      <div ref={ref} className={cx('container')}>
+        {title && (
+          <div className={cx('title')}>
+            {typeof title === 'string' ? title : t('popup.title')}
+          </div>
+        )}
+        {children}
+      </div>
+    </>,
     document.getElementById('popup')
   )
 }

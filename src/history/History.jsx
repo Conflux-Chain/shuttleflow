@@ -18,12 +18,11 @@ const FILTERS = [
 
 export default function History({ location: { search } }) {
   const [cx] = useStyle(historyStyles)
-  const { t } = useTranslation(['history', 'nav'])
+  const { t } = useTranslation('history')
   const [filterExpanded, setFilterExpanded] = useState(false)
   const [filter, setFilter] = useState(0)
   const { type = 'mint' } = parseSearch(search)
   const history = useHistory()
-  console.log('tab', type)
 
   const { data: histories, loading } = useUserHistory({
     status: FILTERS[filter][1],
@@ -40,7 +39,7 @@ export default function History({ location: { search } }) {
             })
           }
         >
-          {t('nav:shuttle-in')}
+          {t('shuttle-in')}
         </div>
         <div
           className={cx('tab', { 'active-tab': type === 'burn' })}
@@ -50,7 +49,7 @@ export default function History({ location: { search } }) {
             })
           }
         >
-          {t('nav:shuttle-out')}
+          {t('shuttle-out')}
         </div>
       </div>
       <div className={cx('select')}>
@@ -97,7 +96,8 @@ export default function History({ location: { search } }) {
             <Histories histories={histories} />
           ) : (
             <img
-              style={{ display: 'block', margin: 'auto' }}
+              className={cx('not-found')}
+
               alt="not found"
               src={notFound}
             />

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 
 import Main from './Main'
-import logo from './logo.svg'
+import logo from './logo.png'
 import triangle from './triangle.svg'
 
 import classNamesBind from 'classnames/bind'
@@ -28,10 +28,28 @@ export default function LayoutLarge({ history }) {
   return (
     <div className={cx('container')}>
       <header className={cx('header')}>
-        <img alt="home" onClick={() => history.push('/')} src={logo}></img>
+        <img
+          className={cx('logo')}
+          alt="home"
+          onClick={() => history.push('/')}
+          src={logo}
+        ></img>
 
         <div className={cx('right')}>
           <UserAddress />
+          <MenuLink
+            to="/shuttle"
+            render={({ active }) => {
+              return (
+                <div
+                  onClick={() => history.push('/')}
+                  className={cx('item', { active })}
+                >
+                  {t('home')}
+                </div>
+              )
+            }}
+          />
           <MenuLink
             to="/history"
             render={({ active }) => {
@@ -120,6 +138,8 @@ export default function LayoutLarge({ history }) {
       </header>
       <Scrollbars
         autoHide
+        autoHeight
+        autoHeightMax={'calc(100vh - 10rem)'}
         renderView={function renderView({ style, ...props }) {
           const viewStyle = {
             padding: '0 2rem 2rem',
@@ -128,8 +148,7 @@ export default function LayoutLarge({ history }) {
         }}
         renderThumbVertical={renderThumbVertical}
         style={{
-          height: 'calc(100vh - 10rem)',
-          width: 544,
+          width: '544px',
           margin: 'auto',
           borderRadius: '0.5rem',
           backgroundColor: '#1b1b1b',

@@ -28,7 +28,7 @@ import useTokenList from '../../data/useTokenList'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
 import Input from '../Input'
-import formatNum from '../../data/formatNum'
+import formatNum, { parseNum } from '../../data/formatNum'
 import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
 
 export default function ShuttleOut({ location: { search }, match: { url } }) {
@@ -55,12 +55,13 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     CUSTODIAN_CONTRACT_ADDR
   )
 
-  const {
+  let {
     balances: [, [_balance]],
   } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
-  let balance
+  let balance = 0
+
   if (_balance && tokenInfo) {
-    balance = formatNum(_balance, tokenInfo.decimals)
+    balance = parseNum(_balance, tokenInfo.decimals)
   }
   //to do fake a balance
   // balance = 12.12344567889
@@ -94,6 +95,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   //not necessarily trigger render
   const tx = useRef('')
   const onSubmit = (data) => {
+    console.log('data', data)
     const { outaddress, outamount } = data
     burn(outamount, outaddress)
       .then((e) => {
@@ -170,7 +172,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
                   ? t('placeholder.input-amount')
                   : t('balance', {
                       amount: balance,
-                      cSymbol: tokenInfo.reference_symbol,
+                      symbol: tokenInfo.symbol,
                     })
               }
             />
@@ -277,6 +279,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
         <input
           disabled={!tokenInfo}
           type="submit"
+
           value={t('shuttle-out')}
           className={buttonCx('btn') + ' ' + shuttleOutCx('btn')}
         />

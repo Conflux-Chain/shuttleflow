@@ -11,7 +11,8 @@
   line-height: 5rem;
   height: 5rem;
   color: white;
-  img {
+  border-bottom: solid 1px rgba($color: #000000, $alpha: 0.8);
+  .logo {
     max-height: 2.5rem;
     margin-left: 3.5rem;
     cursor: pointer;
@@ -31,7 +32,7 @@
       cursor: pointer;
       white-space: nowrap;
       font-weight: bold;
-      margin: 0 1.5625rem;
+      margin: 0 1rem;
     }
     .active {
       color: #44d7b6;
@@ -41,6 +42,8 @@
       cursor: pointer;
       display: flex;
       justify-content: space-around;
+      margin-left: 1rem;
+      align-items: center;
       width: 7.375rem;
       height: 2.5rem;
       text-align: center;
@@ -49,9 +52,8 @@
       border-radius: 1.24rem;
       margin-right: 2rem;
       .up {
-        margin-left: 0;
-      }
-      .icon-active {
+        width: 0.65rem;
+        height: 0.56rem;
         transform: rotate(180deg);
       }
     }
@@ -66,7 +68,7 @@
         padding-left: 1rem;
         line-height: 2.5rem;
         font-size: 1rem;
-        z-index: 1;
+        z-index: 2;
         cursor: pointer;
       }
       .selected {

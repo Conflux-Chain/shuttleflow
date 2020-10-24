@@ -78,3 +78,12 @@
     font-size: 1.25rem;
   }
 }
+
+.backdrop {
+  position: fixed;
+  background: rgba($color: #000000, $alpha: 0.7);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}

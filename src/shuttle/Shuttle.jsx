@@ -9,14 +9,13 @@ import ShuttleOut from './shuttle-out/ShuttleOut'
 import { useTranslation } from 'react-i18next'
 import styles from './Shuttle.module.scss'
 
-import inActiveSvg from './in-active.svg'
-import inSvg from './in.svg'
-import outActiveSvg from './out-active.svg'
-import outSvg from './out.svg'
+import inActiveSvg from './i-in-active-64.png'
+import inSvg from './i-in-64.png'
+import outActiveSvg from './i-out-active-64.png'
+import outSvg from './i-out-64.png'
 
 import MenuLink from '../component/MenuLink'
 import useStyle from '../component/useStyle'
-
 
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
@@ -39,7 +38,7 @@ export default function Shuttle({ match: { path, url } }) {
             return (
               <div className={cx('item', { active })}>
                 <Link to={inUrl}>
-                  <img alt='in' src={active ? inActiveSvg : inSvg}></img>
+                  <img alt="in" src={active ? inActiveSvg : inSvg}></img>
                   <span>{t('shuttle-in')}</span>
                 </Link>
               </div>
@@ -53,7 +52,7 @@ export default function Shuttle({ match: { path, url } }) {
             return (
               <div className={cx('item', { active })}>
                 <Link to={outUrl}>
-                  <img alt='out' src={active ? outActiveSvg : outSvg}></img>
+                  <img alt="out" src={active ? outActiveSvg : outSvg}></img>
                   <span>{t('shuttle-out')}</span>
                 </Link>
               </div>

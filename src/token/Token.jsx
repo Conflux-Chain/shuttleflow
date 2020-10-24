@@ -5,7 +5,7 @@ import Choose from './choose/Choose.jsx'
 import Caption from './caption/Caption'
 import { useTranslation } from 'react-i18next'
 
-import back from './back.svg'
+import back from './back.png'
 
 import styles from './Token.module.scss'
 import MenuLink from '../component/MenuLink'
@@ -79,7 +79,6 @@ function Token(props) {
     match: { path },
   } = props
 
-  console.log('Token')
   const isSmall = useIsSamll()
   return (
     <div>
@@ -93,6 +92,4 @@ function Token(props) {
   )
 }
 
-export default React.memo(Token, function areEqual(prevProps, nextProps) {
-  return JSON.stringify(prevProps) === JSON.stringify(nextProps)
-})
+export default React.memo(Token)

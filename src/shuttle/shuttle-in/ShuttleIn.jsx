@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { useTranslation, Trans } from 'react-i18next'
 import QRCode from 'qrcode.react'
 
 import down from '../down.svg'
-import copy from './copy.svg'
+import copy from './i-copy-48.png'
 import tick from './tick.svg'
 import qr from './qr.svg'
 import question from '../../component/question.svg'
@@ -48,9 +48,10 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
   const [copyPopup, setCopyPopup] = useState(false)
   const [qrPopup, setQrPopup] = useState(false)
 
-  //useful for copying
-  const copyInputRef = useRef(null)
-  const popupCopyRef = useRef(null)
+  const displayCopy = useCallback(() => {
+    setCopyPopup(true)
+    setTimeout(() => setCopyPopup(false), 2000)
+  }, [])
 
   return (
     <div className={shuttleInCx('container')}>
@@ -107,34 +108,23 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
 
         <div className={shuttleInCx('address-input')}>
           <input
-            style={{ cursor: 'default' }}
-            ref={copyInputRef}
             readOnly
             defaultValue={shuttleInAddress}
-            className={commonCx('input-common')}
+            className={
+              commonCx('input-common') + ' ' + shuttleInCx('input-address')
+            }
             placeholder={t('address-placeholder')}
           />
           {tokenInfo && (
-            <img
-              alt="copy"
-              className={shuttleInCx('copy')}
-              src={copy}
-              onClick={() => {
-                copyInputRef.current.select()
-                copyInputRef.current.setSelectionRange(
-                  0,
-                  99999
-                ) /*For mobile devices*/
-                document.execCommand('copy')
-                setCopyPopup(true)
-              }}
-            ></img>
+            <CopyToClipboard text={shuttleInAddress} onCopy={displayCopy}>
+              <img alt="copy" className={shuttleInCx('copy')} src={copy}></img>
+            </CopyToClipboard>
           )}
         </div>
       </div>
       {tokenInfo && (
         <p className={shuttleCx('small-text')}>
-          <span>
+          <span style={{ whiteSpace: 'nowrap' }}>
             <Trans
               t={t}
               i18nKey="latest"
@@ -174,10 +164,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
               text={tokenInfo && tokenInfo.ctoken}
               onCopy={() => {
                 setCTokenPopup(false)
-                setCopyPopup(true)
-                setTimeout(() => {
-                  setCopyPopup(false)
-                }, 2000)
+                displayCopy()
               }}
             >
               <img

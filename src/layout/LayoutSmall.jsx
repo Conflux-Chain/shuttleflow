@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { Link, useRouteMatch, useHistory } from 'react-router-dom'
 import '../i18n/i18n'
 
-import logo from './logo.svg'
+import logo from './logo.png'
 import ham from './ham.svg'
 import close from './close.svg'
 import up from './up.svg'
