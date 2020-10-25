@@ -19,7 +19,8 @@ const FILTERS = [
 export default function History({ location: { search } }) {
   const [cx] = useStyle(historyStyles)
   const { t } = useTranslation('history')
-  const [filterExpanded, setFilterExpanded] = useState(false)
+  const [statusExpanded, setStatusExpanded] = useState(false)
+  const [typeExpanded, setTypeExpanded] = useState(false)
   const [filter, setFilter] = useState(0)
   const { type = 'mint' } = parseSearch(search)
   const history = useHistory()
@@ -30,34 +31,52 @@ export default function History({ location: { search } }) {
   })
   return (
     <div className={cx('history-container')}>
-      <div className={cx('tab-container')}>
-        <div
-          className={cx('tab', { 'active-tab': type === 'mint' })}
-          onClick={() =>
-            history.push({
-              search: '?type=mint',
-            })
-          }
-        >
-          {t('shuttle-in')}
-        </div>
-        <div
-          className={cx('tab', { 'active-tab': type === 'burn' })}
-          onClick={() =>
-            history.push({
-              search: '?type=burn',
-            })
-          }
-        >
-          {t('shuttle-out')}
-        </div>
-      </div>
       <div className={cx('select')}>
         <Accordion
-          expanded={filterExpanded}
+          expanded={typeExpanded}
+          contentStyle={{ position: 'absolute', left: 0, right: 0 }}
           title={
             <div
-              onClick={() => setFilterExpanded((x) => !x)}
+              onClick={() => setTypeExpanded((x) => !x)}
+              className={cx('filter-container')}
+            >
+              <div className={cx('select-item', 'filter-txt')}>
+                {t(type === 'mint' ? 'shuttle-in' : 'shuttle-out')}
+              </div>
+              <img
+                alt="open"
+                className={cx('down', { expanded: statusExpanded })}
+                src={open}
+              ></img>
+            </div>
+          }
+          content={
+            <div className={cx('select-content')}>
+              {['mint', 'burn'].map((key) => (
+                <div
+                  onClick={() => {
+                    setTypeExpanded(false)
+                    history.push({
+                      search: `?type=${key}`,
+                    })
+                  }}
+                  key={key}
+                  className={cx('select-item', 'hover', {
+                    active: key === type,
+                  })}
+                >
+                  {t(key === 'mint' ? 'shuttle-in' : 'shuttle-out')}
+                </div>
+              ))}
+            </div>
+          }
+        />
+        <Accordion
+          expanded={statusExpanded}
+          contentStyle={{ position: 'absolute', left: 0, right: 0 }}
+          title={
+            <div
+              onClick={() => setStatusExpanded((x) => !x)}
               className={cx('filter-container')}
             >
               <div className={cx('select-item', 'filter-txt')}>
@@ -65,7 +84,7 @@ export default function History({ location: { search } }) {
               </div>
               <img
                 alt="open"
-                className={cx('down', { expanded: filterExpanded })}
+                className={cx('down', { expanded: statusExpanded })}
                 src={open}
               ></img>
             </div>
@@ -75,7 +94,7 @@ export default function History({ location: { search } }) {
               {FILTERS.map((_, i) => (
                 <div
                   onClick={() => {
-                    setFilterExpanded(false)
+                    setStatusExpanded(false)
                     setFilter(i)
                   }}
                   key={i}
@@ -95,12 +114,7 @@ export default function History({ location: { search } }) {
           {histories.length > 0 ? (
             <Histories histories={histories} />
           ) : (
-            <img
-              className={cx('not-found')}
-
-              alt="not found"
-              src={notFound}
-            />
+            <img className={cx('not-found')} alt="not found" src={notFound} />
           )}
         </div>
       )}

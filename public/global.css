@@ -24,6 +24,7 @@
 * {
   box-sizing: border-box;
   font-family: CircularStd;
+  font-weight: 400;
 }
 a,
 a:visited {
@@ -72,6 +73,7 @@ input {
   html {
     /* disable unexpected vertical scroll */
     overflow: hidden;
+
   }
 }
 
