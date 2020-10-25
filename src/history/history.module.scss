@@ -19,6 +19,8 @@
   }
 
   .select {
+    display: flex;
+    justify-content: space-around;
     &.small {
       //todo it can go outside
       //overflow:scroll somehow
@@ -40,6 +42,7 @@
       align-items: center;
       color: white;
       cursor: pointer;
+      border-bottom: solid 1px rgba($color: #ffffff, $alpha: 0.2);
       &.small {
         height: 7.75rem;
         font-size: 2rem;
@@ -89,5 +92,14 @@
     &.expanded {
       transform: rotate(180deg);
     }
+  }
+}
+
+.not-found {
+  display: block;
+  margin: auto;
+  &.large {
+    width: 19.375rem;
+    height: 17.6875;
   }
 }

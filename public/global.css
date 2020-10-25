@@ -1,126 +1,30 @@
 @font-face {
   font-family: 'CircularStd';
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Black.eot');
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Black.eot?#iefix')
-      format('embedded-opentype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Black.woff')
-      format('woff'),
-    url('..https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Black.ttf')
-      format('truetype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Black.svg#bcc26993292869431e54c666aafa8fcd')
-      format('svg');
-  font-weight: 800;
+  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/Circular-Std-Bold.ttf')
+    format('truetype');
+  font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'CircularStd';
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BlackItalic.eot');
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BlackItalic.eot?#iefix')
-      format('embedded-opentype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BlackItalic.woff')
-      format('woff'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BlackItalic.ttf')
-      format('truetype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BlackItalic.svg#bcc26993292869431e54c666aafa8fcd')
-      format('svg');
-  font-weight: 800;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'CircularStd';
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Bold.eot');
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Bold.eot?#iefix')
-      format('embedded-opentype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Bold.woff')
-      format('woff'),
-    url('..https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Bold.ttf')
-      format('truetype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Bold.svg#bcc26993292869431e54c666aafa8fcd')
-      format('svg');
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'CircularStd';
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BoldItalic.eot');
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BoldItalic.eot?#iefix')
-      format('embedded-opentype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BoldItalic.woff')
-      format('woff'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BoldItalic.ttf')
-      format('truetype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BoldItalic.svg#bcc26993292869431e54c666aafa8fcd')
-      format('svg');
-  font-weight: 600;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'CircularStd';
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Medium.eot');
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Medium.eot?#iefix')
-      format('embedded-opentype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Medium.woff')
-      format('woff'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Medium.ttf')
-      format('truetype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Medium.svg#bcc26993292869431e54c666aafa8fcd')
-      format('svg');
+  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/Circular-Std-Medium.ttf')
+    format('truetype');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'CircularStd';
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-MediumItalic.eot');
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-MediumItalic.eot?#iefix')
-      format('embedded-opentype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-MediumItalic.woff')
-      format('woff'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-MediumItalic.ttf')
-      format('truetype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-MediumItalic.svg#bcc26993292869431e54c666aafa8fcd')
-      format('svg');
-  font-weight: 500;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'CircularStd';
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Book.eot');
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Book.eot?#iefix')
-      format('embedded-opentype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Book.woff')
-      format('woff'),
-    url('..https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Book.ttf')
-      format('truetype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-Book.svg#bcc26993292869431e54c666aafa8fcd')
-      format('svg');
+  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/Circular-Std-Book.ttf');
   font-weight: 400;
   font-style: normal;
-}
-
-@font-face {
-  font-family: 'CircularStd';
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BookItalic.eot');
-  src: url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BookItalic.eot?#iefix')
-      format('embedded-opentype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BookItalic.woff')
-      format('woff'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BookItalic.ttf')
-      format('truetype'),
-    url('https://conflux-static.oss-cn-beijing.aliyuncs.com/fonts/CircularStd-BookItalic.svg#bcc26993292869431e54c666aafa8fcd')
-      format('svg');
-  font-weight: 400;
-  font-style: italic;
 }
 
 * {
   box-sizing: border-box;
   font-family: CircularStd;
+  font-weight: 400;
 }
 a,
 a:visited {
@@ -169,9 +73,11 @@ input {
   html {
     /* disable unexpected vertical scroll */
     overflow: hidden;
+
   }
 }
 
 strong {
+  font-weight: 500;
   color: #44d7b6;
 }

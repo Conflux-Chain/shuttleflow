@@ -42,6 +42,7 @@
     font-size: 1.75rem;
   }
   &.large {
+    line-height: 1.625rem;
     margin-top: 1.5rem;
     font-size: 1rem;
   }
@@ -76,5 +77,25 @@
     padding: 0 6.25rem;
     height: 4.5rem;
     font-size: 1.25rem;
+  }
+}
+
+.backdrop {
+  position: fixed;
+  background: rgba($color: #000000, $alpha: 0.7);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.close {
+  position: absolute;
+  cursor: pointer;
+  &.large {
+    right: 0.75rem;
+    top: 0.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 }

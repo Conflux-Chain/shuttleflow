@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      const s1 = d3.scaleLinear().domain([375, 675]).range([8, 8])
+      const s2 = d3.scaleLinear().domain([675, 1920]).range([12, 16])
+
+      function setRem() {
+        const width = window.innerWidth
+        const s = width <= 675 ? s1 : s2
+
+        // const
+        const fontSize = s(width)
+        document.documentElement.style.fontSize = fontSize + 'px'
+      }
+
+      setRem()
+
+      window.onresize = setRem
+    </script>
+    <style>
+      .container {
+        background-color: rgba(11, 222, 43, 0.2);
+        width: 15rem;
+        font-size: 1rem;
+        padding: 1rem;
+      }
+      html {
+        font-size: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">qwertyuioopasdfghjklzxcvbnm</div>
+  </body>
+</html>

@@ -4,7 +4,7 @@ import inputStyles from './Input.module.scss'
 import commonInputStyles from '../component/input.module.scss'
 
 import question from '../component/question.svg'
-import arrow from './arrow.svg'
+import arrow from './i-right-56.png'
 import cIcon from '../component/cIcon.svg'
 import { useHistory } from 'react-router-dom'
 
@@ -65,7 +65,7 @@ function Input(
         ref={cTokenInputRef}
         readOnly={!name}
         name={name}
-        style={style}
+        style={{ ...style, fontWeight: to ? 'bold' : '' }}
         className={commonCx('input-common', { error })}
         defaultValue={defaultValue}
       />

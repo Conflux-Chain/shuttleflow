@@ -1,7 +1,7 @@
 //navigtion root
 .nav {
   display: flex;
-
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   &.small {
     position: fixed;
     //todo not sure how it work, how fixed and absolution
@@ -13,7 +13,7 @@
     background: black;
     justify-content: space-around;
     height: 8.5rem;
-    border-bottom: 1px solid #979797;
+
     .item {
       display: flex;
       align-items: center;
@@ -39,7 +39,6 @@
     padding-top: 1rem;
     height: 5.25rem;
     margin-bottom: 2.125rem;
-    border-bottom: 1px solid #979797;
     .item {
       display: flex;
       align-items: center;
@@ -52,7 +51,7 @@
       font-size: 1.25rem;
       img {
         margin-right: 1rem;
-        width: 1.75rem;
+        width: 2rem;
       }
     }
     .active {
@@ -126,8 +125,6 @@
     }
   }
 }
-
-
 
 .down {
   &.small {

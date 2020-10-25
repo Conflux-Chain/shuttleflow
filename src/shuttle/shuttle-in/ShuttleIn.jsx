@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { useTranslation, Trans } from 'react-i18next'
 import QRCode from 'qrcode.react'
 
 import down from '../down.svg'
-import copy from './copy.svg'
+import copy from './i-copy-48.png'
+import copyDark from './i-copy-dark-48.png'
 import tick from './tick.svg'
 import qr from './qr.svg'
 import question from '../../component/question.svg'
@@ -48,9 +49,10 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
   const [copyPopup, setCopyPopup] = useState(false)
   const [qrPopup, setQrPopup] = useState(false)
 
-  //useful for copying
-  const copyInputRef = useRef(null)
-  const popupCopyRef = useRef(null)
+  const displayCopy = useCallback(() => {
+    setCopyPopup(true)
+    setTimeout(() => setCopyPopup(false), 2000)
+  }, [])
 
   return (
     <div className={shuttleInCx('container')}>
@@ -107,34 +109,23 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
 
         <div className={shuttleInCx('address-input')}>
           <input
-            style={{ cursor: 'default' }}
-            ref={copyInputRef}
             readOnly
             defaultValue={shuttleInAddress}
-            className={commonCx('input-common')}
+            className={
+              commonCx('input-common') + ' ' + shuttleInCx('input-address')
+            }
             placeholder={t('address-placeholder')}
           />
           {tokenInfo && (
-            <img
-              alt="copy"
-              className={shuttleInCx('copy')}
-              src={copy}
-              onClick={() => {
-                copyInputRef.current.select()
-                copyInputRef.current.setSelectionRange(
-                  0,
-                  99999
-                ) /*For mobile devices*/
-                document.execCommand('copy')
-                setCopyPopup(true)
-              }}
-            ></img>
+            <CopyToClipboard text={shuttleInAddress} onCopy={displayCopy}>
+              <img alt="copy" className={shuttleInCx('copy')} src={copy}></img>
+            </CopyToClipboard>
           )}
         </div>
       </div>
       {tokenInfo && (
         <p className={shuttleCx('small-text')}>
-          <span>
+          <span style={{ whiteSpace: 'nowrap' }}>
             <Trans
               t={t}
               i18nKey="latest"
@@ -153,13 +144,23 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         </p>
       )}
       <ShuttleHistory type="mint" />
-      <Modal show={addressPopup} title clickAway={() => setAddressPopup(false)}>
+      <Modal
+        show={addressPopup}
+        title
+        onClose={() => setAddressPopup(false)}
+        clickAway={() => setAddressPopup(false)}
+      >
         <div className={modalCx('content')}>{t('popup.address')}</div>
         <div className={modalCx('btn')} onClick={() => setAddressPopup(false)}>
           {t('popup.ok')}
         </div>
       </Modal>
-      <Modal show={cTokenPopup} title clickAway={() => setCTokenPopup(false)}>
+      <Modal
+        show={cTokenPopup}
+        title
+        onClose={() => setCTokenPopup(false)}
+        clickAway={() => setCTokenPopup(false)}
+      >
         <div className={modalCx('content')}>{t('popup.ctoken')}</div>
         <div className={shuttleInCx('ctoken')}>
           <div className={shuttleInCx('contract-address')}>
@@ -174,15 +175,12 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
               text={tokenInfo && tokenInfo.ctoken}
               onCopy={() => {
                 setCTokenPopup(false)
-                setCopyPopup(true)
-                setTimeout(() => {
-                  setCopyPopup(false)
-                }, 2000)
+                displayCopy()
               }}
             >
               <img
                 className={shuttleInCx('popup-copy')}
-                src={copy}
+                src={copyDark}
                 alt="copy"
               ></img>
             </CopyToClipboard>
@@ -193,7 +191,12 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
           {t('popup.ok')}
         </div>
       </Modal>
-      <Modal show={feePopup} title clickAway={() => setFeePopup(false)}>
+      <Modal
+        show={feePopup}
+        title
+        onClose={() => setFeePopup(false)}
+        clickAway={() => setFeePopup(false)}
+      >
         <div className={modalCx('content')}>
           <Trans values={tokenInfo} t={t} i18nKey="popup.fee"></Trans>
         </div>
@@ -201,7 +204,12 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
           {t('popup.ok')}
         </div>
       </Modal>
-      <Modal show={minPopup} title clickAway={() => setMinPopup(false)}>
+      <Modal
+        show={minPopup}
+        title
+        onClose={() => setMinPopup(false)}
+        clickAway={() => setMinPopup(false)}
+      >
         <div className={modalCx('content')}>{t('popup.min')}</div>
         <div className={modalCx('btn')} onClick={() => setMinPopup(false)}>
           {t('popup.ok')}
@@ -219,7 +227,11 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         </div>
       </Modal>
 
-      <Modal show={qrPopup} clickAway={() => setQrPopup(false)}>
+      <Modal
+        onClose={() => setQrPopup(false)}
+        show={qrPopup}
+        clickAway={() => setQrPopup(false)}
+      >
         <div>
           <div className={modalCx('title')}>{t('popup.in-address')}</div>
           <div

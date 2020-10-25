@@ -106,3 +106,10 @@
     }
   }
 }
+.input-address {
+  cursor: default;
+  color: rgba($color: #ffffff, $alpha: 0.6);
+  &.large {
+    font-size: 1.1rem;
+  }
+}

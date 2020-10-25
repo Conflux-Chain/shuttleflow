@@ -14,9 +14,6 @@
     content: '';
   }
   position: relative;
-  input {
-    font-weight: bold;
-  }
 
   .arrow {
     top: 0;
@@ -30,8 +27,8 @@
       right: 2rem;
     }
     &.large {
-      width: 0.75rem;
-      right: 2.0625rem;
+      width: 1.75rem;
+      right: 1.5rem;
     }
   }
 

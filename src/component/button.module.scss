@@ -6,6 +6,8 @@
   text-shadow: 0px 0px 0px transparent;
   display: block;
   margin: auto;
+  font-weight: 500;
+  white-space: nowrap;
   cursor: pointer;
   &:disabled {
     background: #9c9c9c;
@@ -19,6 +21,7 @@
     font-size: 2rem;
   }
   &.large {
+    font-size: 1.25rem;
     height: 4.5rem;
   }
 }

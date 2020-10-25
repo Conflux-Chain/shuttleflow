@@ -1,6 +1,8 @@
 .input {
   position: relative;
   background-color: rgba($color: #000000, $alpha: 0.6);
+  border: solid 1px rgba($color: #000000, $alpha: 0.4);
+  font-size: 400;
   &.small {
     input {
       padding-left: 4.75rem;
@@ -11,8 +13,8 @@
     }
   }
   &.large {
-    margin-top: 1.5rem;
     input {
+      font-size: 1rem;
       padding-left: 3.375rem;
     }
     img {
@@ -22,7 +24,6 @@
   }
   img {
     position: absolute;
-
     top: 0;
     bottom: 0;
     margin: auto;

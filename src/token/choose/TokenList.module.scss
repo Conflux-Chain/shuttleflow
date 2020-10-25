@@ -20,14 +20,22 @@
         width: 2rem;
       }
       .icon {
+        margin-left: 0.5rem;
+        margin-right: 1rem;
         width: 3rem;
       }
       height: 6.25rem;
     }
-    display: grid;
-    border-bottom: 1px solid rgba($color: #ffffff, $alpha: 0.2);
-    grid-template-columns: 3fr 4fr 10fr 10fr;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba($color: #ffffff, $alpha: 0.18);
+
+    .left {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
 
     .symbol {
       color: white;
@@ -54,6 +62,7 @@
     .link {
       display: flex;
       justify-content: flex-end;
+      align-items: center;
     }
     .link-img {
       cursor: pointer;
@@ -63,13 +72,13 @@
       }
       &.large {
         margin-left: 0.5rem;
-        width: 1rem;
+        width: 2rem;
       }
     }
 
     .link-txt {
       color: rgba($color: #ffffff, $alpha: 0.4);
-      font-family: monospace;
+      // font-family: monospace;
       &.small {
         font-size: 1.5rem;
       }

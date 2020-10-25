@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import styles from './modal.module.scss'
 import useStyle from './useStyle'
+import close from './i-close-48.png'
 
 export default function Modal({ children, show, ...props }) {
   return createPortal(
@@ -11,7 +12,7 @@ export default function Modal({ children, show, ...props }) {
   )
 }
 
-function Inner({ children, clickAway, title }) {
+function Inner({ children, clickAway, title, onClose }) {
   const ref = useRef(null)
   const [cx] = useStyle(styles)
   const { t } = useTranslation()
@@ -28,14 +29,26 @@ function Inner({ children, clickAway, title }) {
     }
   }, [clickAway])
   return createPortal(
-    <div ref={ref} className={cx('container')}>
-      {title && (
-        <div className={cx('title')}>
-          {typeof title === 'string' ? title : t('popup.title')}
-        </div>
-      )}
-      {children}
-    </div>,
+    <>
+      <div className={cx('backdrop')}></div>
+      <div ref={ref} className={cx('container')}>
+        {onClose && (
+          <img
+            onClick={onClose}
+            className={cx('close')}
+            src={close}
+            alt="close"
+          ></img>
+        )}
+
+        {title && (
+          <div className={cx('title')}>
+            {typeof title === 'string' ? title : t('popup.title')}
+          </div>
+        )}
+        {children}
+      </div>
+    </>,
     document.getElementById('popup')
   )
 }

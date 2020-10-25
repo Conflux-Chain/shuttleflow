@@ -2,9 +2,9 @@
   "all": "All",
   "amount": "Shuttle-Out Amount",
   "address": "Shuttle-Out Address",
-  "balance": "Available Balance {{amount}} {{cSymbol}}",
+  "balance": "Available Balance {{amount}} {{symbol}}",
   "fee": "Fees {{burn_fee}} {{symbol}}",
-  "min-amount": "Minimum Amount {{minimal_burn_value}} {{reference_symbol}}",
+  "min-amount": "Minimum Amount {{minimal_burn_value}} {{symbol}}",
   "error": {
     "insufficient": "Insufficient balance",
     "invalid-address": "Address is invalid",

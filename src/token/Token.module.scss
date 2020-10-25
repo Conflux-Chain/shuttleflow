@@ -1,9 +1,11 @@
 .nav-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: sticky;
+
   // todo: still not sure how z-index related to sticky and relative
-  z-index: 1; 
+  z-index: 1;
 
   &.large {
     background-color: #1b1b1b;
@@ -15,9 +17,9 @@
       width: 1rem;
     }
     &.large {
-      width: 1rem;
+      width: 1.5rem;
+      height: 1.5rem;
       position: relative;
-      top: 0.5rem; //offset the padding effect
     }
   }
   .nav-tabs {
@@ -28,7 +30,6 @@
     &.large {
       font-size: 1.25rem;
       line-height: 5.25rem;
-      padding-top: 1rem;
     }
     .item {
       font-weight: 500;

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import useStyle from '../../component/useStyle'
 
-import linkSrc from './link.svg'
+import linkSrc from '../../component/link-64.png'
 import notFound from '../../component/not-found.png'
 import shuttle from '../../component/cIcon.svg'
 import tokenListStyles from './TokenList.module.scss'
@@ -57,7 +57,7 @@ function TokenList({
       autoHide
       renderThumbVertical={renderThumbVertical}
       style={{
-        height: 'calc(100vh - 31rem)',
+        height: 'calc(100vh - 29rem)',
         position: 'relative',
       }}
     >
@@ -133,32 +133,37 @@ function TokenList({
                   className={ListCx('row', { checked })}
                   onClick={() => setToken(checked ? '' : _address)}
                 >
-                  <Check active={checked} />
-                  <div className={ListCx('img-container')}>
-                    <img alt="icon" className={ListCx('icon')} src={icon}></img>
-                    {cToken && (
+                  <div className={ListCx('left')}>
+                    <Check active={checked} />
+                    <div className={ListCx('img-container')}>
                       <img
-                        src={shuttle}
-                        className={ListCx('cicon')}
-                        alt="ctoken"
-                      />
-                    )}
-                  </div>
-
-                  <div className={ListCx('two-row')}>
-                    <div className={ListCx('symbol-row')}>
-                      <span className={ListCx('symbol')}>
-                        {reference_symbol}
-                      </span>
-
-                      {notAvailable && (
-                        <span className={ListCx('not-available')}>
-                          {t('txt.not-available')}
-                        </span>
+                        alt="icon"
+                        className={ListCx('icon')}
+                        src={icon}
+                      ></img>
+                      {cToken && (
+                        <img
+                          src={shuttle}
+                          className={ListCx('cicon')}
+                          alt="ctoken"
+                        />
                       )}
                     </div>
+                    <div className={ListCx('two-row')}>
+                      <div className={ListCx('symbol-row')}>
+                        <span className={ListCx('symbol')}>
+                          {reference_symbol}
+                        </span>
 
-                    <span className={ListCx('name')}>{reference_name}</span>
+                        {notAvailable && (
+                          <span className={ListCx('not-available')}>
+                            {t('txt.not-available')}
+                          </span>
+                        )}
+                      </div>
+
+                      <span className={ListCx('name')}>{reference_name}</span>
+                    </div>
                   </div>
 
                   <div
