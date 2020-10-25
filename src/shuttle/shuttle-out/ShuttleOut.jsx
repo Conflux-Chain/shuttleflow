@@ -50,6 +50,8 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   const [feePopup, setFeePopup] = useState(false)
   const [ctokenPopup, setCTokenPopup] = useState(false)
 
+  const isAll = useRef(false)
+
   const { burn } = useCToken(
     tokenInfo ? tokenInfo.ctoken : '',
     CUSTODIAN_CONTRACT_ADDR
@@ -60,11 +62,19 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
   let balance = 0
 
+  console.log('\n<--------- balance reveived from portal:')
+  console.log('big format', _balance)
+  console.log(
+    'string format',
+    _balance && _balance.toFixed && _balance.toFixed()
+  )
+  console.log('\n\n')
+
   if (_balance && tokenInfo) {
     balance = parseNum(_balance, tokenInfo.decimals)
   }
   //to do fake a balance
-  // balance = 12.12344567889
+  // balance = 12.12344567889999999999999
   const schema = yup.object().shape({
     outamount: yup
       .number()
@@ -95,8 +105,17 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   //not necessarily trigger render
   const tx = useRef('')
   const onSubmit = (data) => {
-    console.log('data', data)
-    const { outaddress, outamount } = data
+    let { outaddress, outamount } = data
+    console.log('reveive form input', outamount)
+    if (isAll.current) {
+      outamount = parseNum(_balance, tokenInfo.decimals)
+    }
+
+    console.log('\npassed to portal: ---->')
+    console.log('big format', outamount)
+    console.log('string format', outamount.toFixed && outamount.toFixed())
+    console.log('\n\n')
+
     burn(outamount, outaddress)
       .then((e) => {
         tx.current = e
@@ -166,6 +185,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
                   value = [p1, p2].join('.')
                 }
                 e.target.value = value
+                isAll.current = false
               }}
               placeholder={
                 !tokenInfo
@@ -178,6 +198,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
             />
             <div
               onClick={() => {
+                isAll.current = true
                 setValue('outamount', balance)
               }}
               className={shuttleOutCx('all') + ' ' + shuttleCx('small-text')}
