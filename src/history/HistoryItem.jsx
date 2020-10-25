@@ -44,7 +44,7 @@ export default function HistoryItem(props) {
                 >
                   {symbol}
                 </div>
-                <div style={{ color: '#AEB0C2' }} className={cx('small-txt')}>
+                <div  className={cx('small-txt')}>
                   {t(steps[currentStep])}
                 </div>
               </div>
@@ -82,7 +82,7 @@ export default function HistoryItem(props) {
             </div>
           </div>
           <div
-            style={{ visibility: opened ? 'hidden' : 'visible' }}
+            style={{ display: opened ? 'none' : '' }}
             className={cx('arrow')}
             onClick={() => setOpened(opened ? -1 : idx)}
           >
@@ -92,7 +92,7 @@ export default function HistoryItem(props) {
       }
       expanded={opened}
       content={
-        <div>
+        <div className={cx('items')}>
           {STEPS[type].map((s, i) => {
             return (
               <div key={s} className={cx('item-container')}>

@@ -21,6 +21,7 @@
   }
 }
 .small-txt {
+  color: rgba($color: #ffffff, $alpha: 0.4);
   &.small {
     font-size: 1.5rem;
   }
@@ -66,7 +67,6 @@
     margin-top: 1rem;
   }
   &.large {
-    height: 2.25rem;
     margin-top: 1rem;
   }
   .semi-circle {
@@ -95,7 +95,7 @@
       }
       position: absolute;
       border-radius: 100%;
-      border: solid 1px white;
+      border: solid 2px white;
       top: 32%;
       left: -0.4rem;
       width: 1rem;
@@ -167,6 +167,12 @@
     color: #ffffff;
     animation: dotFlashing 1s infinite linear alternate;
     animation-delay: 0s;
+  }
+}
+
+.items {
+  &.large {
+    margin-top: 1.5rem;
   }
 }
 

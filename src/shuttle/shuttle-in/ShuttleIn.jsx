@@ -5,6 +5,7 @@ import QRCode from 'qrcode.react'
 
 import down from '../down.svg'
 import copy from './i-copy-48.png'
+import copyDark from './i-copy-dark-48.png'
 import tick from './tick.svg'
 import qr from './qr.svg'
 import question from '../../component/question.svg'
@@ -143,13 +144,23 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         </p>
       )}
       <ShuttleHistory type="mint" />
-      <Modal show={addressPopup} title clickAway={() => setAddressPopup(false)}>
+      <Modal
+        show={addressPopup}
+        title
+        onClose={() => setAddressPopup(false)}
+        clickAway={() => setAddressPopup(false)}
+      >
         <div className={modalCx('content')}>{t('popup.address')}</div>
         <div className={modalCx('btn')} onClick={() => setAddressPopup(false)}>
           {t('popup.ok')}
         </div>
       </Modal>
-      <Modal show={cTokenPopup} title clickAway={() => setCTokenPopup(false)}>
+      <Modal
+        show={cTokenPopup}
+        title
+        onClose={() => setCTokenPopup(false)}
+        clickAway={() => setCTokenPopup(false)}
+      >
         <div className={modalCx('content')}>{t('popup.ctoken')}</div>
         <div className={shuttleInCx('ctoken')}>
           <div className={shuttleInCx('contract-address')}>
@@ -169,7 +180,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             >
               <img
                 className={shuttleInCx('popup-copy')}
-                src={copy}
+                src={copyDark}
                 alt="copy"
               ></img>
             </CopyToClipboard>
@@ -180,7 +191,12 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
           {t('popup.ok')}
         </div>
       </Modal>
-      <Modal show={feePopup} title clickAway={() => setFeePopup(false)}>
+      <Modal
+        show={feePopup}
+        title
+        onClose={() => setFeePopup(false)}
+        clickAway={() => setFeePopup(false)}
+      >
         <div className={modalCx('content')}>
           <Trans values={tokenInfo} t={t} i18nKey="popup.fee"></Trans>
         </div>
@@ -188,7 +204,12 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
           {t('popup.ok')}
         </div>
       </Modal>
-      <Modal show={minPopup} title clickAway={() => setMinPopup(false)}>
+      <Modal
+        show={minPopup}
+        title
+        onClose={() => setMinPopup(false)}
+        clickAway={() => setMinPopup(false)}
+      >
         <div className={modalCx('content')}>{t('popup.min')}</div>
         <div className={modalCx('btn')} onClick={() => setMinPopup(false)}>
           {t('popup.ok')}
@@ -206,7 +227,11 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         </div>
       </Modal>
 
-      <Modal show={qrPopup} clickAway={() => setQrPopup(false)}>
+      <Modal
+        onClose={() => setQrPopup(false)}
+        show={qrPopup}
+        clickAway={() => setQrPopup(false)}
+      >
         <div>
           <div className={modalCx('title')}>{t('popup.in-address')}</div>
           <div
