@@ -5,7 +5,7 @@ import itemStyle from './historyItem.module.scss'
 import { useTranslation } from 'react-i18next'
 
 import open from './open.svg'
-import link from './link.svg'
+import link from '../component/link-64.png'
 import { CONFLUXSCAN_TX, EHTHERSCAN_TX } from '../config/config'
 
 const STEPS = {

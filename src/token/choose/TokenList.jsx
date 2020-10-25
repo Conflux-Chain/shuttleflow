@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import useStyle from '../../component/useStyle'
 
-import linkSrc from './link-64.png'
+import linkSrc from '../../component/link-64.png'
 import notFound from '../../component/not-found.png'
 import shuttle from '../../component/cIcon.svg'
 import tokenListStyles from './TokenList.module.scss'
