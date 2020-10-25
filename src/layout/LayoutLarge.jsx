@@ -13,14 +13,12 @@ import Accordion from '../component/Accordion'
 import UserAddress from './UserAddress'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
-import useClick from '../data/useClick'
 
 const cx = classNamesBind.bind(styles)
 
 export default function LayoutLarge({ history }) {
   const [expandLng, setExpandLng] = useState(false)
   const { t, i18n } = useTranslation()
-  const historyCb = useClick(() => history.push('/history'))
   const clickAway = useCallback(() => {
     setExpandLng(false)
   }, [])
@@ -54,7 +52,10 @@ export default function LayoutLarge({ history }) {
             to="/history"
             render={({ active }) => {
               return (
-                <div onClick={historyCb} className={cx('item', { active })}>
+                <div
+                  onClick={() => history.push('/history')}
+                  className={cx('item', { active })}
+                >
                   {t('history')}
                 </div>
               )

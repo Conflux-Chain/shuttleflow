@@ -9,7 +9,6 @@ export default function useShuttleInAddress(tokenInfo) {
   //the endpoint will be called over and over again
   //OK though
   useEffect(() => {
-    console.log('reference', reference)
     if (address && reference) {
       jsonrpc(
         reference === 'btc'

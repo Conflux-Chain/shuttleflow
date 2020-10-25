@@ -62,14 +62,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
   let balance = 0
 
-  console.log('\n<--------- balance reveived from portal:')
-  console.log('big format', _balance)
-  console.log(
-    'string format',
-    _balance && _balance.toFixed && _balance.toFixed()
-  )
-  console.log('\n\n')
-
   if (_balance && tokenInfo) {
     balance = parseNum(_balance, tokenInfo.decimals)
   }
@@ -111,10 +103,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
       outamount = parseNum(_balance, tokenInfo.decimals)
     }
 
-    console.log('\npassed to portal: ---->')
-    console.log('big format', outamount)
-    console.log('string format', outamount.toFixed && outamount.toFixed())
-    console.log('\n\n')
 
     burn(outamount, outaddress)
       .then((e) => {

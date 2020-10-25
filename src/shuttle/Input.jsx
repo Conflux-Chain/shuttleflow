@@ -8,7 +8,6 @@ import arrow from './i-right-56.png'
 import cIcon from '../component/cIcon.svg'
 import { useHistory } from 'react-router-dom'
 
-console.log(inputStyles)
 
 function Input(
   {

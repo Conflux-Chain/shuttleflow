@@ -11,7 +11,7 @@ import { RecoilRoot } from 'recoil'
 export default function App() {
   const isSmall = useIsSamll()
 
-  const { useEnsurePortalLogin } = useConfluxPortal()
+  const { address, useEnsurePortalLogin } = useConfluxPortal()
   useEnsurePortalLogin()
 
   return (
