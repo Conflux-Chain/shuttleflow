@@ -51,7 +51,10 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
 
   const displayCopy = useCallback(() => {
     setCopyPopup(true)
-    setTimeout(() => setCopyPopup(false), 2000)
+    const tm = setTimeout(() => setCopyPopup(false), 2000)
+    return () => {
+      clearTimeout(tm)
+    }
   }, [])
 
   return (
@@ -125,7 +128,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       </div>
       {tokenInfo && (
         <p className={shuttleCx('small-text')}>
-          <span style={{ whiteSpace: 'nowrap' }}>
+          <span>
             <Trans
               t={t}
               i18nKey="latest"
@@ -134,9 +137,10 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
               }}
             ></Trans>
           </span>
+
           <span
+            className={shuttleInCx('qr-container')}
             onClick={() => setQrPopup(true)}
-            style={{ display: 'flex', cursor: 'pointer' }}
           >
             <img style={{ marginRight: '1rem' }} alt="qr" src={qr}></img>
             <span>{t('qr')}</span>

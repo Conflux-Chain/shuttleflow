@@ -15,20 +15,28 @@
   }
   position: relative;
 
-  .arrow {
+  .arrow-area {
+    position: absolute;
+    right: 0;
     top: 0;
     bottom: 0;
-    position: absolute;
+    // width: 50%;
     cursor: pointer;
-    margin: auto;
-    display: flex;
-    &.small {
-      width: 1rem;
-      right: 2rem;
-    }
-    &.large {
-      width: 1.75rem;
-      right: 1.5rem;
+    .arrow {
+      top: 0;
+      bottom: 0;
+      position: absolute;
+      cursor: pointer;
+      margin: auto;
+      display: flex;
+      &.small {
+        width: 1rem;
+        right: 2rem;
+      }
+      &.large {
+        width: 1.75rem;
+        right: 1.5rem;
+      }
     }
   }
 

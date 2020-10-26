@@ -2,7 +2,6 @@
   position: relative;
   background-color: rgba($color: #000000, $alpha: 0.6);
   border: solid 1px rgba($color: #000000, $alpha: 0.4);
-  font-size: 400;
   &.small {
     input {
       padding-left: 4.75rem;
@@ -14,6 +13,7 @@
   }
   &.large {
     input {
+      height: 3.75rem;
       font-size: 1rem;
       padding-left: 3.375rem;
     }

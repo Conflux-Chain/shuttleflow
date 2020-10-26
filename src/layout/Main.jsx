@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom'
+import React, { useEffect, useState, useRef } from 'react'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import Modal from '../component/Modal'
 import { useConfluxPortal } from '@cfxjs/react-hooks'
 import Shuttle from '../shuttle/Shuttle'
@@ -11,7 +11,18 @@ import { useTranslation } from 'react-i18next'
 
 function Main() {
   const { address, login } = useConfluxPortal()
-  const [popup, setPopup] = useState(false)
+  const addressRef = useRef(address)
+  addressRef.current = address
+  const [popup, _setPopup] = useState(false)
+
+  function setPopup(v) {
+    console.log('want to set popup')
+    setTimeout(() => {
+      if (!addressRef.current) {
+        _setPopup(v)
+      }
+    }, 500)
+  }
   const { t } = useTranslation()
   return (
     <>
@@ -57,17 +68,14 @@ function Main() {
 
 function RedirectWrapper({ setPopup, login, ...props }) {
   useEffect(() => {
-    console.log('redirect mount')
     return () => {
-      console.log('redirect unmount')
-
       setPopup(true)
       setTimeout(() => {
         setPopup(false)
         login()
       }, 2000)
     }
-  }, [setPopup])
+  }, [setPopup, login])
   return <Redirect {...props} />
 }
 

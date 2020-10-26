@@ -11,6 +11,7 @@ export default function useHistory({ token, status, limit = 100, type } = {}) {
   const [state, setState] = useState1({ data: [], loading: true })
   const reload = useRef(null)
   useDeepCompareEffect(() => {
+    let mount = true
     if (address) {
       //portal is not connected
       const getFetchHistory = () =>
@@ -23,7 +24,9 @@ export default function useHistory({ token, status, limit = 100, type } = {}) {
       const _reload = () => {
         setState({ loading: true })
         return getFetchHistory().then((data) => {
-          setState({ data, loading: false })
+          if (mount) {
+            setState({ data, loading: false })
+          }
         })
       }
       reload.current = () => {
@@ -36,10 +39,15 @@ export default function useHistory({ token, status, limit = 100, type } = {}) {
           }),
           getFetchHistory(),
         ]).then(([_, data]) => {
-          setState({ data, loading: false })
+          if (mount) {
+            setState({ data, loading: false })
+          }
         })
       }
       _reload()
+    }
+    return () => {
+      mount = false
     }
   }, [token, status, type, setState, address])
 

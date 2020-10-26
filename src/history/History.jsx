@@ -45,7 +45,7 @@ export default function History({ location: { search } }) {
               </div>
               <img
                 alt="open"
-                className={cx('down', { expanded: statusExpanded })}
+                className={cx('down', { expanded: typeExpanded })}
                 src={open}
               ></img>
             </div>
@@ -112,7 +112,7 @@ export default function History({ location: { search } }) {
       {loading ? null : (
         <div className={cx('history-items')}>
           {histories.length > 0 ? (
-            <Histories histories={histories} />
+            <Histories histories={histories.slice(0, 1)} />
           ) : (
             <img className={cx('not-found')} alt="not found" src={notFound} />
           )}
