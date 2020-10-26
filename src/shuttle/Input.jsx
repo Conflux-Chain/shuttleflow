@@ -8,8 +8,6 @@ import arrow from './i-right-56.png'
 import cIcon from '../component/cIcon.svg'
 import { useHistory } from 'react-router-dom'
 
-console.log(inputStyles)
-
 function Input(
   {
     value, //only useful to decide placeholder
@@ -41,6 +39,14 @@ function Input(
       setFontWidth(`calc(${width}px + ${paddingLeft} + 1rem)`)
     }
   }, [tokenInfo, cTokenInputRef])
+
+  const arrowAreaStyle = {
+    left: 0,
+  }
+  if (cToken) {
+    arrowAreaStyle.left = fontWidth
+    arrowAreaStyle.marginLeft = '3rem'
+  }
 
   return (
     <div
@@ -79,16 +85,15 @@ function Input(
         ></img>
       )}
       {to && (
-        <img
+        <div
           onClick={() => {
-            if (typeof to === 'object') {
-              history.push(to)
-            }
+            history.push(to)
           }}
-          alt="arrow"
-          className={shuttleCx('arrow')}
-          src={arrow}
-        ></img>
+          style={arrowAreaStyle}
+          className={shuttleCx('arrow-area')}
+        >
+          <img alt="arrow" className={shuttleCx('arrow')} src={arrow}></img>
+        </div>
       )}
       {!value && !defaultValue && (
         <div className={commonCx('placeholder')}>{placeholder}</div>

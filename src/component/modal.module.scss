@@ -11,11 +11,13 @@
   background: white;
   &.small {
     padding: 2rem;
-    min-width: 40rem;
+    max-width: 40rem;
   }
   &.large {
+    
     padding: 2rem;
-    width: 28rem;
+    width: fit-content;
+    max-width: 28rem;
   }
 }
 

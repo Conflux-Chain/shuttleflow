@@ -21,6 +21,7 @@
   .select {
     display: flex;
     justify-content: space-around;
+    border-bottom: solid 1px rgba($color: #ffffff, $alpha: 0.2);
     &.small {
       //todo it can go outside
       //overflow:scroll somehow
@@ -42,7 +43,7 @@
       align-items: center;
       color: white;
       cursor: pointer;
-      border-bottom: solid 1px rgba($color: #ffffff, $alpha: 0.2);
+
       &.small {
         height: 7.75rem;
         font-size: 2rem;

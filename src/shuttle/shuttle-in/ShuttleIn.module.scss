@@ -53,6 +53,7 @@
     }
   }
   &.large {
+    margin: -0.5rem;
     font-size: 1.5rem;
     img {
       width: 2rem;
@@ -111,5 +112,14 @@
   color: rgba($color: #ffffff, $alpha: 0.6);
   &.large {
     font-size: 1.1rem;
+  }
+}
+
+.qr-container {
+  display: flex;
+  cursor: pointer;
+  white-space: nowrap;
+  &.large {
+    margin-left: 0.75rem;
   }
 }

@@ -49,7 +49,6 @@ function TokenList({
     return <h1>......</h1>
   }
 
-  console.log(tokenList)
   return (
     //we should combine frequent token and tokenlist in one component
     //cause they share the same container of fixed height

@@ -1,13 +1,7 @@
-//https://dev.shuttleflow.io
-//http://23.102.224.244:8018
-
-//https://rinkeby.etherscan.io/tx/
-//https://etherscan.io/
-
-//https://confluxscan.io/
+import { NODE_URL, SPONSOR_URL } from '../config/config'
 const URLS = {
-  node: 'https://dev.shuttleflow.io',
-  sponsor: 'http://23.102.224.244:8018',
+  node: NODE_URL,
+  sponsor: SPONSOR_URL,
 }
 
 export default function jsonrpc(method, data) {

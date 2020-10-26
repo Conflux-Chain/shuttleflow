@@ -62,14 +62,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
   let balance = 0
 
-  console.log('\n<--------- balance reveived from portal:')
-  console.log('big format', _balance)
-  console.log(
-    'string format',
-    _balance && _balance.toFixed && _balance.toFixed()
-  )
-  console.log('\n\n')
-
   if (_balance && tokenInfo) {
     balance = parseNum(_balance, tokenInfo.decimals)
   }
@@ -78,16 +70,13 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   const schema = yup.object().shape({
     outamount: yup
       .number()
-      .typeError(t('error.number'))
-      .min(
-        tokenInfo ? tokenInfo.minimal_burn_value : 0,
-        t('error.min', tokenInfo)
-      )
-      .max(balance, t('error.insufficient')),
+      .typeError('error.number')
+      .min(tokenInfo ? tokenInfo.minimal_burn_value : 0, 'error.min')
+      .max(balance, 'error.insufficient'),
     outaddress: yup
       .string()
-      .required(t('error.required'))
-      .matches(/^0x[0-9a-fA-F]{40}$/, t('error.invalid-address')),
+      .required('error.required')
+      .matches(/^0x[0-9a-fA-F]{40}$/, 'error.invalid-address'),
   })
 
   const {
@@ -110,11 +99,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     if (isAll.current) {
       outamount = parseNum(_balance, tokenInfo.decimals)
     }
-
-    console.log('\npassed to portal: ---->')
-    console.log('big format', outamount)
-    console.log('string format', outamount.toFixed && outamount.toFixed())
-    console.log('\n\n')
 
     burn(outamount, outaddress)
       .then((e) => {
@@ -232,7 +216,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
                   className={shuttleCx('small-text')}
                   style={{ color: '#F3504F' }}
                 >
-                  {message}
+                  {t(message, tokenInfo)}
                 </span>
               )
             }}
@@ -259,17 +243,19 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
               name="outaddress"
               error={errors.outaddress}
               placeholder={
-                <Trans
-                  values={{
-                    type: token
-                      ? token === 'btc'
-                        ? t('btc')
-                        : t('eth')
-                      : t('btc') + '/' + t('eth'),
-                  }}
-                  i18nKey={'placeholder.address'}
-                  t={t}
-                ></Trans>
+                <div style={{ fontSize: '1.1rem' }}>
+                  <Trans
+                    values={{
+                      type: token
+                        ? token === 'btc'
+                          ? t('btc')
+                          : t('eth')
+                        : t('btc') + '/' + t('eth'),
+                    }}
+                    i18nKey={'placeholder.address'}
+                    t={t}
+                  ></Trans>
+                </div>
               }
             />
             <img
