@@ -141,7 +141,7 @@ export default function LayoutLarge({ history }) {
         autoHide
         autoHeight
         autoHeightMax={'calc(100vh - 10rem)'}
-        autoHeightMin="22rem"
+        autoHeightMin="30rem"
         renderView={function renderView({ style, ...props }) {
           const viewStyle = {
             padding: '0 2rem 2rem',

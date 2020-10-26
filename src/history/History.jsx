@@ -112,7 +112,7 @@ export default function History({ location: { search } }) {
       {loading ? null : (
         <div className={cx('history-items')}>
           {histories.length > 0 ? (
-            <Histories histories={histories.slice(0, 1)} />
+            <Histories histories={histories} />
           ) : (
             <img className={cx('not-found')} alt="not found" src={notFound} />
           )}

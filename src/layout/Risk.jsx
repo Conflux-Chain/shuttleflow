@@ -38,7 +38,7 @@ export default function Risk() {
           setDisplay(false)
         }}
       >
-        {t('risk.known')}
+        {t('risk.continue')}
       </button>
     </Modal>
   )
