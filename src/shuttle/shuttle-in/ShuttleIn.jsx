@@ -238,14 +238,15 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       >
         <div>
           <div className={modalCx('title')}>{t('popup.in-address')}</div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              margin: '1.5rem',
-            }}
-          >
-            <QRCode value={shuttleInAddress} />
+          <div className={shuttleInCx('qr-popup')}>
+            <div className={shuttleInCx('code')}>
+              <QRCode value={shuttleInAddress} />
+            </div>
+
+            <div>{shuttleInAddress}</div>
+            <CopyToClipboard text={shuttleInAddress}>
+              <div className={modalCx('btn')}>copy</div>
+            </CopyToClipboard>
           </div>
         </div>
       </Modal>

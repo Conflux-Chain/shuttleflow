@@ -123,3 +123,18 @@
     margin-left: 0.75rem;
   }
 }
+
+.qr-popup {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  &.large {
+    width: 24rem;
+  }
+  .code {
+    &.large {
+      margin-top: 1rem;
+      margin-bottom: 2.25rem;
+    }
+  }
+}

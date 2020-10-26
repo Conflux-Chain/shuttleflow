@@ -43,10 +43,12 @@ function Input(
   const arrowAreaStyle = {
     left: 0,
   }
-  if (cToken) {
+
+  if (cToken && fontWidth) {
     arrowAreaStyle.left = fontWidth
     arrowAreaStyle.marginLeft = '3rem'
   }
+
 
   return (
     <div
