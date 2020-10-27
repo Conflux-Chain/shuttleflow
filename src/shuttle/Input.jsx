@@ -66,9 +66,9 @@ function Input(
         </>
       )}
       <input
+        type="text"
         data-lpignore="true"
-        autoComplete="chrome-off"
-        type="password" //disable auto complete
+        autoComplete="off"
         onChange={onChange}
         ref={cTokenInputRef}
         readOnly={!name}
