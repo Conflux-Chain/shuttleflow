@@ -178,7 +178,6 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             <CopyToClipboard
               text={tokenInfo && tokenInfo.ctoken}
               onCopy={() => {
-                // setCTokenPopup(false)
                 displayCopy()
               }}
             >

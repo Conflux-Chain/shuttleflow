@@ -2,9 +2,26 @@ import React from 'react'
 import useStyle from '../component/useStyle'
 import styles from './Triangle.module.scss'
 
+import up from './i-up-34.png'
+import down from './i-down-34.png'
+import upActive from './i-up-active-34.png'
+import downActive from './i-down-active-34.png'
+
+const IMAGES = {
+  up,
+  down,
+  upActive,
+  downActive,
+}
+
 export default function ({ reverse, active, onClick }) {
-    const [cx] = useStyle(styles)
-    return <svg onClick={onClick} className={cx('svg', { reverse })} width="20px" height="15px" viewBox="0 0 20 15" >
-        <path fill={active ? "#44D7B6" : "#BBBBBB"} d="M9.90560156,5.69566406 L3.14723437,14.6967656 C2.27873437,15.8534766 2.51235937,17.4952266 3.66907031,18.3637266 C4.12262051,18.7042761 4.67446286,18.8883984 5.24163281,18.8883984 L18.7583672,18.8883984 C20.2048359,18.8883984 21.3774375,17.7158203 21.3774375,16.2693281 C21.3774375,15.7021641 21.1933125,15.1503281 20.8527656,14.6967656 L14.0943984,5.69566406 C13.2258984,4.53897656 11.5841484,4.30532812 10.4274375,5.17382813 C10.2297345,5.32227208 10.0540455,5.49796108 9.90560156,5.69566406 Z" ></path>
-    </svg>
+  const [cx] = useStyle(styles)
+  return (
+    <img
+      className={cx('img')}
+      onClick={onClick}
+      alt="direction"
+      src={IMAGES[`${reverse ? 'down' : 'up'}${active ? 'Active' : ''}`]}
+    ></img>
+  )
 }
