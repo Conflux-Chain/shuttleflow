@@ -49,7 +49,6 @@ function Input(
     arrowAreaStyle.marginLeft = '3rem'
   }
 
-
   return (
     <div
       className={shuttleCx(
@@ -68,7 +67,8 @@ function Input(
       )}
       <input
         data-lpignore="true"
-        autoComplete="new-password"
+        autoComplete="chrome-off"
+        type="password" //disable auto complete
         onChange={onChange}
         ref={cTokenInputRef}
         readOnly={!name}
