@@ -1,27 +1,12 @@
-.svg {
-    cursor: pointer;
-    &.large {
-        width: 14px;
-        height: 10px;
-    }
+.img {
+  cursor: pointer;
+  &.large {
+    width: 1rem;
+    height: 1rem;
+  }
 
-    &.small {
-        width: 10px;
-        height: 8px;
-    }
-
-    &.reverse {
-        transform: rotate(180deg);
-        position: relative;
-
-        &.large {
-            margin-top: 3px;
-            left: 2.5px;
-        }
-
-        &.small {
-            margin-top: 3px;
-            left: 1.5px;
-        }
-    }
+  &.small {
+    width: 10px;
+    height: 8px;
+  }
 }

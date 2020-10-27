@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import useStyle from '../../component/useStyle'
 
 import linkSrc from '../../component/link-64.png'
-import notFound from '../../component/not-found.png'
+import notFoundSrc from '../../component/not-found.png'
 import shuttle from '../../component/cIcon.svg'
 import tokenListStyles from './TokenList.module.scss'
 import titleStyles from './title.module.scss'
@@ -28,6 +28,8 @@ function TokenList({
   cToken,
   frequent,
   showMortgage,
+  notFound,
+  setNotFound,
   setIsNotAvailable, //if the corresponsing cToken available
 }) {
   const { tokens: tokenList, isLoading: isListLoading } = useTokenList()
@@ -44,6 +46,12 @@ function TokenList({
       setIsNotAvailable(isNotAvailable.current)
     }
   }, [search, setIsNotAvailable])
+
+  useEffect(() => {
+    if (setNotFound && displayedList) {
+      setNotFound(displayedList.length === 0)
+    }
+  }, [displayedList, setNotFound])
 
   if (isListLoading || isDisplayedLoading) {
     return <h1>......</h1>
@@ -98,7 +106,7 @@ function TokenList({
           <img
             alt="not found"
             className={ListCx('not-found')}
-            src={notFound}
+            src={notFoundSrc}
           ></img>
         ) : (
           displayedList.map(

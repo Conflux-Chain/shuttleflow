@@ -37,7 +37,10 @@ export default function History({ location: { search } }) {
           contentStyle={{ position: 'absolute', left: 0, right: 0 }}
           title={
             <div
-              onClick={() => setTypeExpanded((x) => !x)}
+              onClick={() => {
+                setTypeExpanded((x) => !x)
+                setStatusExpanded(false)
+              }}
               className={cx('filter-container')}
             >
               <div className={cx('select-item', 'filter-txt')}>
@@ -76,7 +79,10 @@ export default function History({ location: { search } }) {
           contentStyle={{ position: 'absolute', left: 0, right: 0 }}
           title={
             <div
-              onClick={() => setStatusExpanded((x) => !x)}
+              onClick={() => {
+                setTypeExpanded(false)
+                setStatusExpanded((x) => !x)
+              }}
               className={cx('filter-container')}
             >
               <div className={cx('select-item', 'filter-txt')}>
