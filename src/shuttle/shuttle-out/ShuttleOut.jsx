@@ -73,7 +73,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
       .typeError('error.number')
       .min(tokenInfo ? tokenInfo.minimal_burn_value : 0, 'error.min')
       .max(balance, 'error.insufficient'),
-    outaddress: yup
+    outwallet: yup //outaddress maybe a better name, it will trigger Chrome autofill
       .string()
       .required('error.required')
       .matches(/^0x[0-9a-fA-F]{40}$/, 'error.invalid-address'),
@@ -94,13 +94,13 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   //not necessarily trigger render
   const tx = useRef('')
   const onSubmit = (data) => {
-    let { outaddress, outamount } = data
+    let { outwallet, outamount } = data
     console.log('reveive form input', outamount)
     if (isAll.current) {
       outamount = parseNum(_balance, tokenInfo.decimals)
     }
 
-    burn(outamount, outaddress)
+    burn(outamount, outwallet)
       .then((e) => {
         tx.current = e
         setSuccessPopup(true)
@@ -237,11 +237,11 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           </div>
           <div className={shuttleOutCx('address-input')}>
             <Input
-              value={watch('outaddress')}
+              value={watch('outwallet')}
               style={{ fontSize: '1.1rem' }}
               ref={register}
-              name="outaddress"
-              error={errors.outaddress}
+              name="outwallet"
+              error={errors.outwallet}
               placeholder={
                 <div style={{ fontSize: '1.1rem' }}>
                   <Trans
@@ -259,8 +259,8 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
               }
             />
             <img
-              style={{ display: !!getValues().outaddress ? 'block' : 'none' }}
-              onClick={() => setValue('outaddress', '')}
+              style={{ display: !!getValues().outwallet ? 'block' : 'none' }}
+              onClick={() => setValue('outwallet', '')}
               src={clear}
               alt="clear"
               className={commonCx('clear')}
@@ -270,7 +270,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
 
         <ErrorMessage
           errors={errors}
-          name="outaddress"
+          name="outwallet"
           render={({ message }) => {
             return (
               <p
