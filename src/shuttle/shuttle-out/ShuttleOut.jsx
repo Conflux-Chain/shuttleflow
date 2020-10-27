@@ -116,7 +116,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
 
   return (
     <div className={shuttleCx('root')}>
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <form onSubmit={handleSubmit(onSubmit)} autoComplete="chrome-off">
         {/* token */}
         <Input
           icon={tokenInfo?.icon}
@@ -277,7 +277,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
                 style={{ color: '#F3504F' }}
                 className={shuttleCx('small-text')}
               >
-                {message}
+                {t(message)}
               </p>
             )
           }}
