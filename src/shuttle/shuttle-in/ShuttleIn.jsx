@@ -178,7 +178,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             <CopyToClipboard
               text={tokenInfo && tokenInfo.ctoken}
               onCopy={() => {
-                setCTokenPopup(false)
+                // setCTokenPopup(false)
                 displayCopy()
               }}
             >
@@ -242,10 +242,11 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             <div className={shuttleInCx('code')}>
               <QRCode value={shuttleInAddress} />
             </div>
-
             <div>{shuttleInAddress}</div>
             <CopyToClipboard text={shuttleInAddress}>
-              <div className={modalCx('btn')}>copy</div>
+              <div onClick={displayCopy} className={modalCx('btn')}>
+                {t('copy-address')}
+              </div>
             </CopyToClipboard>
           </div>
         </div>

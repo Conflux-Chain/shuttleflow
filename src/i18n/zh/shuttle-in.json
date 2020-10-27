@@ -1,5 +1,6 @@
 {
   "address": "跨入地址",
+  "copy-address": "复制地址",
   "address-placeholder": "钱包地址",
   "amount": "最小数量 {{minimal_mint_value}} {{reference_symbol}}",
   "fee": "手续费 {{mint_fee}} {{symbol}}",

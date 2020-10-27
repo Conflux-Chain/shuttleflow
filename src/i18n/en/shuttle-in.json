@@ -1,5 +1,6 @@
 {
   "address": "Shuttle-In Address",
+  "copy-address": "Copy Address",
   "address-placeholder": "Address",
   "amount": "Minimum Amount {{minimal_mint_value}} {{reference_symbol}}",
   "fee": "Fees {{mint_fee}} {{symbol}}",
