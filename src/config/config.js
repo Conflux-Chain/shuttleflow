@@ -10,8 +10,8 @@ export let EHTHERSCAN_URL,
 if (true) {
   EHTHERSCAN_URL = 'https://rinkeby.etherscan.io'
   CONFLUXSCAN_URL = 'https://confluxscan.io'
-  NODE_URL = 'https://dev.shuttleflow.io'
-  SPONSOR_URL = 'http://23.102.224.244:8018'
+  NODE_URL = '/rpcshuttleflow'
+  SPONSOR_URL = '/rpcsponsor'
   CUSTODIAN_CONTRACT_ADDR = '0x897c185209ed461070db137ae34b18f467bef8a8'
 } else {
   //prod
