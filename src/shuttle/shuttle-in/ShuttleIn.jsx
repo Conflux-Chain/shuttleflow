@@ -51,7 +51,6 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
   const [qrPopup, setQrPopup] = useState(false)
 
   const displayCopy = useCallback(() => {
-    console.log('displayCopy')
     setCopyPopup(true)
     const tm = setTimeout(() => setCopyPopup(false), 2000)
     return () => {

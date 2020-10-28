@@ -12,7 +12,6 @@ import formatAddress from '../../component/formatAddress'
 import useTokenList from '../../data/useTokenList'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../../component/renderThumbVertical'
-import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../../config/config'
 
 const FREQUENT_TOKENS = [
   'btc',
@@ -128,12 +127,12 @@ function TokenList({
               }
               let _address = reference
               const checked = token === _address
-              let link = `${EHTHERSCAN_TK}${reference}`
+              let link = `https://etherscan.io/token/${reference}`
               if (cToken) {
                 reference_symbol = 'c' + reference_symbol
                 reference = ctoken
                 reference_name = 'Conflux ' + reference_name
-                link = `${CONFLUXSCAN_TK}${ctoken}`
+                link = `https://confluxscan.io/token/${ctoken}`
               }
               return (
                 <div
