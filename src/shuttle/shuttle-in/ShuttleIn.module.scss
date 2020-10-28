@@ -63,50 +63,6 @@
   }
 }
 
-.ctoken {
-  color: #333333;
-  &.large {
-    font-size: 1rem;
-  }
-
-  .contract-address {
-    &.large {
-      margin-top: 16px;
-      margin-bottom: 11px;
-    }
-  }
-
-  .ctoken-copy {
-    display: flex;
-    border: 1px solid rgba($color: #000000, $alpha: 0.1);
-    align-items: center;
-    justify-content: space-between;
-
-    &.large {
-      height: 3.375rem;
-    }
-    .popup-address {
-      margin-left: 0.75rem;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-    .bar {
-      width: 2px;
-      height: 60%;
-      margin-left: 0.75rem;
-      background-color: rgba($color: #000000, $alpha: 0.2);
-    }
-    .popup-copy {
-      cursor: pointer;
-      &.large {
-        width: 1.5rem;
-        height: 1.5rem;
-        margin: 0 0.75rem;
-      }
-    }
-  }
-}
 .input-address {
   cursor: default;
   color: rgba($color: #ffffff, $alpha: 0.6);
