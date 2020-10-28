@@ -74,6 +74,19 @@ export default function LayoutLarge({ history }) {
               )
             }}
           />
+          <MenuLink
+            to="/help"
+            render={({ active }) => {
+              return (
+                <div
+                  onClick={() => window.open(t('help-link'), '_blank')}
+                  className={cx('item', { active })}
+                >
+                  {t('help')}
+                </div>
+              )
+            }}
+          />
           {/* <MenuLink
             to="/caption"
             render={({ active }) => {
