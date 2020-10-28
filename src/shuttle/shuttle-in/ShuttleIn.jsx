@@ -33,7 +33,8 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
     modalStyles
   )
   const urlToken = new URLSearchParams(search).get('token')
-  const { tokens } = useTokenList(urlToken)
+  const { tokens } = useTokenList(urlToken, { isReference: true })
+
   //display tokenInfo only when token is url available
   const tokenInfo = urlToken && tokens ? tokens[0] : null
   const { t } = useTranslation('shuttle-in')

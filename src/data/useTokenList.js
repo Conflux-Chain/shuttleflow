@@ -3,13 +3,12 @@ import useState1 from './useState1'
 
 import tokenList from './tokenList'
 
-
 let supportedTokensResolved
 tokenList.then((x) => {
   supportedTokensResolved = true
 })
 
-export default function useTokenList(search) {
+export default function useTokenList(search, { isReference } = {}) {
   const [state, setState] = useState1({ tokens: [], isLoading: true })
   useEffect(() => {
     if (!supportedTokensResolved) {
@@ -27,10 +26,13 @@ export default function useTokenList(search) {
               return (
                 ctoken === lowersearch ||
                 reference === lowersearch ||
-                (reference_symbol &&
-                  reference_symbol.toLowerCase().indexOf(lowersearch) > -1) ||
-                (reference_name &&
-                  reference_name.toLowerCase().indexOf(lowersearch) > -1)
+                (!isReference
+                  ? (reference_symbol &&
+                      reference_symbol.toLowerCase().indexOf(lowersearch) >
+                        -1) ||
+                    (reference_name &&
+                      reference_name.toLowerCase().indexOf(lowersearch) > -1)
+                  : false)
               )
             }
           )
