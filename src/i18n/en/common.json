@@ -9,7 +9,8 @@
     "fail": "Transaction Failed",
     "ok": "I Understand",
     "sent": "Transaction Submitted",
-    "title": "Tips"
+    "title": "Tips",
+    "copy": "Copied"
   },
   "error": {
     "above-zero": "The value must be greater than or equal to 0",
