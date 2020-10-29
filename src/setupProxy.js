@@ -1,14 +1,10 @@
 const { createProxyMiddleware } = require('http-proxy-middleware')
-console.log('start')
 
 module.exports = function (app) {
   app.use(
     '/rpcshuttleflow',
     createProxyMiddleware({
-      target: 'https://api.shuttleflow.io',
-      pathRewrite: {
-        '/rpcshuttleflow': '',
-      },
+      target: 'https://shuttleflow.io/',
       changeOrigin: true,
       secure: false,
     })
@@ -16,11 +12,8 @@ module.exports = function (app) {
   app.use(
     '/rpcsponsor',
     createProxyMiddleware({
-      target: 'http://23.102.224.244:8019',
+      target: 'https://shuttleflow.io/',
       changeOrigin: true,
-      pathRewrite: {
-        '/rpcsponsor': '',
-      },
     })
   )
 }
