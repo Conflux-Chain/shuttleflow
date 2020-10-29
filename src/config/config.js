@@ -22,8 +22,8 @@ export let EHTHERSCAN_URL,
 
 EHTHERSCAN_URL = 'https://etherscan.io'
 EHTHERSCAN_URL = 'https://confluxscan.io'
-//Todo: replace with real one
-CUSTODIAN_CONTRACT_ADDR = '0x897c185209ed461070db137ae34b18f467bef8a8'
+//production env
+CUSTODIAN_CONTRACT_ADDR = '0x890e3feac4a2c33d7594bc5be62e7970ef5481e0'
 
 EHTHERSCAN_TX = EHTHERSCAN_URL + '/tx/'
 EHTHERSCAN_TK = EHTHERSCAN_URL + '/token/'

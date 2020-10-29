@@ -5,7 +5,7 @@ import QRCode from 'qrcode.react'
 
 import down from '../down.svg'
 import copy from './i-copy-48.png'
-import copyDark from './i-copy-dark-48.png'
+
 import tick from './tick.svg'
 import qr from './qr.svg'
 import question from '../../component/question.svg'
@@ -22,6 +22,7 @@ import shuttleInStyles from './ShuttleIn.module.scss'
 import useShuttleInAddress from '../../data/useShuttleInAddress'
 import useTokenList from '../../data/useTokenList'
 
+import CTokenPopup from '../CTokenPopup'
 import Input from '../Input'
 
 export default function ShuttleIn({ location: { search }, match: { url } }) {
@@ -32,7 +33,8 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
     modalStyles
   )
   const urlToken = new URLSearchParams(search).get('token')
-  const { tokens } = useTokenList(urlToken)
+  const { tokens } = useTokenList(urlToken, { isReference: true })
+
   //display tokenInfo only when token is url available
   const tokenInfo = urlToken && tokens ? tokens[0] : null
   const { t } = useTranslation('shuttle-in')
@@ -159,41 +161,12 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
           {t('popup.ok')}
         </div>
       </Modal>
-      <Modal
-        show={cTokenPopup}
-        title
-        onClose={() => setCTokenPopup(false)}
-        clickAway={() => setCTokenPopup(false)}
-      >
-        <div className={modalCx('content')}>{t('popup.ctoken')}</div>
-        <div className={shuttleInCx('ctoken')}>
-          <div className={shuttleInCx('contract-address')}>
-            {t('popup.contract', tokenInfo)}
-          </div>
-          <div className={shuttleInCx('ctoken-copy')}>
-            <div className={shuttleInCx('popup-address')}>
-              {tokenInfo && tokenInfo.ctoken}
-            </div>
-            <div className={shuttleInCx('bar')}></div>
-            <CopyToClipboard
-              text={tokenInfo && tokenInfo.ctoken}
-              onCopy={() => {
-                displayCopy()
-              }}
-            >
-              <img
-                className={shuttleInCx('popup-copy')}
-                src={copyDark}
-                alt="copy"
-              ></img>
-            </CopyToClipboard>
-          </div>
-        </div>
-
-        <div className={modalCx('btn')} onClick={() => setCTokenPopup(false)}>
-          {t('popup.ok')}
-        </div>
-      </Modal>
+      <CTokenPopup
+        displayCopy={displayCopy}
+        cTokenPopup={cTokenPopup}
+        setCTokenPopup={setCTokenPopup}
+        tokenInfo={tokenInfo}
+      />
       <Modal
         show={feePopup}
         title

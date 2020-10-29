@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useConfluxPortal } from '@cfxjs/react-hooks'
 import useCToken from '@cfxjs/react-hooks/lib/useCToken'
@@ -9,6 +9,8 @@ import shuttleStyle from '../Shuttle.module.scss'
 import shuttleOutStyles from './ShuttleOut.module.scss'
 import modalStyles from '../../component/modal.module.scss'
 import Modal from '../../component/Modal'
+import CTokenPopup from '../CTokenPopup'
+import tick from '../shuttle-in/tick.svg'
 
 import useStyle from '../../component/useStyle'
 
@@ -25,6 +27,7 @@ import { ErrorMessage } from '@hookform/error-message'
 
 import { buildSearch, parseSearch } from '../../component/urlSearch'
 import useTokenList from '../../data/useTokenList'
+import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
 import Input from '../Input'
@@ -32,12 +35,20 @@ import { parseNum } from '../../data/formatNum'
 import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
 
 export default function ShuttleOut({ location: { search }, match: { url } }) {
-  const [commonCx, buttonCx, modalCx, shuttleCx, shuttleOutCx] = useStyle(
+  const [
+    commonCx,
+    buttonCx,
+    modalCx,
+    shuttleCx,
+    shuttleOutCx,
+    shuttleInCx,
+  ] = useStyle(
     inputStyles,
     buttonStyles,
     modalStyles,
     shuttleStyle,
-    shuttleOutStyles
+    shuttleOutStyles,
+    shuttleInStyle
   )
   const { t } = useTranslation('shuttle-out')
   const { token, ...extra } = parseSearch(search)
@@ -49,6 +60,15 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   const [addrPopup, setAddrPopup] = useState(false)
   const [feePopup, setFeePopup] = useState(false)
   const [ctokenPopup, setCTokenPopup] = useState(false)
+  const [copyPopup, setCopyPopup] = useState(false)
+
+  const displayCopy = useCallback(() => {
+    setCopyPopup(true)
+    const tm = setTimeout(() => setCopyPopup(false), 2000)
+    return () => {
+      clearTimeout(tm)
+    }
+  }, [])
 
   const isAll = useRef(false)
 
@@ -342,15 +362,21 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           {t('popup.ok')}
         </div>
       </Modal>
+      <CTokenPopup
+        cTokenPopup={ctokenPopup}
+        setCTokenPopup={setCTokenPopup}
+        tokenInfo={tokenInfo}
+        displayCopy={displayCopy}
+      />
       <Modal
-        show={ctokenPopup}
-        title
-        onClose={() => setCTokenPopup(false)}
-        clickAway={() => setCTokenPopup(false)}
+        show={copyPopup}
+        clickAway={() => {
+          setCopyPopup(false)
+        }}
       >
-        <div className={modalCx('content')}>{t('popup.ctoken')}</div>
-        <div className={modalCx('btn')} onClick={() => setCTokenPopup(false)}>
-          {t('popup.ok')}
+        <div className={shuttleInCx('copy-popup')}>
+          <img alt="tick" src={tick}></img>
+          <div>{t('popup.copy')}</div>
         </div>
       </Modal>
     </div>
