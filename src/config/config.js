@@ -21,7 +21,7 @@ export let EHTHERSCAN_URL,
 // }
 
 EHTHERSCAN_URL = 'https://etherscan.io'
-EHTHERSCAN_URL = 'https://confluxscan.io'
+CONFLUXSCAN_URL = 'https://confluxscan.io'
 //production env
 CUSTODIAN_CONTRACT_ADDR = '0x890e3feac4a2c33d7594bc5be62e7970ef5481e0'
 
