@@ -1,0 +1,202 @@
+.large-text {
+    color: white;
+    font-size: 500;
+    &.small {
+        font-size: 2rem;
+    }
+    &.large {
+        font-size: 1.25rem;
+    }
+}
+
+.small-text {
+    color: rgba($color: #ffffff, $alpha: 0.4);
+    &.small {
+        font-size: 1.5rem;
+    }
+    &.small {
+        font-size: 1rem;
+    }
+}
+
+.bottom-text {
+    display: flex;
+    justify-content: space-between;
+    &.small {
+        margin-top: 1.5rem;
+    }
+    &.large {
+        margin-top: 0.75rem;
+    }
+    .all {
+        color: #44d7b6;
+        cursor: pointer;
+        &.small {
+            margin-left: 1.5rem;
+        }
+        &.large {
+            margin-left: 0.75rem;
+        }
+    }
+}
+
+.icon {
+    &.small {
+        width: 5rem;
+        margin-right: 1.5rem;
+    }
+    &.large {
+        width: 3rem;
+        margin-right: 1rem;
+    }
+}
+
+.first-container {
+    display: flex;
+
+    justify-content: space-between;
+    &.small {
+        height: 5rem;
+        margin-top: 2rem;
+    }
+    &.large {
+        height: 3rem;
+        margin-top: 3rem;
+    }
+    .left {
+        display: flex;
+        .left-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    }
+    .right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        .profile {
+            &.large {
+                width: 1.25rem;
+                height: 1.25rem;
+                margin-right: 0.75rem;
+            }
+            &.small {
+                width: 2rem;
+                height: 2rem;
+                margin-right: 0.75rem;
+            }
+        }
+    }
+}
+
+.second-container {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba($color: #979797, $alpha: 0.2);
+    &.small {
+        margin-top: 2.25rem;
+    }
+    &.large {
+        margin-top: 1.75rem;
+        padding-bottom: 1.5rem;
+    }
+    .second-item {
+        text-align: center;
+        &.small {
+            max-width: 10rem;
+        }
+        &.large {
+            max-width: 6rem;
+        }
+    }
+    .mTop {
+        &.small {
+            margin-top: 1rem;
+        }
+        &.large {
+            margin-top: 0.5rem;
+        }
+    }
+}
+
+.input-container {
+    position: relative;
+    &.small {
+        margin-top: 1.5rem;
+    }
+    &.large {
+        margin-top: 1.5rem;
+    }
+}
+.label {
+    position: absolute;
+    color: rgba($color: #ffffff, $alpha: 0.6);
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    &.small {
+        margin-left: 2rem;
+        font-size: 1.75rem;
+    }
+    &.large {
+        margin-left: 1.5rem;
+        font-size: 1.125rem;
+    }
+}
+.for-not-update {
+    position: absolute;
+    pointer-events: none;
+    color: rgba($color: #ffffff, $alpha: 0.4);
+    left: 40%;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    &.large {
+        font-size: 1rem;
+    }
+}
+
+.after {
+    position: absolute;
+    color: white;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    &.small {
+        font-size: 1.75rem;
+        right: 2rem;
+    }
+    &.large {
+        font-size: 1.25rem;
+        right: 1.5rem;
+    }
+}
+
+.input {
+    padding-left: 66% !important;
+}
+
+.error {
+    color: #f3504f;
+    &.small {
+        font-size: 1.5rem;
+    }
+}
+
+.btn {
+    font-weight: 500;
+    width: 100%;
+    &.small {
+        margin: 6rem 0;
+    }
+    &.large {
+        font-size: 1.25rem;
+        margin: 3.25rem 0;
+    }
+}

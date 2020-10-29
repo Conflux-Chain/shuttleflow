@@ -1,0 +1,103 @@
+.container {
+  position: fixed;
+  // width: fit-content;
+  top: 0;
+  bottom: 0;
+  height: fit-content;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 0.5rem;
+  background: white;
+  &.small {
+    padding: 2rem;
+    max-width: 40rem;
+  }
+  &.large {
+    
+    padding: 2rem;
+    width: fit-content;
+    max-width: 28rem;
+  }
+}
+
+.title {
+  color: #333333;
+  font-weight: bold;
+  text-align: center;
+  &.small {
+    font-size: 2rem;
+    margin-top: 2rem;
+  }
+  &.large {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    text-align: center;
+  }
+}
+
+.content {
+  white-space: pre-wrap;
+  color: #333333;
+  &.small {
+    margin-top: 2rem;
+    font-size: 1.75rem;
+  }
+  &.large {
+    line-height: 1.625rem;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+  }
+}
+.strong {
+  color: #333333;
+  font-weight: bold;
+  text-align: center;
+  &.large {
+    font-size: 2rem;
+  }
+  &.small {
+    font-size: 2.25rem;
+  }
+}
+
+.btn {
+  color: white;
+  background-color: #44d7b6;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  cursor: pointer;
+  &.small {
+    margin: 3.75rem auto;
+    padding: 0 9.5rem;
+    height: 5.5rem;
+    font-size: 1.75rem;
+  }
+  &.large {
+    margin: 2rem auto;
+    padding: 0 6.25rem;
+    height: 4.5rem;
+    font-size: 1.25rem;
+  }
+}
+
+.backdrop {
+  position: fixed;
+  background: rgba($color: #000000, $alpha: 0.7);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.close {
+  position: absolute;
+  cursor: pointer;
+  &.large {
+    right: 0.75rem;
+    top: 0.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="16px" viewBox="0 0 10 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="H5暗黑" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="0-H5" transform="translate(-699.000000, -999.000000)">
+            <g id="编组" transform="translate(686.000000, 991.000000)">
+                <g id="74-交换备份-3" transform="translate(16.000000, 16.000000) rotate(-90.000000) translate(-16.000000, -16.000000) ">
+                    <rect id="矩形" fill="#000000" fill-rule="nonzero" opacity="0" x="0" y="0" width="32" height="32"></rect>
+                    <polyline id="矩形" stroke="#FFFFFF" stroke-width="2.4" opacity="0.4" stroke-linecap="round" stroke-linejoin="round" transform="translate(16.000000, 14.400000) rotate(-315.000000) translate(-16.000000, -14.400000) " points="20.8 9.6 20.8 19.2 11.2 19.2"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

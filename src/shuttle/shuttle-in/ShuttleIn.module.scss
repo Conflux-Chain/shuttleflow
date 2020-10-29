@@ -1,0 +1,96 @@
+.container {
+  &.small {
+    margin-top: 5.75rem;
+  }
+}
+
+.address {
+  &.large {
+    margin-top: 3rem;
+  }
+  &.small {
+    margin-top: 6.25rem;
+  }
+}
+
+.address-input {
+  position: relative;
+  &.small {
+    margin-top: 2rem;
+  }
+  &.large {
+    margin-top: 1.5rem;
+  }
+}
+
+.copy {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  &.small {
+    right: 2rem;
+    width: 2rem;
+  }
+  &.large {
+    right: 1.5rem;
+    width: 1.5rem;
+  }
+}
+
+.copy-popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333333;
+  &.small {
+    font-size: 2rem;
+    img {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-right: 1.5rem;
+    }
+  }
+  &.large {
+    margin: -0.5rem;
+    font-size: 1.5rem;
+    img {
+      width: 2rem;
+      height: 2rem;
+      margin-right: 1rem;
+    }
+  }
+}
+
+.input-address {
+  cursor: default;
+  color: rgba($color: #ffffff, $alpha: 0.6);
+  &.large {
+    font-size: 1.1rem;
+  }
+}
+
+.qr-container {
+  display: flex;
+  cursor: pointer;
+  white-space: nowrap;
+  &.large {
+    margin-left: 0.75rem;
+  }
+}
+
+.qr-popup {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  &.large {
+    width: 24rem;
+  }
+  .code {
+    &.large {
+      margin-top: 1rem;
+      margin-bottom: 2.25rem;
+    }
+  }
+}

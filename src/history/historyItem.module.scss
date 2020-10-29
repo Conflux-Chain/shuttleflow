@@ -1,0 +1,191 @@
+.title {
+  //todo: why flex change the height of the img?
+  display: flex;
+  justify-content: space-between;
+  &.small {
+    margin-top: 2rem;
+    height: 5rem;
+  }
+  &.large {
+    margin-top: 1.5rem;
+    height: 3rem;
+  }
+}
+
+.large-txt {
+  &.small {
+    font-size: 2rem;
+  }
+  &.large {
+    font-size: 1.25rem;
+  }
+}
+.small-txt {
+  color: rgba($color: #ffffff, $alpha: 0.4);
+  &.small {
+    font-size: 1.5rem;
+  }
+  &.large {
+    font-size: 1rem;
+  }
+}
+.start {
+  display: flex;
+}
+
+.end {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  .amount {
+    font-weight: bold;
+  }
+  .pending {
+    display: flex;
+  }
+}
+.img {
+  &.small {
+    width: 5rem;
+    height: 5rem;
+    margin-right: 1rem;
+  }
+  &.large {
+    width: 3rem;
+    height: 3rem;
+    margin-right: 1rem;
+  }
+}
+
+.arrow {
+  border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  &.small {
+    height: 3rem;
+    margin-top: 1rem;
+  }
+  &.large {
+    margin-top: 1rem;
+  }
+  .semi-circle {
+    cursor: pointer;
+    position: relative;
+    top: 1px;
+    &.small {
+      width: 4rem;
+      height: 2rem;
+    }
+    &.large {
+      width: 3rem;
+      height: 1.5rem;
+    }
+  }
+}
+
+.item-container {
+  display: flex;
+  .bar-container {
+    position: relative;
+    left: 0.5rem;
+    .circle {
+      &.complete {
+        background: #44d7b6;
+      }
+      position: absolute;
+      border-radius: 100%;
+      border: solid 2px white;
+      top: 32%;
+      left: -0.4rem;
+      width: 1rem;
+      height: 1rem;
+      background: white;
+    }
+    .bar {
+      width: 2px;
+      height: 50%;
+      background-color: rgba(255, 255, 255, 0.2);
+      &.complete {
+        background: #44d7b6;
+      }
+      &.small {
+        margin-right: 1.5rem;
+      }
+      &.large {
+        margin-right: 1.5rem;
+      }
+    }
+  }
+
+  .item {
+    flex-grow: 1;
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &.small {
+      height: 6.25rem;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+    }
+    &.large {
+      height: 3.75rem;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      padding-left: 1rem;
+    }
+    &.complete {
+      color: white;
+    }
+
+    .img {
+      cursor: pointer;
+      &.large {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 1rem;
+      }
+    }
+  }
+}
+
+.dot-container {
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  .dot {
+    position: relative;
+    margin-left: 3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #ffffff;
+    color: #ffffff;
+    animation: dotFlashing 1s infinite linear alternate;
+    animation-delay: 0s;
+  }
+}
+
+.items {
+  &.large {
+    margin-top: 1.5rem;
+  }
+}
+
+@keyframes dotFlashing {
+  0% {
+    // background-color: #9880ff;
+    opacity: 1;
+    transform: scale(1);
+  }
+  50%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+    // background-color: #ebe6ff;
+  }
+}

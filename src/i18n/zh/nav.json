@@ -1,0 +1,17 @@
+{
+  "risk": {
+    "title": "安全提示",
+    "known": "我知道了",
+    "continue": "继续",
+    "content": "任何人都可以在 Conflux/Ethereum 网络上创建任何名称的代币，包括创建现有代币的虚假版本以及声称代表没有代币的项目的代币。与任意代币交互时，请格外小心并进行研究。 \n\n使用 ShuttleFlow 时，请确保您操作的资产属于标准 ERC20 Token，否则存在资金安全的风险，后果将由您自己承担。"
+  },
+  "login": "请先连接钱包",
+  "connect": "连接钱包",
+  "history": "交易历史",
+  "markets": "市场",
+  "help": "帮助",
+  "help-link": "https://juejin.im/post/6886458514097733639",
+  "shuttle-in": "跨入",
+  "shuttle-out": "跨出",
+  "home": "主页"
+}

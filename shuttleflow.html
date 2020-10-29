@@ -1,0 +1,474 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title></title>
+<style id="system" type="text/css">h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;    font-size: 13px;    line-height: 18px;    color: #737373;    margin: 10px 13px 10px 13px;}a {    color: #0069d6;}a:hover {    color: #0050a3;    text-decoration: none;}a img {    border: none;}p {    margin-bottom: 9px;}h1,h2,h3,h4,h5,h6 {    color: #404040;    line-height: 36px;}h1 {    margin-bottom: 18px;    font-size: 30px;}h2 {    font-size: 24px;}h3 {    font-size: 18px;}h4 {    font-size: 16px;}h5 {    font-size: 14px;}h6 {    font-size: 13px;}hr {    margin: 0 0 19px;    border: 0;    border-bottom: 1px solid #ccc;}blockquote {    padding: 13px 13px 21px 15px;    margin-bottom: 18px;    font-family:georgia,serif;    font-style: italic;}blockquote:before {    content:"C";    font-size:40px;    margin-left:-10px;    font-family:georgia,serif;    color:#eee;}blockquote p {    font-size: 14px;    font-weight: 300;    line-height: 18px;    margin-bottom: 0;    font-style: italic;}code, pre {    font-family: Monaco, Andale Mono, Courier New, monospace;}code {    background-color: #fee9cc;    color: rgba(0, 0, 0, 0.75);    padding: 1px 3px;    font-size: 12px;    -webkit-border-radius: 3px;    -moz-border-radius: 3px;    border-radius: 3px;}pre {    display: block;    padding: 14px;    margin: 0 0 18px;    line-height: 16px;    font-size: 11px;    border: 1px solid #d9d9d9;    white-space: pre-wrap;    word-wrap: break-word;}pre code {    background-color: #fff;    color:#737373;    font-size: 11px;    padding: 0;}@media screen and (min-width: 768px) {    body {        width: 748px;        margin:10px auto;    }}</style><style id="custom" type="text/css"></style></head>
+<body marginheight="0"><h2>Custodian Node RPC List</h2>
+<h3>getSpecificUserOperationList</h3>
+<p>Get user mint/burn operations list of specific user.
+</p>
+<h4>Parameters</h4>
+<p>(1) data:(JSON Object) the query detail
+</p>
+<pre><code class="lang-bash">{
+    "type": "mint" | "burn"
+    "token": "btc" | "eth" | lowercase erc20 address
+    "defi": conflux defi address (for shuttleflow frontend, hard code zero address)
+    "address": user conflux address
+    "status": ["doing", "finished"]
+}</code></pre>
+<p>(2) offset:(Number) the number of leading operations to be ignored
+
+</p>
+<p>(3) count:(Number) the maximum number of operations to return, &lt;= 100
+
+</p>
+<h4>Returns</h4>
+<h4>Example</h4>
+<pre><code class="lang-bash">// finished:
+
+$ curl -X POST --data '{"jsonrpc":"2.0","method":"getSpecificUserOperationList","params":[{"type":"mint","token":"eth","defi":"0x0000000000000000000000000000000000000000","address":"0x135d73d6ce217f8fe255f98e1589158972d8adc3","status":["doing","finished"]},0,10],"id":1}' -H "Content-Type: application/json" 127.0.0.1:8001
+
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+        "txs": [{
+            "token": "eth", 
+            "type": "cETH_mint", 
+            "nonce_or_txid": "0xf5fd4b2936d18395c4c6c1f282cef725c22770edf79029bbda97ee8d623222c2",
+            "amount": "490000000000000000", 
+            "user_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "defi": "0x0000000000000000000000000000000000000000",
+            "to_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3", 
+            "status": "finished",
+            "settled_tx": "0xb706503e8bdbc0fba10040aa59fda3d0c7732967fc08591ff03df6102cbb1b6c"
+        }, {
+            "token": "eth",
+            "type": "cETH_mint",
+            "nonce_or_txid": "0x720549e44b83bb076a3f0ab8b118457de1f59c1aab9ec3ef56217107bc51adf7",
+            "amount": "95000000000000000",
+            "user_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "defi": "0x0000000000000000000000000000000000000000",
+            "to_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "status": "finished",
+            "settled_tx": "0x5912e0a5177a90547cc792a1bf63a4b81f0a775d819e3ffecc93ac63b3c0c346"
+        }, {
+            "token": "eth",
+            "type": "cETH_mint",
+            "nonce_or_txid": "0x113f4a0304b196be1de746d6f72d3e3abd7af87e68ed2f0bed4447ae86b7be51",
+            "amount": "95000000000000000",
+            "user_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "defi": "0x0000000000000000000000000000000000000000",
+            "to_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "status": "finished",
+            "settled_tx": "0xdb404e46caebd987ef6abaf7578fc2d42445ad1db1c361a56b687dcd70271957"
+        }, {
+            "token": "eth",
+            "type": "cETH_mint",
+            "nonce_or_txid": "0x2dfd88f434280dcf6f5e01d977ddede4b083f19dfb6384aee03ed47b12272dd3",
+            "amount": "195000000000000000",
+            "user_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "defi": "0x0000000000000000000000000000000000000000",
+            "to_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "status": "finished",
+            "settled_tx": "0x2721c5013fad1c49b88edb7409614b9cd532b8225f6e3d54f77d262eec659668"
+        }, {
+            "token": "eth",
+            "type": "cETH_mint",
+            "nonce_or_txid": "0xdb38ce8d9512b2a736ba9889dca63ff2b0939621b654fc615241fe886bde74a5",
+            "amount": "95000000000000000",
+            "user_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "defi": "0x0000000000000000000000000000000000000000",
+            "to_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "status": "finished",
+            "settled_tx": "0xc735ec52e425fb518610b18e3620347a868ed13baf08ae6aa212e46c8dba3751"
+        }, {
+            "token": "eth",
+            "type": "cETH_mint",
+            "nonce_or_txid": "0x1dbe784def8f208f519128c4d83666b3be1d5675ac458c10aa609914e856d57e",
+            "amount": "95000000000000000",
+            "user_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "defi": "0x0000000000000000000000000000000000000000",
+            "to_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "status": "finished",
+            "settled_tx": "0x13bde6d88ea027b9c2c92b596a221ab235964da89ced66ea4e92d7958486864c"
+        }, {
+            "token": "eth",
+            "type": "cETH_mint",
+            "nonce_or_txid": "0xc01a4d86ac352c7980d76e9edb419ffb8db39255cc4cba47b95295e232371816",
+            "amount": "95000000000000000",
+            "user_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "defi": "0x0000000000000000000000000000000000000000",
+            "to_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
+            "status": "finished",
+            "settled_tx": "0x268bab123f111f23ffac1716f3bf7bed6b0124772eb285406123b727b90a3b10"
+        }],
+        "total": 7
+    }
+}
+
+// doing:
+
+$ curl -X POST --data '{"jsonrpc":"2.0","method":"getSpecificUserOperationList","params":[{"type":"mint","token":"0xe3e9ef570e9019cdce1aff76f3afb1fd8292556d","defi":"0x0000000000000000000000000000000000000000","address":"0x1a7b9a2238635d40536c12900ed637e739e6eb35","status":["doing"]},0,10],"id":1}' -H "Content-Type: application/json" 127.0.0.1:8001
+
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+        "txs": [{
+            "token": "0xe3e9ef570e9019cdce1aff76f3afb1fd8292556d",
+            "type": "cUSDT_mint",
+            "nonce_or_txid": "0x29015708e604e25ca2b27dcb3c62a528bdc222232fda13cab3992eafb235afc0",
+            "amount": "99000000",
+            "user_addr": "0x1a7b9a2238635d40536c12900ed637e739e6eb35",
+            "defi": "0x0000000000000000000000000000000000000000",
+            "to_addr": "0x1a7b9a2238635d40536c12900ed637e739e6eb35",
+            "signer": ["ppd", "fafa"],
+            "has_signed": true, 
+            "need": 2, 
+            "need_signers": ["fafa", "ppd"],
+            "status": "doing", 
+            "settled_tx": "0xf8e61e24590bed3f08b2b57a67bb45c2e12d0ebc029d6b95ebd6fb1f382cb145"
+        }],
+        "total": 1
+    }
+}</code></pre>
+<p>Explanation: 
+
+</p>
+<p>common fields for all operation status:
+
+</p>
+<p><code>status</code>: "confirming" (wait eth/btc/cfx confirmation) | "doing" (custodian signing &amp; settle on chain) | "finished"
+
+</p>
+<p><code>user_addr</code>: user conflux address
+
+</p>
+<p><code>to_addr</code>: user conflux address (for mint), or user bit/eth address (for burn)
+
+</p>
+<p><code>settled_tx</code>: transaction sent by custodian alliance to process user operation. If this field is not empty, it denotes that 
+the user operation is settled on chain and waiting for confirmation.
+
+</p>
+<p>special status for <code>confirming</code> and <code>doing</code> status:
+
+</p>
+<p><code>signer</code>: list of custodian members who already signed
+
+</p>
+<p><code>need</code>: total number of signatures
+
+</p>
+<p><code>has_signed</code>: Don't use this field to determine operation status! This field denotes whether the custodian member hosting the rpc node has signed the operation or not.
+
+</p>
+<h3>getUserReceiveWalletEth</h3>
+<p>Get user eth receive wallet.
+</p>
+<h4>Parameters</h4>
+<p>(1) address: (String) user conflux address
+
+</p>
+<p>(2) defi: (String) conflux defi address (for shuttleflow frontend, hard code zero address)
+</p>
+<h4>Returns</h4>
+<p>String, user ethereum receive wallet address
+</p>
+<h3>Example</h3>
+<pre><code class="lang-bash">$ curl -X POST --data '{"jsonrpc":"2.0","method":"getUserReceiveWalletEth","params":["0x1d9fdbe7cad3d82cc539b3b7c8bd8a8437ad5b58", "0x0000000000000000000000000000000000000000"],"id":1}' -H "Content-Type: application/json" 127.0.0.1:8001
+
+{"jsonrpc":"2.0","id":1,"result":"0x4e0095dc1fed099ed73a749def57905387a11271"}</code></pre>
+<h3>getUserReceiveWalletBtc</h3>
+<p>Get user btc receive wallet.
+</p>
+<h4>Parameters</h4>
+<p>(1) address: (String) user conflux address
+
+</p>
+<p>(2) defi: (String) conflux defi address (for shuttleflow frontend, hard code zero address)
+</p>
+<h4>Returns</h4>
+<p>String, user bitcoin receive wallet address
+</p>
+<h3>Example</h3>
+<pre><code class="lang-bash">$ curl -X POST --data '{"jsonrpc":"2.0","method":"getUserReceiveWalletBtc","params":["0x1d9fdbe7cad3d82cc539b3b7c8bd8a8437ad5b58", "0x0000000000000000000000000000000000000000"],"id":1}' -H "Content-Type: application/json" 127.0.0.1:8001
+
+{"jsonrpc":"2.0","id":1,"result":"2MutEXoJsQMm4jviPVchfm2HuZsbusVizCz"}</code></pre>
+<h3>getPendingOperationInfo</h3>
+<p>Get number of pending operations of a reference token and estimated gas cost of them. The estimated gas cost may be <strong>inaccurate</strong>.
+</p>
+<h4>Parameters</h4>
+<p>(1) reference: (String) "btc" | "eth" | lowercase erc20 token address
+</p>
+<h4>Returns</h4>
+<p>Object:
+</p>
+<pre><code class="lang-bash">{
+    cnt: (Number) number of pending operations
+    estimatedGas: (String) estimated eth gas cost of pending operations 
+}</code></pre>
+<h2>Token Sponsor Backend RPC List</h2>
+<h3>getTokenList</h3>
+<p>Get shuttleflow supported token list.
+
+</p>
+<h4>Parameters</h4>
+<p>None.
+</p>
+<h4>Returns</h4>
+<p>List of Objects:
+</p>
+<pre><code class="lang-bash">{
+    "reference": (String) "eth" | "btc" | lowercase erc20 address
+    "reference_name": (String) erc20 name (none for btc/eth)
+    "reference_symbol": (String) erc20 symbol (none for btc/eth)
+    "reference_name": (String) erc20 name
+    "reference_symbol": (String) erc20 symbol
+    "burn_fee": (String) fee set by token sponsor(captain), taken from user when burn cToken
+    "mint_fee": (String) fee set by token sponsor(captain), taken from user when mint cToken
+    "wallet_fee": (String) fee set by token sponsor(captain), taken from user when mint cToken, for the deployment of receive wallet
+    "minimal_mint_value": (String), set by token sponsor, minimal acceptable mint value
+    "minimal_burn_value": (String), set by token sponsor, minimal acceptable burn value
+    "symbol": (String) symbol of cToken, e.g. "cBTC", "cETH", "cUSDT", can be duplicated
+    "decimals": (Number), decimals of reference, e.g. for btc is 8, for eth is 18, for usdt is 6
+    "sponsor": (String), conflux address of current token sponsor
+    "sponsor_value": (String) amount of mortgaged cETH of current token sponsor
+    "ctoken": (String) contract address of cToken
+    "is_admin": (bool) is admin token or not, admin token's sponsor can only be custodian alliance whitelist admin, normal user is unable to replace it.
+    "icon": (?) token icon
+}</code></pre>
+<h3>searchToken</h3>
+<p>Get token erc20 information, along with cToken information if it is supported by shuttleflow already.
+
+</p>
+<h4>Parameters</h4>
+<p>(String) "btc" | "eth" | "erc20"
+</p>
+<h4>Returns</h4>
+<p>Object:
+</p>
+<pre><code class="lang-bash">{
+    "reference": (String) "eth" | "btc" | lowercase erc20 address
+    "reference_name": (String) erc20 name (none for btc/eth)
+    "reference_symbol": (String) erc20 symbol (none for btc/eth)
+    "icon": (?) token icon
+    "supported": (bool) supported by shuttleflow or not
+    // with below if reference token is supported already
+    "burn_fee": (String) fee set by token sponsor(captain), taken from user when burn cToken
+    "mint_fee": (String) fee set by token sponsor(captain), taken from user when mint cToken
+    "wallet_fee": (String) fee set by token sponsor(captain), taken from user when mint cToken, for the deployment of receive wallet
+    "minimal_mint_value": (String), set by token sponsor, minimal acceptable mint value
+    "minimal_burn_value": (String), set by token sponsor, minimal acceptable burn value
+    "symbol": (String) symbol of cToken, e.g. "cBTC", "cETH", "cUSDT", can be duplicated
+    "decimals": (Number), decimals of reference, e.g. for btc is 8, for eth is 18, for usdt is 6
+    "sponsor": (String), conflux address of current token sponsor
+    "sponsor_value": (String) amount of mortgaged cETH of current token sponsor
+    "ctoken": (String) contract address of cToken
+    "is_admin": (bool) is admin token or not, admin token's sponsor can only be custodian alliance whitelist admin, normal user is unable to replace it.
+}</code></pre>
+<h2>Smart Contracts</h2>
+<h3>cToken contract</h3>
+<p><a href="https://github.com/Conflux-Dev/custodian/blob/master/contracts/token/TokenBase.sol">https://github.com/Conflux-Dev/custodian/blob/master/contracts/token/TokenBase.sol</a>
+
+</p>
+<h4>cToken TotalSupply</h4>
+<pre><code class="lang-solidity">function totalSupply() public view returns (uint256)</code></pre>
+<h4>cToken balance of a conflux address</h4>
+<pre><code class="lang-solidity">function balanceOf(address tokenHolder) public view returns (uint256)</code></pre>
+<h4>burn cToken from sender</h4>
+<pre><code class="lang-solidity">function burn(
+        address user_addr, // user conflux address
+        uint256 amount, // burn amount
+        uint256 expected_fee, // expected burn fee, in 18 decimals
+        string memory addr, // external chain receive address
+        address defi_relayer // external chain defi relayer address
+) public;</code></pre>
+<p>Burn cToken from sender's address.
+
+</p>
+<p><code>user_addr</code> is used to logging, in case Conflux Defi burn cToken for normal user.
+
+</p>
+<p><code>amount</code> should be larger than <code>burn_fee</code> and <code>minimal_burn_value</code> in CustodianCore contract(Note here the decimals 
+of <code>amount</code> is 18 and decimals of <code>burn_fee</code> and <code>minimal_burn_value</code> in CustoidanCore contract is reference token's decimal, 
+the smart contract will do the decimal conversion for comparison). Besides, if the fee is higher than
+<code>expected_fee</code>, the burn transaction will revert.
+
+</p>
+<p><code>addr</code> is a ethereum or bitcoin address, which the reference token will be sent to.
+
+</p>
+<p>If it is a burnt of eth/erc20 tokens, user can specify a <code>defi_relayer</code>, which will send 
+the eth/erc20 to defi_relayer and logging the user's information. See more in <a href="defi_relayer.md">defi relayer</a>.
+
+</p>
+<p>If user does not want to use <code>defi_relayer</code>, fill it with zero address.
+
+</p>
+<p>For example,<code>burn(cusdt_address, 1e18, 1e16, user_eth_addr, zero_addr)</code> will burn 1 cUSDT and user 
+is willing to pay no more than 0.01 cUSDT as burn fee to sponsor. The burned usdt will directly 
+sent to user_eth_addr.
+
+</p>
+<h3>Token Sponsor(Captain) contract</h3>
+<p><a href="https://github.com/Conflux-Dev/custodian/blob/master/contracts/core/TokenSponsor.sol">https://github.com/Conflux-Dev/custodian/blob/master/contracts/core/TokenSponsor.sol</a>
+
+</p>
+<h4>sponsor of a reference token</h4>
+<pre><code class="lang-solidity">function sponsorOf(string memory ref) public view returns (address)</code></pre>
+<h4>cETH mortgaged by sponsor of a reference token</h4>
+<pre><code class="lang-solidity">function sponsorValueOf(string memory ref) public view returns (uint256)</code></pre>
+<h4>sponsor replace ratio</h4>
+<pre><code class="lang-solidity">uint256 public sponsor_replace_ratio; // per cent</code></pre>
+<p>A percent ratio when a user want to replace the sponsor of a token t, he/she must mortgage more than token_sponsor_value[t]*(100+sponsor_replace_ratio)/100 cETH.
+
+</p>
+<h3>Custodian Goverance contract</h3>
+<p><a href="https://github.com/Conflux-Dev/custodian/blob/master/contracts/core/CustodianData.sol">https://github.com/Conflux-Dev/custodian/blob/master/contracts/core/CustodianData.sol</a>
+
+</p>
+<h4>cToken list</h4>
+<pre><code class="lang-solidity">ITokenBase[] public token_list;</code></pre>
+<p>Registered cTokens
+
+</p>
+<h4>cToken address =&gt; reference token</h4>
+<pre><code class="lang-solidity">mapping(address =&gt; string) public token_reference;</code></pre>
+<p>Mapping of cToken address to external chain assets(reference), reference can be 'eth'/'btc'/lowercase erc20 address.
+
+</p>
+<p>For example, 
+
+</p>
+<p>cETH address =&gt; 'eth',
+
+</p>
+<p>cBTC address =&gt; 'btc', 
+
+</p>
+<p>cUSDT address =&gt; '0xdac17f958d2ee523a2206206994597c13d831ec7'.
+
+</p>
+<h4>cToken address =&gt; reference token deicmals</h4>
+<pre><code class="lang-solidity">mapping(address =&gt; uint8) public token_decimals;</code></pre>
+<p>Mapping of cToken address to external chain decimals.
+
+</p>
+<p>For example, 
+
+</p>
+<p>cETH address =&gt; 18,
+
+</p>
+<p>cBTC address =&gt; 8, 
+
+</p>
+<p>cUSDT address =&gt; 6.
+
+</p>
+<h4>reference token =&gt; is admin</h4>
+<pre><code class="lang-solidity">mapping(string =&gt; bool) public admin_token;</code></pre>
+<p>Denote each cToken is admin token or not.
+
+</p>
+<p>Admin token can only be sponsored by whitelist admin of custodian core contract, and will maintain both 
+hot and cold wallet. For non-admin token, anyone can be its sponsor and only hot wallet will be maintained.
+
+</p>
+<h4>reference token =&gt; cToken address</h4>
+<pre><code class="lang-solidity">mapping(string =&gt; address) reference_token; // inverse token_reference</code></pre>
+<p>Anti mapping of <code>token_reference</code>.
+
+</p>
+<h4>reference token =&gt; burn fee (except btc)</h4>
+<pre><code class="lang-solidity">mapping(string =&gt; uint256) public burn_fee;</code></pre>
+<p>The fee taken from user during cToken burn. Note the decimals is decimals of the reference token.
+
+</p>
+<p>For example, the sponsor want to take 0.1 cBTC when user burn cBTC, here burn_fee['btc'] should be 0.1 * 1e8.
+
+</p>
+<h4>reference token =&gt; mint fee (except btc)</h4>
+<pre><code class="lang-solidity">mapping(string =&gt; uint256) public mint_fee;</code></pre>
+<p>The fee taken from user during cToken mint. Note the decimals is decimals of the reference token.
+
+</p>
+<h4>reference token =&gt; wallet fee (except btc)</h4>
+<pre><code class="lang-solidity">mapping(string =&gt; uint256) public wallet_fee;</code></pre>
+<p>When a user want to migrate token from ethereum to conflux, his/her receive wallet will be 
+deployed firstly if it is not deployed before. <code>wallet_fee</code> denote the fee taken from user during 
+deployment of receive wallet. Note the decimals is decimals of the reference token.
+
+</p>
+<h4>reference token =&gt; minimal mint value (except btc)</h4>
+<pre><code class="lang-solidity">mapping(string =&gt; uint256) public minimal_mint_value;</code></pre>
+<p>The remaining value of reference token in user's receive wallet must be larger than minimal mint value, 
+otherwise the custodian alliance will not mint for it.
+
+</p>
+<p><strong>Note</strong>: for btc, use <code>btc_minimal_mint_value</code>.
+</p>
+<h4>minimal mint value for bitcoin</h4>
+<pre><code class="lang-solidity">uint256 public btc_minimal_mint_value</code></pre>
+<p>cBTC minimal mint value
+</p>
+<h4>reference token =&gt; minimal burn value (except btc)</h4>
+<pre><code class="lang-solidity">mapping(string =&gt; uint256) public minimal_burn_value;</code></pre>
+<p>The minimal burn value of corresponding cToken, the burn will fail if burn value is not enough. 
+
+</p>
+<p><strong>Note</strong>: for btc, use <code>btc_minimal_burn_value</code>.
+
+</p>
+<h4>minimal burn value for bitcoin</h4>
+<pre><code class="lang-solidity">uint256 public btc_minimal_burn_value;</code></pre>
+<p>cBTC minimal burn value.
+</p>
+<h4>token parameters modification cooldown</h4>
+<pre><code class="lang-solidity">mapping(string =&gt; uint256) public token_cooldown; // second</code></pre>
+<p>The last timestamp (in seconds) since the last time token sponsor modified token parameters.
+
+</p>
+<h4>minimal sponsor value</h4>
+<pre><code class="lang-solidity">uint256 public minimal_sponsor_amount;</code></pre>
+<p>Minimal sponsor amount of cETH if someone want to become token sponsor.
+</p>
+<h4>sponsor token (be token captain)</h4>
+<pre><code class="lang-solidity">function sponsorToken(
+        string memory ref, // lowercase erc20 ethereum address
+        uint256 amount, // amount of cETH mortgaged
+        uint256 _burn_fee, // burn fee of erc20 token, in erc20 decimals
+        uint256 _mint_fee, // mint fee of erc20 token, in erc20 decimals
+        uint256 _wallet_fee, // receive wallet fee of erc20 token, in erc20 decimals
+        uint256 _minimal_mint_value, // minimal mint value of erc20 token, in erc20 decimals
+        uint256 _minimal_burn_value // minimal burn value of erc20 token, in erc20 decimals
+) public;</code></pre>
+<p>This function can be called by anyone.
+
+</p>
+<p>This function helps <code>msg.sender</code> become the sponsor of an erc20 token, specified by <code>ref</code>.
+
+</p>
+<p>The governance contract will transfer <code>amount</code> cETH from <code>msg.sender</code> by operator authority, and compare the 
+amount to the current sponsor of <code>ref</code>(if exists), the sponsor will be replaced by <code>msg.sender</code> if <code>amount</code> is large enough.
+The token parameters of <code>ref</code> will also be replaced by the parameters sender provided, if the token is not in cooldown. 
+
+</p>
+<h4>modify token parameters (only token sponsor)</h4>
+<pre><code class="lang-solidity">function setTokenParams(
+        string memory ref, // lowercase erc20 ethereum address
+        uint256 _burn_fee,
+        uint256 _mint_fee,
+        uint256 _wallet_fee,
+        uint256 _minimal_mint_value,
+        uint256 _minimal_burn_value
+) public;</code></pre>
+<p>This function can be called by anyone.
+
+</p>
+<p>This function helps the sponsor of token <code>ref</code> to change the token parameters if the token is not in cooldown.
+Edit By <a href="http://mahua.jser.me">MaHua</a>
+Edit By <a href="http://mahua.jser.me">MaHua</a></p>
+</body></html>

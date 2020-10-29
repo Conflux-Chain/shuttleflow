@@ -1,0 +1,109 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.125rem;
+  line-height: 5rem;
+  height: 5rem;
+  color: white;
+  background-color: rgba($color: #000000, $alpha: 0.6);
+  .logo {
+    max-height: 2.5rem;
+    margin-left: 3.5rem;
+    cursor: pointer;
+  }
+  .select {
+    padding: 0 !important;
+    border-radius: 1em !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    background: transparent !important;
+    margin-right: 3.5rem /* 56/16 */;
+  }
+  .right {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+
+    .item {
+      cursor: pointer;
+      white-space: nowrap;
+      margin: 0 1rem;
+    }
+    .active {
+      color: #44d7b6;
+      border-bottom: solid 2px #44d7b6;
+    }
+    .lng {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      margin-left: 1rem;
+      align-items: center;
+      height: 2.5rem;
+      border-radius: 2.25rem;
+      text-align: center;
+      line-height: 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+
+      margin-right: 2rem;
+      padding: 1.5rem;
+
+      .up {
+        width: 0.65rem;
+        height: 0.56rem;
+        margin-left: 0.5rem;
+        transform: rotate(180deg);
+      }
+    }
+    .dropdown-container {
+      color: #333333;
+      width: 8.75rem;
+      background-color: white;
+      border-radius: 0px 0px 0.25rem 0.25rem;
+      overflow: hidden;
+
+      .lng-item {
+        padding-left: 1rem;
+        line-height: 2.5rem;
+        font-size: 1rem;
+        z-index: 2;
+        cursor: pointer;
+      }
+      .selected {
+        position: relative;
+        color: white;
+        background: #44d7b6;
+      }
+
+      .selected::after {
+        content: url(./tick.svg);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        height: 1.5rem;
+        width: 1.5rem;
+        right: 1rem;
+      }
+    }
+  }
+}
+
+// .main {
+//   // margin: auto;
+//   border-radius: 0.5rem;
+//   padding: 0 2rem;
+//   padding-bottom: 2rem;
+//   // width: 544px;
+//   // max-height: calc(100vh - 10rem);
+//   overflow-y: auto;
+//   overflow-x: hidden;
+//   // background-color: #1b1b1b;
+//   display: flex;
+//   flex-direction: column;
+// }

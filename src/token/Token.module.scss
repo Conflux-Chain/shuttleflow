@@ -1,0 +1,43 @@
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+
+  // todo: still not sure how z-index related to sticky and relative
+  z-index: 1;
+
+  &.large {
+    background-color: #1b1b1b;
+  }
+  top: 0;
+  .back {
+    cursor: pointer;
+    &.small {
+      width: 1rem;
+    }
+    &.large {
+      width: 1.5rem;
+      height: 1.5rem;
+      position: relative;
+    }
+  }
+  .nav-tabs {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-around;
+
+    &.large {
+      font-size: 1.25rem;
+      line-height: 5.25rem;
+    }
+    .item {
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.4);
+    }
+    .active {
+      border-bottom: solid 2px #44d7b6;
+      color: #44d7b6;
+    }
+  }
+}

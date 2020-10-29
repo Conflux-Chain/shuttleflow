@@ -1,0 +1,70 @@
+.input-common {
+  width: 100%;
+  background-color: rgba(229, 229, 229, 0.2);
+  color: white;
+  border: none;
+  font-weight: 500;
+
+  &::placeholder {
+    font-weight: 500;
+    color: rgba($color: #ffffff, $alpha: 0.4);
+  }
+  &.small {
+    font-size: 1.875rem;
+    height: 6.25rem;
+    line-height: 6.25rem;
+    padding-left: 2rem;
+  }
+
+  &.large {
+    font-size: 1.25rem;
+    height: 4.25rem;
+    padding-left: 1.5rem;
+  }
+
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+}
+
+.error {
+  background-color: rgba($color: #f3504f, $alpha: 0.2);
+  border: solid 1px #f3504f;
+}
+.placeholder {
+  position: absolute;
+  top: 0;
+  align-items: center;
+  display: flex;
+  bottom: 0;
+  font-weight: 500;
+  color: rgba($color: #ffffff, $alpha: 0.4);
+  pointer-events: none;
+  white-space: pre;
+
+  &.small {
+    padding-left: 2rem;
+    font-size: 1.875rem;
+  }
+  &.large {
+    padding-left: 1.5rem;
+    font-size: 1.25rem;
+  }
+}
+.clear {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  cursor: pointer;
+
+  &.small {
+    width: 1.5rem;
+    right: 2rem;
+  }
+  &.large {
+    width: 1.5rem;
+    right: 1.5rem;
+  }
+}

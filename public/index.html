@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/global.css" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Shuttle Flow</title>
+    <style></style>
+  </head>
+
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="background"></div>
+    <script>
+      function scaleLinear(domain, range) {
+        const [d1, d2] = domain
+        const [r1, r2] = range
+        return function (v) {
+          return r1 + ((r2 - r1) * (v - d1)) / (d2 - d1)
+        }
+      }
+
+      const s1 = scaleLinear([375, 675], [8, 8])
+      const s2 = scaleLinear([675, 1920], [12, 16])
+
+      function setRem() {
+        const width = window.innerWidth
+        const s = width <= 675 ? s1 : s2
+
+        // const
+        const fontSize = s(width)
+        document.documentElement.style.fontSize = fontSize + 'px'
+      }
+
+      setRem()
+
+      window.onresize = setRem
+    </script>
+    <div id="root"></div>
+    <div id="popup"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>

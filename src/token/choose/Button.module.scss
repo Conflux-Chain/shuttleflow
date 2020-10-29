@@ -1,0 +1,22 @@
+.btn-container {
+  &.small {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 14rem;
+    // background: black;
+    .btn {
+      margin-top: 3rem;
+      width: 90%;
+    }
+  }
+  &.large {
+    .btn {
+      height: 4.5rem;
+      margin-top: 3rem;
+      width: 100%;
+      margin-top: 2.25rem;
+    }
+  }
+}

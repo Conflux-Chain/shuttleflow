@@ -1,0 +1,12 @@
+{
+  "all": "全部",
+  "success": "交易成功",
+  "pending": "进行中",
+  "init-in": "开始跨链转入",
+  "init-out": "开始跨链转出",
+  "main": "ETH/BTC 主网已确认",
+  "shuttle": "ShuttleFlow 跨链联盟已确认",
+  "conflux": "Conflux 主网已确认",
+  "token": "代币",
+  "supply": "总供应量"
+}

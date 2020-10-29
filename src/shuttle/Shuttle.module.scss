@@ -1,0 +1,145 @@
+//navigtion root
+.nav {
+  display: flex;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  &.small {
+    position: fixed;
+    //todo not sure how it work, how fixed and absolution
+    //related through the z-index
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: black;
+    justify-content: space-around;
+    height: 8.5rem;
+
+    .item {
+      display: flex;
+      align-items: center;
+    }
+    .item a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 6.4rem;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      img {
+        width: 3rem;
+      }
+    }
+    .active {
+      color: #44d7b6;
+    }
+  }
+  &.large {
+    justify-content: space-around;
+    padding-top: 1rem;
+    height: 5.25rem;
+    margin-bottom: 2.125rem;
+    .item {
+      display: flex;
+      align-items: center;
+    }
+
+    .item a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.25rem;
+      img {
+        margin-right: 1rem;
+        width: 2rem;
+      }
+    }
+    .active {
+      color: #44d7b6;
+      border-bottom: solid 3px #44d7b6;
+    }
+  }
+}
+
+//content root
+
+.root {
+  &.small {
+    margin-top: 2.5rem;
+  }
+}
+
+.title {
+  color: white;
+  display: flex;
+  align-items: center;
+  &.small {
+    font-size: 2rem;
+  }
+  &.large {
+    font-size: 1.25rem;
+  }
+}
+
+.with-question {
+  display: flex;
+  align-items: center;
+  img {
+    cursor: pointer;
+  }
+  &.small {
+    img {
+      width: 2.25rem;
+      margin-left: 1rem;
+    }
+  }
+  &.large {
+    img {
+      width: 1.25rem;
+      margin-left: 1rem;
+    }
+  }
+}
+
+.small-text {
+  color: rgba($color: white, $alpha: 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0;
+
+  &.small {
+    font-size: 1.5rem;
+    img {
+      cursor: pointer;
+      width: 2rem;
+      margin-left: 1rem;
+    }
+  }
+  &.large {
+    font-size: 1rem;
+    img {
+      cursor: pointer;
+      width: 1.25rem;
+      margin-left: 0.75rem;
+    }
+  }
+}
+
+.down {
+  &.small {
+    height: 5.5rem;
+    img {
+      width: 1.5rem;
+    }
+  }
+  &.large {
+    height: 3.75rem;
+    img {
+      width: 0.75rem;
+    }
+  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
