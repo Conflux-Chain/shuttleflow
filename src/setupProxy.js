@@ -5,7 +5,7 @@ module.exports = function (app) {
   app.use(
     '/rpcshuttleflow',
     createProxyMiddleware({
-      target: 'https://api.shuttleflow.io/?secretkey=ConfluxFDSiof0j20fJFDHbSkgnkl5gkGDSKL',
+      target: 'https://api.shuttleflow.io',
       pathRewrite: {
         '/rpcshuttleflow': '',
       },
