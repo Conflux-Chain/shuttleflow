@@ -5,7 +5,7 @@ module.exports = function (app) {
   app.use(
     '/rpcshuttleflow',
     createProxyMiddleware({
-      target: 'https://dev.shuttleflow.io',
+      target: 'https://api.shuttleflow.io',
       pathRewrite: {
         '/rpcshuttleflow': '',
       },
@@ -16,7 +16,7 @@ module.exports = function (app) {
   app.use(
     '/rpcsponsor',
     createProxyMiddleware({
-      target: 'http://23.102.224.244:8018',
+      target: 'http://23.102.224.244:8019',
       changeOrigin: true,
       pathRewrite: {
         '/rpcsponsor': '',
