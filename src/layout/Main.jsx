@@ -11,18 +11,9 @@ import { useTranslation } from 'react-i18next'
 
 function Main() {
   const { address, login } = useConfluxPortal()
-  const addressRef = useRef(address)
-  addressRef.current = address
-  const [popup, _setPopup] = useState(false)
+  const [popup, setPopup] = useState(false)
 
-  function setPopup(v) {
-    console.log('want to set popup')
-    setTimeout(() => {
-      if (!addressRef.current) {
-        _setPopup(v)
-      }
-    }, 500)
-  }
+
   const { t } = useTranslation()
   return (
     <>

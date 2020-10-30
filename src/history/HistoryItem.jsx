@@ -18,6 +18,7 @@ export default function HistoryItem(props) {
     amount,
     step: currentStep,
     type,
+    token,
     icon,
     symbol,
     nonce_or_txid,
@@ -27,7 +28,6 @@ export default function HistoryItem(props) {
     idx,
   } = props
   const steps = STEPS[type]
-  // const [opened, setOpened] = useState(false)
   const [cx] = useStyle(itemStyle)
   const { t } = useTranslation('history')
   return (
@@ -44,9 +44,7 @@ export default function HistoryItem(props) {
                 >
                   {symbol}
                 </div>
-                <div  className={cx('small-txt')}>
-                  {t(steps[currentStep])}
-                </div>
+                <div className={cx('small-txt')}>{t(steps[currentStep])}</div>
               </div>
             </div>
             <div className={cx('two-row', 'end')}>
@@ -125,7 +123,7 @@ export default function HistoryItem(props) {
                         let url
                         const _nonce_or_txid = nonce_or_txid.split('_')[0]
                         if (i <= 1) {
-                          if (type === 'mint') {
+                          if (type === 'mint' && token !== 'btc') {
                             url = EHTHERSCAN_TX + _nonce_or_txid
                           } else {
                             url = CONFLUXSCAN_TX + _nonce_or_txid
@@ -133,11 +131,13 @@ export default function HistoryItem(props) {
                         } else {
                           if (type === 'mint') {
                             url = CONFLUXSCAN_TX + settled_tx
-                          } else {
+                          } else if (token !== 'btc') {
                             url = EHTHERSCAN_TX + settled_tx
                           }
                         }
-                        window.open(url, '_blank')
+                        if (url) {
+                          window.open(url, '_blank')
+                        }
                       }}
                     />
                   )}

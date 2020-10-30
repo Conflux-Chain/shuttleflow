@@ -1142,10 +1142,10 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@cfxjs/react-hooks@^0.1.7":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@cfxjs/react-hooks/-/react-hooks-0.1.10.tgz#fbc341446a6c51ba488d5d435f43f6bfc42ebe84"
-  integrity sha512-WgRQ129QBo42GIOOTXBKIZrXQSBU8tE/87HEjl6P2HBTlcBUBbFT8jh4TrlBT6QhdkeoZsozIm3cmh6Qlhoyeg==
+"@cfxjs/react-hooks@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@cfxjs/react-hooks/-/react-hooks-0.1.11.tgz#d9636a1af3841c123f4b2ef7dbe8ce80b08c940a"
+  integrity sha512-qeYQeBnEph2hG2P6Z3aquGT1f4u8Zv/bINaBPzJln/6W815G5UemOVOGHfIIgBOFtneqIQu2H7xnXqf7JOcEyg==
   dependencies:
     big.js "^6.0.1"
     react-use "^15.3.4"
