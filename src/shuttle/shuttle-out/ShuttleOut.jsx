@@ -52,7 +52,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   )
   const { t } = useTranslation('shuttle-out')
   const { token, ...extra } = parseSearch(search)
-  const { tokens } = useTokenList(token)
+  const { tokens } = useTokenList(token, { isReference: true })
   const tokenInfo = tokens && token ? tokens[0] : null
 
   const [errorPopup, setErrorPopup] = useState(false)
