@@ -52,7 +52,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   )
   const { t } = useTranslation('shuttle-out')
   const { token, ...extra } = parseSearch(search)
-  const { tokens } = useTokenList(token)
+  const { tokens } = useTokenList(token, { isReference: true })
   const tokenInfo = tokens && token ? tokens[0] : null
 
   const [errorPopup, setErrorPopup] = useState(false)
@@ -82,11 +82,11 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
   let balance = 0
 
-  if (_balance && tokenInfo) {
-    balance = parseNum(_balance, tokenInfo.decimals)
+  if (_balance) {
+    balance = parseNum(_balance, 18)
   }
+
   //to do fake a balance
-  // balance = 12.12344567889999999999999
   const schema = yup.object().shape({
     outamount: yup
       .number()
@@ -117,7 +117,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     let { outwallet, outamount } = data
     console.log('reveive form input', outamount)
     if (isAll.current) {
-      outamount = parseNum(_balance, tokenInfo.decimals)
+      outamount = balance
     }
 
     burn(outamount, outwallet)

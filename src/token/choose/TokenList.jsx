@@ -29,7 +29,6 @@ function TokenList({
   cToken,
   frequent,
   showMortgage,
-  notFound,
   setNotFound,
   setIsNotAvailable, //if the corresponsing cToken available
 }) {
