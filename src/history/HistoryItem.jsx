@@ -139,7 +139,7 @@ export default function HistoryItem(props) {
                             url = EHTHERSCAN_TX + settled_tx
                           }
                         }
-                        window.open(linkUrl, '_blank')
+                        window.open(url, '_blank')
                       }}
                     />
                   )}
