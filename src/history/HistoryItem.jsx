@@ -137,6 +137,8 @@ export default function HistoryItem(props) {
                             }}
                           />
                         )
+                      } else {
+                        return null
                       }
                     })()}
                 </div>
