@@ -82,11 +82,11 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
   let balance = 0
 
-  if (_balance && tokenInfo) {
-    balance = parseNum(_balance, tokenInfo.decimals)
+  if (_balance) {
+    balance = parseNum(_balance, 18)
   }
+
   //to do fake a balance
-  // balance = 12.12344567889999999999999
   const schema = yup.object().shape({
     outamount: yup
       .number()
