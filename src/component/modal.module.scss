@@ -1,9 +1,9 @@
 .container {
-  position: relative;
-  height: fit-content;
-  left: 0;
-  right: 0;
-  margin: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
   border-radius: 0.5rem;
   background: white;
   &.small {
@@ -11,7 +11,6 @@
     max-width: 40rem;
   }
   &.large {
-    
     padding: 2rem;
     width: fit-content;
     max-width: 28rem;
