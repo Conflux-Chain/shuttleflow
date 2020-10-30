@@ -31,7 +31,6 @@ export default function HistoryItem(props) {
   const [cx] = useStyle(itemStyle)
   const { t } = useTranslation('history')
 
-  let linkUrl
   return (
     <Accordion
       title={
@@ -117,22 +116,29 @@ export default function HistoryItem(props) {
                 >
                   {t(s)}
                   {i <= currentStep &&
-                    (linkUrl = getLinkUrl(
-                      nonce_or_txid,
-                      i,
-                      token,
-                      type,
-                      settled_tx
-                    )) && (
-                      <img
-                        className={cx('img')}
-                        src={link}
-                        alt="link"
-                        onClick={() => {
-                          window.open(linkUrl, '_blank')
-                        }}
-                      />
-                    )}
+                    (() => {
+                      let linkUrl
+                      if (
+                        (linkUrl = getLinkUrl(
+                          nonce_or_txid,
+                          i,
+                          token,
+                          type,
+                          settled_tx
+                        ))
+                      ) {
+                        return (
+                          <img
+                            className={cx('img')}
+                            src={link}
+                            alt="link"
+                            onClick={() => {
+                              window.open(linkUrl, '_blank')
+                            }}
+                          />
+                        )
+                      }
+                    })()}
                 </div>
               </div>
             )
@@ -152,9 +158,14 @@ export default function HistoryItem(props) {
 
 function getLinkUrl(nonce_or_txid, i, token, type, settled_tx) {
   let url
+
   const _nonce_or_txid = nonce_or_txid.split('_')[0]
   if (i <= 1) {
-    if (type === 'mint' && token !== 'btc') {
+    if (type === 'mint') {
+      if (token === 'btc') {
+        return
+      }
+
       url = EHTHERSCAN_TX + _nonce_or_txid
     } else {
       url = CONFLUXSCAN_TX + _nonce_or_txid
@@ -162,7 +173,10 @@ function getLinkUrl(nonce_or_txid, i, token, type, settled_tx) {
   } else {
     if (type === 'mint') {
       url = CONFLUXSCAN_TX + settled_tx
-    } else if (token !== 'btc') {
+    } else {
+      if (token === 'btc') {
+        return
+      }
       url = EHTHERSCAN_TX + settled_tx
     }
   }
