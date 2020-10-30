@@ -86,7 +86,7 @@ function fetchHistory({
   ]).then(([tokenMap, histories]) => {
     return histories
       .map(({ token, ...rest }) => {
-        return { ...rest, ...tokenMap[token] }
+        return { ...rest, ...tokenMap[token], token }
       })
       .map(historyAdapter)
   })

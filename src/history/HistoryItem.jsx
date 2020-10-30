@@ -18,6 +18,7 @@ export default function HistoryItem(props) {
     amount,
     step: currentStep,
     type,
+    token,
     icon,
     symbol,
     nonce_or_txid,
@@ -27,9 +28,9 @@ export default function HistoryItem(props) {
     idx,
   } = props
   const steps = STEPS[type]
-  // const [opened, setOpened] = useState(false)
   const [cx] = useStyle(itemStyle)
   const { t } = useTranslation('history')
+
   return (
     <Accordion
       title={
@@ -44,9 +45,7 @@ export default function HistoryItem(props) {
                 >
                   {symbol}
                 </div>
-                <div  className={cx('small-txt')}>
-                  {t(steps[currentStep])}
-                </div>
+                <div className={cx('small-txt')}>{t(steps[currentStep])}</div>
               </div>
             </div>
             <div className={cx('two-row', 'end')}>
@@ -116,7 +115,10 @@ export default function HistoryItem(props) {
                   className={cx('item', { complete: i <= currentStep })}
                 >
                   {t(s)}
-                  {i <= currentStep && (
+                  {i > currentStep ||
+                  (token === 'btc' &&
+                    ((type === 'mint' && i <= 1) ||
+                      (type === 'burn' && i > 1))) ? null : (
                     <img
                       className={cx('img')}
                       src={link}
