@@ -115,32 +115,34 @@ export default function HistoryItem(props) {
                   className={cx('item', { complete: i <= currentStep })}
                 >
                   {t(s)}
-                  {i <= currentStep &&
-                    (() => {
-                      let linkUrl
-                      if (
-                        (linkUrl = getLinkUrl(
-                          nonce_or_txid,
-                          i,
-                          token,
-                          type,
-                          settled_tx
-                        ))
-                      ) {
-                        return (
-                          <img
-                            className={cx('img')}
-                            src={link}
-                            alt="link"
-                            onClick={() => {
-                              window.open(linkUrl, '_blank')
-                            }}
-                          />
-                        )
-                      } else {
-                        return null
-                      }
-                    })()}
+                  {i > currentStep ||
+                  (token === 'btc' &&
+                    ((type === 'mint' && i <= 1) ||
+                      (type === 'burn' && i > 1))) ? null : (
+                    <img
+                      className={cx('img')}
+                      src={link}
+                      alt="link"
+                      onClick={() => {
+                        let url
+                        const _nonce_or_txid = nonce_or_txid.split('_')[0]
+                        if (i <= 1) {
+                          if (type === 'mint') {
+                            url = EHTHERSCAN_TX + _nonce_or_txid
+                          } else {
+                            url = CONFLUXSCAN_TX + _nonce_or_txid
+                          }
+                        } else {
+                          if (type === 'mint') {
+                            url = CONFLUXSCAN_TX + settled_tx
+                          } else {
+                            url = EHTHERSCAN_TX + settled_tx
+                          }
+                        }
+                        window.open(linkUrl, '_blank')
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             )
@@ -156,31 +158,4 @@ export default function HistoryItem(props) {
       }
     />
   )
-}
-
-function getLinkUrl(nonce_or_txid, i, token, type, settled_tx) {
-  let url
-
-  const _nonce_or_txid = nonce_or_txid.split('_')[0]
-  if (i <= 1) {
-    if (type === 'mint') {
-      if (token === 'btc') {
-        return
-      }
-
-      url = EHTHERSCAN_TX + _nonce_or_txid
-    } else {
-      url = CONFLUXSCAN_TX + _nonce_or_txid
-    }
-  } else {
-    if (type === 'mint') {
-      url = CONFLUXSCAN_TX + settled_tx
-    } else {
-      if (token === 'btc') {
-        return
-      }
-      url = EHTHERSCAN_TX + settled_tx
-    }
-  }
-  return url
 }
