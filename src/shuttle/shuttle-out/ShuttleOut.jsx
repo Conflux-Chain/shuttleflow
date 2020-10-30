@@ -117,7 +117,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     let { outwallet, outamount } = data
     console.log('reveive form input', outamount)
     if (isAll.current) {
-      outamount = parseNum(_balance, tokenInfo.decimals)
+      outamount = balance
     }
 
     burn(outamount, outwallet)
