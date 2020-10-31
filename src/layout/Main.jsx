@@ -15,13 +15,12 @@ function Main() {
   //When referer detected, display popup and then login
   const [referer, setReferer] = useState(false)
   //When not login, should login automatically
-  const [initPopup, setInitPopup] = useState(false)
+  const [initLogin, setInitLogin] = useState(false)
+  //make sure only login once, set true when login is not desired
   const isInitLogin = useRef(false)
 
   useEffect(() => {
     let tm
-
-    console.log('effect', initPopup)
     if (!address) {
       if (referer) {
         setPopup(true)
@@ -32,7 +31,7 @@ function Main() {
           login()
         }, 2000)
       }
-      if (initPopup && !isInitLogin.current) {
+      if (initLogin && !isInitLogin.current) {
         //prevent the login another time
         isInitLogin.current = true
         login()
@@ -41,7 +40,7 @@ function Main() {
     return () => {
       clearTimeout(tm)
     }
-  }, [address, referer, initPopup])
+  }, [address, referer, initLogin])
 
   const { t } = useTranslation()
   return (
@@ -66,7 +65,7 @@ function Main() {
               )
             } else {
               return (
-                <EnsureLogin setInitPopup={setInitPopup}>
+                <EnsureLogin setInitPopup={setInitLogin}>
                   <Switch>
                     <Route path="/token" component={Token} />
                     <Route path="/shuttle" component={Shuttle} />
