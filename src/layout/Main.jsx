@@ -12,7 +12,35 @@ import { useTranslation } from 'react-i18next'
 function Main() {
   const { address, login } = useConfluxPortal()
   const [popup, setPopup] = useState(false)
+  //When referer detected, display popup and then login
+  const [referer, setReferer] = useState(false)
+  //When not login, should login automatically
+  const [initLogin, setInitLogin] = useState(false)
+  //make sure only login once, set true when login is not desired
+  const isInitLogin = useRef(false)
 
+  useEffect(() => {
+    let tm
+    if (!address) {
+      if (referer) {
+        setPopup(true)
+        tm = setTimeout(() => {
+          setPopup(false)
+          //reset referer so the popup can bring up again
+          setReferer(false)
+          login()
+        }, 2000)
+      }
+      if (initLogin && !isInitLogin.current) {
+        //prevent the login another time
+        isInitLogin.current = true
+        login()
+      }
+    }
+    return () => {
+      clearTimeout(tm)
+    }
+  }, [address, referer, initLogin])
 
   const { t } = useTranslation()
   return (
@@ -20,8 +48,7 @@ function Main() {
       <Switch>
         <Redirect from={'/'} exact to="/shuttle" />
         <Route
-          render={({ location }) => {
-            const { pathname } = location
+          render={({ location: { pathname } }) => {
             if (
               !address &&
               pathname !== '/shuttle/in' &&
@@ -29,26 +56,26 @@ function Main() {
               pathname !== '/market' &&
               pathname !== '/'
             ) {
+              //prevent the default init login
+              isInitLogin.current = true
               return (
-                <RedirectWrapper
-                  login={login}
-                  setPopup={setPopup}
-                  to={{
-                    pathname: '/shuttle/in',
-                    state: { from: pathname },
-                  }}
-                ></RedirectWrapper>
+                <PopupWrapper setReferer={setReferer}>
+                  <Redirect to={{ pathname: '/shuttle/in' }}></Redirect>
+                </PopupWrapper>
+              )
+            } else {
+              return (
+                <EnsureLogin setInitLogin={setInitLogin}>
+                  <Switch>
+                    <Route path="/token" component={Token} />
+                    <Route path="/shuttle" component={Shuttle} />
+                    <Route path="/caption" component={Caption} />
+                    <Route path="/history" component={History} />
+                    <Route path="/market" component={Market} />
+                  </Switch>
+                </EnsureLogin>
               )
             }
-            return (
-              <Switch>
-                <Route path="/token" component={Token} />
-                <Route path="/shuttle" component={Shuttle} />
-                <Route path="/caption" component={Caption} />
-                <Route path="/history" component={History} />
-                <Route path="/market" component={Market} />
-              </Switch>
-            )
           }}
         />
       </Switch>
@@ -57,17 +84,20 @@ function Main() {
   )
 }
 
-function RedirectWrapper({ setPopup, login, ...props }) {
+function PopupWrapper({ setReferer, children }) {
   useEffect(() => {
     return () => {
-      setPopup(true)
-      setTimeout(() => {
-        setPopup(false)
-        login()
-      }, 2000)
+      setReferer(true)
     }
-  }, [setPopup, login])
-  return <Redirect {...props} />
+  }, [])
+  return children
+}
+
+function EnsureLogin({ children, setInitLogin }) {
+  useEffect(() => {
+    setInitLogin(true)
+  }, [])
+  return children
 }
 
 export default React.memo(Main)
