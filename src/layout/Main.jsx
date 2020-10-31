@@ -65,7 +65,7 @@ function Main() {
               )
             } else {
               return (
-                <EnsureLogin setInitPopup={setInitLogin}>
+                <EnsureLogin setInitLogin={setInitLogin}>
                   <Switch>
                     <Route path="/token" component={Token} />
                     <Route path="/shuttle" component={Shuttle} />
@@ -93,9 +93,9 @@ function PopupWrapper({ setReferer, children }) {
   return children
 }
 
-function EnsureLogin({ children, setInitPopup }) {
+function EnsureLogin({ children, setInitLogin }) {
   useEffect(() => {
-    setInitPopup(true)
+    setInitLogin(true)
   }, [])
   return children
 }
