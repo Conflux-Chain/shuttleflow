@@ -39,10 +39,8 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
   const tokenInfo = urlToken && tokens ? tokens[0] : null
   const { t } = useTranslation('shuttle-in')
 
-  let shuttleInAddress = useShuttleInAddress(tokenInfo)
-  if (shuttleInAddress) {
-    shuttleInAddress = shuttleInAddress.toLocaleLowerCase()
-  }
+  const shuttleInAddress = useShuttleInAddress(tokenInfo)
+
 
   const [addressPopup, setAddressPopup] = useState(false)
   const [cTokenPopup, setCTokenPopup] = useState(false)
