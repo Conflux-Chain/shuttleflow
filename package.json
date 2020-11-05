@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@cfxjs/react-hooks": "^0.1.14",
+    "@cfxjs/react-hooks": "^0.1.15",
     "@hookform/error-message": "^0.0.4",
     "@hookform/resolvers": "^0.1.1",
     "big.js": "^6.0.1",
