@@ -30,6 +30,7 @@ import useTokenList from '../../data/useTokenList'
 import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
+import TokenInput from '../TokenInput'
 import Input from '../Input'
 import { parseNum } from '../../data/formatNum'
 import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
@@ -115,7 +116,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   const tx = useRef('')
   const onSubmit = (data) => {
     let { outwallet, outamount } = data
-    console.log('reveive form input', outamount)
     if (isAll.current) {
       outamount = balance
     }
@@ -138,9 +138,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     <div className={shuttleCx('root')}>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="chrome-off">
         {/* token */}
-        <Input
-          icon={tokenInfo?.icon}
-          defaultValue={tokenInfo?.symbol}
+        <TokenInput
           placeholder={t('placeholder.out')}
           to={{
             pathname: '/token',
@@ -155,10 +153,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
         </div>
 
         {/* conflux token */}
-        <Input
-          icon={tokenInfo?.icon}
-          defaultValue={tokenInfo?.reference_symbol}
-          placeholder={t('placeholder.in')}
+        <TokenInput
           to={{
             pathname: '/token',
             search: buildSearch({
@@ -167,6 +162,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
             }),
           }}
           tokenInfo={tokenInfo}
+          placeholder={t('placeholder.in')}
         />
 
         {/* shuttle out amount */}
