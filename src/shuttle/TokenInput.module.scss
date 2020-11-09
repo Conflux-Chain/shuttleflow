@@ -1,0 +1,74 @@
+.container {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+
+  .left {
+    display: flex;
+    align-items: center;
+    .placeholder {
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.4);
+      pointer-events: none;
+    }
+
+    .icon-container {
+      position: relative;
+      .icon {
+        //remove descender
+        display: block;
+        &.large {
+          width: 2rem;
+          height: 2rem;
+          border-radius: 1rem;
+        }
+      }
+      .c-icon {
+        position: absolute;
+        &.large {
+          bottom: -0.2rem;
+          right: -0.3rem;
+          width: 1rem;
+          height: 1rem;
+        }
+      }
+    }
+
+    .symbol {
+      font-weight: bold;
+      &.large {
+        margin-left: 1rem;
+      }
+    }
+
+    .question-area {
+      height: 100%;
+      display: flex;
+      &.large {
+        width: 4rem;
+      }
+      .question {
+        &.large {
+          margin-left: 1rem;
+          width: 1.25rem;
+        }
+      }
+    }
+  }
+
+  .arrow {
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    margin: auto;
+    display: flex;
+    &.small {
+      width: 1rem;
+      right: 2rem;
+    }
+    &.large {
+      width: 1.75rem;
+      right: 1.5rem;
+    }
+  }
+}

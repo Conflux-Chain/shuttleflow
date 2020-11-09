@@ -30,6 +30,7 @@ import useTokenList from '../../data/useTokenList'
 import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
+import TokenInput from '../TokenInput'
 import Input from '../Input'
 import { parseNum } from '../../data/formatNum'
 import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
@@ -116,6 +117,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   const onSubmit = (data) => {
     let { outwallet, outamount } = data
     console.log('reveive form input', outamount)
+    console.log(data)
     if (isAll.current) {
       outamount = balance
     }
@@ -138,7 +140,16 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     <div className={shuttleCx('root')}>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="chrome-off">
         {/* token */}
-        <Input
+        <TokenInput
+          placeholder={t('placeholder.out')}
+          to={{
+            pathname: '/token',
+            search: buildSearch({ next: url, cToken: 1, ...getValues() }),
+          }}
+          tokenInfo={tokenInfo}
+          cToken={() => setCTokenPopup(true)}
+        />
+        {/* <Input
           icon={tokenInfo?.icon}
           defaultValue={tokenInfo?.symbol}
           placeholder={t('placeholder.out')}
@@ -148,14 +159,25 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           }}
           tokenInfo={tokenInfo}
           cToken={() => setCTokenPopup(true)}
-        />
+        /> */}
 
         <div className={shuttleCx('down')}>
           <img alt="down" src={down}></img>
         </div>
 
         {/* conflux token */}
-        <Input
+        <TokenInput
+          to={{
+            pathname: '/token',
+            search: buildSearch({
+              next: url,
+              ...getValues(),
+            }),
+          }}
+          tokenInfo={tokenInfo}
+          placeholder={t('placeholder.in')}
+        />
+        {/* <Input
           icon={tokenInfo?.icon}
           defaultValue={tokenInfo?.reference_symbol}
           placeholder={t('placeholder.in')}
@@ -167,7 +189,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
             }),
           }}
           tokenInfo={tokenInfo}
-        />
+        /> */}
 
         {/* shuttle out amount */}
         <label className={shuttleOutCx('amount-container')}>
