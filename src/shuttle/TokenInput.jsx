@@ -9,7 +9,6 @@ import question from '../component/question.svg'
 export default function TokenInput({ tokenInfo, cToken, to, placeholder }) {
   const history = useHistory()
   const [shuttleCx, commonCx] = useStyle(inputStyles, commonInputStyles)
-  console.log(tokenInfo)
   return (
     <div
       onClick={() => history.push(to)}

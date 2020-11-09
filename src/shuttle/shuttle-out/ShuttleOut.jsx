@@ -116,8 +116,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   const tx = useRef('')
   const onSubmit = (data) => {
     let { outwallet, outamount } = data
-    console.log('reveive form input', outamount)
-    console.log(data)
     if (isAll.current) {
       outamount = balance
     }
@@ -149,17 +147,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           tokenInfo={tokenInfo}
           cToken={() => setCTokenPopup(true)}
         />
-        {/* <Input
-          icon={tokenInfo?.icon}
-          defaultValue={tokenInfo?.symbol}
-          placeholder={t('placeholder.out')}
-          to={{
-            pathname: '/token',
-            search: buildSearch({ next: url, cToken: 1, ...getValues() }),
-          }}
-          tokenInfo={tokenInfo}
-          cToken={() => setCTokenPopup(true)}
-        /> */}
 
         <div className={shuttleCx('down')}>
           <img alt="down" src={down}></img>
@@ -177,19 +164,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           tokenInfo={tokenInfo}
           placeholder={t('placeholder.in')}
         />
-        {/* <Input
-          icon={tokenInfo?.icon}
-          defaultValue={tokenInfo?.reference_symbol}
-          placeholder={t('placeholder.in')}
-          to={{
-            pathname: '/token',
-            search: buildSearch({
-              next: url,
-              ...getValues(),
-            }),
-          }}
-          tokenInfo={tokenInfo}
-        /> */}
 
         {/* shuttle out amount */}
         <label className={shuttleOutCx('amount-container')}>

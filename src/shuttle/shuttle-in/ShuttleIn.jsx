@@ -67,16 +67,6 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         tokenInfo={tokenInfo}
         placeholder={t('placeholder.out')}
       />
-      {/* <Input
-        to={{
-          pathname: '/token',
-          search: `?next=${url}`,
-        }}
-        tokenInfo={tokenInfo}
-        defaultValue={tokenInfo?.reference_symbol}
-        placeholder={t('placeholder.out')}
-        icon={tokenInfo?.icon}
-      /> */}
       <div className={shuttleCx('down')}>
         <img alt="down" src={down}></img>
       </div>
@@ -89,17 +79,6 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         placeholder={t('common:placeholder.in')}
         cToken={() => setCTokenPopup(true)}
       />
-      {/* <Input
-        to={{
-          pathname: '/token',
-          search: `?next=${url}&cToken=1`,
-        }}
-        tokenInfo={tokenInfo}
-        defaultValue={tokenInfo?.symbol}
-        placeholder={t('common:placeholder.in')}
-        icon={tokenInfo?.icon}
-        cToken={() => setCTokenPopup(true)}
-      /> */}
 
       {tokenInfo && (
         <p className={shuttleCx('small-text')}>
