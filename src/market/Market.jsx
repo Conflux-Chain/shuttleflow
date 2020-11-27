@@ -3,7 +3,7 @@ import useStyle from '../component/useStyle'
 import styles from './Market.module.scss'
 import shuttle from '../component/cIcon.svg'
 
-import Triangle from './Triangle.jsx'
+import Triangle from '../component/Triangle/Triangle.jsx'
 import { useTranslation } from 'react-i18next'
 import useTokenList from '../data/useTokenList'
 
@@ -28,7 +28,7 @@ function Market() {
   const { t } = useTranslation('market')
   const [sort, setSort] = useState('name')
   return (
-    <div>
+    <>
       <div className={cx('header')}>
         <div className={cx('item')}>
           <div>
@@ -73,6 +73,7 @@ function Market() {
         </div>
       </div>
       {tokens
+        .slice()
         .sort(sorts[sort])
         .map(({ icon, symbol, reference_name, total_supply }) => {
           return (
@@ -98,7 +99,7 @@ function Market() {
             </div>
           )
         })}
-    </div>
+    </>
   )
 }
 

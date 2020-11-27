@@ -24,12 +24,12 @@ function Main() {
     if (!address) {
       if (referer) {
         setPopup(true)
-        tm = setTimeout(() => {
-          setPopup(false)
-          //reset referer so the popup can bring up again
-          setReferer(false)
-          login()
-        }, 2000)
+        // tm = setTimeout(() => {
+        //   setPopup(false)
+        //   //reset referer so the popup can bring up again
+        //   setReferer(false)
+        //   login()
+        // }, 2000)
       }
       if (initLogin && !isInitLogin.current) {
         //prevent the login another time
@@ -79,7 +79,9 @@ function Main() {
           }}
         />
       </Switch>
-      <Modal show={popup}>{t('login')}</Modal>
+      <Modal show={popup}>
+        <div style={{ whiteSpace: 'nowrap' }}>{t('login')}</div>
+      </Modal>
     </>
   )
 }

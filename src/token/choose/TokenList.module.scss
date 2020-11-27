@@ -180,3 +180,28 @@
     right: 1rem;
   }
 }
+
+.list-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .right {
+    display: flex;
+    margin-right: 8px;
+    .btns {
+      display: flex;
+      flex-direction: column;
+
+      &.large {
+        height: 1.875rem;
+        margin-left: 0.75rem;
+      }
+    }
+    .name {
+      color: white;
+      &.large {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}

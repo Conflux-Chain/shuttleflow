@@ -24,7 +24,6 @@ import useTokenList from '../../data/useTokenList'
 import TokenInput from '../TokenInput'
 
 import CTokenPopup from '../CTokenPopup'
-import Input from '../Input'
 
 export default function ShuttleIn({ location: { search }, match: { url } }) {
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
@@ -115,7 +114,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             }
             placeholder={t('address-placeholder')}
           />
-          {tokenInfo && (
+          {shuttleInAddress && (
             <CopyToClipboard text={shuttleInAddress} onCopy={displayCopy}>
               <img alt="copy" className={shuttleInCx('copy')} src={copy}></img>
             </CopyToClipboard>
@@ -123,7 +122,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         </div>
       </div>
       {tokenInfo && (
-        <p className={shuttleCx('small-text')}>
+        <p style={{alignItems:'flex-start'}} className={shuttleCx('small-text')}>
           <span>
             <Trans
               t={t}
