@@ -13,6 +13,7 @@ import formatAddress from '../../component/formatAddress'
 import useTokenList from '../../data/useTokenList'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../../component/renderThumbVertical'
+import PaddingContainer from '../../component/PaddingContainer/PaddingContainer'
 import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../../config/config'
 
 const FREQUENT_TOKENS = [
@@ -65,7 +66,11 @@ function TokenList({
   }, [displayedList, setNotFound])
 
   if (isListLoading || isDisplayedLoading) {
-    return <h1>......</h1>
+    return (
+      <PaddingContainer bottom={false}>
+        <h1>......</h1>
+      </PaddingContainer>
+    )
   }
 
   return (
@@ -79,59 +84,59 @@ function TokenList({
         position: 'relative',
       }}
     >
-      {frequent && !search && tokenList.length && (
-        <>
-          <div className={titleCx('title')}>{t('frequent')}</div>
-          <div className={ListCx('frequent-container')}>
-            {FREQUENT_TOKENS.map((_preset_reference) => {
-              let tokenData, active
-              if (tokenList.length > 0) {
-                tokenData = tokenList.find(
-                  ({ reference }) => reference === _preset_reference
-                )
-                //frequent token is hardcoded, in case the
-                //tokenlist change and hardcoded data not found
-                if (!tokenData) {
-                  return null
+      <PaddingContainer bottom={false}>
+        {frequent && !search && tokenList.length && (
+          <>
+            <div className={titleCx('title')}>{t('frequent')}</div>
+            <div className={ListCx('frequent-container')}>
+              {FREQUENT_TOKENS.map((_preset_reference) => {
+                let tokenData, active
+                if (tokenList.length > 0) {
+                  tokenData = tokenList.find(
+                    ({ reference }) => reference === _preset_reference
+                  )
+                  //frequent token is hardcoded, in case the
+                  //tokenlist change and hardcoded data not found
+                  if (!tokenData) {
+                    return null
+                  }
+                  active = tokenData.reference === token
                 }
-                active = tokenData.reference === token
-              }
-              return (
-                <div
-                  onClick={() => setToken(active ? '' : tokenData.reference)}
-                  className={ListCx({ active }, 'frequent')}
-                  key={_preset_reference}
-                >
-                  {(cToken ? 'c' : '') + tokenData.reference_symbol}
-                </div>
-              )
-            })}
-          </div>
-        </>
-      )}
-      {!search && (
-        <div className={ListCx('list-title')}>
-          <span className={titleCx('title')}> {t('list')}</span>
-          <div className={ListCx('right')}>
-            <span className={ListCx('name')}> {t('Name')}</span>
-            <div className={ListCx('btns')}>
-              <Triangle
-                onClick={() => setSort('name')}
-                active={sort === 'name'}
-              ></Triangle>
-              <Triangle
-                active={sort === 'name-reverse'}
-                onClick={() => setSort('name-reverse')}
-                reverse={true}
-              ></Triangle>
+                return (
+                  <div
+                    onClick={() => setToken(active ? '' : tokenData.reference)}
+                    className={ListCx({ active }, 'frequent')}
+                    key={_preset_reference}
+                  >
+                    {(cToken ? 'c' : '') + tokenData.reference_symbol}
+                  </div>
+                )
+              })}
+            </div>
+          </>
+        )}
+        {!search && (
+          <div className={ListCx('list-title')}>
+            <span className={titleCx('title')}> {t('list')}</span>
+            <div className={ListCx('right')}>
+              <span className={ListCx('name')}> {t('Name')}</span>
+              <div className={ListCx('btns')}>
+                <Triangle
+                  onClick={() => setSort('name')}
+                  active={sort === 'name'}
+                ></Triangle>
+                <Triangle
+                  active={sort === 'name-reverse'}
+                  onClick={() => setSort('name-reverse')}
+                  reverse={true}
+                ></Triangle>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-
+        )}
+      </PaddingContainer>
       <div className={ListCx('container')}>
         {displayedList.length === 0 ? (
-          // <h1>Not found</h1>
           <img
             alt="not found"
             className={ListCx('not-found')}
@@ -167,7 +172,8 @@ function TokenList({
                   link = `${CONFLUXSCAN_TK}${ctoken}`
                 }
                 return (
-                  <div
+                  <PaddingContainer
+                    bottom={false}
                     key={i}
                     className={ListCx('row', { checked })}
                     onClick={() => setToken(checked ? '' : _address)}
@@ -231,7 +237,7 @@ function TokenList({
                         )}
                       </div>
                     </div>
-                  </div>
+                  </PaddingContainer>
                 )
               }
             )

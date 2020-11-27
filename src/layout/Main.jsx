@@ -24,12 +24,12 @@ function Main() {
     if (!address) {
       if (referer) {
         setPopup(true)
-        // tm = setTimeout(() => {
-        //   setPopup(false)
-        //   //reset referer so the popup can bring up again
-        //   setReferer(false)
-        //   login()
-        // }, 2000)
+        tm = setTimeout(() => {
+          setPopup(false)
+          //reset referer so the popup can bring up again
+          setReferer(false)
+          login()
+        }, 2000)
       }
       if (initLogin && !isInitLogin.current) {
         //prevent the login another time
@@ -40,7 +40,7 @@ function Main() {
     return () => {
       clearTimeout(tm)
     }
-  }, [address, referer, initLogin])
+  }, [address, referer, initLogin, login])
 
   const { t } = useTranslation()
   return (
@@ -91,7 +91,7 @@ function PopupWrapper({ setReferer, children }) {
     return () => {
       setReferer(true)
     }
-  }, [])
+  }, [setReferer])
   return children
 }
 

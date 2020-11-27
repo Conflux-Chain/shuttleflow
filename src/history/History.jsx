@@ -9,6 +9,7 @@ import notFound from '../component/not-found.png'
 import Histories from './Histories'
 import open from './down.svg'
 import { parseSearch } from '../component/urlSearch'
+import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 
 const FILTERS = [
   ['all', ['doing', 'finished']],
@@ -64,7 +65,7 @@ export default function History({ location: { search } }) {
                     })
                   }}
                   key={key}
-                  className={cx('select-item', 'hover', {
+                  className={cx('select-item', 'dropdown-item', 'hover', {
                     active: key === type,
                   })}
                 >
@@ -116,13 +117,15 @@ export default function History({ location: { search } }) {
         />
       </div>
       {loading ? null : (
-        <div className={cx('history-items')}>
-          {histories.length > 0 ? (
-            <Histories histories={histories} />
-          ) : (
-            <img className={cx('not-found')} alt="not found" src={notFound} />
-          )}
-        </div>
+        <PaddingContainer>
+          <div className={cx('history-items')}>
+            {histories.length > 0 ? (
+              <Histories histories={histories} />
+            ) : (
+              <img className={cx('not-found')} alt="not found" src={notFound} />
+            )}
+          </div>
+        </PaddingContainer>
       )}
     </div>
   )
