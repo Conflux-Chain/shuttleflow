@@ -1,0 +1,11 @@
+.container {
+  &.large {
+    padding: 0 2rem;
+  }
+}
+
+.bottom {
+  &.large {
+    padding-bottom: 2rem;
+  }
+}

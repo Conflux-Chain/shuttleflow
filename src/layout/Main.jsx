@@ -40,7 +40,7 @@ function Main() {
     return () => {
       clearTimeout(tm)
     }
-  }, [address, referer, initLogin])
+  }, [address, referer, initLogin, login])
 
   const { t } = useTranslation()
   return (
@@ -79,7 +79,9 @@ function Main() {
           }}
         />
       </Switch>
-      <Modal show={popup}>{t('login')}</Modal>
+      <Modal show={popup}>
+        <div style={{ whiteSpace: 'nowrap' }}>{t('login')}</div>
+      </Modal>
     </>
   )
 }
@@ -89,7 +91,7 @@ function PopupWrapper({ setReferer, children }) {
     return () => {
       setReferer(true)
     }
-  }, [])
+  }, [setReferer])
   return children
 }
 

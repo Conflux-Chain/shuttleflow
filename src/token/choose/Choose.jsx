@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { buildSearch, parseSearch } from '../../component/urlSearch'
+import PaddingContainer from '../../component/PaddingContainer/PaddingContainer'
 
 import TokenList from './TokenList'
 import Search from './Search'
@@ -27,8 +28,9 @@ export default function ChooseToken({
 
   return (
     <div className={chooseCx('container')}>
-      <Search searchTxt={searchTxt} setSearchTxt={setSearchTxt} />
-
+      <PaddingContainer bottom={false}>
+        <Search searchTxt={searchTxt} setSearchTxt={setSearchTxt} />
+      </PaddingContainer>
       <TokenList
         search={searchTxt}
         token={token}
@@ -42,17 +44,19 @@ export default function ChooseToken({
       />
 
       {!notFound && (
-        <Button
-          path={{
-            pathname: next,
-            search: buildSearch({ token, ...extra }),
-          }}
-          disabled={caption ? !token : !token && !isNotAvailable}
-        >
-          {caption
-            ? 'Be caption'
-            : t(isNotAvailable ? 'btn.add-token' : 'choose-btn')}
-        </Button>
+        <PaddingContainer>
+          <Button
+            path={{
+              pathname: next,
+              search: buildSearch({ token, ...extra }),
+            }}
+            disabled={caption ? !token : !token && !isNotAvailable}
+          >
+            {caption
+              ? 'Be caption'
+              : t(isNotAvailable ? 'btn.add-token' : 'choose-btn')}
+          </Button>
+        </PaddingContainer>
       )}
     </div>
   )

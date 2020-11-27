@@ -27,14 +27,14 @@
       //overflow:scroll somehow
       position: fixed;
       z-index: 1;
-      left: -2rem;
-      right: -2rem;
+      left: 0;
+      right: 0;
     }
     &.large {
       position: absolute;
       z-index: 1;
-      left: -2rem;
-      right: -2rem;
+      left: 0;
+      right: 0;
     }
 
     .select-item {
@@ -42,6 +42,7 @@
       justify-content: center;
       align-items: center;
       color: white;
+
       cursor: pointer;
 
       &.small {
@@ -62,6 +63,12 @@
     .hover:hover {
       background-color: rgba($color: #f2f6fd, $alpha: 0.1);
     }
+  }
+}
+
+.dropdown-item {
+  &:not(:last-child) {
+    border-bottom: solid 1px rgba($color: #ffffff, $alpha: 0.1);
   }
 }
 

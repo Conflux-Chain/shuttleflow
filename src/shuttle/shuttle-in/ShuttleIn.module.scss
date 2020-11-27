@@ -57,7 +57,7 @@
     font-size: 1.5rem;
     img {
       width: 2rem;
-      height: 2rem;
+      height: fit-content;
       margin-right: 1rem;
     }
   }
@@ -89,7 +89,7 @@
   }
   .code {
     &.large {
-      margin-top: 1rem;
+      margin-top: 1.25rem;
       margin-bottom: 2.25rem;
     }
   }

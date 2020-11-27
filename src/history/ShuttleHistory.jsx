@@ -1,7 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import useStyle from '../component/useStyle'
-import HistoryItem from './HistoryItem'
 import styles from './ShuttleHistory.module.scss'
 import rightArrow from './right-arrow.svg'
 import sync from './sync.svg'

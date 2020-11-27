@@ -15,6 +15,7 @@ import outActiveSvg from './i-out-active-64.png'
 import outSvg from './i-out-64.png'
 
 import MenuLink from '../component/MenuLink'
+import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import useStyle from '../component/useStyle'
 
 export default function Shuttle({ match: { path, url } }) {
@@ -60,11 +61,13 @@ export default function Shuttle({ match: { path, url } }) {
           }}
         />
       </nav>
-      <Switch>
-        <Redirect from={path} exact to={`${path}/in`} />
-        <Route path={`${path}/in`} component={ShuttleIn} />
-        <Route path={`${path}/out`} component={ShuttleOut} />
-      </Switch>
+      <PaddingContainer>
+        <Switch>
+          <Redirect from={path} exact to={`${path}/in`} />
+          <Route path={`${path}/in`} component={ShuttleIn} />
+          <Route path={`${path}/out`} component={ShuttleOut} />
+        </Switch>
+      </PaddingContainer>
     </>
   )
 }
