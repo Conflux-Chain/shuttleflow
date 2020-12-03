@@ -1,6 +1,6 @@
 .container {
   .row {
-    padding: 0 0.5rem;
+    // padding: 0 0.5rem;
     cursor: pointer;
     &.checked {
       background: rgba($color: #f2f6fd, $alpha: 0.1);
@@ -23,6 +23,7 @@
         margin-left: 0.5rem;
         margin-right: 1rem;
         width: 3rem;
+        border-radius: 1.5rem;
       }
       height: 6.25rem;
     }
@@ -177,5 +178,30 @@
     position: absolute;
     bottom: 0.1rem;
     right: 1rem;
+  }
+}
+
+.list-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .right {
+    display: flex;
+    margin-right: 8px;
+    .btns {
+      display: flex;
+      flex-direction: column;
+
+      &.large {
+        height: 1.875rem;
+        margin-left: 0.75rem;
+      }
+    }
+    .name {
+      color: white;
+      &.large {
+        font-size: 1.25rem;
+      }
+    }
   }
 }

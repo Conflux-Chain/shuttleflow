@@ -21,9 +21,9 @@ import shuttleStyle from '../Shuttle.module.scss'
 import shuttleInStyles from './ShuttleIn.module.scss'
 import useShuttleInAddress from '../../data/useShuttleInAddress'
 import useTokenList from '../../data/useTokenList'
+import TokenInput from '../TokenInput'
 
 import CTokenPopup from '../CTokenPopup'
-import Input from '../Input'
 
 export default function ShuttleIn({ location: { search }, match: { url } }) {
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
@@ -40,7 +40,6 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
   const { t } = useTranslation('shuttle-in')
 
   const shuttleInAddress = useShuttleInAddress(tokenInfo)
-
 
   const [addressPopup, setAddressPopup] = useState(false)
   const [cTokenPopup, setCTokenPopup] = useState(false)
@@ -59,28 +58,24 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
 
   return (
     <div className={shuttleInCx('container')}>
-      <Input
+      <TokenInput
         to={{
           pathname: '/token',
           search: `?next=${url}`,
         }}
         tokenInfo={tokenInfo}
-        defaultValue={tokenInfo?.reference_symbol}
         placeholder={t('placeholder.out')}
-        icon={tokenInfo?.icon}
       />
       <div className={shuttleCx('down')}>
         <img alt="down" src={down}></img>
       </div>
-      <Input
+      <TokenInput
         to={{
           pathname: '/token',
           search: `?next=${url}&cToken=1`,
         }}
         tokenInfo={tokenInfo}
-        defaultValue={tokenInfo?.symbol}
         placeholder={t('common:placeholder.in')}
-        icon={tokenInfo?.icon}
         cToken={() => setCTokenPopup(true)}
       />
 
@@ -119,7 +114,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             }
             placeholder={t('address-placeholder')}
           />
-          {tokenInfo && (
+          {shuttleInAddress && (
             <CopyToClipboard text={shuttleInAddress} onCopy={displayCopy}>
               <img alt="copy" className={shuttleInCx('copy')} src={copy}></img>
             </CopyToClipboard>
@@ -127,7 +122,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         </div>
       </div>
       {tokenInfo && (
-        <p className={shuttleCx('small-text')}>
+        <p style={{alignItems:'flex-start'}} className={shuttleCx('small-text')}>
           <span>
             <Trans
               t={t}

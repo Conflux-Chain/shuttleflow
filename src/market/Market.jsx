@@ -3,7 +3,9 @@ import useStyle from '../component/useStyle'
 import styles from './Market.module.scss'
 import shuttle from '../component/cIcon.svg'
 
-import Triangle from './Triangle.jsx'
+import Triangle from '../component/Triangle/Triangle.jsx'
+import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
+
 import { useTranslation } from 'react-i18next'
 import useTokenList from '../data/useTokenList'
 
@@ -28,7 +30,7 @@ function Market() {
   const { t } = useTranslation('market')
   const [sort, setSort] = useState('name')
   return (
-    <div>
+    <>
       <div className={cx('header')}>
         <div className={cx('item')}>
           <div>
@@ -72,33 +74,36 @@ function Market() {
           </div>
         </div>
       </div>
-      {tokens
-        .sort(sorts[sort])
-        .map(({ icon, symbol, reference_name, total_supply }) => {
-          return (
-            <div key={symbol} className={cx('list')}>
-              <div className={cx('left')}>
-                <div className={cx('img-container')}>
-                  <img alt="icon" className={cx('img')} src={icon}></img>
-                  <img
-                    alt="shuttle"
-                    className={cx('shuttle')}
-                    src={shuttle}
-                  ></img>
-                </div>
+      <PaddingContainer bottom={false}>
+        {tokens
+          .slice()
+          .sort(sorts[sort])
+          .map(({ icon, symbol, reference_name, total_supply }) => {
+            return (
+              <div key={symbol} className={cx('list')}>
+                <div className={cx('left')}>
+                  <div className={cx('img-container')}>
+                    <img alt="icon" className={cx('img')} src={icon}></img>
+                    <img
+                      alt="shuttle"
+                      className={cx('shuttle')}
+                      src={shuttle}
+                    ></img>
+                  </div>
 
-                <div className={cx('txt')}>
-                  <div className={cx('large-txt')}>{symbol}</div>
-                  <div className={cx('small-txt')}>
-                    {'conflux ' + reference_name}
+                  <div className={cx('txt')}>
+                    <div className={cx('large-txt')}>{symbol}</div>
+                    <div className={cx('small-txt')}>
+                      {'conflux ' + reference_name}
+                    </div>
                   </div>
                 </div>
+                <div className={cx('right')}>{total_supply}</div>
               </div>
-              <div className={cx('right')}>{total_supply}</div>
-            </div>
-          )
-        })}
-    </div>
+            )
+          })}
+      </PaddingContainer>
+    </>
   )
 }
 

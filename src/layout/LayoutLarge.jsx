@@ -155,12 +155,6 @@ export default function LayoutLarge({ history }) {
         autoHeight
         autoHeightMax={'calc(100vh - 10rem)'}
         autoHeightMin="30rem"
-        renderView={function renderView({ style, ...props }) {
-          const viewStyle = {
-            padding: '0 2rem 2rem',
-          }
-          return <div style={{ ...style, ...viewStyle }} {...props} />
-        }}
         renderThumbVertical={renderThumbVertical}
         style={{
           width: '544px',

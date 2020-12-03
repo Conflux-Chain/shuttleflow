@@ -1,5 +1,5 @@
 import React from 'react'
-import useStyle from '../component/useStyle'
+import useStyle from '../useStyle'
 import styles from './Triangle.module.scss'
 
 import up from './i-up-34.png'

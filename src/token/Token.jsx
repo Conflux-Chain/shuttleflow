@@ -11,6 +11,7 @@ import styles from './Token.module.scss'
 import MenuLink from '../component/MenuLink'
 import useIsSamll from '../component/useSmallScreen'
 import useStyle from '../component/useStyle'
+import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 
 export function TokenNavigation({ history, location: { search }, after }) {
   const [cx] = useStyle(styles)
@@ -21,16 +22,17 @@ export function TokenNavigation({ history, location: { search }, after }) {
   const url = '/token'
   const captionUrl = `${url}/caption`
   return (
-    <nav className={cx('nav-container')}>
-      <img
-        alt="back"
-        className={cx('back')}
-        src={back}
-        onClick={() => history.goBack()}
-      ></img>
-      <div className={cx('nav-tabs')}>
-        <div className={cx('item')}>{t('choose')}</div>
-        {/* <MenuLink
+    <PaddingContainer bottom={false}>
+      <nav className={cx('nav-container')}>
+        <img
+          alt="back"
+          className={cx('back')}
+          src={back}
+          onClick={() => history.goBack()}
+        ></img>
+        <div className={cx('nav-tabs')}>
+          <div className={cx('item')}>{t('choose')}</div>
+          {/* <MenuLink
           to={url}
           exact
           render={({ active }) => {
@@ -48,7 +50,7 @@ export function TokenNavigation({ history, location: { search }, after }) {
             )
           }}
         /> */}
-        {/* <MenuLink
+          {/* <MenuLink
           to={captionUrl}
           render={({ active }) => {
             return (
@@ -68,9 +70,10 @@ export function TokenNavigation({ history, location: { search }, after }) {
             )
           }}
         /> */}
-      </div>
-      {after}
-    </nav>
+        </div>
+        {after}
+      </nav>
+    </PaddingContainer>
   )
 }
 
