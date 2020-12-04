@@ -1,7 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import '../i18n/i18n'
-import { useConfluxPortal } from '@cfxjs/react-hooks'
 import LayoutLarge from './LayoutLarge'
 import LayoutSmall from './LayoutSmall'
 import useIsSamll from '../component/useSmallScreen'
@@ -10,9 +9,6 @@ import { RecoilRoot } from 'recoil'
 
 export default function App() {
   const isSmall = useIsSamll()
-
-  // const { useEnsurePortalLogin } = useConfluxPortal()
-  // useEnsurePortalLogin()
 
   return (
     <RecoilRoot>

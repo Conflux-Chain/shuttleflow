@@ -130,6 +130,10 @@
     margin-bottom: 4.17rem;
   }
 
+  &.large {
+    margin-bottom: -1rem;
+  }
+
   .active {
     background-color: #44d7b6 !important;
   }
@@ -151,6 +155,8 @@
       margin-bottom: 1rem;
       margin-right: 1.175rem;
     }
+
+    // &.large:not
 
     color: white;
     display: flex;
