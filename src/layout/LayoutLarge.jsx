@@ -162,19 +162,13 @@ export default function LayoutLarge({ history }) {
       </header>
       <Scrollbars
         autoHide
-        // autoHeight
-
-        // autoHeightMax={mainMaxHeight}
-        // autoHeightMin="30rem"
         renderThumbVertical={renderThumbVertical}
         style={{
           width: '544px',
           margin: 'auto',
           maxHeight: mainMaxHeight,
-          minHeight: mainMaxHeight * 0.7,
         }}
       >
-        {/* <div style={{ background: '#1b1b1b' }}> */}
         <Main />
       </Scrollbars>
     </>

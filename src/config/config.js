@@ -39,6 +39,6 @@ CONFLUXSCAN_TX = CONFLUXSCAN_URL + '/transaction/'
 CONFLUXSCAN_TK = CONFLUXSCAN_URL + '/token/'
 
 export const NETWORKS = {
-  main: 1029,
-  test: 1,
+  1: 'test',
+  1029: 'main',
 }

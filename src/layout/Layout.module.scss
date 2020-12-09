@@ -8,3 +8,31 @@
   background-color: rgba($color: #f3504f, $alpha: 0.2);
   border: 1px solid #f3504f;
 }
+
+.not-allow {
+  &.large {
+    img {
+      width: 21.25rem;
+      height: 15rem;
+      margin: auto;
+      display: block;
+    }
+  }
+  .title {
+    color: #333333;
+    font-weight: 700;
+    text-align: center;
+    &.large {
+      font-size: 2rem;
+      line-height: 3rem;
+      margin: 1.5rem 0;
+    }
+  }
+  .txt {
+    font-weight: 400;
+    color: #333333;
+    &.large {
+      font-size: 1rem;
+    }
+  }
+}
