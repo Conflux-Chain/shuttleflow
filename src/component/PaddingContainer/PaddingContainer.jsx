@@ -16,7 +16,10 @@ export default function PaddingContainer({
 }) {
   const [cx] = useStyle(styles)
   return (
-    <div {...props} className={className + ' ' + cx('container', { bottom })}>
+    <div
+      {...props}
+      className={(className || '') + ' ' + cx('container', { bottom })}
+    >
       {children}
     </div>
   )

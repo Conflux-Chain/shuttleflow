@@ -98,7 +98,7 @@ function PopupWrapper({ setReferer, children }) {
 function EnsureLogin({ children, setInitLogin }) {
   useEffect(() => {
     setInitLogin(true)
-  }, [])
+  }, [setInitLogin])
   return children
 }
 

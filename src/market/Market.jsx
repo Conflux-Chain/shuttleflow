@@ -8,6 +8,7 @@ import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 
 import { useTranslation } from 'react-i18next'
 import useTokenList from '../data/useTokenList'
+import MainContainer from '../component/MainContainer/MainContainer'
 
 const sorts = {
   name: (a, b) => {
@@ -30,7 +31,7 @@ function Market() {
   const { t } = useTranslation('market')
   const [sort, setSort] = useState('name')
   return (
-    <>
+    <MainContainer>
       <div className={cx('header')}>
         <div className={cx('item')}>
           <div>
@@ -103,7 +104,7 @@ function Market() {
             )
           })}
       </PaddingContainer>
-    </>
+    </MainContainer>
   )
 }
 

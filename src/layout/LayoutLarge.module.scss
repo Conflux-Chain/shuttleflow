@@ -1,7 +1,4 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
 }
 .header {
   display: flex;
@@ -12,6 +9,7 @@
   height: 5rem;
   color: white;
   background-color: rgba($color: #000000, $alpha: 0.6);
+  margin-bottom: 2.5rem;
   .logo {
     max-height: 2.5rem;
     margin-left: 3.5rem;

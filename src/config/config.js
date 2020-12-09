@@ -1,3 +1,13 @@
+//dev has two different(confusing) meaning here
+//1) The testnet is connected
+//2) The website is internal and test only
+//the two meaning is not related by nature and the
+//relation will break when the testnet is stable
+export const IS_DEV =
+  ['localhost', 'shuttleflowtest.confluxnetwork.org'].indexOf(
+    window.location.hostname
+  ) > -1
+
 let CONFLUXSCAN_URL
 export let EHTHERSCAN_URL,
   EHTHERSCAN_TX,
@@ -9,11 +19,7 @@ export let EHTHERSCAN_URL,
   SPONSOR_URL = '/rpcsponsor'
 
 //dev
-if (
-  ['localhost', 'shuttleflowtest.confluxnetwork.org'].indexOf(
-    window.location.hostname
-  ) > -1
-) {
+if (IS_DEV) {
   EHTHERSCAN_URL = 'https://rinkeby.etherscan.io'
   CONFLUXSCAN_URL = 'http://testnet.confluxscan.io'
   CUSTODIAN_CONTRACT_ADDR = '0x8248210d7d45791607afb09fe4309c557202faf7'
@@ -31,3 +37,8 @@ EHTHERSCAN_TK = EHTHERSCAN_URL + '/token/'
 
 CONFLUXSCAN_TX = CONFLUXSCAN_URL + '/transaction/'
 CONFLUXSCAN_TK = CONFLUXSCAN_URL + '/token/'
+
+export const NETWORKS = {
+  main: 1029,
+  test: 1,
+}
