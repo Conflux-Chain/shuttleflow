@@ -4,9 +4,8 @@
 //the two meaning is not related by nature and the
 //relation will break when the testnet is stable
 export const IS_DEV =
-  ['localhost', 'shuttleflowtest.confluxnetwork.org'].indexOf(
-    window.location.hostname
-  ) > -1
+  window.location.hostname === 'localhost' ||
+  window.location.hostname.indexOf('test') > -1
 
 let CONFLUXSCAN_URL
 export let EHTHERSCAN_URL,

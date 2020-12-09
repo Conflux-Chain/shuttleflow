@@ -22,13 +22,9 @@ export default function App() {
   useEffect(() => {
     return subscribeNetwork((chainId) => {
       const network = NETWORKS[parseInt(chainId)]
-      console.log('======', network, chainId)
-      if ((network === 'test' && !IS_DEV) || (network === 'main' && IS_DEV)) {
-        console.log('wrong')
-        setBlock(true)
-      } else {
-        setBlock(false)
-      }
+      setBlock(
+        (network === 'test' && !IS_DEV) || (network === 'main' && IS_DEV)
+      )
     })
   }, [])
 
