@@ -10,6 +10,7 @@ import Histories from './Histories'
 import open from './down.svg'
 import { parseSearch } from '../component/urlSearch'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
+import MainContainer from '../component/MainContainer/MainContainer'
 
 const FILTERS = [
   ['all', ['doing', 'finished']],
@@ -31,8 +32,8 @@ export default function History({ location: { search } }) {
     type,
   })
   return (
-    <div className={cx('history-container')}>
-      <div className={cx('select')}>
+    <MainContainer className={cx('history-container')}>
+      <MainContainer className={cx('select')}>
         <Accordion
           expanded={typeExpanded}
           contentStyle={{ position: 'absolute', left: 0, right: 0 }}
@@ -115,7 +116,7 @@ export default function History({ location: { search } }) {
             </div>
           }
         />
-      </div>
+      </MainContainer>
       {loading ? null : (
         <PaddingContainer>
           <div className={cx('history-items')}>
@@ -127,6 +128,6 @@ export default function History({ location: { search } }) {
           </div>
         </PaddingContainer>
       )}
-    </div>
+    </MainContainer>
   )
 }

@@ -15,7 +15,10 @@
   "error": {
     "above-zero": "The value must be greater than or equal to 0",
     "number": "Input must be a number",
-    "required": "This is required"
+    "required": "This is required",
+    "block": "Error",
+    "switch-test": "Unsupported network, please change it in the wallet: Conflux Test Network",
+    "switch-main": "Unsupported network, please change it in the wallet: Conflux Tethys"
   },
   "btc": "BTC",
   "eth": "Ethereum"

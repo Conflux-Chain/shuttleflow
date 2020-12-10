@@ -25,6 +25,7 @@ export default function ChooseToken({
   const [token, setToken] = useState('')
   const [notFound, setNotFound] = useState(false)
   const { t } = useTranslation(['token'])
+  
 
   return (
     <div className={chooseCx('container')}>

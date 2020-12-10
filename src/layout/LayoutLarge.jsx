@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import Main from './Main'
 import logo from './logo.png'
@@ -19,13 +19,23 @@ const cx = classNamesBind.bind(styles)
 export default function LayoutLarge({ history }) {
   const [expandLng, setExpandLng] = useState(false)
   const { t, i18n } = useTranslation()
+  const headerRef = useRef(null)
+  const [mainMaxHeight, setMainMaxHeight] = useState(0)
   const clickAway = useCallback(() => {
     setExpandLng(false)
   }, [])
 
+  useEffect(() => {
+    const { bottom } = headerRef.current.getBoundingClientRect()
+    let { marginBottom } = getComputedStyle(headerRef.current)
+    marginBottom = parseFloat(marginBottom.replace('px', ''))
+    const { innerHeight } = window
+    setMainMaxHeight(innerHeight - bottom - marginBottom - 20)
+  }, [])
+
   return (
-    <div className={cx('container')}>
-      <header className={cx('header')}>
+    <>
+      <header ref={headerRef} className={cx('header')}>
         <img
           className={cx('logo')}
           alt="home"
@@ -152,20 +162,15 @@ export default function LayoutLarge({ history }) {
       </header>
       <Scrollbars
         autoHide
-        autoHeight
-        autoHeightMax={'calc(100vh - 10rem)'}
-        autoHeightMin="30rem"
         renderThumbVertical={renderThumbVertical}
         style={{
           width: '544px',
           margin: 'auto',
-          marginTop: '2.5rem',
-          borderRadius: '0.5rem',
-          backgroundColor: '#1b1b1b',
+          maxHeight: mainMaxHeight,
         }}
       >
         <Main />
       </Scrollbars>
-    </div>
+    </>
   )
 }

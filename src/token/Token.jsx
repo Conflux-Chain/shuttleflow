@@ -12,6 +12,7 @@ import MenuLink from '../component/MenuLink'
 import useIsSamll from '../component/useSmallScreen'
 import useStyle from '../component/useStyle'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
+import MainContainer from '../component/MainContainer/MainContainer.jsx'
 
 export function TokenNavigation({ history, location: { search }, after }) {
   const [cx] = useStyle(styles)
@@ -81,17 +82,17 @@ function Token(props) {
   const {
     match: { path },
   } = props
-
+  const [cx] = useStyle(styles)
   const isSmall = useIsSamll()
   return (
-    <div>
+    <MainContainer className={cx('container')}>
       {/* promote the navigation to top level is samll screen */}
       {!isSmall && <TokenNavigation {...props} />}
       <Switch>
         <Route exact path={path} component={Choose} />
         <Route path={`${path}/caption`} component={Caption} />
       </Switch>
-    </div>
+    </MainContainer>
   )
 }
 
