@@ -24,17 +24,15 @@
 </p>
 <h4>Returns</h4>
 <h4>Example</h4>
-<pre><code class="lang-bash">// finished:
-
-$ curl -X POST --data '{"jsonrpc":"2.0","method":"getSpecificUserOperationList","params":[{"type":"mint","token":"eth","defi":"0x0000000000000000000000000000000000000000","address":"0x135d73d6ce217f8fe255f98e1589158972d8adc3","status":["doing","finished"]},0,10],"id":1}' -H "Content-Type: application/json" 127.0.0.1:8001
+<pre><code class="lang-bash">$ curl -X POST --data '{"jsonrpc":"2.0","method":"getSpecificUserOperationList","params":[{"type":"mint","token":"eth","defi":"0x0000000000000000000000000000000000000000","address":"0x1f04dcc0432b2df7ce604f0ad4736cadf5ed04ea","status":["doing","finished"]},0,10],"id":1}' -H "Content-Type: application/json" https://dev.shuttleflow.io
 
 {
     "jsonrpc": "2.0",
     "id": 1,
     "result": {
         "txs": [{
-            "token": "eth", 
-            "type": "cETH_mint", 
+            "token": "eth",
+            "type": "cETH_mint",
             "nonce_or_txid": "0xf5fd4b2936d18395c4c6c1f282cef725c22770edf79029bbda97ee8d623222c2",
             "amount": "490000000000000000", 
             "user_addr": "0x135d73d6ce217f8fe255f98e1589158972d8adc3",
@@ -105,65 +103,7 @@ $ curl -X POST --data '{"jsonrpc":"2.0","method":"getSpecificUserOperationList",
         }],
         "total": 7
     }
-}
-
-// doing:
-
-$ curl -X POST --data '{"jsonrpc":"2.0","method":"getSpecificUserOperationList","params":[{"type":"mint","token":"0xe3e9ef570e9019cdce1aff76f3afb1fd8292556d","defi":"0x0000000000000000000000000000000000000000","address":"0x1a7b9a2238635d40536c12900ed637e739e6eb35","status":["doing"]},0,10],"id":1}' -H "Content-Type: application/json" 127.0.0.1:8001
-
-{
-    "jsonrpc": "2.0",
-    "id": 1,
-    "result": {
-        "txs": [{
-            "token": "0xe3e9ef570e9019cdce1aff76f3afb1fd8292556d",
-            "type": "cUSDT_mint",
-            "nonce_or_txid": "0x29015708e604e25ca2b27dcb3c62a528bdc222232fda13cab3992eafb235afc0",
-            "amount": "99000000",
-            "user_addr": "0x1a7b9a2238635d40536c12900ed637e739e6eb35",
-            "defi": "0x0000000000000000000000000000000000000000",
-            "to_addr": "0x1a7b9a2238635d40536c12900ed637e739e6eb35",
-            "signer": ["ppd", "fafa"],
-            "has_signed": true, 
-            "need": 2, 
-            "need_signers": ["fafa", "ppd"],
-            "status": "doing", 
-            "settled_tx": "0xf8e61e24590bed3f08b2b57a67bb45c2e12d0ebc029d6b95ebd6fb1f382cb145"
-        }],
-        "total": 1
-    }
 }</code></pre>
-<p>Explanation: 
-
-</p>
-<p>common fields for all operation status:
-
-</p>
-<p><code>status</code>: "confirming" (wait eth/btc/cfx confirmation) | "doing" (custodian signing &amp; settle on chain) | "finished"
-
-</p>
-<p><code>user_addr</code>: user conflux address
-
-</p>
-<p><code>to_addr</code>: user conflux address (for mint), or user bit/eth address (for burn)
-
-</p>
-<p><code>settled_tx</code>: transaction sent by custodian alliance to process user operation. If this field is not empty, it denotes that 
-the user operation is settled on chain and waiting for confirmation.
-
-</p>
-<p>special status for <code>confirming</code> and <code>doing</code> status:
-
-</p>
-<p><code>signer</code>: list of custodian members who already signed
-
-</p>
-<p><code>need</code>: total number of signatures
-
-</p>
-<p><code>has_signed</code>: Don't use this field to determine operation status! This field denotes whether the custodian member hosting the rpc node has signed the operation or not.
-
-</p>
 <h3>getUserReceiveWalletEth</h3>
 <p>Get user eth receive wallet.
 </p>
@@ -221,11 +161,9 @@ the user operation is settled on chain and waiting for confirmation.
 <p>List of Objects:
 </p>
 <pre><code class="lang-bash">{
-    "reference": (String) "eth" | "btc" | lowercase erc20 address
-    "reference_name": (String) erc20 name (none for btc/eth)
-    "reference_symbol": (String) erc20 symbol (none for btc/eth)
-    "reference_name": (String) erc20 name
-    "reference_symbol": (String) erc20 symbol
+    "reference": (String) "eth" | "btc" | lowercase erc20 address,
+    "reference_name": (String) ERC20 name / eth / btc
+    "reference_symbol": (String) ERC20 symbol / eth / btc
     "burn_fee": (String) fee set by token sponsor(captain), taken from user when burn cToken
     "mint_fee": (String) fee set by token sponsor(captain), taken from user when mint cToken
     "wallet_fee": (String) fee set by token sponsor(captain), taken from user when mint cToken, for the deployment of receive wallet
@@ -237,37 +175,42 @@ the user operation is settled on chain and waiting for confirmation.
     "sponsor_value": (String) amount of mortgaged cETH of current token sponsor
     "ctoken": (String) contract address of cToken
     "is_admin": (bool) is admin token or not, admin token's sponsor can only be custodian alliance whitelist admin, normal user is unable to replace it.
-    "icon": (?) token icon
+    "icon": (String) url of token icon,
+    "in_token_list": (bool) is in online token list or not (Coin gecko)
+    "supported": (bool) is supported by shuttleflow already or not
 }</code></pre>
 <h3>searchToken</h3>
-<p>Get token erc20 information, along with cToken information if it is supported by shuttleflow already.
+<p>Search an erc20.
 
 </p>
 <h4>Parameters</h4>
-<p>(String) "btc" | "eth" | "erc20"
+<p>(String) ERC20 token address
+
 </p>
 <h4>Returns</h4>
-<p>Object:
-</p>
 <pre><code class="lang-bash">{
-    "reference": (String) "eth" | "btc" | lowercase erc20 address
-    "reference_name": (String) erc20 name (none for btc/eth)
-    "reference_symbol": (String) erc20 symbol (none for btc/eth)
-    "icon": (?) token icon
-    "supported": (bool) supported by shuttleflow or not
-    // with below if reference token is supported already
-    "burn_fee": (String) fee set by token sponsor(captain), taken from user when burn cToken
-    "mint_fee": (String) fee set by token sponsor(captain), taken from user when mint cToken
-    "wallet_fee": (String) fee set by token sponsor(captain), taken from user when mint cToken, for the deployment of receive wallet
-    "minimal_mint_value": (String), set by token sponsor, minimal acceptable mint value
-    "minimal_burn_value": (String), set by token sponsor, minimal acceptable burn value
-    "symbol": (String) symbol of cToken, e.g. "cBTC", "cETH", "cUSDT", can be duplicated
-    "decimals": (Number), decimals of reference, e.g. for btc is 8, for eth is 18, for usdt is 6
-    "sponsor": (String), conflux address of current token sponsor
-    "sponsor_value": (String) amount of mortgaged cETH of current token sponsor
-    "ctoken": (String) contract address of cToken
-    "is_admin": (bool) is admin token or not, admin token's sponsor can only be custodian alliance whitelist admin, normal user is unable to replace it.
+    "is_valid_erc20": (bool) is it a valid erc20 that can be supported by shuttleflow
+    // if is_valid_erc20 is true, then the object will contain the items below
+    "reference": (String) ERC20 address,
+    "reference_name": (String) ERC20 name,
+    "reference_symbol": (String) ERC20 symbol,
+    "icon": (String) url of token icon,
+    "in_token_list": (bool) is in online token list or not (Coin gecko)
+    "supported": (bool) is supported by shuttleflow already or not
 }</code></pre>
+<h3>getEthNonce</h3>
+<p>Get the nonce of an eth address
+
+</p>
+<h4>Parameters</h4>
+<p>(String) eth address
+
+</p>
+<h4>Returns</h4>
+<p>(Number) the nonce of eth address
+
+
+</p>
 <h2>Smart Contracts</h2>
 <h3>cToken contract</h3>
 <p><a href="https://github.com/Conflux-Dev/custodian/blob/master/contracts/token/TokenBase.sol">https://github.com/Conflux-Dev/custodian/blob/master/contracts/token/TokenBase.sol</a>
@@ -469,6 +412,5 @@ The token parameters of <code>ref</code> will also be replaced by the parameters
 
 </p>
 <p>This function helps the sponsor of token <code>ref</code> to change the token parameters if the token is not in cooldown.
-Edit By <a href="http://mahua.jser.me">MaHua</a>
 Edit By <a href="http://mahua.jser.me">MaHua</a></p>
 </body></html>
