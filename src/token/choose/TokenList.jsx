@@ -80,7 +80,7 @@ function TokenList({
       autoHide
       renderThumbVertical={renderThumbVertical}
       style={{
-        height: 'calc(100vh - 27rem)',
+        flex: 1,
         position: 'relative',
       }}
     >

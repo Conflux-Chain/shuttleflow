@@ -49,6 +49,6 @@ export default function useTokenList(search, { isReference } = {}) {
       .then((tokens) => {
         setState({ tokens, isLoading: false })
       })
-  }, [search, setState])
+  }, [search, setState, isReference])
   return state
 }
