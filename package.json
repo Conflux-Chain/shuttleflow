@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@cfxjs/react-hooks": "^0.2.1",
+    "@cfxjs/react-ui": "^1.1.0",
     "@hookform/error-message": "^0.0.4",
     "@hookform/resolvers": "^0.1.1",
     "big.js": "^6.0.1",
@@ -21,6 +22,7 @@
     "react-router-dom": "^5.2.0",
     "react-transition-group": "^4.4.1",
     "recoil": "^0.0.13",
+    "styled-components": "^5.2.1",
     "yup": "^0.29.3"
   },
   "scripts": {

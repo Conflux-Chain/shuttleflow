@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next'
 import back from './back.png'
 
 import styles from './Token.module.scss'
-import MenuLink from '../component/MenuLink'
 import useIsSamll from '../component/useSmallScreen'
 import useStyle from '../component/useStyle'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
@@ -17,11 +16,6 @@ import MainContainer from '../component/MainContainer/MainContainer.jsx'
 export function TokenNavigation({ history, location: { search }, after }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['token'])
-  //we hard code the token url here because it not bound
-  //to parrent route url, i.e. it will present in either
-  //top level or nested level
-  const url = '/token'
-  const captionUrl = `${url}/caption`
   return (
     <PaddingContainer bottom={false}>
       <nav className={cx('nav-container')}>
@@ -33,44 +27,6 @@ export function TokenNavigation({ history, location: { search }, after }) {
         ></img>
         <div className={cx('nav-tabs')}>
           <div className={cx('item')}>{t('choose')}</div>
-          {/* <MenuLink
-          to={url}
-          exact
-          render={({ active }) => {
-            return (
-              <div className={cx('item', { active })}>
-                <Link
-                  to={{
-                    pathname: url,
-                    search: search,
-                  }}
-                >
-                  {t('btn.choose-token')}
-                </Link>
-              </div>
-            )
-          }}
-        /> */}
-          {/* <MenuLink
-          to={captionUrl}
-          render={({ active }) => {
-            return (
-              <div
-                style={{ display: 'none' }}
-                className={cx('item', { active })}
-              >
-                <Link
-                  to={{
-                    pathname: captionUrl,
-                    search: search,
-                  }}
-                >
-                  {t('btn.token-caption')}
-                </Link>
-              </div>
-            )
-          }}
-        /> */}
         </div>
         {after}
       </nav>
