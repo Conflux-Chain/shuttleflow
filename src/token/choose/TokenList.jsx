@@ -116,8 +116,8 @@ function TokenList({
           </>
         )}
         {!search && (
-          <div className={ListCx('list-title')}>
-            <span className={titleCx('title')}> {t('list')}</span>
+          <div className={ListCx('list-title') + ' ' + titleCx('title')}>
+            <span>{t('list')}</span>
             <div className={ListCx('right')}>
               <span className={ListCx('name')}> {t('Name')}</span>
               <div className={ListCx('btns')}>
