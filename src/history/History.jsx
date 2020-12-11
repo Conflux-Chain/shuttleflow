@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom'
 import notFound from '../component/not-found.png'
 import Histories from './Histories'
 import open from './down.svg'
+import { Loading } from '@cfxjs/react-ui'
 import { parseSearch } from '../component/urlSearch'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
@@ -117,7 +118,11 @@ export default function History({ location: { search } }) {
           }
         />
       </MainContainer>
-      {loading ? null : (
+      {loading ? (
+        <div className={cx('loading')}>
+          <Loading size="large" />
+        </div>
+      ) : (
         <PaddingContainer>
           <div className={cx('history-items')}>
             {histories.length > 0 ? (
