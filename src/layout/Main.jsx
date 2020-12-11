@@ -26,7 +26,6 @@ function Main() {
   const initLoginTriggered = useRef(false)
 
   useEffect(() => {
-    console.log({ referer, popup })
     if (!address) {
       if (referer && !popup) {
         dispatch({ popup: true })
