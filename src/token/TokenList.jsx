@@ -1,20 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react'
-import useStyle from '../../component/useStyle'
+import useStyle from '../component/useStyle'
 
-import linkSrc from '../../component/link-64.png'
-import notFoundSrc from '../../component/not-found.png'
+import linkSrc from '../component/link-64.png'
+import notFoundSrc from '../component/not-found.png'
 import tokenListStyles from './TokenList.module.scss'
-import Triangle from '../../component/Triangle/Triangle.jsx'
+import Triangle from '../component/Triangle/Triangle.jsx'
 import titleStyles from './title.module.scss'
 import Check from './Check.jsx'
 import { useTranslation } from 'react-i18next'
-import formatAddress from '../../component/formatAddress'
-import useTokenList from '../../data/useTokenList'
+import formatAddress from '../component/formatAddress'
+import useTokenList from '../data/useTokenList'
 import { Scrollbars } from 'react-custom-scrollbars'
-import renderThumbVertical from '../../component/renderThumbVertical'
-import PaddingContainer from '../../component/PaddingContainer/PaddingContainer'
-import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../../config/config'
-import Icon from '../../component/Icon/Icon'
+import renderThumbVertical from '../component/renderThumbVertical'
+import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
+import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../config/config'
+import Icon from '../component/Icon/Icon'
+import { Loading } from '@cfxjs/react-ui'
 
 const FREQUENT_TOKENS = [
   'btc',
@@ -43,10 +44,11 @@ function TokenList({
   setNotFound,
   setIsNotAvailable, //if the corresponsing cToken available
 }) {
-  const { tokens: tokenList, isLoading: isListLoading } = useTokenList()
-  const { tokens: displayedList, isLoading: isDisplayedLoading } = useTokenList(
-    search
-  )
+  const { tokens: tokenList, isLoading: isListLoading } = useTokenList({})
+  const {
+    tokens: displayedList,
+    isLoading: isDisplayedLoading,
+  } = useTokenList({ search, cToken })
 
   const { t } = useTranslation(['token'])
   const [ListCx, titleCx] = useStyle(tokenListStyles, titleStyles)
@@ -68,7 +70,7 @@ function TokenList({
   if (isListLoading || isDisplayedLoading) {
     return (
       <PaddingContainer bottom={false}>
-        <h1>......</h1>
+        <Loading size="large" />
       </PaddingContainer>
     )
   }
@@ -149,16 +151,18 @@ function TokenList({
             .map(
               (
                 {
+                  supported,
+                  in_token_list,
                   reference_symbol,
                   reference_name,
                   reference,
                   ctoken,
-                  notAvailable,
                   sponsor_value,
                   icon,
                 },
                 i
               ) => {
+                const notAvailable = supported === 0
                 if (notAvailable) {
                   isNotAvailable.current = true
                 }
@@ -181,6 +185,7 @@ function TokenList({
                     <div className={ListCx('left')}>
                       <Check active={checked} />
                       <Icon
+                        risk={in_token_list === 0}
                         src={icon}
                         conflux={cToken}
                         style={{ marginLeft: '0.5rem', marginRight: '1rem' }}
@@ -193,7 +198,7 @@ function TokenList({
 
                           {notAvailable && (
                             <span className={ListCx('not-available')}>
-                              {t('txt.not-available')}
+                              {t('not-available')}
                             </span>
                           )}
                         </div>

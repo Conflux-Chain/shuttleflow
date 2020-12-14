@@ -1,8 +1,7 @@
-import React from 'react'
 import { useHistory } from 'react-router-dom'
 
-import commonButtonStyle from '../../component/button.module.scss'
-import useStyle from '../../component/useStyle'
+import commonButtonStyle from '../component/button.module.scss'
+import useStyle from '../component/useStyle'
 import buttonStyles from './Button.module.scss'
 
 

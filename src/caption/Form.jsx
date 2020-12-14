@@ -14,6 +14,7 @@ import profile from './profile.svg'
 import useTokenList from '../data/useTokenList'
 import MainContainer from '../component/MainContainer/MainContainer'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
+import Icon from '../component/Icon/Icon'
 
 const __mock_balance = 10000
 export default function CaptionForm({ token }) {
@@ -24,7 +25,7 @@ export default function CaptionForm({ token }) {
     formStyles
   )
 
-  const { tokens } = useTokenList(token, { isReference: true })
+  const { tokens } = useTokenList({ search: token, isReference: true })
   console.log(tokens)
   const tokenInfo = tokens && tokens.length > 0 ? tokens[0] : {}
 
@@ -264,7 +265,7 @@ export default function CaptionForm({ token }) {
       <>
         <div className={formCx('first-container')}>
           <div className={formCx('left')}>
-            <img className={formCx('icon')} alt="logo" src={icon}></img>
+            <Icon src={icon} style={{ marginRight: '1rem' }} />
             <div className={formCx('left-text')}>
               <div className={formCx('large-text')}>{symbol}</div>
               <div className={formCx('small-text')}>{name}</div>

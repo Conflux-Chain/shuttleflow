@@ -2,7 +2,7 @@ import { Big } from 'big.js'
 
 //the returned value can be inaccurate, for display purpose only
 export default function formatNum(value, decimal) {
-  return parseFloat(parseNum(value, decimal).toFixed(6))
+  return value ? parseFloat(parseNum(value, decimal).toFixed(6)) : ''
 }
 
 export function parseNum(value, decimal) {

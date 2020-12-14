@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { buildSearch, parseSearch } from '../../component/urlSearch'
-import PaddingContainer from '../../component/PaddingContainer/PaddingContainer'
+import { buildSearch, parseSearch } from '../component/urlSearch'
+import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 
 import TokenList from './TokenList'
 import Search from './Search'
 import Button from './Button'
 
-import useStyle from '../../component/useStyle'
+import useStyle from '../component/useStyle'
 import chooseStyles from './Choose.module.scss'
 
 export default function ChooseToken({

@@ -16,7 +16,7 @@ module.exports = function (app) {
   app.use(
     '/rpcsponsor',
     createProxyMiddleware({
-      target: 'http://23.102.224.244:8018',
+      target: 'http://52.141.21.174:8019',
       changeOrigin: true,
       pathRewrite: {
         '/rpcsponsor': '',

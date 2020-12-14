@@ -18,13 +18,23 @@ import MenuLink from '../component/MenuLink'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
+import useTokenList from '../data/useTokenList'
 
-export default function Shuttle({ match: { path, url } }) {
+export default function Shuttle({
+  location: { search },
+  match: { path, url },
+}) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['nav'])
   const inUrl = `${url}/in`
   const outUrl = `${url}/out`
   const [, setLayoutBottom] = useRecoilState(layoutBottomState)
+
+  const urlToken = new URLSearchParams(search).get('token')
+  const { tokens } = useTokenList({ reference: urlToken || '' })
+
+  //display tokenInfo only when token is url available
+  const tokenInfo = urlToken && tokens ? tokens[0] : null
 
   useEffect(() => {
     setLayoutBottom('8.5rem')
@@ -65,8 +75,23 @@ export default function Shuttle({ match: { path, url } }) {
       <PaddingContainer bottom>
         <Switch>
           <Redirect from={path} exact to={`${path}/in`} />
-          <Route path={`${path}/in`} component={ShuttleIn} />
-          <Route path={`${path}/out`} component={ShuttleOut} />
+          <Route
+            path={`${path}/in`}
+            render={(props) => (
+              <ShuttleIn tokenInfo={tokenInfo} next={props.match.url} />
+            )}
+          />
+          <Route
+            path={`${path}/out`}
+            render={(props) => (
+              <ShuttleOut
+                {...props}
+                tokenInfo={tokenInfo}
+                next={props.match.url}
+              />
+            )}
+            // component={ShuttleOut}
+          />
         </Switch>
       </PaddingContainer>
     </MainContainer>

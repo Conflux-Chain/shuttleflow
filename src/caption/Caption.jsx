@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
-import Choose from '../token/choose/Choose'
+import Choose from '../token/Choose'
 import styles from './Caption.module.scss'
 import CaptionForm from './Form'
 

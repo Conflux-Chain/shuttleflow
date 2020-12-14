@@ -20,25 +20,18 @@ import commonInputStyles from '../../component/input.module.scss'
 import shuttleStyle from '../Shuttle.module.scss'
 import shuttleInStyles from './ShuttleIn.module.scss'
 import useShuttleInAddress from '../../data/useShuttleInAddress'
-import useTokenList from '../../data/useTokenList'
 import TokenInput from '../TokenInput'
 
 import CTokenPopup from '../CTokenPopup'
 
-export default function ShuttleIn({ location: { search }, match: { url } }) {
+export default function ShuttleIn({ tokenInfo, next }) {
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
     commonInputStyles,
     shuttleStyle,
     shuttleInStyles,
     modalStyles
   )
-  const urlToken = new URLSearchParams(search).get('token')
-  const { tokens } = useTokenList(urlToken, { isReference: true })
-
-  //display tokenInfo only when token is url available
-  const tokenInfo = urlToken && tokens ? tokens[0] : null
   const { t } = useTranslation('shuttle-in')
-
   const shuttleInAddress = useShuttleInAddress(tokenInfo)
 
   const [addressPopup, setAddressPopup] = useState(false)
@@ -61,7 +54,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       <TokenInput
         to={{
           pathname: '/token',
-          search: `?next=${url}`,
+          search: `?next=${next}`,
         }}
         tokenInfo={tokenInfo}
         placeholder={t('placeholder.out')}
@@ -72,7 +65,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       <TokenInput
         to={{
           pathname: '/token',
-          search: `?next=${url}&cToken=1`,
+          search: `?next=${next}&cToken=1`,
         }}
         tokenInfo={tokenInfo}
         placeholder={t('common:placeholder.in')}
@@ -122,7 +115,10 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         </div>
       </div>
       {tokenInfo && (
-        <p style={{alignItems:'flex-start'}} className={shuttleCx('small-text')}>
+        <p
+          style={{ alignItems: 'flex-start' }}
+          className={shuttleCx('small-text')}
+        >
           <span>
             <Trans
               t={t}

@@ -28,7 +28,7 @@ const sorts = {
 }
 
 export default function Market() {
-  const { tokens } = useTokenList()
+  const { tokens } = useTokenList({})
   const [cx] = useStyle(styles)
   const { t } = useTranslation('market')
   const [sort, setSort] = useState('name')
