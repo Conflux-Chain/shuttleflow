@@ -123,7 +123,7 @@ export default function History({ location: { search } }) {
           <Loading size="large" />
         </div>
       ) : (
-        <PaddingContainer>
+        <PaddingContainer bottom>
           <div className={cx('history-items')}>
             {histories.length > 0 ? (
               <Histories histories={histories} />

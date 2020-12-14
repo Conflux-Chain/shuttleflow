@@ -62,7 +62,7 @@ export default function Shuttle({ match: { path, url } }) {
           }}
         />
       </nav>
-      <PaddingContainer>
+      <PaddingContainer bottom>
         <Switch>
           <Redirect from={path} exact to={`${path}/in`} />
           <Route path={`${path}/in`} component={ShuttleIn} />

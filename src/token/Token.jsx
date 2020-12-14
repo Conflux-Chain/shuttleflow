@@ -17,7 +17,7 @@ export function TokenNavigation({ history, location: { search }, after }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['token'])
   return (
-    <PaddingContainer bottom={false}>
+    <PaddingContainer>
       <nav className={cx('nav-container')}>
         <img
           alt="back"

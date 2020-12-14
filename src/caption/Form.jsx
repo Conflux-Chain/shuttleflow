@@ -12,6 +12,8 @@ import { ErrorMessage } from '@hookform/error-message'
 
 import profile from './profile.svg'
 import useTokenList from '../data/useTokenList'
+import MainContainer from '../component/MainContainer/MainContainer'
+import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 
 const __mock_balance = 10000
 export default function CaptionForm({ token }) {
@@ -21,29 +23,27 @@ export default function CaptionForm({ token }) {
     buttonStyles,
     formStyles
   )
+
   const { tokens } = useTokenList(token, { isReference: true })
-  const tokenInfo = tokens ? tokens[0] : null
+  console.log(tokens)
+  const tokenInfo = tokens && tokens.length > 0 ? tokens[0] : {}
+
+  //we do not need to call the contract if we know the token is not available
+  const { data: captionInfo = {} } = useSWR(
+    true ? ['/caption', 'caption_unlocked_me'] : null,
+    function () {
+      return Promise.resolve({})
+    }
+  )
+
+  // if (!tokenInfo) {
+  //   return null
+  // }
 
   // const { data: tokenInfo } = useSWR(['/address', token], swrSearchTokenFetcher, { suspense: true })
   //cAddress 判定跨链与否
-  const {
-    outFee,
-    icon,
-    symbol,
-    cSymbol,
-    name,
-    minMortgage,
-    cAddress,
-  } = tokenInfo
+  const { icon, symbol, cSymbol, name, minMortgage, cAddress } = tokenInfo
 
-  //we do not need to call the contract if we know the token is not available
-  const { data: captionInfo } = useSWR(
-    cAddress ? ['/caption', 'caption_unlocked_me'] : null,
-    function(){
-      return Promise.resolve({})
-    },
-    { suspense: true }
-  )
   const { countdown, caption, pending_mount, pending_cost } = captionInfo || {
     countdown: 0,
     caption: '--',
@@ -158,63 +158,71 @@ export default function CaptionForm({ token }) {
   ]
 
   return (
-    <div>
-      <Head />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {fields.map((props, i) => input(props))}
-        <>
-          <div className={formCx('input-container')}>
-            <div className={formCx('label')}>{t('label.morgage-amount')}</div>
-            <input
-              ref={register}
-              name="minMortgage"
-              autoComplete="off"
-              data-lpignore="true"
-              className={
-                inputCx('input-common', errors['minMortgage'] ? 'error' : '') +
-                ' ' +
-                formCx('input')
-              }
-              placeholder={t('placeholder.enter')}
-            />
-            {selfNotUpdate && (
-              <div className={formCx('for-not-update')}>
-                {t('txt.for-not-update')}
-              </div>
-            )}
-            <div className={formCx('after')}>cETH</div>
-          </div>
-          <div className={formCx('small-text', 'bottom-text')}>
-            <div>{t('txt.min-mortgage', { minMortgage: _minMortgage })}</div>
-            <div>
-              <span> {t('txt.ceth-balance', { amount: __mock_balance })}</span>
-              <span
-                onClick={() => {
-                  setValue('minMortgage', __mock_balance)
-                }}
-                className={formCx('all')}
-              >
-                {' '}
-                {t('btn.all')}
-              </span>
+    <MainContainer>
+      <PaddingContainer bottom top>
+        <Head />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {fields.map((props, i) => input(props))}
+          <>
+            <div className={formCx('input-container')}>
+              <div className={formCx('label')}>{t('label.morgage-amount')}</div>
+              <input
+                ref={register}
+                name="minMortgage"
+                autoComplete="off"
+                data-lpignore="true"
+                className={
+                  inputCx(
+                    'input-common',
+                    errors['minMortgage'] ? 'error' : ''
+                  ) +
+                  ' ' +
+                  formCx('input')
+                }
+                placeholder={t('placeholder.enter')}
+              />
+              {selfNotUpdate && (
+                <div className={formCx('for-not-update')}>
+                  {t('txt.for-not-update')}
+                </div>
+              )}
+              <div className={formCx('after')}>cETH</div>
             </div>
-          </div>
-          <ErrorMessage
-            errors={errors}
-            name="minMortgage"
-            render={({ message }) => {
-              return <p className={formCx('error')}>{message}</p>
-            }}
-          />
-        </>
+            <div className={formCx('small-text', 'bottom-text')}>
+              <div>{t('txt.min-mortgage', { minMortgage: _minMortgage })}</div>
+              <div>
+                <span>
+                  {' '}
+                  {t('txt.ceth-balance', { amount: __mock_balance })}
+                </span>
+                <span
+                  onClick={() => {
+                    setValue('minMortgage', __mock_balance)
+                  }}
+                  className={formCx('all')}
+                >
+                  {' '}
+                  {t('btn.all')}
+                </span>
+              </div>
+            </div>
+            <ErrorMessage
+              errors={errors}
+              name="minMortgage"
+              render={({ message }) => {
+                return <p className={formCx('error')}>{message}</p>
+              }}
+            />
+          </>
 
-        <input
-          type="submit"
-          value={selfNotUpdate ? t('btn.update') : t('btn.be-caption')}
-          className={buttonCx('btn') + ' ' + formCx('btn')}
-        />
-      </form>
-    </div>
+          <input
+            type="submit"
+            value={selfNotUpdate ? t('btn.update') : t('btn.be-caption')}
+            className={buttonCx('btn') + ' ' + formCx('btn')}
+          />
+        </form>
+      </PaddingContainer>
+    </MainContainer>
   )
 
   //NOTICE:

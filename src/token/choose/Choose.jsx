@@ -45,7 +45,7 @@ export default function ChooseToken({
       />
 
       {!notFound && (
-        <PaddingContainer>
+        <PaddingContainer bottom>
           <Button
             path={{
               pathname: next,
