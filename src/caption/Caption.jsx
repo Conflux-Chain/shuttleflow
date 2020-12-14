@@ -1,6 +1,8 @@
 import React, { Suspense } from 'react'
-import MainContainer from '../../component/MainContainer/MainContainer'
-import Choose from '../choose/Choose'
+import MainContainer from '../component/MainContainer/MainContainer'
+import useStyle from '../component/useStyle'
+import Choose from '../token/choose/Choose'
+import styles from './Caption.module.scss'
 import CaptionForm from './Form'
 
 export default function Caption(props) {
@@ -9,6 +11,7 @@ export default function Caption(props) {
     match: { url },
   } = props
   const token = new URLSearchParams(decodeURI(search)).get('token')
+  const [cx] = useStyle(styles)
   if (token) {
     return (
       <Suspense fallback={<div>loading...</div>}>
@@ -17,12 +20,9 @@ export default function Caption(props) {
     )
   } else {
     return (
-      <MainContainer>
+      <MainContainer className={cx('container')}>
         <Choose {...props} next={url} caption />
       </MainContainer>
     )
   }
 }
-// export default function () {
-//   return 'coming soon'
-// }

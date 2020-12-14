@@ -1,7 +1,7 @@
 import React from 'react'
-import useStyle from '../../component/useStyle'
-import inputStyles from '../../component/input.module.scss'
-import buttonStyles from '../../component/button.module.scss'
+import useStyle from '../component/useStyle'
+import inputStyles from '../component/input.module.scss'
+import buttonStyles from '../component/button.module.scss'
 import formStyles from './Form.module.scss'
 import { useTranslation } from 'react-i18next'
 import useSWR from 'swr'
@@ -11,7 +11,7 @@ import { yupResolver } from '@hookform/resolvers'
 import { ErrorMessage } from '@hookform/error-message'
 
 import profile from './profile.svg'
-import useTokenList from '../../data/useTokenList'
+import useTokenList from '../data/useTokenList'
 
 const __mock_balance = 10000
 export default function CaptionForm({ token }) {

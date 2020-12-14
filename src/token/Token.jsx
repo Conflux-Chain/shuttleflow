@@ -2,7 +2,7 @@ import React from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
 
 import Choose from './choose/Choose.jsx'
-import Caption from './caption/Caption'
+import Caption from '../caption/Caption'
 import { useTranslation } from 'react-i18next'
 
 import back from './back.png'
