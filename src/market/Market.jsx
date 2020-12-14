@@ -1,7 +1,6 @@
-import React, { Suspense, useState } from 'react'
+import React, { useState } from 'react'
 import useStyle from '../component/useStyle'
 import styles from './Market.module.scss'
-import shuttle from '../component/cIcon.svg'
 
 import Triangle from '../component/Triangle/Triangle.jsx'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
@@ -11,6 +10,7 @@ import useTokenList from '../data/useTokenList'
 import MainContainer from '../component/MainContainer/MainContainer'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
+import Icon from '../component/Icon/Icon'
 
 const sorts = {
   name: (a, b) => {
@@ -27,7 +27,7 @@ const sorts = {
   },
 }
 
-function Market() {
+export default function Market() {
   const { tokens } = useTokenList()
   const [cx] = useStyle(styles)
   const { t } = useTranslation('market')
@@ -89,21 +89,12 @@ function Market() {
       >
         <PaddingContainer>
           {tokens
-            .slice()
             .sort(sorts[sort])
             .map(({ icon, symbol, reference_name, total_supply }) => {
               return (
                 <div key={symbol} className={cx('list')}>
                   <div className={cx('left')}>
-                    <div className={cx('img-container')}>
-                      <img alt="icon" className={cx('img')} src={icon}></img>
-                      <img
-                        alt="shuttle"
-                        className={cx('shuttle')}
-                        src={shuttle}
-                      ></img>
-                    </div>
-
+                    <Icon src={icon} conflux style={{ marginRight: '1rem' }} />
                     <div className={cx('txt')}>
                       <div className={cx('large-txt')}>{symbol}</div>
                       <div className={cx('small-txt')}>
@@ -118,13 +109,5 @@ function Market() {
         </PaddingContainer>
       </Scrollbars>
     </MainContainer>
-  )
-}
-
-export default function () {
-  return (
-    <Suspense fallback={<div>Loading market</div>}>
-      <Market />
-    </Suspense>
   )
 }

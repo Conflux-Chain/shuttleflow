@@ -3,7 +3,6 @@ import useStyle from '../../component/useStyle'
 
 import linkSrc from '../../component/link-64.png'
 import notFoundSrc from '../../component/not-found.png'
-import shuttle from '../../component/cIcon.svg'
 import tokenListStyles from './TokenList.module.scss'
 import Triangle from '../../component/Triangle/Triangle.jsx'
 import titleStyles from './title.module.scss'
@@ -15,6 +14,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../../component/renderThumbVertical'
 import PaddingContainer from '../../component/PaddingContainer/PaddingContainer'
 import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../../config/config'
+import Icon from '../../component/Icon/Icon'
 
 const FREQUENT_TOKENS = [
   'btc',
@@ -180,20 +180,11 @@ function TokenList({
                   >
                     <div className={ListCx('left')}>
                       <Check active={checked} />
-                      <div className={ListCx('img-container')}>
-                        <img
-                          alt="icon"
-                          className={ListCx('icon')}
-                          src={icon}
-                        ></img>
-                        {cToken && (
-                          <img
-                            src={shuttle}
-                            className={ListCx('cicon')}
-                            alt="ctoken"
-                          />
-                        )}
-                      </div>
+                      <Icon
+                        src={icon}
+                        conflux={cToken}
+                        style={{ marginLeft: '0.5rem', marginRight: '1rem' }}
+                      />
                       <div className={ListCx('two-row')}>
                         <div className={ListCx('symbol-row')}>
                           <span className={ListCx('symbol')}>
