@@ -1,26 +1,15 @@
-import React from 'react'
-import useStyle from '../useStyle'
-import styles from './PaddingContainer.module.scss'
+import styled from 'styled-components'
 /**
- * We can not specify padding at a root level
- * it will cause trouble especially when the full
- * width is required
+ * Padding should be consistant
+ * But we can not specify padding at a root level
+ * it will cause trouble when the full width is required
+ * especially when overflow present where nagative margin
+ * can not work
  *
  * We should specify the paddding at a more detailed level
  */
-export default function PaddingContainer({
-  children,
-  bottom = true,
-  className,
-  ...props
-}) {
-  const [cx] = useStyle(styles)
-  return (
-    <div
-      {...props}
-      className={(className || '') + ' ' + cx('container', { bottom })}
-    >
-      {children}
-    </div>
-  )
-}
+
+export default styled.div`
+  padding: 2rem;
+  padding-bottom: ${(props) => (props.bottom ? '2rem' : '')};
+`
