@@ -10,7 +10,6 @@ const icons = {
 
 const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
   console.log(result)
-  console.log(result.filter((x) => x.supported === 1))
   // console.log(result.filter(x=>x.ctoken))
   return result.map((d) => {
     // cToken的totalSupply和sponsor_value都是18位，除以1e18就行
@@ -19,7 +18,8 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
     const {
       reference,
       symbol,
-      // reference_symbol,
+      reference_symbol,
+      reference_name,
       sponsor_value,
       total_supply,
       decimals,
@@ -33,6 +33,8 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
     return {
       ...d,
       symbol: symbol || '',
+      reference_name: reference_name || '',
+      reference_symbol: reference_symbol || '',
       total_supply: format(total_supply, 18),
       sponsor_value: format(sponsor_value, 18),
       minimal_burn_value: format(minimal_burn_value, decimals),
@@ -53,9 +55,7 @@ export const tokenMap = tokenList.then((list) => {
 })
 
 export const displayTokensList = tokenList.then((list) => {
-  console.log(list.map((x) => [x.reference_name, x.supported, x.in_token_list]))
   return list.filter((x) => {
-    console.log(x)
     return (
       (x.supported === 1 && x.in_token_list === 1) ||
       ['btc', 'eth'].indexOf(x.reference) > -1
