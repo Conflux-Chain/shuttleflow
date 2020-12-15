@@ -3,7 +3,7 @@ import historyStyles from './history.module.scss'
 import useStyle from '../component/useStyle'
 import Accordion from '../component/Accordion'
 import { useTranslation } from 'react-i18next'
-import useUserHistory from '../data/useHistory'
+import useOperationHistory from '../data/useOperationHistory'
 import { useHistory } from 'react-router-dom'
 import notFound from '../component/not-found.png'
 import Histories from './Histories'
@@ -28,7 +28,7 @@ export default function History({ location: { search } }) {
   const { type = 'mint' } = parseSearch(search)
   const history = useHistory()
 
-  const { data: histories, loading } = useUserHistory({
+  const { data: histories, loading } = useOperationHistory({
     status: FILTERS[filter][1],
     type,
   })

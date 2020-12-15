@@ -27,11 +27,13 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
   erc20 = erc20.toLocaleLowerCase()
   erc777 = erc777.toLocaleLowerCase()
   useEffect(() => {
-    ;(search ? tokenList : displayTokensList)
+    ;(search || erc20 ? tokenList : displayTokensList)
       .then((tokens) => {
         if (erc20) {
           return Promise.resolve(
-            tokens.filter(({ reference }) => erc20 === reference)
+            tokens.filter(({ reference }) => {
+              return erc20 === reference
+            })
           ).then(([token]) => {
             if (!token) {
               return jsonrpc('searchToken', {
@@ -55,10 +57,8 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
           )
         } else if (search) {
           const lowersearch = search.toLowerCase()
-          console.log(lowersearch, cToken)
           return tokens.filter(
             ({ reference_symbol, reference_name, supported }) => {
-              console.log(supported, cToken ? supported === 1 : true)
               return (
                 (reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
                   reference_name.toLowerCase().indexOf(lowersearch) > -1) &&
@@ -71,7 +71,6 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
         }
       })
       .then((tokens) => {
-        console.log(tokens)
         setState({ tokens: tokens.filter((x) => x), isLoading: false })
       })
   }, [search, setState, erc20, erc777, cToken])

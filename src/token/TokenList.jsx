@@ -16,6 +16,7 @@ import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../config/config'
 import Icon from '../component/Icon/Icon'
 import { Loading } from '@cfxjs/react-ui'
+import { buildSearch } from '../component/urlSearch'
 
 const FREQUENT_TOKENS = [
   'btc',
@@ -179,6 +180,7 @@ function TokenRow({
   checked,
 }) {
   const [ListCx] = useStyle(tokenListStyles, titleStyles)
+  
   const { t } = useTranslation(['token'])
   const notAvailable = supported === 0
   let _address = reference

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { buildSearch, parseSearch } from '../component/urlSearch'
+import { buildSearch } from '../component/urlSearch'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 
 import TokenList from './TokenList'
@@ -12,17 +12,24 @@ import useStyle from '../component/useStyle'
 import chooseStyles from './Choose.module.scss'
 
 export default function ChooseToken({
-  location: { search },
   caption,
-  next: nextFromProps,
+  cToken,
+  next,
+  setTokenExternal,
+  ...extra
 }) {
   const [chooseCx] = useStyle(chooseStyles)
-  const { next: nextFromUrl, cToken, ...extra } = parseSearch(search)
   const [searchTxt, setSearchTxt] = useState('')
   const [isNotAvailable, setIsNotAvailable] = useState(false)
   const [token, setToken] = useState('')
   const [notFound, setNotFound] = useState(false)
   const { t } = useTranslation(['token'])
+
+  //the "token state should be maintained internally"
+  //expose it external rather than externally controll
+  useEffect(() => {
+    setTokenExternal(token)
+  }, [token, setTokenExternal])
 
   return (
     <div className={chooseCx('container')}>
@@ -45,8 +52,7 @@ export default function ChooseToken({
         <PaddingContainer bottom>
           <Button
             path={{
-              pathname:
-                nextFromProps || (isNotAvailable ? '/caption' : nextFromUrl),
+              pathname: isNotAvailable ? '/caption' : next,
               search: buildSearch({ token, ...extra }),
             }}
             disabled={caption ? !token : !token && !isNotAvailable}
