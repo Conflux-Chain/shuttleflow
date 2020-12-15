@@ -9,22 +9,22 @@ displayTokensList.then((x) => {
   supportedTokensResolved = true
 })
 
-export default function useTokenList({ search, reference = '', cToken } = {}) {
+export default function useTokenList({ search, erc20 = '', cToken } = {}) {
   const [state, setState] = useState1({
     tokens: [],
     isLoading: supportedTokensResolved,
   })
   if (isAddress(search)) {
-    reference = search
+    erc20 = search
   }
 
-  reference = reference.toLocaleLowerCase()
+  erc20 = erc20.toLocaleLowerCase()
   useEffect(() => {
     ;(search ? tokenList : displayTokensList)
       .then((tokens) => {
-        if (reference) {
+        if (erc20) {
           return tokens.filter(
-            ({ reference: _reference }) => reference === _reference
+            ({ reference: _reference }) => erc20 === _reference
           )
         } else if (search) {
           const lowersearch = search.toLowerCase()
@@ -52,6 +52,6 @@ export default function useTokenList({ search, reference = '', cToken } = {}) {
       .then((tokens) => {
         setState({ tokens, isLoading: false })
       })
-  }, [search, setState, reference])
+  }, [search, setState, erc20])
   return state
 }

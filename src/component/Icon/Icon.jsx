@@ -1,6 +1,8 @@
 import confluxSvg from './conflux.svg'
 import riskSrc from './risk.svg'
 import styled from 'styled-components'
+import { useRecoilState } from 'recoil'
+import displyRiskAtom from '../../state/displyRisk'
 export default function Icon({
   src,
   risk,
@@ -9,11 +11,20 @@ export default function Icon({
   style,
   ...props
 }) {
+  const [, setDisplayRisk] = useRecoilState(displyRiskAtom)
   return (
     <Container {...props} style={{ ...style, width: size, height: size }}>
       <SrcIcon alt="icon" src={src}></SrcIcon>
       {conflux && <Conflux alt="shuttle" src={confluxSvg}></Conflux>}
-      {risk && <Risk src={riskSrc} />}
+      {risk && (
+        <Risk
+          onClick={(e) => {
+            e.stopPropagation()
+            setDisplayRisk(true)
+          }}
+          src={riskSrc}
+        />
+      )}
     </Container>
   )
 }
@@ -39,6 +50,7 @@ const Conflux = styled.img`
 
 const Risk = styled.img`
   position: absolute;
+  cursor: help;
   width: 1rem;
   height: 1rem;
   left: 0;

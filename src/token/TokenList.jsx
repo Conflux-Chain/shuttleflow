@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useStyle from '../component/useStyle'
 
 import linkSrc from '../component/link-64.png'
@@ -52,14 +52,7 @@ function TokenList({
 
   const { t } = useTranslation(['token'])
   const [ListCx, titleCx] = useStyle(tokenListStyles, titleStyles)
-  const isNotAvailable = useRef(false)
   const [sort, setSort] = useState('name')
-
-  useEffect(() => {
-    if (setIsNotAvailable) {
-      setIsNotAvailable(isNotAvailable.current)
-    }
-  }, [search, setIsNotAvailable])
 
   useEffect(() => {
     if (setNotFound && displayedList) {
@@ -148,98 +141,108 @@ function TokenList({
           displayedList
             .slice()
             .sort(sorts[sort])
-            .map(
-              (
-                {
-                  supported,
-                  in_token_list,
-                  reference_symbol,
-                  reference_name,
-                  reference,
-                  ctoken,
-                  sponsor_value,
-                  icon,
-                },
-                i
-              ) => {
-                const notAvailable = supported === 0
-                if (notAvailable) {
-                  isNotAvailable.current = true
-                }
-                let _address = reference
-                const checked = token === _address
-                let link = `${EHTHERSCAN_TK}${reference}`
-                if (cToken) {
-                  reference_symbol = 'c' + reference_symbol
-                  reference = ctoken
-                  reference_name = 'Conflux ' + reference_name
-                  link = `${CONFLUXSCAN_TK}${ctoken}`
-                }
-                return (
-                  <PaddingContainer
-                    bottom={false}
-                    key={i}
-                    className={ListCx('row', { checked })}
-                    onClick={() => setToken(checked ? '' : _address)}
-                  >
-                    <div className={ListCx('left')}>
-                      <Check active={checked} />
-                      <Icon
-                        risk={in_token_list === 0}
-                        src={icon}
-                        conflux={cToken}
-                        style={{ marginLeft: '0.5rem', marginRight: '1rem' }}
-                      />
-                      <div className={ListCx('two-row')}>
-                        <div className={ListCx('symbol-row')}>
-                          <span className={ListCx('symbol')}>
-                            {reference_symbol}
-                          </span>
-
-                          {notAvailable && (
-                            <span className={ListCx('not-available')}>
-                              {t('not-available')}
-                            </span>
-                          )}
-                        </div>
-
-                        <span className={ListCx('name')}>{reference_name}</span>
-                      </div>
-                    </div>
-
-                    <div
-                      className={ListCx('two-row')}
-                      style={{ alignItems: 'flex-end' }}
-                    >
-                      {showMortgage && sponsor_value && (
-                        <span className={ListCx('mortgage')}>
-                          {sponsor_value + ' cETH'}
-                        </span>
-                      )}
-
-                      <div className={ListCx('link')}>
-                        <span className={ListCx('link-txt')}>
-                          {reference &&
-                            reference.startsWith('0x') &&
-                            formatAddress(reference)}
-                        </span>
-                        {reference && reference.startsWith('0x') && (
-                          <img
-                            alt="link"
-                            onClick={() => window.open(link, '_blank')}
-                            className={ListCx('link-img')}
-                            src={linkSrc}
-                          ></img>
-                        )}
-                      </div>
-                    </div>
-                  </PaddingContainer>
-                )
-              }
-            )
+            .map((tokenInfo, i) => {
+              return (
+                <TokenRow
+                  key={i}
+                  {...{
+                    ...tokenInfo,
+                    token,
+                    cToken,
+                    checked: token === tokenInfo.reference,
+                    showMortgage,
+                    setToken,
+                    setIsNotAvailable,
+                  }}
+                />
+              )
+            })
         )}
       </div>
     </Scrollbars>
+  )
+}
+
+function TokenRow({
+  supported,
+  in_token_list,
+  reference_symbol,
+  reference_name,
+  reference,
+  ctoken,
+  sponsor_value,
+  icon,
+  cToken,
+  showMortgage,
+  setToken,
+  setIsNotAvailable,
+  checked,
+}) {
+  const [ListCx] = useStyle(tokenListStyles, titleStyles)
+  const { t } = useTranslation(['token'])
+  const notAvailable = supported === 0
+  let _address = reference
+  let link = `${EHTHERSCAN_TK}${reference}`
+  if (cToken) {
+    reference_symbol = 'c' + reference_symbol
+    reference = ctoken
+    reference_name = 'Conflux ' + reference_name
+    link = `${CONFLUXSCAN_TK}${ctoken}`
+  }
+  return (
+    <PaddingContainer
+      bottom={false}
+      className={ListCx('row', { checked })}
+      onClick={() => {
+        setToken(checked ? '' : _address)
+        setIsNotAvailable(notAvailable)
+      }}
+    >
+      <div className={ListCx('left')}>
+        <Check active={checked} />
+        <Icon
+          risk={in_token_list === 0}
+          src={icon}
+          conflux={cToken}
+          style={{ marginLeft: '0.5rem', marginRight: '1rem' }}
+        />
+        <div className={ListCx('two-row')}>
+          <div className={ListCx('symbol-row')}>
+            <span className={ListCx('symbol')}>{reference_symbol}</span>
+
+            {notAvailable && (
+              <span className={ListCx('not-available')}>
+                {t('not-available')}
+              </span>
+            )}
+          </div>
+
+          <span className={ListCx('name')}>{reference_name}</span>
+        </div>
+      </div>
+
+      <div className={ListCx('two-row')} style={{ alignItems: 'flex-end' }}>
+        {showMortgage && sponsor_value && (
+          <span className={ListCx('mortgage')}>{sponsor_value + ' cETH'}</span>
+        )}
+
+        <div className={ListCx('link')}>
+          <span className={ListCx('link-txt')}>
+            {reference &&
+              reference.startsWith('0x') &&
+              formatAddress(reference)}
+          </span>
+          {reference && reference.startsWith('0x') && (
+            <img
+              alt="link"
+              onClick={() => window.open(link, '_blank')}
+              className={ListCx('link-img')}
+              src={linkSrc}
+            ></img>
+          )}
+        </div>
+      </div>
+    </PaddingContainer>
   )
 }
 

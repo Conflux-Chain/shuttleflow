@@ -12,7 +12,8 @@
     "content": "Anyone can create a token on Conflux/Ethereum with any name, including fake versions of existing tokens and tokens that claim to represent projects that do not have a token. Please take extra caution and do your research when interacting with arbitrary tokens.\n\nWhen using ShuttleFlow, please make sure that the assets you operate are standard ERC20 tokens, otherwise there is a risk of fund security, and the users will need to borne all related consequences.",
     "known": "I understand",
     "continue": "Continue",
-    "title": "Safety Tips"
+    "title": "Safety Tips",
+    "not-in-gecko": "CoinGecko 未收录此 Token"
   },
   "banner": "Please note: the current page is a test environment!"
 }

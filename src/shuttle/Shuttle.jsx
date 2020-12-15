@@ -31,7 +31,7 @@ export default function Shuttle({
   const [, setLayoutBottom] = useRecoilState(layoutBottomState)
 
   const urlToken = new URLSearchParams(search).get('token')
-  const { tokens } = useTokenList({ reference: urlToken || '' })
+  const { tokens } = useTokenList({ erc20: urlToken || '' })
 
   //display tokenInfo only when token is url available
   const tokenInfo = urlToken && tokens ? tokens[0] : null

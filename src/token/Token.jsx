@@ -1,6 +1,4 @@
 import React from 'react'
-import { Switch, Route, Link } from 'react-router-dom'
-
 import Choose from './Choose.jsx'
 import { useTranslation } from 'react-i18next'
 
@@ -34,16 +32,13 @@ export function TokenNavigation({ history, location: { search }, after }) {
 }
 
 function Token(props) {
-  const {
-    match: { path },
-  } = props
   const [cx] = useStyle(styles)
   const isSmall = useIsSamll()
   return (
     <MainContainer className={cx('container')}>
       {/* promote the navigation to top level is samll screen */}
       {!isSmall && <TokenNavigation {...props} />}
-      <Route exact path={path} component={Choose} />
+      <Choose {...props} />
     </MainContainer>
   )
 }

@@ -18,14 +18,11 @@ export default function ChooseToken({
 }) {
   const [chooseCx] = useStyle(chooseStyles)
   const { next: nextFromUrl, cToken, ...extra } = parseSearch(search)
-
-  const next = nextFromProps || nextFromUrl
   const [searchTxt, setSearchTxt] = useState('')
   const [isNotAvailable, setIsNotAvailable] = useState(false)
   const [token, setToken] = useState('')
   const [notFound, setNotFound] = useState(false)
   const { t } = useTranslation(['token'])
-  
 
   return (
     <div className={chooseCx('container')}>
@@ -48,14 +45,15 @@ export default function ChooseToken({
         <PaddingContainer bottom>
           <Button
             path={{
-              pathname: next,
+              pathname:
+                nextFromProps || (isNotAvailable ? '/caption' : nextFromUrl),
               search: buildSearch({ token, ...extra }),
             }}
             disabled={caption ? !token : !token && !isNotAvailable}
           >
             {caption
               ? 'Be caption'
-              : t(isNotAvailable ? 'btn.add-token' : 'choose-btn')}
+              : t(isNotAvailable ? 'add-token' : 'choose-btn')}
           </Button>
         </PaddingContainer>
       )}
