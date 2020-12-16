@@ -16,6 +16,9 @@ import useTokenList from '../data/useTokenList'
 import MainContainer from '../component/MainContainer/MainContainer'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import Icon from '../component/Icon/Icon'
+import { useSponsor } from '@cfxjs/react-hooks'
+
+console.log(useSponsor)
 
 const __mock_balance = 10000
 export default function CaptionForm() {
@@ -44,7 +47,15 @@ export default function CaptionForm() {
 
   // const { data: tokenInfo } = useSWR(['/address', token], swrSearchTokenFetcher, { suspense: true })
   //cAddress 判定跨链与否
-  const { icon, symbol, cSymbol, name, minMortgage, cAddress } = tokenInfo
+  const {
+    icon,
+    reference_symbol,
+    cSymbol,
+    reference_name,
+    minMortgage,
+    cAddress,
+  } = tokenInfo
+  console.log(tokenInfo)
 
   const { countdown, caption, pending_mount, pending_cost } = captionInfo || {
     countdown: 0,
@@ -141,7 +152,7 @@ export default function CaptionForm() {
     },
     {
       label: t('label.shuttle-in-amount'),
-      unit: symbol,
+      unit: reference_symbol,
       name: 'inMin',
       readOnly: cAddress && countdown !== 0,
     },
@@ -268,8 +279,8 @@ export default function CaptionForm() {
           <div className={formCx('left')}>
             <Icon src={icon} style={{ marginRight: '1rem' }} />
             <div className={formCx('left-text')}>
-              <div className={formCx('large-text')}>{symbol}</div>
-              <div className={formCx('small-text')}>{name}</div>
+              <div className={formCx('large-text')}>{reference_symbol}</div>
+              <div className={formCx('small-text')}>{reference_name}</div>
             </div>
           </div>
           <div className={formCx('right')}>
@@ -280,7 +291,11 @@ export default function CaptionForm() {
               className={formCx('small-text')}
               style={{ display: 'flex', alignItems: 'center' }}
             >
-              <img className={formCx('profile')} src={profile}></img>
+              <img
+                alt="profile"
+                className={formCx('profile')}
+                src={profile}
+              ></img>
               <span>{caption}</span>
             </div>
           </div>

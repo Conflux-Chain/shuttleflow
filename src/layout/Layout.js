@@ -15,6 +15,12 @@ import Modal from '../component/Modal'
 import notAllow from './not-allow.png'
 import { displayTokensList } from '../data/tokenList'
 import { Loading } from '@cfxjs/react-ui'
+const fontPromise = new Promise((resolve) => {
+  console.log('Roboto loaded? ' + document.fonts.check('1em Roboto')) // false
+  document?.fonts?.ready?.then(function () {
+    resolve(true)
+  })
+})
 
 export default function App() {
   const isSmall = useIsSamll()
@@ -24,7 +30,7 @@ export default function App() {
   const [started, setStarted] = useState(false)
 
   useEffect(() => {
-    displayTokensList.then(() => {
+    Promise.all([fontPromise, displayTokensList]).then(() => {
       setStarted(true)
     })
     return subscribeNetwork((chainId) => {

@@ -22,7 +22,6 @@ import useTokenList from '../data/useTokenList'
 import useUrlSearch from '../data/useUrlSearch'
 
 export default function Shuttle({
-  location: { search },
   match: { path, url },
 }) {
   const [cx] = useStyle(styles)
@@ -30,13 +29,6 @@ export default function Shuttle({
   const inUrl = `${url}/in`
   const outUrl = `${url}/out`
   const [, setLayoutBottom] = useRecoilState(layoutBottomState)
-
-  const { token } = useUrlSearch()
-  const { tokens } = useTokenList({ erc20: token || '' })
-
-  //display tokenInfo only when token is url available
-  const tokenInfo = token && tokens ? tokens[0] : null
-
   useEffect(() => {
     setLayoutBottom('8.5rem')
     return () => setLayoutBottom('0rem')

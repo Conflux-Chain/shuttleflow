@@ -71,6 +71,7 @@ export default function ShuttleOut({ tokenInfo }) {
 
   const isAll = useRef(false)
 
+  console.log('tokenInfo.ctoken', tokenInfo && tokenInfo.ctoken, tokenInfo,CUSTODIAN_CONTRACT_ADDR)
   const { burn } = useCToken(
     tokenInfo ? tokenInfo.ctoken : '',
     CUSTODIAN_CONTRACT_ADDR
@@ -119,12 +120,14 @@ export default function ShuttleOut({ tokenInfo }) {
       outamount = balance
     }
 
+    console.log(outamount, outwallet)
     burn(outamount, outwallet)
       .then((e) => {
         tx.current = e
         setSuccessPopup(true)
       })
       .catch((e) => {
+        console.error(e)
         setErrorPopup(true)
       })
   }

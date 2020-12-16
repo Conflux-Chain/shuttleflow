@@ -21,7 +21,7 @@ export let EHTHERSCAN_URL,
 if (IS_DEV) {
   EHTHERSCAN_URL = 'https://rinkeby.etherscan.io'
   CONFLUXSCAN_URL = 'http://testnet.confluxscan.io'
-  CUSTODIAN_CONTRACT_ADDR = '0x8248210d7d45791607afb09fe4309c557202faf7'
+  CUSTODIAN_CONTRACT_ADDR = '0x89ee646e8ec9184fde03d4a6f73ba5b198d07974'
 } else {
   //prod
   EHTHERSCAN_URL = 'https://etherscan.io'

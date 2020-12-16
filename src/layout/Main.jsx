@@ -13,6 +13,8 @@ function reducer(state, action) {
   return { ...state, ...action }
 }
 
+
+
 function Main() {
   const { address, login } = useConfluxPortal()
   //When referer detected, display popup and then login
