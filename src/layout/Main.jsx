@@ -15,7 +15,6 @@ function reducer(state, action) {
 
 function Main() {
   const { address, login } = useConfluxPortal()
-
   //When referer detected, display popup and then login
   const [{ popup, referer }, dispatch] = useReducer(reducer, {
     popup: false,
@@ -41,8 +40,6 @@ function Main() {
       }
     }
   }, [address, referer, login, popup])
-
-  // useEffect(() => {}, [login])
 
   const { t } = useTranslation()
   return (
@@ -94,6 +91,5 @@ function PopupWrapper({ setReferer, children }) {
   }, [setReferer])
   return children
 }
-
 
 export default React.memo(Main)

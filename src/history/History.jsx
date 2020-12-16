@@ -9,9 +9,9 @@ import notFound from '../component/not-found.png'
 import Histories from './Histories'
 import open from './down.svg'
 import { Loading } from '@cfxjs/react-ui'
-import { parseSearch } from '../component/urlSearch'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
+import useUrlSearch from '../data/useUrlSearch'
 
 const FILTERS = [
   ['all', ['doing', 'finished']],
@@ -19,13 +19,13 @@ const FILTERS = [
   ['pending', ['doing']],
 ]
 
-export default function History({ location: { search } }) {
+export default function History() {
   const [cx] = useStyle(historyStyles)
   const { t } = useTranslation('history')
   const [statusExpanded, setStatusExpanded] = useState(false)
   const [typeExpanded, setTypeExpanded] = useState(false)
   const [filter, setFilter] = useState(0)
-  const { type = 'mint' } = parseSearch(search)
+  const { type = 'mint' } = useUrlSearch()
   const history = useHistory()
 
   const { data: histories, loading } = useOperationHistory({

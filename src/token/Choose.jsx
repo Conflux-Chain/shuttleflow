@@ -10,6 +10,8 @@ import Button from './Button'
 
 import useStyle from '../component/useStyle'
 import chooseStyles from './Choose.module.scss'
+import useUrlSearch from '../data/useUrlSearch'
+
 
 export default function ChooseToken({
   caption,
@@ -21,15 +23,10 @@ export default function ChooseToken({
   const [chooseCx] = useStyle(chooseStyles)
   const [searchTxt, setSearchTxt] = useState('')
   const [isNotAvailable, setIsNotAvailable] = useState(false)
-  const [token, setToken] = useState('')
   const [notFound, setNotFound] = useState(false)
+  const { token } = useUrlSearch()
   const { t } = useTranslation(['token'])
 
-  //the "token state should be maintained internally"
-  //expose it external rather than externally controll
-  useEffect(() => {
-    setTokenExternal(token)
-  }, [token, setTokenExternal])
 
   return (
     <div className={chooseCx('container')}>
@@ -38,10 +35,8 @@ export default function ChooseToken({
       </PaddingContainer>
       <TokenList
         search={searchTxt}
-        token={token}
         frequent={!caption}
         showMortgage={caption}
-        setToken={setToken}
         cToken={cToken}
         notFound={notFound}
         setNotFound={setNotFound}

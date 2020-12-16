@@ -17,6 +17,8 @@ import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../config/config'
 import Icon from '../component/Icon/Icon'
 import { Loading } from '@cfxjs/react-ui'
 import { buildSearch } from '../component/urlSearch'
+import { useHistory } from 'react-router-dom'
+import useUrlSearch from '../data/useUrlSearch'
 
 const FREQUENT_TOKENS = [
   'btc',
@@ -36,20 +38,23 @@ const sorts = {
 }
 
 function TokenList({
-  token,
-  setToken,
   search = '',
   cToken,
+
   frequent,
   showMortgage,
   setNotFound,
   setIsNotAvailable, //if the corresponsing cToken available
 }) {
+  const history = useHistory()
+  const { token, ...searchParams } = useUrlSearch()
   const { tokens: tokenList, isLoading: isListLoading } = useTokenList({})
   const {
     tokens: displayedList,
     isLoading: isDisplayedLoading,
   } = useTokenList({ search, cToken })
+  const setToken = (token) =>
+    history.push(buildSearch({ ...searchParams, token }))
 
   const { t } = useTranslation(['token'])
   const [ListCx, titleCx] = useStyle(tokenListStyles, titleStyles)
@@ -180,7 +185,7 @@ function TokenRow({
   checked,
 }) {
   const [ListCx] = useStyle(tokenListStyles, titleStyles)
-  
+
   const { t } = useTranslation(['token'])
   const notAvailable = supported === 0
   let _address = reference
