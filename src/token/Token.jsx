@@ -10,8 +10,7 @@ import useStyle from '../component/useStyle'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer.jsx'
 import useUrlSearch from '../data/useUrlSearch.js'
-import { useHistory } from 'react-router-dom'
-import { buildSearch } from '../component/urlSearch.js'
+
 
 export function TokenNavigation({ history, location: { search }, after }) {
   const [cx] = useStyle(styles)
@@ -40,15 +39,14 @@ function Token(props) {
   const { t } = useTranslation(['token'])
   const { next, cToken, ...extra } = useUrlSearch()
   const { token } = extra
-  const history = useHistory()
   return (
     <MainContainer className={cx('container')}>
       {/* promote the navigation to top level is samll screen */}
       {!isSmall && <TokenNavigation {...props} />}
-      <Choose {...extra} next={next} cToken={cToken} />
+      <Choose {...extra} next={(token) => `${next}/${token}`} cToken={cToken} />
       <div
         onClick={() => {
-          window.open(`/caption${token ? `?token=${token}` : ''}`, '_blank')
+          window.open(`/caption/${token ? token : ''}`, '_blank')
         }}
       >
         {t('caption-benefit')}

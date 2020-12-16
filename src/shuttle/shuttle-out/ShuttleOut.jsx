@@ -25,7 +25,7 @@ import { yupResolver } from '@hookform/resolvers'
 import * as yup from 'yup'
 import { ErrorMessage } from '@hookform/error-message'
 
-import { buildSearch, parseSearch } from '../../component/urlSearch'
+import { buildSearch } from '../../component/urlSearch'
 import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
@@ -34,7 +34,7 @@ import Input from '../Input'
 import { parseNum } from '../../data/formatNum'
 import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
 
-export default function ShuttleOut({ tokenInfo, next, location: { search } }) {
+export default function ShuttleOut({ tokenInfo }) {
   const [
     commonCx,
     buttonCx,
@@ -51,7 +51,8 @@ export default function ShuttleOut({ tokenInfo, next, location: { search } }) {
     shuttleInStyle
   )
   const { t } = useTranslation('shuttle-out')
-  const { token, ...extra } = parseSearch(search)
+  const extra = {}
+  const token = tokenInfo && tokenInfo.reference
 
   const [errorPopup, setErrorPopup] = useState(false)
   const [successPopup, setSuccessPopup] = useState(false)
@@ -140,7 +141,10 @@ export default function ShuttleOut({ tokenInfo, next, location: { search } }) {
           placeholder={t('placeholder.out')}
           to={{
             pathname: '/token',
-            search: buildSearch({ next, cToken: 1, ...getValues() }),
+            search: buildSearch({
+              next: 'shuttle/out',
+              cToken: 1,
+            }),
           }}
           tokenInfo={tokenInfo}
           cToken={() => setCTokenPopup(true)}
@@ -155,8 +159,7 @@ export default function ShuttleOut({ tokenInfo, next, location: { search } }) {
           to={{
             pathname: '/token',
             search: buildSearch({
-              next,
-              ...getValues(),
+              next: '/shuttle/out',
             }),
           }}
           tokenInfo={tokenInfo}

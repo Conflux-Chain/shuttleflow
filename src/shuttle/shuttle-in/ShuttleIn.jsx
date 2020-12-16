@@ -23,8 +23,10 @@ import useShuttleInAddress from '../../data/useShuttleInAddress'
 import TokenInput from '../TokenInput'
 
 import CTokenPopup from '../CTokenPopup'
+import { useRouteMatch } from 'react-router-dom'
 
-export default function ShuttleIn({ tokenInfo, next }) {
+export default function ShuttleIn({ tokenInfo }) {
+  const { url: next } = useRouteMatch()
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
     commonInputStyles,
     shuttleStyle,
@@ -54,7 +56,7 @@ export default function ShuttleIn({ tokenInfo, next }) {
       <TokenInput
         to={{
           pathname: '/token',
-          search: `?next=${next}`,
+          search: '?next=/shuttle/in',
         }}
         tokenInfo={tokenInfo}
         placeholder={t('placeholder.out')}
@@ -65,7 +67,7 @@ export default function ShuttleIn({ tokenInfo, next }) {
       <TokenInput
         to={{
           pathname: '/token',
-          search: `?next=${next}&cToken=1`,
+          search: `?next=/shuttle/in&cToken=1`,
         }}
         tokenInfo={tokenInfo}
         placeholder={t('common:placeholder.in')}

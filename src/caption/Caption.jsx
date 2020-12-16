@@ -1,28 +1,26 @@
-import React, { Suspense } from 'react'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
-import useUrlSearch from '../data/useUrlSearch'
 import Choose from '../token/Choose'
 import styles from './Caption.module.scss'
 import CaptionForm from './Form'
+import { Switch, Route } from 'react-router-dom'
 
 export default function Caption(props) {
   const {
-    match: { url },
+    match: { url, path },
   } = props
-  const { token } = useUrlSearch()
   const [cx] = useStyle(styles)
-  if (token) {
-    return (
-      <Suspense fallback={<div>loading...</div>}>
-        <CaptionForm token={token} />
-      </Suspense>
-    )
-  } else {
-    return (
-      <MainContainer className={cx('container')}>
-        <Choose {...props} next={url} caption />
-      </MainContainer>
-    )
-  }
+
+  return (
+    <Switch>
+      <Route exact path={path}>
+        <MainContainer className={cx('container')}>
+          <Choose next={(token) => `${url}/${token}`} caption />
+        </MainContainer>
+      </Route>
+      <Route path={`${path}/:erc20`}>
+        <CaptionForm />
+      </Route>
+    </Switch>
+  )
 }

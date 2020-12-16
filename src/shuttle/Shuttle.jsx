@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Switch, Route, Link, Redirect } from 'react-router-dom'
+import { Switch, Route, Link, Redirect, useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import layoutBottomState from '../layout/LayoutButtomState'
 
@@ -19,6 +19,7 @@ import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
 import useTokenList from '../data/useTokenList'
+import useUrlSearch from '../data/useUrlSearch'
 
 export default function Shuttle({
   location: { search },
@@ -30,11 +31,11 @@ export default function Shuttle({
   const outUrl = `${url}/out`
   const [, setLayoutBottom] = useRecoilState(layoutBottomState)
 
-  const urlToken = new URLSearchParams(search).get('token')
-  const { tokens } = useTokenList({ erc20: urlToken || '' })
+  const { token } = useUrlSearch()
+  const { tokens } = useTokenList({ erc20: token || '' })
 
   //display tokenInfo only when token is url available
-  const tokenInfo = urlToken && tokens ? tokens[0] : null
+  const tokenInfo = token && tokens ? tokens[0] : null
 
   useEffect(() => {
     setLayoutBottom('8.5rem')
@@ -76,24 +77,20 @@ export default function Shuttle({
         <Switch>
           <Redirect from={path} exact to={`${path}/in`} />
           <Route
-            path={`${path}/in`}
-            render={(props) => (
-              <ShuttleIn tokenInfo={tokenInfo} next={props.match.url} />
-            )}
-          />
-          <Route
-            path={`${path}/out`}
-            render={(props) => (
-              <ShuttleOut
-                {...props}
-                tokenInfo={tokenInfo}
-                next={props.match.url}
-              />
-            )}
-            // component={ShuttleOut}
-          />
+            path={`${path}/:type/:erc20?`}
+            component={RouteComponent}
+          ></Route>
         </Switch>
       </PaddingContainer>
     </MainContainer>
   )
+}
+
+function RouteComponent() {
+  const { type, erc20 = '' } = useParams()
+  const { tokens } = useTokenList({ erc20 })
+  //display tokenInfo only when token is url available
+  const tokenInfo = erc20 && tokens ? tokens[0] : null
+  const Component = type === 'in' ? ShuttleIn : ShuttleOut
+  return <Component tokenInfo={tokenInfo} />
 }

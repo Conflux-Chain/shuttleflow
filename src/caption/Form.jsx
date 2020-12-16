@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import useSWR from 'swr'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { useParams } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers'
 import { ErrorMessage } from '@hookform/error-message'
 
@@ -17,7 +18,8 @@ import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import Icon from '../component/Icon/Icon'
 
 const __mock_balance = 10000
-export default function CaptionForm({ token }) {
+export default function CaptionForm() {
+  const { erc20 } = useParams()
   const { t } = useTranslation()
   const [inputCx, buttonCx, formCx] = useStyle(
     inputStyles,
@@ -25,8 +27,7 @@ export default function CaptionForm({ token }) {
     formStyles
   )
 
-  const { tokens } = useTokenList({ search: token, isReference: true })
-  console.log(tokens)
+  const { tokens } = useTokenList({ erc20 })
   const tokenInfo = tokens && tokens.length > 0 ? tokens[0] : {}
 
   //we do not need to call the contract if we know the token is not available

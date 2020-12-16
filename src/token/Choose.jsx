@@ -12,21 +12,13 @@ import useStyle from '../component/useStyle'
 import chooseStyles from './Choose.module.scss'
 import useUrlSearch from '../data/useUrlSearch'
 
-
-export default function ChooseToken({
-  caption,
-  cToken,
-  next,
-  setTokenExternal,
-  ...extra
-}) {
+export default function ChooseToken({ caption, cToken, next, ...extra }) {
   const [chooseCx] = useStyle(chooseStyles)
   const [searchTxt, setSearchTxt] = useState('')
   const [isNotAvailable, setIsNotAvailable] = useState(false)
   const [notFound, setNotFound] = useState(false)
   const { token } = useUrlSearch()
   const { t } = useTranslation(['token'])
-
 
   return (
     <div className={chooseCx('container')}>
@@ -47,8 +39,11 @@ export default function ChooseToken({
         <PaddingContainer bottom>
           <Button
             path={{
-              pathname: isNotAvailable ? '/caption' : next,
-              search: buildSearch({ token, ...extra }),
+              pathname: isNotAvailable
+                ? `/caption/${token}`
+                : typeof next === 'function'
+                ? next(token)
+                : next,
             }}
             disabled={caption ? !token : !token && !isNotAvailable}
           >
