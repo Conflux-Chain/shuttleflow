@@ -1,7 +1,6 @@
 import React from 'react'
-import connect from './connect.svg'
 import formatAddress from '../component/formatAddress'
-import { useConfluxPortal } from '@cfxjs/react-hooks'
+import useConfluxPortal from '../lib/useConfluxPortal'
 import styles from './UserAddress.module.scss'
 import useStyle from '../component/useStyle'
 import { useTranslation } from 'react-i18next'

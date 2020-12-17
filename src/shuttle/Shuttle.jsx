@@ -16,6 +16,7 @@ import outSvg from './i-out-64.png'
 
 import MenuLink from '../component/MenuLink'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
+import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
 
 export default function Shuttle({ match: { path, url } }) {
@@ -31,7 +32,7 @@ export default function Shuttle({ match: { path, url } }) {
   }, [setLayoutBottom])
 
   return (
-    <>
+    <MainContainer style={{ background: '#1b1b1b' }}>
       <nav className={cx('nav')}>
         <MenuLink
           to={inUrl}
@@ -68,6 +69,6 @@ export default function Shuttle({ match: { path, url } }) {
           <Route path={`${path}/out`} component={ShuttleOut} />
         </Switch>
       </PaddingContainer>
-    </>
+    </MainContainer>
   )
 }

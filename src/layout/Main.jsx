@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useRef, useReducer } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Modal from '../component/Modal'
-import { useConfluxPortal } from '@cfxjs/react-hooks'
+import useConfluxPortal from '../lib/useConfluxPortal'
 import Shuttle from '../shuttle/Shuttle'
 import Token from '../token/Token'
 import Caption from '../token/caption/Caption'
@@ -9,38 +9,40 @@ import History from '../history/History'
 import Market from '../market/Market'
 import { useTranslation } from 'react-i18next'
 
+function reducer(state, action) {
+  return { ...state, ...action }
+}
+
 function Main() {
   const { address, login } = useConfluxPortal()
-  const [popup, setPopup] = useState(false)
+
   //When referer detected, display popup and then login
-  const [referer, setReferer] = useState(false)
-  //When not login, should login automatically
-  const [initLogin, setInitLogin] = useState(false)
+  const [{ popup, referer }, dispatch] = useReducer(reducer, {
+    popup: false,
+    referer: false,
+  })
+
   //make sure only login once, set true when login is not desired
-  const isInitLogin = useRef(false)
+  const initLoginTriggered = useRef(false)
 
   useEffect(() => {
-    let tm
     if (!address) {
-      if (referer) {
-        setPopup(true)
-        tm = setTimeout(() => {
-          setPopup(false)
-          //reset referer so the popup can bring up again
-          setReferer(false)
+      if (referer && !popup) {
+        dispatch({ popup: true })
+        setTimeout(() => {
+          // reset referer
+          dispatch({ popup: false, referer: false })
           login()
         }, 2000)
-      }
-      if (initLogin && !isInitLogin.current) {
+      } else if (!initLoginTriggered.current) {
         //prevent the login another time
-        isInitLogin.current = true
+        initLoginTriggered.current = true
         login()
       }
     }
-    return () => {
-      clearTimeout(tm)
-    }
-  }, [address, referer, initLogin, login])
+  }, [address, referer, login, popup])
+
+  // useEffect(() => {}, [login])
 
   const { t } = useTranslation()
   return (
@@ -57,23 +59,21 @@ function Main() {
               pathname !== '/'
             ) {
               //prevent the default init login
-              isInitLogin.current = true
+              initLoginTriggered.current = true
               return (
-                <PopupWrapper setReferer={setReferer}>
+                <PopupWrapper setReferer={(referer) => dispatch({ referer })}>
                   <Redirect to={{ pathname: '/shuttle/in' }}></Redirect>
                 </PopupWrapper>
               )
             } else {
               return (
-                <EnsureLogin setInitLogin={setInitLogin}>
-                  <Switch>
-                    <Route path="/token" component={Token} />
-                    <Route path="/shuttle" component={Shuttle} />
-                    <Route path="/caption" component={Caption} />
-                    <Route path="/history" component={History} />
-                    <Route path="/market" component={Market} />
-                  </Switch>
-                </EnsureLogin>
+                <Switch>
+                  <Route path="/token" component={Token} />
+                  <Route path="/shuttle" component={Shuttle} />
+                  <Route path="/caption" component={Caption} />
+                  <Route path="/history" component={History} />
+                  <Route path="/market" component={Market} />
+                </Switch>
               )
             }
           }}
@@ -95,11 +95,5 @@ function PopupWrapper({ setReferer, children }) {
   return children
 }
 
-function EnsureLogin({ children, setInitLogin }) {
-  useEffect(() => {
-    setInitLogin(true)
-  }, [])
-  return children
-}
 
 export default React.memo(Main)

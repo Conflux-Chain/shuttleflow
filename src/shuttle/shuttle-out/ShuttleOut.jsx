@@ -83,6 +83,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
   let balance = 0
 
+  console.log(_balance && _balance.toString(), tokenInfo && tokenInfo.ctoken)
   if (_balance) {
     balance = parseNum(_balance, 18)
   }
