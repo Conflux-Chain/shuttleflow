@@ -14,6 +14,7 @@ export let EHTHERSCAN_URL,
   CONFLUXSCAN_TX,
   CONFLUXSCAN_TK,
   CUSTODIAN_CONTRACT_ADDR,
+  SPONSOR_CONTRACT_ADDR,
   NODE_URL = '/rpcshuttleflow',
   SPONSOR_URL = '/rpcsponsor'
 
@@ -22,11 +23,13 @@ if (IS_DEV) {
   EHTHERSCAN_URL = 'https://rinkeby.etherscan.io'
   CONFLUXSCAN_URL = 'http://testnet.confluxscan.io'
   CUSTODIAN_CONTRACT_ADDR = '0x89ee646e8ec9184fde03d4a6f73ba5b198d07974'
+  SPONSOR_CONTRACT_ADDR = '0x8f2c7ee9d8b541f9b821473ade5caed7ba78e319'
 } else {
   //prod
   EHTHERSCAN_URL = 'https://etherscan.io'
   CONFLUXSCAN_URL = 'https://confluxscan.io'
   CUSTODIAN_CONTRACT_ADDR = '0x890e3feac4a2c33d7594bc5be62e7970ef5481e0'
+  SPONSOR_CONTRACT_ADDR = '0x8a129cde0a730fb0b8e355e3e18a5361d138a958'
 }
 
 //production env

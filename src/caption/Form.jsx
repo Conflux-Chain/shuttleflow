@@ -16,7 +16,9 @@ import useTokenList from '../data/useTokenList'
 import MainContainer from '../component/MainContainer/MainContainer'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import Icon from '../component/Icon/Icon'
-import { useSponsor } from '@cfxjs/react-hooks'
+import useSponsor from '@cfxjs/react-hooks/lib/useSponsor'
+import { SPONSOR_CONTRACT_ADDR } from '../config/config'
+import usePendingOperationInfo from '../data/usePendingOperationInfo'
 
 console.log(useSponsor)
 
@@ -32,7 +34,16 @@ export default function CaptionForm() {
 
   const { tokens } = useTokenList({ erc20 })
   const tokenInfo = tokens && tokens.length > 0 ? tokens[0] : {}
-
+  const { cnt, estimatedGas } = usePendingOperationInfo(
+    tokenInfo.reference,
+    tokenInfo.ctoken
+  )
+  console.log(tokenInfo)
+  // const { sponsorAddr, mortagedCETH, sponsorReplaceRatio } = useSponsor(
+  //   SPONSOR_CONTRACT_ADDR,
+  //   tokenInfo.ctoken
+  // )
+  // console.log({ sponsorAddr, mortagedCETH, sponsorReplaceRatio })
   //we do not need to call the contract if we know the token is not available
   const { data: captionInfo = {} } = useSWR(
     true ? ['/caption', 'caption_unlocked_me'] : null,
@@ -54,10 +65,11 @@ export default function CaptionForm() {
     reference_name,
     minMortgage,
     cAddress,
+    sponsor,
+    sponsor_value,
   } = tokenInfo
-  console.log(tokenInfo)
 
-  const { countdown, caption, pending_mount, pending_cost } = captionInfo || {
+  const { countdown, caption } = captionInfo || {
     countdown: 0,
     caption: '--',
     pending_mount: '--',
@@ -285,7 +297,7 @@ export default function CaptionForm() {
           </div>
           <div className={formCx('right')}>
             <div className={formCx('large-text')}>
-              {(minMortgage || '--') + ' cETH'}
+              {(sponsor_value || '--') + ' cETH'}
             </div>
             <div
               className={formCx('small-text')}
@@ -296,19 +308,19 @@ export default function CaptionForm() {
                 className={formCx('profile')}
                 src={profile}
               ></img>
-              <span>{caption}</span>
+              <span>{sponsor}</span>
             </div>
           </div>
         </div>
         <div className={formCx('second-container')}>
           <div className={formCx('second-item')}>
-            <div className={formCx('large-text')}>{pending_mount}</div>
+            <div className={formCx('large-text')}>{cnt}</div>
             <div className={formCx('small-text', 'mTop')}>
               {t('txt.pending-amount')}
             </div>
           </div>
           <div className={formCx('second-item')}>
-            <div className={formCx('large-text')}>{pending_cost}</div>
+            <div className={formCx('large-text')}>{estimatedGas}</div>
             <div className={formCx('small-text', 'mTop')}>
               {t('txt.pending-cost')}
             </div>
