@@ -14,7 +14,7 @@ import useTokenList from '../../data/useTokenList'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../../component/renderThumbVertical'
 import PaddingContainer from '../../component/PaddingContainer/PaddingContainer'
-import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../../config/config';
+import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../../config/config'
 
 const FREQUENT_TOKENS = [
   'btc',
