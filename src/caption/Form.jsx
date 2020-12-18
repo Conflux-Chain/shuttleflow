@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import useStyle from '../component/useStyle'
 import inputStyles from '../component/input.module.scss'
 import buttonStyles from '../component/button.module.scss'
@@ -18,9 +18,28 @@ import Icon from '../component/Icon/Icon'
 import useCaption from '../data/useCaption'
 import useConfluxPortal1 from '../lib/useConfluxPortal'
 
+import getLatestMortgage from '../data/getLatestMortgage'
+import formatAddress from '../component/formatAddress'
+import formatNum from '../data/formatNum'
+import useState1 from '../data/useState1'
+import { Loading } from '@cfxjs/react-ui'
+
 const __mock_balance = 10000
-export default function CaptionForm() {
-  const { erc20 } = useParams()
+function CaptionForm({
+  pendingCount,
+  formLast,
+  address,
+  icon,
+  reference,
+  reference_symbol,
+  symbol,
+  reference_name,
+  cAddress,
+  sponsor,
+  sponsor_value,
+  currentMortgage,
+}) {
+  console.log(currentMortgage)
   const { t } = useTranslation(['caption'])
   const [inputCx, buttonCx, formCx] = useStyle(
     inputStyles,
@@ -28,33 +47,18 @@ export default function CaptionForm() {
     formStyles
   )
 
-  const { address } = useConfluxPortal1()
-  const { tokens } = useTokenList({ erc20 })
-  const tokenInfo = tokens && tokens.length > 0 ? tokens[0] : {}
-  console.log(tokenInfo)
-  const { pendingCount, formLast } = useCaption(tokenInfo.reference)
-
-  const {
-    icon,
-    reference_symbol,
-    symbol,
-    reference_name,
-    minMortgage,
-    cAddress,
-    sponsor,
-    sponsor_value,
-  } = tokenInfo
-
   //若当前连接钱包的 Address 为该 token captain 本人时
   //token captain 规则表单中 “抵押数量”默认值为0，
   //下方说明文案变为“0 表示不更新抵押，
   //或者重新竞争 captain，需要最小抵押数量 XX cETH”。
   const isMe = address === sponsor
 
-
   const onSubmit = (data) => console.log(data)
 
-  const _minMortgage = Math.max(2, minMortgage ? minMortgage * 1.1 : 0)
+  const minMortgage = Math.max(
+    2,
+    currentMortgage ? formatNum(currentMortgage, 18) * 1.1 : 0
+  )
 
   const schema = yup.object().shape({
     inFee: yup
@@ -98,22 +102,20 @@ export default function CaptionForm() {
       .min(0, t('errors.above-zero')),
     minMortgage: yup
       .number()
-      //todo: not sure isMe or _minMortgage
-      //will be cached incorrectly due to closure
       .typeError(t('error.number'))
       .max(__mock_balance, t('errors.insufficient'))
       .test(
         'above-current-ifnot-me',
         t('errors.above-current'),
-        (v) => (isMe && v === 0) || v > _minMortgage
+        (v) => (isMe && v === 0) || v > minMortgage
       ),
   })
 
   const { register, handleSubmit, errors, setValue, watch } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      ...tokenInfo,
-      minMortgage: !cAddress ? 2 : isMe ? 0 : _minMortgage,
+      ...{},
+      minMortgage: isMe ? 0 : minMortgage,
     },
     mode: 'onBlur',
   })
@@ -189,7 +191,7 @@ export default function CaptionForm() {
               <div className={formCx('after')}>cETH</div>
             </div>
             <div className={formCx('small-text', 'bottom-text')}>
-              <div>{t('txt.min-mortgage', { minMortgage: _minMortgage })}</div>
+              <div>{t('txt.min-mortgage', { minMortgage: minMortgage })}</div>
               <div>
                 <span>
                   {' '}
@@ -272,7 +274,7 @@ export default function CaptionForm() {
           </div>
           <div className={formCx('right')}>
             <div className={formCx('large-text')}>
-              {(sponsor_value || '--') + ' cETH'}
+              {(minMortgage ? formatNum(currentMortgage, 18) : '--') + ' cETH'}
             </div>
             <div
               className={formCx('small-text')}
@@ -283,7 +285,7 @@ export default function CaptionForm() {
                 className={formCx('profile')}
                 src={profile}
               ></img>
-              <span>{sponsor}</span>
+              <span>{sponsor ? formatAddress(sponsor) : '--'}</span>
             </div>
           </div>
         </div>
@@ -340,5 +342,52 @@ function Countdown({ initValue }) {
     return formatSec(value)
   } else {
     return formatSec(0)
+  }
+}
+
+export default function CaptionFormData() {
+  const { erc20 } = useParams()
+  const { address } = useConfluxPortal1()
+  /**
+   * tokens will change on every render(no cache in useTokenList)
+   * which will into invalid all the following identity check
+   * no a big problem though
+   */
+  const { tokens } = useTokenList({ erc20 })
+  const tokenInfo = useMemo(
+    () => (tokens && tokens.length > 0 ? tokens[0] : {}),
+    [tokens]
+  )
+  const { pendingCount, formLast } = useCaption(tokenInfo.reference)
+
+  const [currentMortgage, setCurrentMortgage] = useState()
+
+  const updateMinMortgage = useCallback((reference) => {
+    getLatestMortgage(reference).then((x) => {
+      setCurrentMortgage(x && x.toString())
+    })
+  }, [])
+
+  useEffect(() => {
+    if (tokenInfo.reference) {
+      updateMinMortgage(tokenInfo.reference)
+    }
+  }, [updateMinMortgage, tokenInfo.reference])
+  const data = {
+    address,
+    ...tokenInfo,
+    pendingCount,
+    formLast,
+    currentMortgage,
+  }
+  /**
+   * the form default value can be read ONLY ONCE
+   * make sure the default from data available when
+   * the form compoment rendered the first time
+   **/
+  if (typeof pendingCount === 'number' && currentMortgage) {
+    return <CaptionForm {...data} />
+  } else {
+    return <Loading size="large" />
   }
 }
