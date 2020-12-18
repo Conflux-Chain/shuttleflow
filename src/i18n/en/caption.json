@@ -12,6 +12,9 @@
     "below-in-amount": "The value must be smaller than the minimum Shuttle-In amount",
     "below-out-amount": "The value must be smaller than the minimum Shuttle-Out amount",
     "above-in-fee": "The value must be greater than the Shuttle-In fee",
-    "above-out-fee": "The value must be greater than the Shuttle-Out fee"
-  }
+    "above-out-fee": "The value must be greater than the Shuttle-Out fee",
+    "above-current": "必须大于最小抵押量"
+  },
+  "min-mortgage": "Minimum Deposit Amount {{minMortgage}} cETH",
+  "ceth-balance": "Balance {{amount}} cETH"
 }

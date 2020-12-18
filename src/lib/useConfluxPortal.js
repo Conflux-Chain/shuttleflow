@@ -1,7 +1,7 @@
 import { useConfluxPortal } from '@cfxjs/react-hooks'
 const { openHomePage } = useConfluxPortal
-export default function useConfluxPortal1() {
-  const { login: _login, ...rest } = useConfluxPortal()
+export default function useConfluxPortal1(...args) {
+  const { login: _login, ...rest } = useConfluxPortal(...args)
   const { portalInstalled } = rest
   const login = () => {
     _login()

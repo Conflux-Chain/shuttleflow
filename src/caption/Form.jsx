@@ -21,22 +21,21 @@ import useConfluxPortal1 from '../lib/useConfluxPortal'
 import getLatestMortgage from '../data/getLatestMortgage'
 import formatAddress from '../component/formatAddress'
 import formatNum from '../data/formatNum'
-import useState1 from '../data/useState1'
 import { Loading } from '@cfxjs/react-ui'
+import { CETH_ADDRESS } from '../config/config'
 
-const __mock_balance = 10000
 function CaptionForm({
   pendingCount,
-  formLast,
+  countdown,
   address,
   icon,
-  reference,
-  reference_symbol,
   symbol,
+  ceth,
+  cethDisplay,
+  reference_symbol,
   reference_name,
-  cAddress,
+  supported,
   sponsor,
-  sponsor_value,
   currentMortgage,
 }) {
   console.log(currentMortgage)
@@ -103,10 +102,10 @@ function CaptionForm({
     minMortgage: yup
       .number()
       .typeError(t('error.number'))
-      .max(__mock_balance, t('errors.insufficient'))
+      .max(cethDisplay, t('error.insufficient'))
       .test(
         'above-current-ifnot-me',
-        t('errors.above-current'),
+        t('error.above-current'),
         (v) => (isMe && v === 0) || v > minMortgage
       ),
   })
@@ -131,31 +130,31 @@ function CaptionForm({
       label: t('shuttle-in-fee'),
       unit: symbol,
       name: 'inFee',
-      readOnly: cAddress && formLast !== 0,
+      readOnly: supported && countdown !== 0,
     },
     {
       label: t('shuttle-out-fee'),
       unit: symbol,
       name: 'outFee',
-      readOnly: cAddress && formLast !== 0,
+      readOnly: supported && countdown !== 0,
     },
     {
       label: t('shuttle-in-amount'),
       unit: reference_symbol,
       name: 'inMin',
-      readOnly: cAddress && formLast !== 0,
+      readOnly: supported && countdown !== 0,
     },
     {
       label: t('shuttle-out-amount'),
       unit: symbol,
       name: 'outMin',
-      readOnly: cAddress && formLast !== 0,
+      readOnly: supported && countdown !== 0,
     },
     {
       label: t('create-fee'),
       name: 'wallet_fee',
       unit: symbol,
-      readOnly: cAddress && formLast !== 0,
+      readOnly: supported && countdown !== 0,
     },
   ]
 
@@ -191,15 +190,12 @@ function CaptionForm({
               <div className={formCx('after')}>cETH</div>
             </div>
             <div className={formCx('small-text', 'bottom-text')}>
-              <div>{t('txt.min-mortgage', { minMortgage: minMortgage })}</div>
+              <div>{t('min-mortgage', { minMortgage })}</div>
               <div>
-                <span>
-                  {' '}
-                  {t('txt.ceth-balance', { amount: __mock_balance })}
-                </span>
+                <span> {t('ceth-balance', { amount: cethDisplay })}</span>
                 <span
                   onClick={() => {
-                    setValue('minMortgage', __mock_balance)
+                    setValue('minMortgage', cethDisplay)
                   }}
                   className={formCx('all')}
                 >
@@ -298,8 +294,8 @@ function CaptionForm({
           </div>
           <div className={formCx('second-item')}>
             <div className={formCx('large-text')}>
-              {formLast && formLast < 3 * 60 * 60 ? (
-                <Countdown initValue={3 * 60 * 60 - formLast} />
+              {countdown && countdown !== 0 ? (
+                <Countdown initValue={countdown} />
               ) : (
                 formatSec(0)
               )}
@@ -347,7 +343,11 @@ function Countdown({ initValue }) {
 
 export default function CaptionFormData() {
   const { erc20 } = useParams()
-  const { address } = useConfluxPortal1()
+  // const { address } = useConfluxPortal1()
+  const {
+    address,
+    balances: [, [ceth]],
+  } = useConfluxPortal1([CETH_ADDRESS])
   /**
    * tokens will change on every render(no cache in useTokenList)
    * which will into invalid all the following identity check
@@ -358,7 +358,7 @@ export default function CaptionFormData() {
     () => (tokens && tokens.length > 0 ? tokens[0] : {}),
     [tokens]
   )
-  const { pendingCount, formLast } = useCaption(tokenInfo.reference)
+  const { pendingCount, countdown } = useCaption(tokenInfo.reference)
 
   const [currentMortgage, setCurrentMortgage] = useState()
 
@@ -373,19 +373,23 @@ export default function CaptionFormData() {
       updateMinMortgage(tokenInfo.reference)
     }
   }, [updateMinMortgage, tokenInfo.reference])
-  const data = {
-    address,
-    ...tokenInfo,
-    pendingCount,
-    formLast,
-    currentMortgage,
-  }
+
   /**
    * the form default value can be read ONLY ONCE
    * make sure the default from data available when
    * the form compoment rendered the first time
    **/
-  if (typeof pendingCount === 'number' && currentMortgage) {
+  if (typeof pendingCount === 'number' && currentMortgage && ceth) {
+    const data = {
+      address,
+      ...tokenInfo,
+      pendingCount,
+      countdown,
+      currentMortgage,
+      ceth,
+      cethDisplay: formatNum(ceth, 18),
+    }
+    console.log(data)
     return <CaptionForm {...data} />
   } else {
     return <Loading size="large" />

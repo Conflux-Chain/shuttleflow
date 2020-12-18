@@ -16,7 +16,8 @@
     "above-zero": "数值必须大于等于0",
     "block": "错误",
     "switch-test": "请在钱包中将网络切换到Conflux测试网，再进行操作",
-    "switch-main": "请在钱包中将网络切换到Conflux Tethys，再进行操作"
+    "switch-main": "请在钱包中将网络切换到Conflux Tethys，再进行操作",
+    "insufficient": "余额不足"
   },
   "history": "交易历史",
   "more": "查看更多",

@@ -15,9 +15,10 @@ export default function usePendingOperationInfo(erc20) {
           .call({ to: CUSTODIAN_CONTRACT_ADDR }),
       ]).then(([{ cnt }, cooldown]) => {
         if (start) {
+          const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))
           setInfo({
             pendingCount: cnt,
-            formLast: parseInt(Date.now() / 1000 - parseInt(cooldown)),
+            countdown: Math.max(0, 3 * 60 * 60 - diff),
           })
         }
       })
