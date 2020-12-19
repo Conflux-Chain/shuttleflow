@@ -16,5 +16,9 @@
     "above-current": "必须大于最小抵押量"
   },
   "min-mortgage": "Minimum Deposit Amount {{minMortgage}} cETH",
-  "ceth-balance": "Balance {{amount}} cETH"
+  "ceth-balance": "Balance {{amount}} cETH",
+  "for-not-update": "Indicates not to update the deposit amount",
+  "update": "update",
+  "success": "Transaction Submitted",
+  "fail": "Transaction Failed"
 }

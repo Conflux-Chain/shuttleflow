@@ -3,6 +3,7 @@ import useStyle from '../component/useStyle'
 import inputStyles from '../component/input.module.scss'
 import buttonStyles from '../component/button.module.scss'
 import formStyles from './Form.module.scss'
+import modalStyles from '../component/modal.module.scss'
 import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -20,9 +21,14 @@ import useConfluxPortal1 from '../lib/useConfluxPortal'
 
 import getLatestMortgage from '../data/getLatestMortgage'
 import formatAddress from '../component/formatAddress'
+import createBeCaption from '../data/beCaption'
 import formatNum from '../data/formatNum'
 import { Loading } from '@cfxjs/react-ui'
 import { CETH_ADDRESS } from '../config/config'
+import Modal from '../component/Modal'
+
+import success from './success.png'
+import fail from './fail.png'
 
 function CaptionForm({
   pendingCount,
@@ -30,8 +36,9 @@ function CaptionForm({
   address,
   icon,
   symbol,
-  ceth,
-  cethDisplay,
+  beCaption,
+  cethBalance,
+  cethBalanceDisplay,
   burn_fee,
   mint_fee,
   minimal_burn_value,
@@ -60,7 +67,18 @@ function CaptionForm({
   //或者重新竞争 captain，需要最小抵押数量 XX cETH”。
   const isMe = address === sponsor
 
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = (data) => {
+    const _data = Object.assign({}, data)
+    console.log(_data)
+    beCaption({
+      amount: isAll.current ? cethBalance : data.mortgage_amount * 1e18,
+      burnFee: data.burn_fee,
+      mintFee: data.mint_fee,
+      walletFee: data.wallet_fee,
+      minimalMintValue: data.minimal_mint_value,
+      minimalBurnValue: data.minimal_burn_value,
+    })
+  }
 
   const minMortgage = Math.max(
     2,
@@ -114,7 +132,7 @@ function CaptionForm({
     mortgage_amount: yup
       .number()
       .typeError(t('error.number'))
-      .max(cethDisplay, t('error.insufficient'))
+      .max(cethBalanceDisplay, t('error.insufficient'))
       .test(
         'above-current-ifnot-me',
         t('error.above-current'),
@@ -139,7 +157,7 @@ function CaptionForm({
 
   //current user is caption of the symbol and
   //the mortgage of the symbol is not modified
-  const selfNotUpdate = isMe && minMortgageInput === '0'
+  const isUpdate = isMe && minMortgageInput === '0'
 
   const fields = [
     {
@@ -208,9 +226,9 @@ function CaptionForm({
                 }
                 placeholder={t('enter')}
               />
-              {selfNotUpdate && (
+              {isUpdate && (
                 <div className={formCx('for-not-update')}>
-                  {t('txt.for-not-update')}
+                  {t('for-not-update')}
                 </div>
               )}
               <div className={formCx('after')}>cETH</div>
@@ -218,11 +236,14 @@ function CaptionForm({
             <div className={formCx('small-text', 'bottom-text')}>
               <div>{t('min-mortgage', { minMortgage })}</div>
               <div>
-                <span> {t('ceth-balance', { amount: cethDisplay })}</span>
+                <span>
+                  {' '}
+                  {t('ceth-balance', { amount: cethBalanceDisplay })}
+                </span>
                 <span
                   onClick={() => {
                     isAll.current = true
-                    setValue('mortgage_amount', cethDisplay)
+                    setValue('mortgage_amount', cethBalanceDisplay)
                   }}
                   className={formCx('all')}
                 >
@@ -241,7 +262,7 @@ function CaptionForm({
 
           <input
             type="submit"
-            value={selfNotUpdate ? t('update') : t('be-caption')}
+            value={isUpdate ? t('update') : t('be-caption')}
             className={buttonCx('btn') + ' ' + formCx('btn')}
           />
         </form>
@@ -370,10 +391,12 @@ function Countdown({ initValue }) {
 
 export default function CaptionFormData() {
   const { erc20 } = useParams()
-  // const { address } = useConfluxPortal1()
+  const [popup, setPopup] = useState('')
+  const { t } = useTranslation(['caption'])
+  const [cx, modalCx] = useStyle(formStyles, modalStyles)
   const {
     address,
-    balances: [, [ceth]],
+    balances: [, [cethBalance]],
   } = useConfluxPortal1([CETH_ADDRESS])
   /**
    * tokens will change on every render(no cache in useTokenList)
@@ -388,6 +411,21 @@ export default function CaptionFormData() {
   const { pendingCount, countdown } = useCaption(tokenInfo.reference)
 
   const [currentMortgage, setCurrentMortgage] = useState()
+
+  const beCaption = function (...args) {
+    createBeCaption(
+      address,
+      erc20
+    )(...args)
+      .then((e) => {
+        console.log(e)
+        setPopup('success')
+      })
+      .catch((e) => {
+        setPopup('fail')
+        console.log(e)
+      })
+  }
 
   const updateMinMortgage = useCallback((reference) => {
     getLatestMortgage(reference).then((x) => {
@@ -406,18 +444,34 @@ export default function CaptionFormData() {
    * make sure the default from data available when
    * the form compoment rendered the first time
    **/
-  if (typeof pendingCount === 'number' && currentMortgage && ceth) {
+  if (typeof pendingCount === 'number' && currentMortgage && cethBalance) {
     const data = {
       address,
       ...tokenInfo,
       pendingCount,
       countdown,
       currentMortgage,
-      ceth,
-      cethDisplay: formatNum(ceth, 18),
+      beCaption,
+      cethBalance,
+      cethBalanceDisplay: formatNum(cethBalance, 18),
     }
     console.log(data)
-    return <CaptionForm {...data} />
+    return (
+      <>
+        <CaptionForm {...data} />
+        <Modal show={popup} clickAway={() => setPopup(false)}>
+          <img
+            className={cx('status-img')}
+            src={popup === 'success' ? success : fail}
+            alt="status"
+          ></img>
+          <div className={modalCx('title')}>
+            {t(popup === 'success' ? 'success' : 'fail')}
+          </div>
+          <div className={modalCx('btn')}>{t('popup.ok')}</div>
+        </Modal>
+      </>
+    )
   } else {
     return <Loading size="large" />
   }

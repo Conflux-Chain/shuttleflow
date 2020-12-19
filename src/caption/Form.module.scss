@@ -198,3 +198,12 @@
     font-size: 1.25rem;
   }
 }
+
+.status-img {
+  &.large {
+    width: 21.25rem;
+    height: 15rem;
+    display: block;
+    margin: auto;
+  }
+}

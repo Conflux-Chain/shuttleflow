@@ -16,5 +16,9 @@
     "above-current": "必须大于最小抵押量"
   },
   "min-mortgage": "最小抵押数量 {{minMortgage}} cETH",
-  "ceth-balance": "钱包余额 {{amount}} cETH"
+  "ceth-balance": "钱包余额 {{amount}} cETH",
+  "for-not-update": "表示不更新抵押数量",
+  "update": "更新",
+  "success": "交易已发出",
+  "fail": "交易失败"
 }

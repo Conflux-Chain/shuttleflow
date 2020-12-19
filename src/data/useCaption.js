@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 import jsonrpc from './jsonrpc'
-import custodianAbi from './contract/CustodianImpl.json'
-import { CUSTODIAN_CONTRACT_ADDR } from '../config/config'
 import { getCustodianContract } from './contract'
 
 export default function usePendingOperationInfo(erc20) {
