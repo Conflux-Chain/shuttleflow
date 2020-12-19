@@ -1,31 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { buildSearch, parseSearch } from '../../component/urlSearch'
-import PaddingContainer from '../../component/PaddingContainer/PaddingContainer'
+import { buildSearch } from '../component/urlSearch'
+import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 
 import TokenList from './TokenList'
 import Search from './Search'
 import Button from './Button'
 
-import useStyle from '../../component/useStyle'
+import useStyle from '../component/useStyle'
 import chooseStyles from './Choose.module.scss'
+import useUrlSearch from '../data/useUrlSearch'
 
-export default function ChooseToken({
-  location: { search },
-  caption,
-  next: nextFromProps,
-}) {
+export default function ChooseToken({ caption, cToken, next, ...extra }) {
   const [chooseCx] = useStyle(chooseStyles)
-  const { next: nextFromUrl, cToken, ...extra } = parseSearch(search)
-
-  const next = nextFromProps || nextFromUrl
   const [searchTxt, setSearchTxt] = useState('')
   const [isNotAvailable, setIsNotAvailable] = useState(false)
-  const [token, setToken] = useState('')
   const [notFound, setNotFound] = useState(false)
+  const { token } = useUrlSearch()
   const { t } = useTranslation(['token'])
-  
 
   return (
     <div className={chooseCx('container')}>
@@ -34,10 +27,8 @@ export default function ChooseToken({
       </PaddingContainer>
       <TokenList
         search={searchTxt}
-        token={token}
         frequent={!caption}
         showMortgage={caption}
-        setToken={setToken}
         cToken={cToken}
         notFound={notFound}
         setNotFound={setNotFound}
@@ -45,17 +36,20 @@ export default function ChooseToken({
       />
 
       {!notFound && (
-        <PaddingContainer>
+        <PaddingContainer bottom>
           <Button
             path={{
-              pathname: next,
-              search: buildSearch({ token, ...extra }),
+              pathname: isNotAvailable
+                ? `/caption/${token}`
+                : typeof next === 'function'
+                ? next(token)
+                : next,
             }}
             disabled={caption ? !token : !token && !isNotAvailable}
           >
             {caption
               ? 'Be caption'
-              : t(isNotAvailable ? 'btn.add-token' : 'choose-btn')}
+              : t(isNotAvailable ? 'add-token' : 'choose-btn')}
           </Button>
         </PaddingContainer>
       )}

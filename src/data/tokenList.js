@@ -9,13 +9,17 @@ const icons = {
 }
 
 const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
+  console.log(result)
+  // console.log(result.filter(x=>x.ctoken))
   return result.map((d) => {
     // cToken的totalSupply和sponsor_value都是18位，除以1e18就行
     // 其他的都是decimal
     //todo symbol is undefined currently
     const {
       reference,
-      // reference_symbol,
+      symbol,
+      reference_symbol,
+      reference_name,
       sponsor_value,
       total_supply,
       decimals,
@@ -28,7 +32,9 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
     } = d
     return {
       ...d,
-      // symbol: 'c' + reference_symbol,
+      symbol: symbol || '',
+      reference_name: reference_name || '',
+      reference_symbol: reference_symbol || '',
       total_supply: format(total_supply, 18),
       sponsor_value: format(sponsor_value, 18),
       minimal_burn_value: format(minimal_burn_value, decimals),
@@ -40,7 +46,7 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
     }
   })
 })
-
+export default tokenList
 export const tokenMap = tokenList.then((list) => {
   return list.reduce((pre, cur) => {
     pre[cur.reference] = cur
@@ -48,4 +54,11 @@ export const tokenMap = tokenList.then((list) => {
   }, {})
 })
 
-export default tokenList
+export const displayTokensList = tokenList.then((list) => {
+  return list.filter((x) => {
+    return (
+      (x.supported === 1 && x.in_token_list === 1) ||
+      ['btc', 'eth'].indexOf(x.reference) > -1
+    )
+  })
+})

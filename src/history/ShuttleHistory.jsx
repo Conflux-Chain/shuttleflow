@@ -5,14 +5,14 @@ import styles from './ShuttleHistory.module.scss'
 import rightArrow from './right-arrow.svg'
 import sync from './sync.svg'
 import { useTranslation } from 'react-i18next'
-import useHistories from '../data/useHistory'
+import useOperationHistory from '../data/useOperationHistory'
 import Histories from './Histories'
 
 export default function ShuttleHistory({ type }) {
   const { t } = useTranslation('common', 'history')
 
   const history = useHistory()
-  const { data: histories, reload, loading } = useHistories({
+  const { data: histories, reload, loading } = useOperationHistory({
     status: ['doing'],
     limit: 3,
     type,

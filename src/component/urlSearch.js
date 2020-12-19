@@ -10,6 +10,7 @@ export function buildSearch(obj) {
 }
 
 export function parseSearch(search) {
+  console.error('remove')
   return [...new URLSearchParams(search).entries()]
     .reduce((pre, [key, value]) => {
       pre[key] = value

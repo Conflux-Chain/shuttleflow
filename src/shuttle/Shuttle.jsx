@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Switch, Route, Link, Redirect } from 'react-router-dom'
+import { Switch, Route, Link, Redirect, useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import layoutBottomState from '../layout/LayoutButtomState'
 
@@ -18,14 +18,17 @@ import MenuLink from '../component/MenuLink'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
+import useTokenList from '../data/useTokenList'
+import useUrlSearch from '../data/useUrlSearch'
 
-export default function Shuttle({ match: { path, url } }) {
+export default function Shuttle({
+  match: { path, url },
+}) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['nav'])
   const inUrl = `${url}/in`
   const outUrl = `${url}/out`
   const [, setLayoutBottom] = useRecoilState(layoutBottomState)
-
   useEffect(() => {
     setLayoutBottom('8.5rem')
     return () => setLayoutBottom('0rem')
@@ -62,13 +65,24 @@ export default function Shuttle({ match: { path, url } }) {
           }}
         />
       </nav>
-      <PaddingContainer>
+      <PaddingContainer bottom>
         <Switch>
           <Redirect from={path} exact to={`${path}/in`} />
-          <Route path={`${path}/in`} component={ShuttleIn} />
-          <Route path={`${path}/out`} component={ShuttleOut} />
+          <Route
+            path={`${path}/:type/:erc20?`}
+            component={RouteComponent}
+          ></Route>
         </Switch>
       </PaddingContainer>
     </MainContainer>
   )
+}
+
+function RouteComponent() {
+  const { type, erc20 = '' } = useParams()
+  const { tokens } = useTokenList({ erc20 })
+  //display tokenInfo only when token is url available
+  const tokenInfo = erc20 && tokens ? tokens[0] : null
+  const Component = type === 'in' ? ShuttleIn : ShuttleOut
+  return <Component tokenInfo={tokenInfo} />
 }

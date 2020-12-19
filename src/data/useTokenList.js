@@ -1,54 +1,78 @@
 import { useEffect } from 'react'
 import useState1 from './useState1'
 
-import tokenList from './tokenList'
+import tokenList, { displayTokensList } from './tokenList'
+import { isAddress } from './address'
+import jsonrpc from './jsonrpc'
 
 let supportedTokensResolved
-tokenList.then((x) => {
+displayTokensList.then((x) => {
   supportedTokensResolved = true
 })
 
-export default function useTokenList(search, { isReference } = {}) {
-  const [state, setState] = useState1({ tokens: [], isLoading: true })
-  useEffect(() => {
-    if (!supportedTokensResolved) {
-      setState({ isLoading: true })
+export default function useTokenList({ search, erc20 = '', cToken } = {}) {
+  const [state, setState] = useState1({
+    tokens: [],
+    isLoading: supportedTokensResolved,
+  })
+  let erc777 = ''
+  if (isAddress(search)) {
+    if (cToken) {
+      erc777 = search
+    } else {
+      erc20 = search
     }
-    tokenList
-      .then((tokens) => {
-        supportedTokensResolved = true
+  }
 
-        if (search) {
+  erc20 = erc20.toLocaleLowerCase()
+  erc777 = erc777.toLocaleLowerCase()
+  useEffect(() => {
+    ;(search || erc20 ? tokenList : displayTokensList)
+      .then((tokens) => {
+        if (erc20) {
+          return Promise.resolve(
+            tokens.filter(({ reference }) => {
+              return erc20 === reference
+            })
+          ).then(([token]) => {
+            if (!token) {
+              return jsonrpc('searchToken', {
+                url: 'sponsor',
+                params: [search],
+              }).then((result) => {
+                if (result.is_valid_erc20) {
+                  return [result]
+                } else {
+                  return []
+                }
+              })
+            } else {
+              return [token]
+            }
+          })
+        } else if (erc777) {
+          return tokens.filter(
+            ({ ctoken: _ctoken, supported }) =>
+              erc777 === _ctoken && supported === 1
+          )
+        } else if (search) {
           const lowersearch = search.toLowerCase()
-          const found = tokens.filter(
-            //we can not ensure everything is defined from the backend
-            ({ ctoken, reference, reference_symbol, reference_name }) => {
+          return tokens.filter(
+            ({ reference_symbol, reference_name, supported }) => {
               return (
-                ctoken === lowersearch ||
-                reference === lowersearch ||
-                (!isReference
-                  ? (reference_symbol &&
-                      reference_symbol.toLowerCase().indexOf(lowersearch) >
-                        -1) ||
-                    (reference_name &&
-                      reference_name.toLowerCase().indexOf(lowersearch) > -1)
-                  : false)
+                (reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
+                  reference_name.toLowerCase().indexOf(lowersearch) > -1) &&
+                (cToken ? supported === 1 : true)
               )
             }
           )
-
-          if (found.length > 0) {
-            return found
-          } else {
-            return []
-          }
         } else {
           return tokens
         }
       })
       .then((tokens) => {
-        setState({ tokens, isLoading: false })
+        setState({ tokens: tokens.filter((x) => x), isLoading: false })
       })
-  }, [search, setState, isReference])
+  }, [search, setState, erc20, erc777, cToken])
   return state
 }

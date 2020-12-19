@@ -6,11 +6,9 @@
     "input-amount": "输入跨出数量"
   },
   "error": {
-    "insufficient": "余额不足",
     "invalid-address": "钱包地址不正确",
     "min": "数值必须大于等于 {{minimal_burn_value}} {{symbol}}"
   },
-  "all": "全部",
   "balance": "可用余额 {{amount}} {{symbol}}",
   "fee": "手续费 {{burn_fee}} {{symbol}}",
   "min-amount": "最小数量 {{minimal_burn_value}} {{symbol}}",

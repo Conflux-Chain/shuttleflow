@@ -3,15 +3,15 @@ import historyStyles from './history.module.scss'
 import useStyle from '../component/useStyle'
 import Accordion from '../component/Accordion'
 import { useTranslation } from 'react-i18next'
-import useUserHistory from '../data/useHistory'
+import useOperationHistory from '../data/useOperationHistory'
 import { useHistory } from 'react-router-dom'
 import notFound from '../component/not-found.png'
 import Histories from './Histories'
 import open from './down.svg'
 import { Loading } from '@cfxjs/react-ui'
-import { parseSearch } from '../component/urlSearch'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
+import useUrlSearch from '../data/useUrlSearch'
 
 const FILTERS = [
   ['all', ['doing', 'finished']],
@@ -19,16 +19,16 @@ const FILTERS = [
   ['pending', ['doing']],
 ]
 
-export default function History({ location: { search } }) {
+export default function History() {
   const [cx] = useStyle(historyStyles)
   const { t } = useTranslation('history')
   const [statusExpanded, setStatusExpanded] = useState(false)
   const [typeExpanded, setTypeExpanded] = useState(false)
   const [filter, setFilter] = useState(0)
-  const { type = 'mint' } = parseSearch(search)
+  const { type = 'mint' } = useUrlSearch()
   const history = useHistory()
 
-  const { data: histories, loading } = useUserHistory({
+  const { data: histories, loading } = useOperationHistory({
     status: FILTERS[filter][1],
     type,
   })
@@ -123,7 +123,7 @@ export default function History({ location: { search } }) {
           <Loading size="large" />
         </div>
       ) : (
-        <PaddingContainer>
+        <PaddingContainer bottom>
           <div className={cx('history-items')}>
             {histories.length > 0 ? (
               <Histories histories={histories} />

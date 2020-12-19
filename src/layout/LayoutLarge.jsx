@@ -97,7 +97,7 @@ export default function LayoutLarge({ history }) {
               )
             }}
           />
-          {/* <MenuLink
+          <MenuLink
             to="/caption"
             render={({ active }) => {
               return (
@@ -105,11 +105,11 @@ export default function LayoutLarge({ history }) {
                   onClick={() => history.push('/caption')}
                   className={cx('item', { active })}
                 >
-                  {t('btn.be-caption')}
+                  {t('be-caption')}
                 </div>
               )
             }}
-          /> */}
+          />
           <Accordion
             contentStyle={{ position: 'absolute', right: '2rem', top: '5rem' }}
             clickAway={clickAway}

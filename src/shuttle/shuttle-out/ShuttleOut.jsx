@@ -25,8 +25,7 @@ import { yupResolver } from '@hookform/resolvers'
 import * as yup from 'yup'
 import { ErrorMessage } from '@hookform/error-message'
 
-import { buildSearch, parseSearch } from '../../component/urlSearch'
-import useTokenList from '../../data/useTokenList'
+import { buildSearch } from '../../component/urlSearch'
 import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
@@ -35,7 +34,7 @@ import Input from '../Input'
 import { parseNum } from '../../data/formatNum'
 import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
 
-export default function ShuttleOut({ location: { search }, match: { url } }) {
+export default function ShuttleOut({ tokenInfo }) {
   const [
     commonCx,
     buttonCx,
@@ -52,9 +51,8 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     shuttleInStyle
   )
   const { t } = useTranslation('shuttle-out')
-  const { token, ...extra } = parseSearch(search)
-  const { tokens } = useTokenList(token, { isReference: true })
-  const tokenInfo = tokens && token ? tokens[0] : null
+  const extra = {}
+  const token = tokenInfo && tokenInfo.reference
 
   const [errorPopup, setErrorPopup] = useState(false)
   const [successPopup, setSuccessPopup] = useState(false)
@@ -73,6 +71,12 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
 
   const isAll = useRef(false)
 
+  console.log(
+    'tokenInfo.ctoken',
+    tokenInfo && tokenInfo.ctoken,
+    tokenInfo,
+    CUSTODIAN_CONTRACT_ADDR
+  )
   const { burn } = useCToken(
     tokenInfo ? tokenInfo.ctoken : '',
     CUSTODIAN_CONTRACT_ADDR
@@ -81,6 +85,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   let {
     balances: [, [_balance]],
   } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
+  console.log('_balance', _balance)
   let balance = 0
 
   console.log(_balance && _balance.toString(), tokenInfo && tokenInfo.ctoken)
@@ -121,12 +126,14 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
       outamount = balance
     }
 
+    console.log(outamount, outwallet)
     burn(outamount, outwallet)
       .then((e) => {
         tx.current = e
         setSuccessPopup(true)
       })
       .catch((e) => {
+        console.error(e)
         setErrorPopup(true)
       })
   }
@@ -143,7 +150,10 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           placeholder={t('placeholder.out')}
           to={{
             pathname: '/token',
-            search: buildSearch({ next: url, cToken: 1, ...getValues() }),
+            search: buildSearch({
+              next: 'shuttle/out',
+              cToken: 1,
+            }),
           }}
           tokenInfo={tokenInfo}
           cToken={() => setCTokenPopup(true)}
@@ -158,8 +168,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           to={{
             pathname: '/token',
             search: buildSearch({
-              next: url,
-              ...getValues(),
+              next: '/shuttle/out',
             }),
           }}
           tokenInfo={tokenInfo}

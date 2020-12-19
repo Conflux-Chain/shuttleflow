@@ -1,11 +1,6 @@
-import React from 'react'
-export default function MainContainer({ children, ...props }) {
-  return (
-    <div
-      {...props}
-      style={{ backgroundColor: '#1b1b1b', borderRadius: '0.5rem' }}
-    >
-      {children}
-    </div>
-  )
-}
+import styled from 'styled-components'
+
+export default styled.div`
+  background-color: #1b1b1b;
+  border-radius: 0.5rem;
+`

@@ -7,6 +7,8 @@ import riskStyles from './risk.module.scss'
 import useStyle from '../component/useStyle'
 import checkSrc from './i-check-64.png'
 import checkedSrc from './i-checked-64.png'
+import { useRecoilState } from 'recoil'
+import displyRiskAtom from '../state/displyRisk'
 
 export default function Risk() {
   const [riskCx, modalCx, buttonCx] = useStyle(
@@ -15,10 +17,19 @@ export default function Risk() {
     buttonStyles
   )
   const [checked, setChecked] = useState(false)
-  const [display, setDisplay] = useState(!localStorage.getItem('risk'))
+  const [displayFromLocalStorage, setLocalStorageDisplay] = useState(
+    !localStorage.getItem('risk')
+  )
+  const [displayFromRecoil, setRecoilState] = useRecoilState(displyRiskAtom)
   const { t } = useTranslation()
   return (
-    <Modal show={display} title={t('risk.title')}>
+    <Modal
+      show={displayFromLocalStorage || displayFromRecoil}
+      title={t('risk.title')}
+    >
+      {displayFromRecoil && (
+        <div className={modalCx('content')}>{t('risk.not-in-gecko')}</div>
+      )}
       <div className={modalCx('content')}>{t('risk.content')}</div>
       <div className={riskCx('known')}>
         <img
@@ -35,7 +46,9 @@ export default function Risk() {
         disabled={!checked}
         onClick={() => {
           localStorage.setItem('risk', true)
-          setDisplay(false)
+          setChecked(false)
+          setLocalStorageDisplay(false)
+          setRecoilState(false)
         }}
       >
         {t('risk.continue')}

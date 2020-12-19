@@ -13,13 +13,26 @@ import useStyle from '../component/useStyle'
 import styles from './Layout.module.scss'
 import Modal from '../component/Modal'
 import notAllow from './not-allow.png'
+import { displayTokensList } from '../data/tokenList'
+import { Loading } from '@cfxjs/react-ui'
+const fontPromise = new Promise((resolve) => {
+  console.log('Roboto loaded? ' + document.fonts.check('1em Roboto')) // false
+  document?.fonts?.ready?.then(function () {
+    resolve(true)
+  })
+})
 
 export default function App() {
   const isSmall = useIsSamll()
   const [cx] = useStyle(styles)
   const { t } = useTranslation()
   const [block, setBlock] = useState(false)
+  const [started, setStarted] = useState(false)
+
   useEffect(() => {
+    Promise.all([fontPromise, displayTokensList]).then(() => {
+      setStarted(true)
+    })
     return subscribeNetwork((chainId) => {
       const network = NETWORKS[parseInt(chainId)]
       setBlock(
@@ -28,7 +41,7 @@ export default function App() {
     })
   }, [])
 
-  return (
+  return started ? (
     <RecoilRoot>
       {IS_DEV && <div className={cx('banner')}>{t('banner')}</div>}
       <Router>
@@ -43,5 +56,7 @@ export default function App() {
         </div>
       </Modal>
     </RecoilRoot>
+  ) : (
+    <Loading size="large" />
   )
 }
