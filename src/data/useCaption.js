@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import jsonrpc from './jsonrpc'
-import custodianAbi from './abi/CustodianImpl.json'
+import custodianAbi from './contract/CustodianImpl.json'
 import { CUSTODIAN_CONTRACT_ADDR } from '../config/config'
+import { getCustodianContract } from './contract'
+
 export default function usePendingOperationInfo(erc20) {
   const [info, setInfo] = useState({})
   useEffect(() => {
@@ -9,10 +11,7 @@ export default function usePendingOperationInfo(erc20) {
       let start = true
       Promise.all([
         jsonrpc('getPendingOperationInfo', { url: 'node', params: [erc20] }),
-        window.confluxJS
-          .Contract({ abi: custodianAbi })
-          .token_cooldown(erc20)
-          .call({ to: CUSTODIAN_CONTRACT_ADDR }),
+        getCustodianContract().token_cooldown(erc20).call(),
       ]).then(([{ cnt }, cooldown]) => {
         if (start) {
           const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))

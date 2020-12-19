@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react'
 import useStyle from '../component/useStyle'
 import inputStyles from '../component/input.module.scss'
 import buttonStyles from '../component/button.module.scss'
@@ -32,19 +32,27 @@ function CaptionForm({
   symbol,
   ceth,
   cethDisplay,
+  burn_fee,
+  mint_fee,
+  minimal_burn_value,
+  minimal_mint_value,
   reference_symbol,
   reference_name,
+  wallet_fee,
   supported,
   sponsor,
   currentMortgage,
 }) {
-  console.log(currentMortgage)
   const { t } = useTranslation(['caption'])
   const [inputCx, buttonCx, formCx] = useStyle(
     inputStyles,
     buttonStyles,
     formStyles
   )
+
+  const isAll = useRef(false)
+
+  // cethDisplay=200
 
   //若当前连接钱包的 Address 为该 token captain 本人时
   //token captain 规则表单中 “抵押数量”默认值为0，
@@ -60,46 +68,50 @@ function CaptionForm({
   )
 
   const schema = yup.object().shape({
-    inFee: yup
+    mint_fee: yup
       .number()
       .typeError(t('error.number'))
       .min(0, t('error.above-zero'))
       .test('below-in-amount', t('error.below-in-amount'), function (params) {
         const {
-          parent: { inMin },
+          parent: { minimal_mint_value },
         } = this
-        return Number.isNaN(inMin) ? true : params < inMin
+        return Number.isNaN(minimal_mint_value)
+          ? true
+          : params < minimal_mint_value
       }),
-    outFee: yup
+    burn_fee: yup
       .number()
       .typeError(t('error.number'))
       .min(0, t('error.above-zero'))
       .test('below-out-amount', t('error.below-out-amount'), function (params) {
         const {
-          parent: { outMin },
+          parent: { minimal_burn_value },
         } = this
-        return Number.isNaN(outMin) ? true : params < outMin
+        return Number.isNaN(minimal_burn_value)
+          ? true
+          : params < minimal_burn_value
       }),
-    inMin: yup
+    minimal_mint_value: yup
       .number()
       .typeError(t('error.number'))
       .min(0, t('error.above-zero'))
       .test('above-in-fee', t('error.above-in-fee'), function (params) {
         const { parent } = this
-        return Number.isNaN(parent.inFee) ? true : params > parent.inFee
+        return Number.isNaN(parent.mint_fee) ? true : params > parent.mint_fee
       }),
-    outMin: yup
+    minimal_burn_value: yup
       .number()
       .typeError(t('error.number'))
       .test('above-out-fee', t('error.above-out-fee'), function (params) {
         const { parent } = this
-        return Number.isNaN(parent.outFee) || params > parent.outFee
+        return Number.isNaN(parent.burn_fee) || params > parent.burn_fee
       }),
     wallet_fee: yup
       .number()
       .typeError(t('error.number'))
       .min(0, t('errors.above-zero')),
-    minMortgage: yup
+    mortgage_amount: yup
       .number()
       .typeError(t('error.number'))
       .max(cethDisplay, t('error.insufficient'))
@@ -113,13 +125,17 @@ function CaptionForm({
   const { register, handleSubmit, errors, setValue, watch } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      ...{},
-      minMortgage: isMe ? 0 : minMortgage,
+      mint_fee: mint_fee,
+      burn_fee: burn_fee,
+      minimal_mint_value: minimal_mint_value,
+      minimal_burn_value: minimal_burn_value,
+      wallet_fee,
+      mortgage_amount: isMe ? 0 : minMortgage,
     },
     mode: 'onBlur',
   })
   console.log(errors)
-  const { minMortgage: minMortgageInput } = watch(['minMortgage'])
+  const { mortgage_amount: minMortgageInput } = watch(['mortgage_amount'])
 
   //current user is caption of the symbol and
   //the mortgage of the symbol is not modified
@@ -129,25 +145,25 @@ function CaptionForm({
     {
       label: t('shuttle-in-fee'),
       unit: symbol,
-      name: 'inFee',
+      name: 'mint_fee',
       readOnly: supported && countdown !== 0,
     },
     {
       label: t('shuttle-out-fee'),
       unit: symbol,
-      name: 'outFee',
+      name: 'burn_fee',
       readOnly: supported && countdown !== 0,
     },
     {
       label: t('shuttle-in-amount'),
       unit: reference_symbol,
-      name: 'inMin',
+      name: 'minimal_mint_value',
       readOnly: supported && countdown !== 0,
     },
     {
       label: t('shuttle-out-amount'),
       unit: symbol,
-      name: 'outMin',
+      name: 'minimal_burn_value',
       readOnly: supported && countdown !== 0,
     },
     {
@@ -169,13 +185,23 @@ function CaptionForm({
               <div className={formCx('label')}>{t('morgage-amount')}</div>
               <input
                 ref={register}
-                name="minMortgage"
+                name="mortgage_amount"
                 autoComplete="off"
                 data-lpignore="true"
+                onChange={(e) => {
+                  let value = e.target.value
+                  let [p1, p2] = value.split('.')
+                  if (p2) {
+                    p2 = p2.slice(0, 6)
+                    value = [p1, p2].join('.')
+                  }
+                  e.target.value = value
+                  isAll.current = false
+                }}
                 className={
                   inputCx(
                     'input-common',
-                    errors['minMortgage'] ? 'error' : ''
+                    errors['mortgage_amount'] ? 'error' : ''
                   ) +
                   ' ' +
                   formCx('input')
@@ -195,18 +221,18 @@ function CaptionForm({
                 <span> {t('ceth-balance', { amount: cethDisplay })}</span>
                 <span
                   onClick={() => {
-                    setValue('minMortgage', cethDisplay)
+                    isAll.current = true
+                    setValue('mortgage_amount', cethDisplay)
                   }}
                   className={formCx('all')}
                 >
-                  {' '}
-                  {t('btn.all')}
+                  {t('all')}
                 </span>
               </div>
             </div>
             <ErrorMessage
               errors={errors}
-              name="minMortgage"
+              name="mortgage_amount"
               render={({ message }) => {
                 return <p className={formCx('error')}>{message}</p>
               }}
@@ -215,7 +241,7 @@ function CaptionForm({
 
           <input
             type="submit"
-            value={selfNotUpdate ? t('btn.update') : t('btn.be-caption')}
+            value={selfNotUpdate ? t('update') : t('be-caption')}
             className={buttonCx('btn') + ' ' + formCx('btn')}
           />
         </form>
@@ -270,7 +296,8 @@ function CaptionForm({
           </div>
           <div className={formCx('right')}>
             <div className={formCx('large-text')}>
-              {(minMortgage ? formatNum(currentMortgage, 18) : '--') + ' cETH'}
+              {(currentMortgage ? formatNum(currentMortgage, 18) : '--') +
+                ' cETH'}
             </div>
             <div
               className={formCx('small-text')}

@@ -22,5 +22,6 @@
     "insufficient": "Insufficient balance"
   },
   "btc": "BTC",
-  "eth": "Ethereum"
+  "eth": "Ethereum",
+  "all": "All"
 }
