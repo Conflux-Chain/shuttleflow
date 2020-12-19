@@ -468,7 +468,9 @@ export default function CaptionFormData() {
           <div className={modalCx('title')}>
             {t(popup === 'success' ? 'success' : 'fail')}
           </div>
-          <div className={modalCx('btn')}>{t('popup.ok')}</div>
+          <div onClick={() => setPopup('')} className={modalCx('btn')}>
+            {t('popup.ok')}
+          </div>
         </Modal>
       </>
     )
