@@ -9,8 +9,6 @@ const icons = {
 }
 
 const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
-  console.log(result)
-  // console.log(result.filter(x=>x.ctoken))
   return result.map((d) => {
     // cToken的totalSupply和sponsor_value都是18位，除以1e18就行
     // 其他的都是decimal

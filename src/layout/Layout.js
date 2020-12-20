@@ -16,7 +16,6 @@ import notAllow from './not-allow.png'
 import { displayTokensList } from '../data/tokenList'
 import { Loading } from '@cfxjs/react-ui'
 const fontPromise = new Promise((resolve) => {
-  console.log('Roboto loaded? ' + document.fonts.check('1em Roboto')) // false
   document?.fonts?.ready?.then(function () {
     resolve(true)
   })
