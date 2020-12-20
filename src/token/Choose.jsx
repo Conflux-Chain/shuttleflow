@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { buildSearch } from '../component/urlSearch'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 
 import TokenList from './TokenList'
@@ -48,7 +47,7 @@ export default function ChooseToken({ caption, cToken, next, ...extra }) {
             disabled={caption ? !token : !token && !isNotAvailable}
           >
             {caption
-              ? 'Be caption'
+              ? t('be-caption')
               : t(isNotAvailable ? 'add-token' : 'choose-btn')}
           </Button>
         </PaddingContainer>
