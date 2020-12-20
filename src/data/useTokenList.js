@@ -40,7 +40,7 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
                 url: 'sponsor',
                 params: [search],
               }).then((result) => {
-                if (result.is_valid_erc20) {
+                if (result && result.is_valid_erc20) {
                   return [result]
                 } else {
                   return []

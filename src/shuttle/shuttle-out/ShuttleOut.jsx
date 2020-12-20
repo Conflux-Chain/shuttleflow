@@ -71,12 +71,6 @@ export default function ShuttleOut({ tokenInfo }) {
 
   const isAll = useRef(false)
 
-  console.log(
-    'tokenInfo.ctoken',
-    tokenInfo && tokenInfo.ctoken,
-    tokenInfo,
-    CUSTODIAN_CONTRACT_ADDR
-  )
   const { burn } = useCToken(
     tokenInfo ? tokenInfo.ctoken : '',
     CUSTODIAN_CONTRACT_ADDR
@@ -85,10 +79,9 @@ export default function ShuttleOut({ tokenInfo }) {
   let {
     balances: [, [_balance]],
   } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
-  console.log('_balance', _balance)
+
   let balance = 0
 
-  console.log(_balance && _balance.toString(), tokenInfo && tokenInfo.ctoken)
   if (_balance) {
     balance = parseNum(_balance, 18)
   }
@@ -126,14 +119,13 @@ export default function ShuttleOut({ tokenInfo }) {
       outamount = balance
     }
 
-    console.log(outamount, outwallet)
     burn(outamount, outwallet)
       .then((e) => {
         tx.current = e
         setSuccessPopup(true)
       })
       .catch((e) => {
-        console.error(e)
+
         setErrorPopup(true)
       })
   }

@@ -17,6 +17,7 @@ module.exports = function (app) {
     '/rpcsponsor',
     createProxyMiddleware({
       target: 'http://52.141.21.174:8019',
+      // target: 'https://test.shuttleflow.confluxnetwork.org/',
       changeOrigin: true,
       pathRewrite: {
         '/rpcsponsor': '',

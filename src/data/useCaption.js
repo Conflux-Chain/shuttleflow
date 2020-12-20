@@ -10,7 +10,7 @@ export default function usePendingOperationInfo(erc20) {
       Promise.all([
         jsonrpc('getPendingOperationInfo', { url: 'node', params: [erc20] }),
         getCustodianContract().token_cooldown(erc20).call(),
-      ]).then(([{ cnt }, cooldown]) => {
+      ]).then(([{ cnt = 0 } = {}, cooldown]) => {
         if (start) {
           const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))
           setInfo({

@@ -68,8 +68,6 @@ function CaptionForm({
   const isMe = address === sponsor
 
   const onSubmit = (data) => {
-    const _data = Object.assign({}, data)
-    console.log(_data)
     beCaption({
       amount: isAll.current ? cethBalance : data.mortgage_amount * 1e18,
       burnFee: data.burn_fee,
@@ -152,7 +150,6 @@ function CaptionForm({
     },
     mode: 'onBlur',
   })
-  console.log(errors)
   const { mortgage_amount: minMortgageInput } = watch(['mortgage_amount'])
 
   //current user is caption of the symbol and
@@ -418,12 +415,10 @@ export default function CaptionFormData() {
       erc20
     )(...args)
       .then((e) => {
-        console.log(e)
         setPopup('success')
       })
       .catch((e) => {
         setPopup('fail')
-        console.log(e)
       })
   }
 
@@ -455,7 +450,6 @@ export default function CaptionFormData() {
       cethBalance,
       cethBalanceDisplay: formatNum(cethBalance, 18),
     }
-    console.log(data)
     return (
       <>
         <CaptionForm {...data} />
