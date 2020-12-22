@@ -39,7 +39,7 @@ export default function History() {
       <MainContainer className={cx('select')}>
         <Accordion
           expanded={typeExpanded}
-          contentStyle={{ position: 'absolute', left: 0, right: 0 }}
+          contentStyle={{ position: 'absolute', left: 0, right: 0, zIndex: 1 }}
           title={
             <div
               onClick={() => {
@@ -81,7 +81,7 @@ export default function History() {
         />
         <Accordion
           expanded={statusExpanded}
-          contentStyle={{ position: 'absolute', left: 0, right: 0 }}
+          contentStyle={{ position: 'absolute', left: 0, right: 0, zIndex: 1 }}
           title={
             <div
               onClick={() => {

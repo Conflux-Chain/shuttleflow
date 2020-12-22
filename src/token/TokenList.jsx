@@ -175,8 +175,8 @@ function TokenList({
           )}
         </div>
       </Scrollbars>
-      <Modal show={popup} clickAway={() => setPopup(false)}>
-        <Title title={t('list')} />
+      <Modal show={popup} title={t('list')} clickAway={() => setPopup(false)}>
+        {/* <Title title={t('list')} /> */}
       </Modal>
     </>
   )
