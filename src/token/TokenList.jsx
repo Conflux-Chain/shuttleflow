@@ -19,6 +19,8 @@ import { Loading } from '@cfxjs/react-ui'
 import { buildSearch } from '../component/urlSearch'
 import { useHistory } from 'react-router-dom'
 import useUrlSearch from '../data/useUrlSearch'
+import WithQuestion from '../component/WithQuestion'
+import Modal, { Title } from '../component/Modal'
 
 const FREQUENT_TOKENS = [
   'btc',
@@ -60,6 +62,8 @@ function TokenList({
   const [ListCx, titleCx] = useStyle(tokenListStyles, titleStyles)
   const [sort, setSort] = useState('name')
 
+  const [popup, setPopup] = useState(false)
+
   useEffect(() => {
     if (setNotFound && displayedList) {
       setNotFound(displayedList.length === 0)
@@ -75,97 +79,106 @@ function TokenList({
   }
 
   return (
-    //we should combine frequent token and tokenlist in one component
-    //cause they share the same container of fixed height
-    <Scrollbars
-      autoHide
-      renderThumbVertical={renderThumbVertical}
-      style={{
-        flex: 1,
-        position: 'relative',
-      }}
-    >
-      <PaddingContainer bottom={false}>
-        {frequent && !search && tokenList.length && (
-          <>
-            <div className={titleCx('title')}>{t('frequent')}</div>
-            <div className={ListCx('frequent-container')}>
-              {FREQUENT_TOKENS.map((_preset_reference) => {
-                let tokenData, active
-                if (tokenList.length > 0) {
-                  tokenData = tokenList.find(
-                    ({ reference }) => reference === _preset_reference
-                  )
-                  //frequent token is hardcoded, in case the
-                  //tokenlist change and hardcoded data not found
-                  if (!tokenData) {
-                    return null
+    <>
+      {/* we should combine frequent token and tokenlist in one component //cause
+      they share the same container of fixed height */}
+      <Scrollbars
+        renderThumbVertical={renderThumbVertical}
+        style={{
+          flex: 1,
+          position: 'relative',
+        }}
+      >
+        <PaddingContainer bottom={false}>
+          {frequent && !search && tokenList.length && (
+            <>
+              <div className={titleCx('title')}>{t('frequent')}</div>
+              <div className={ListCx('frequent-container')}>
+                {FREQUENT_TOKENS.map((_preset_reference) => {
+                  let tokenData, active
+                  if (tokenList.length > 0) {
+                    tokenData = tokenList.find(
+                      ({ reference }) => reference === _preset_reference
+                    )
+                    //frequent token is hardcoded, in case the
+                    //tokenlist change and hardcoded data not found
+                    if (!tokenData) {
+                      return null
+                    }
+                    active = tokenData.reference === token
                   }
-                  active = tokenData.reference === token
-                }
-                return (
-                  <div
-                    onClick={() => setToken(active ? '' : tokenData.reference)}
-                    className={ListCx({ active }, 'frequent')}
-                    key={_preset_reference}
-                  >
-                    {(cToken ? 'c' : '') + tokenData.reference_symbol}
-                  </div>
-                )
-              })}
-            </div>
-          </>
-        )}
-        {!search && (
-          <div className={ListCx('list-title') + ' ' + titleCx('title')}>
-            <span>{t('list')}</span>
-            <div className={ListCx('right')}>
-              <span className={ListCx('name')}> {t('Name')}</span>
-              <div className={ListCx('btns')}>
-                <Triangle
-                  onClick={() => setSort('name')}
-                  active={sort === 'name'}
-                ></Triangle>
-                <Triangle
-                  active={sort === 'name-reverse'}
-                  onClick={() => setSort('name-reverse')}
-                  reverse={true}
-                ></Triangle>
+                  return (
+                    <div
+                      onClick={() =>
+                        setToken(active ? '' : tokenData.reference)
+                      }
+                      className={ListCx({ active }, 'frequent')}
+                      key={_preset_reference}
+                    >
+                      {(cToken ? 'c' : '') + tokenData.reference_symbol}
+                    </div>
+                  )
+                })}
+              </div>
+            </>
+          )}
+          {!search && (
+            <div className={ListCx('list-title') + ' ' + titleCx('title')}>
+              <WithQuestion onClick={() => setPopup(true)}>
+                <span>{t('list')}</span>
+              </WithQuestion>
+
+              <div className={ListCx('right')}>
+                <span className={ListCx('name')}> {t('Name')}</span>
+                <div className={ListCx('btns')}>
+                  <Triangle
+                    onClick={() => setSort('name')}
+                    active={sort === 'name'}
+                  ></Triangle>
+                  <Triangle
+                    active={sort === 'name-reverse'}
+                    onClick={() => setSort('name-reverse')}
+                    reverse={true}
+                  ></Triangle>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </PaddingContainer>
-      <div className={ListCx('container')}>
-        {displayedList.length === 0 ? (
-          <img
-            alt="not found"
-            className={ListCx('not-found')}
-            src={notFoundSrc}
-          ></img>
-        ) : (
-          displayedList
-            .slice()
-            .sort(sorts[sort])
-            .map((tokenInfo, i) => {
-              return (
-                <TokenRow
-                  key={i}
-                  {...{
-                    ...tokenInfo,
-                    token,
-                    cToken,
-                    checked: token === tokenInfo.reference,
-                    showMortgage,
-                    setToken,
-                    setIsNotAvailable,
-                  }}
-                />
-              )
-            })
-        )}
-      </div>
-    </Scrollbars>
+          )}
+        </PaddingContainer>
+        <div className={ListCx('container')}>
+          {displayedList.length === 0 ? (
+            <img
+              alt="not found"
+              className={ListCx('not-found')}
+              src={notFoundSrc}
+            ></img>
+          ) : (
+            displayedList
+              .slice()
+              .sort(sorts[sort])
+              .map((tokenInfo, i) => {
+                return (
+                  <TokenRow
+                    key={i}
+                    {...{
+                      ...tokenInfo,
+                      token,
+                      cToken,
+                      checked: token === tokenInfo.reference,
+                      showMortgage,
+                      setToken,
+                      setIsNotAvailable,
+                    }}
+                  />
+                )
+              })
+          )}
+        </div>
+      </Scrollbars>
+      <Modal show={popup} clickAway={() => setPopup(false)}>
+        <Title title={t('list')} />
+      </Modal>
+    </>
   )
 }
 

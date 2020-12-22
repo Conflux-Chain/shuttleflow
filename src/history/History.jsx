@@ -12,6 +12,8 @@ import { Loading } from '@cfxjs/react-ui'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useUrlSearch from '../data/useUrlSearch'
+import { Scrollbars } from 'react-custom-scrollbars'
+import renderThumbVertical from '../component/renderThumbVertical'
 
 const FILTERS = [
   ['all', ['doing', 'finished']],
@@ -33,7 +35,7 @@ export default function History() {
     type,
   })
   return (
-    <MainContainer className={cx('history-container')}>
+    <div className={cx('history-container')}>
       <MainContainer className={cx('select')}>
         <Accordion
           expanded={typeExpanded}
@@ -123,16 +125,35 @@ export default function History() {
           <Loading size="large" />
         </div>
       ) : (
-        <PaddingContainer bottom>
-          <div className={cx('history-items')}>
-            {histories.length > 0 ? (
-              <Histories histories={histories} />
-            ) : (
-              <img className={cx('not-found')} alt="not found" src={notFound} />
-            )}
-          </div>
-        </PaddingContainer>
+        <Scrollbars
+          renderThumbVertical={renderThumbVertical}
+          style={{
+            flex: 1,
+            // position: 'relative',
+          }}
+          autoHide={true}
+        >
+          <PaddingContainer
+            bottom
+            style={{
+              backgroundColor: '#1b1b1b',
+              display: 'flow-root',
+            }}
+          >
+            <div className={cx('history-items')}>
+              {histories.length > 0 ? (
+                <Histories histories={histories} />
+              ) : (
+                <img
+                  className={cx('not-found')}
+                  alt="not found"
+                  src={notFound}
+                />
+              )}
+            </div>
+          </PaddingContainer>
+        </Scrollbars>
       )}
-    </MainContainer>
+    </div>
   )
 }

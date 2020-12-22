@@ -52,3 +52,13 @@ function Inner({ children, clickAway, title, onClose }) {
     document.getElementById('popup')
   )
 }
+
+export function Title({ title }) {
+  const [cx] = useStyle(styles)
+  const { t } = useTranslation()
+  return (
+    <div className={cx('title')}>
+      {typeof title === 'string' ? title : t('popup.title')}
+    </div>
+  )
+}
