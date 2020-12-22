@@ -8,7 +8,6 @@ import copy from './i-copy-48.png'
 
 import tick from './tick.svg'
 import qr from './qr.svg'
-import question from '../../component/question.svg'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import Modal from '../../component/Modal'
@@ -23,10 +22,9 @@ import useShuttleInAddress from '../../data/useShuttleInAddress'
 import TokenInput from '../TokenInput'
 
 import CTokenPopup from '../CTokenPopup'
-import { useRouteMatch } from 'react-router-dom'
+import WithQuestion from '../../component/WithQuestion'
 
 export default function ShuttleIn({ tokenInfo }) {
-  const { url: next } = useRouteMatch()
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
     commonInputStyles,
     shuttleStyle,
@@ -75,30 +73,24 @@ export default function ShuttleIn({ tokenInfo }) {
       />
 
       {tokenInfo && (
-        <p className={shuttleCx('small-text')}>
-          <span style={{ display: 'flex' }}>
+        <div className={shuttleCx('small-text')}>
+          <WithQuestion onClick={() => setMinPopup(true)}>
             <span>{t('amount', tokenInfo)}</span>
-            <img alt="?" onClick={() => setMinPopup(true)} src={question}></img>
-          </span>
+          </WithQuestion>
 
-          <span style={{ display: 'flex' }}>
+          <WithQuestion onClick={() => setFeePopup(true)}>
             <span>{t('fee', tokenInfo)}</span>
-            <img alt="?" onClick={() => setFeePopup(true)} src={question}></img>
-          </span>
-        </p>
+          </WithQuestion>
+        </div>
       )}
 
       <div className={shuttleInCx('address')}>
-        <div className={shuttleCx('title', 'with-question')}>
+        <WithQuestion
+          className={shuttleCx('title')}
+          onClick={() => setAddressPopup(true)}
+        >
           <span>{t('address')}</span>
-          <img
-            alt="?"
-            onClick={() => {
-              setAddressPopup(true)
-            }}
-            src={question}
-          ></img>
-        </div>
+        </WithQuestion>
 
         <div className={shuttleInCx('address-input')}>
           <input

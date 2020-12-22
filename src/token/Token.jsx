@@ -3,6 +3,7 @@ import Choose from './Choose.jsx'
 import { useTranslation } from 'react-i18next'
 
 import back from './back.png'
+import pocket from './pocket.png'
 
 import styles from './Token.module.scss'
 import useIsSamll from '../component/useSmallScreen'
@@ -10,7 +11,6 @@ import useStyle from '../component/useStyle'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer.jsx'
 import useUrlSearch from '../data/useUrlSearch.js'
-
 
 export function TokenNavigation({ history, location: { search }, after }) {
   const [cx] = useStyle(styles)
@@ -45,11 +45,13 @@ function Token(props) {
       {!isSmall && <TokenNavigation {...props} />}
       <Choose {...extra} next={(token) => `${next}/${token}`} cToken={cToken} />
       <div
+        className={cx('benefit')}
         onClick={() => {
           window.open(`/caption/${token ? token : ''}`, '_blank')
         }}
       >
         {t('caption-benefit')}
+        <img className={cx('pocket')} src={pocket} alt="pocket"></img>
       </div>
     </MainContainer>
   )
