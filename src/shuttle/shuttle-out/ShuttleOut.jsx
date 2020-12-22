@@ -16,7 +16,6 @@ import useStyle from '../../component/useStyle'
 
 import clear from '../../component/clear.svg'
 import down from '../down.svg'
-import question from '../../component/question.svg'
 import fail from './fail.svg'
 import sent from './sent.svg'
 
@@ -33,6 +32,7 @@ import TokenInput from '../TokenInput'
 import Input from '../Input'
 import { parseNum } from '../../data/formatNum'
 import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
+import WithQuestion from '../../component/WithQuestion'
 
 export default function ShuttleOut({ tokenInfo }) {
   const [
@@ -125,7 +125,6 @@ export default function ShuttleOut({ tokenInfo }) {
         setSuccessPopup(true)
       })
       .catch((e) => {
-
         setErrorPopup(true)
       })
   }
@@ -213,14 +212,9 @@ export default function ShuttleOut({ tokenInfo }) {
         {tokenInfo && (
           <div className={shuttleCx('small-text')}>
             <span> {t('min-amount', tokenInfo)}</span>
-            <span className={shuttleCx('with-question')}>
+            <WithQuestion onClick={() => setFeePopup(true)}>
               <span>{t('fee', tokenInfo)}</span>
-              <img
-                alt="?"
-                onClick={() => setFeePopup(true)}
-                src={question}
-              ></img>
-            </span>
+            </WithQuestion>
           </div>
         )}
 
@@ -243,16 +237,14 @@ export default function ShuttleOut({ tokenInfo }) {
 
         {/* shuttle out address */}
         <div className={shuttleOutCx('address-container')}>
-          <div className={shuttleCx('title', 'with-question')}>
+          <WithQuestion
+            className={shuttleCx('title')}
+            onClick={(e) => {
+              setAddrPopup(true)
+            }}
+          >
             <span>{t('address')}</span>
-            <img
-              alt="?"
-              onClick={(e) => {
-                setAddrPopup(true)
-              }}
-              src={question}
-            ></img>
-          </div>
+          </WithQuestion>
           <div className={shuttleOutCx('address-input')}>
             <Input
               value={watch('outwallet')}

@@ -81,25 +81,25 @@
   }
 }
 
-.with-question {
-  display: flex;
-  align-items: center;
-  img {
-    cursor: pointer;
-  }
-  &.small {
-    img {
-      width: 2.25rem;
-      margin-left: 1rem;
-    }
-  }
-  &.large {
-    img {
-      width: 1.25rem;
-      margin-left: 1rem;
-    }
-  }
-}
+// .with-question {
+//   display: flex;
+//   align-items: center;
+//   img {
+//     cursor: pointer;
+//   }
+//   &.small {
+//     img {
+//       width: 2.25rem;
+//       margin-left: 1rem;
+//     }
+//   }
+//   &.large {
+//     img {
+//       width: 1.25rem;
+//       margin-left: 1rem;
+//     }
+//   }
+// }
 
 .small-text {
   color: rgba($color: white, $alpha: 0.6);

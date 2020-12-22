@@ -3,8 +3,8 @@ import useStyle from '../component/useStyle'
 import inputStyles from './TokenInput.module.scss'
 import commonInputStyles from '../component/input.module.scss'
 import arrow from './i-right-56.png'
-import question from '../component/question.svg'
 import Icon from '../component/Icon/Icon'
+import WithQuestion from '../component/WithQuestion'
 
 export default function TokenInput({ tokenInfo, cToken, to, placeholder }) {
   const history = useHistory()
@@ -24,20 +24,13 @@ export default function TokenInput({ tokenInfo, cToken, to, placeholder }) {
             </span>
 
             {cToken && (
-              <div
+              <WithQuestion
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
                   cToken()
                 }}
-                className={shuttleCx('question-area')}
-              >
-                <img
-                  alt="?"
-                  className={shuttleCx('question')}
-                  src={question}
-                ></img>
-              </div>
+              ></WithQuestion>
             )}
           </>
         ) : (
