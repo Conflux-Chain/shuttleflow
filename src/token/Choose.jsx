@@ -35,7 +35,7 @@ export default function ChooseToken({ caption, cToken, next, ...extra }) {
       />
 
       {!notFound && (
-        <PaddingContainer bottom>
+        <PaddingContainer>
           <Button
             path={{
               pathname: isNotAvailable

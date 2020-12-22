@@ -14,7 +14,7 @@ export default function Caption(props) {
   return (
     <Switch>
       <Route exact path={path}>
-        <MainContainer className={cx('container')}>
+        <MainContainer className={cx('container')} >
           <Choose next={(token) => `${url}/${token}`} caption />
         </MainContainer>
       </Route>

@@ -52,11 +52,11 @@ export const tokenMap = tokenList.then((list) => {
   }, {})
 })
 
-export const displayTokensList = tokenList.then((list) => {
-  return list.filter((x) => {
-    return (
-      (x.supported === 1 && x.in_token_list === 1) ||
-      ['btc', 'eth'].indexOf(x.reference) > -1
-    )
-  })
-})
+// export const displayTokensList = tokenList.then((list) => {
+//   return list.filter((x) => {
+//     return (
+//       (x.supported === 1 && x.in_token_list === 1) ||
+//       ['btc', 'eth'].indexOf(x.reference) > -1
+//     )
+//   })
+// })

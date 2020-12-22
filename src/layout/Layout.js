@@ -13,7 +13,7 @@ import useStyle from '../component/useStyle'
 import styles from './Layout.module.scss'
 import Modal from '../component/Modal'
 import notAllow from './not-allow.png'
-import { displayTokensList } from '../data/tokenList'
+import tokensList from '../data/tokenList'
 import { Loading } from '@cfxjs/react-ui'
 const fontPromise = new Promise((resolve) => {
   document?.fonts?.ready?.then(function () {
@@ -29,7 +29,7 @@ export default function App() {
   const [started, setStarted] = useState(false)
 
   useEffect(() => {
-    Promise.all([fontPromise, displayTokensList]).then(() => {
+    Promise.all([fontPromise, tokensList]).then(() => {
       setStarted(true)
     })
     return subscribeNetwork((chainId) => {
