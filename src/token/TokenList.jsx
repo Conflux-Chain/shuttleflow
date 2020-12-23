@@ -20,7 +20,10 @@ import { buildSearch } from '../component/urlSearch'
 import { useHistory } from 'react-router-dom'
 import useUrlSearch from '../data/useUrlSearch'
 import WithQuestion from '../component/WithQuestion'
-import Modal, { Title } from '../component/Modal'
+import Modal, { modalStyles } from '../component/Modal'
+import { useRecoilState } from 'recoil'
+import displyRiskAtom from '../state/displyRisk'
+import { useBlockWithRisk } from '../layout/Risk'
 
 const FREQUENT_TOKENS = [
   'btc',
@@ -42,7 +45,6 @@ const sorts = {
 function TokenList({
   search = '',
   cToken,
-
   frequent,
   showMortgage,
   setNotFound,
@@ -59,7 +61,11 @@ function TokenList({
     history.push(buildSearch({ ...searchParams, token }))
 
   const { t } = useTranslation(['token'])
-  const [ListCx, titleCx] = useStyle(tokenListStyles, titleStyles)
+  const [ListCx, titleCx, modalCx] = useStyle(
+    tokenListStyles,
+    titleStyles,
+    modalStyles
+  )
   const [sort, setSort] = useState('name')
 
   const [popup, setPopup] = useState(false)
@@ -80,8 +86,8 @@ function TokenList({
 
   return (
     <>
-      {/* we should combine frequent token and tokenlist in one component //cause
-      they share the same container of fixed height */}
+      {/* we should combine frequent token and tokenlist in one component 
+      cause they share the same container of fixed height */}
       <Scrollbars
         renderThumbVertical={renderThumbVertical}
         style={{
@@ -175,8 +181,31 @@ function TokenList({
           )}
         </div>
       </Scrollbars>
-      <Modal show={popup} title={t('list')} clickAway={() => setPopup(false)}>
-        {/* <Title title={t('list')} /> */}
+      <Modal
+        show={popup}
+        title={t('list')}
+        onClose={() => setPopup(false)}
+        clickAway={() => setPopup(false)}
+      >
+        <div
+          style={{
+            textAlign: 'center',
+          }}
+          className={modalCx('content')}
+        >
+          {t('gecko')}
+        </div>
+        <div
+          onClick={() =>
+            window.open(
+              'https://tokenlists.org/token-list?url=https://tokens.coingecko.com/uniswap/all.json',
+              '_blank'
+            )
+          }
+          className={modalCx('btn')}
+        >
+          {t('gecko-btn')}
+        </div>
       </Modal>
     </>
   )
@@ -188,6 +217,7 @@ function TokenRow({
   reference_symbol,
   reference_name,
   reference,
+  symbol,
   ctoken,
   sponsor_value,
   icon,
@@ -198,24 +228,37 @@ function TokenRow({
   checked,
 }) {
   const [ListCx] = useStyle(tokenListStyles, titleStyles)
-
   const { t } = useTranslation(['token'])
   const notAvailable = supported === 0
-  let _address = reference
-  let link = `${EHTHERSCAN_TK}${reference}`
-  if (cToken) {
-    reference_symbol = 'c' + reference_symbol
-    reference = ctoken
-    reference_name = 'Conflux ' + reference_name
-    link = `${CONFLUXSCAN_TK}${ctoken}`
-  }
+  const block = useBlockWithRisk()
+  const link = cToken
+    ? `${CONFLUXSCAN_TK}${ctoken}`
+    : `${EHTHERSCAN_TK}${reference}`
+  const name = (cToken ? 'Conflux ' : '') + reference_name
+  const symbolName = cToken ? symbol : reference_symbol
+  const address = cToken ? ctoken : reference
   return (
     <PaddingContainer
       bottom={false}
       className={ListCx('row', { checked })}
       onClick={() => {
-        setToken(checked ? '' : _address)
-        setIsNotAvailable(notAvailable)
+        if (in_token_list) {
+          if (checked) {
+            setToken('')
+            setIsNotAvailable(false)
+          } else {
+            setToken(reference)
+            if (notAvailable) {
+              setIsNotAvailable(true)
+            }
+          }
+        } else {
+          if (checked) {
+            setToken('')
+          } else {
+            block(() => setToken(reference))
+          }
+        }
       }}
     >
       <div className={ListCx('left')}>
@@ -228,7 +271,7 @@ function TokenRow({
         />
         <div className={ListCx('two-row')}>
           <div className={ListCx('symbol-row')}>
-            <span className={ListCx('symbol')}>{reference_symbol}</span>
+            <span className={ListCx('symbol')}>{symbolName}</span>
 
             {notAvailable && (
               <span className={ListCx('not-available')}>
@@ -237,7 +280,7 @@ function TokenRow({
             )}
           </div>
 
-          <span className={ListCx('name')}>{reference_name}</span>
+          <span className={ListCx('name')}>{name}</span>
         </div>
       </div>
 
@@ -246,21 +289,17 @@ function TokenRow({
           <span className={ListCx('mortgage')}>{sponsor_value + ' cETH'}</span>
         )}
 
-        <div className={ListCx('link')}>
-          <span className={ListCx('link-txt')}>
-            {reference &&
-              reference.startsWith('0x') &&
-              formatAddress(reference)}
-          </span>
-          {reference && reference.startsWith('0x') && (
+        {address && address.startsWith('0x') && (
+          <div className={ListCx('link')}>
+            <span className={ListCx('link-txt')}>{formatAddress(address)}</span>
             <img
               alt="link"
               onClick={() => window.open(link, '_blank')}
               className={ListCx('link-img')}
               src={linkSrc}
             ></img>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </PaddingContainer>
   )

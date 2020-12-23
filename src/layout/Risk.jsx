@@ -10,6 +10,7 @@ import checkedSrc from './i-checked-64.png'
 import { useRecoilState } from 'recoil'
 import displyRiskAtom from '../state/displyRisk'
 
+let onComfirm
 export default function Risk() {
   const [riskCx, modalCx, buttonCx] = useStyle(
     riskStyles,
@@ -24,6 +25,13 @@ export default function Risk() {
   const { t } = useTranslation()
   return (
     <Modal
+      onClose={
+        displayFromRecoil
+          ? () => {
+              setRecoilState(false)
+            }
+          : ''
+      }
       show={displayFromLocalStorage || displayFromRecoil}
       title={t('risk.title')}
     >
@@ -49,10 +57,22 @@ export default function Risk() {
           setChecked(false)
           setLocalStorageDisplay(false)
           setRecoilState(false)
+          if (typeof onComfirm === 'function') {
+            onComfirm()
+            onComfirm = undefined
+          }
         }}
       >
         {t('risk.continue')}
       </button>
     </Modal>
   )
+}
+
+export function useBlockWithRisk() {
+  const [, setRecoilState] = useRecoilState(displyRiskAtom)
+  return function (cb) {
+    setRecoilState(true)
+    onComfirm = cb
+  }
 }

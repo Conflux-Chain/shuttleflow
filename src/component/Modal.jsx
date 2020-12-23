@@ -5,6 +5,7 @@ import styles from './modal.module.scss'
 import useStyle from './useStyle'
 import close from './i-close-48.png'
 
+export const modalStyles = styles
 export default function Modal({ children, show, ...props }) {
   return createPortal(
     show && <Inner {...props}>{children}</Inner>,
@@ -28,7 +29,7 @@ function Inner({ children, clickAway, title, onClose }) {
       window.removeEventListener('mousedown', listener)
     }
   }, [clickAway])
-  return createPortal(
+  return (
     <>
       <div className={cx('backdrop')}></div>
       <div ref={ref} className={cx('container')}>
@@ -48,17 +49,6 @@ function Inner({ children, clickAway, title, onClose }) {
         )}
         {children}
       </div>
-    </>,
-    document.getElementById('popup')
-  )
-}
-
-export function Title({ title }) {
-  const [cx] = useStyle(styles)
-  const { t } = useTranslation()
-  return (
-    <div className={cx('title')}>
-      {typeof title === 'string' ? title : t('popup.title')}
-    </div>
+    </>
   )
 }
