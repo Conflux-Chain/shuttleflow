@@ -18,5 +18,6 @@
     "details": "View More",
     "fee": "The fee is set by the current Token Captain, and might be adjusted accordingly If the Token Captain is changed. It is recommended to complete the transaction as soon as possible to avoid transaction fee fluctuations."
   },
-  "confirm-conflux": "检测到地址为 Conflux 地址，请确保输入正确的 Ethereum 地址"
+  "confirm-conflux": "检测到地址为 Conflux 地址，请确保输入正确的 Ethereum 地址",
+  "confirm": "确认跨出"
 }

@@ -6,7 +6,7 @@ import notFoundSrc from '../component/not-found.png'
 import tokenListStyles from './TokenList.module.scss'
 import Triangle from '../component/Triangle/Triangle.jsx'
 import titleStyles from './title.module.scss'
-import Check from './Check.jsx'
+import Check from '../component/Check/Check'
 import { useTranslation } from 'react-i18next'
 import formatAddress from '../component/formatAddress'
 import useTokenList from '../data/useTokenList'
@@ -260,7 +260,7 @@ function TokenRow({
       }}
     >
       <div className={ListCx('left')}>
-        <Check active={checked} />
+        <Check checked={checked} />
         <Icon
           risk={in_token_list === 0}
           src={icon}

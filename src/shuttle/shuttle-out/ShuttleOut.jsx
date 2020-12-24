@@ -395,21 +395,34 @@ export default function ShuttleOut({ tokenInfo }) {
           <div>{t('popup.copy')}</div>
         </div>
       </Modal>
-      <Modal show={confluxComfirmPopup}>
+      <ComfirmPopup
+        confluxComfirmPopup={confluxComfirmPopup}
+        blockCallback={blockCallback}
+        t={t}
+        modalCx={modalCx}
+      />
+    </div>
+  )
+}
+
+function ComfirmPopup({ confluxComfirmPopup, blockCallback, t, modalCx }) {
+  const [checked, setChecked] = useState(false)
+  return (
+    <Modal show={confluxComfirmPopup}>
+      <div>
+        <div>{t('confirm-conflux')} </div>
+
+
         <div
           onClick={() => {
             blockCallback.current('yes')
             blockCallback.current = null
           }}
+          className={modalCx('btn')}
         >
-          <div>{t('confirm-conflux')} </div>
-          
-          <div className={modalCx('btn')}> {t('popup.ok')}</div>
+          {t('confirm')}
         </div>
-      </Modal>
-    </div>
+      </div>
+    </Modal>
   )
 }
-
-
-
