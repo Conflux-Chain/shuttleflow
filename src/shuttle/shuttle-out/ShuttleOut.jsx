@@ -7,8 +7,7 @@ import inputStyles from '../../component/input.module.scss'
 import buttonStyles from '../../component/button.module.scss'
 import shuttleStyle from '../Shuttle.module.scss'
 import shuttleOutStyles from './ShuttleOut.module.scss'
-import modalStyles from '../../component/modal.module.scss'
-import Modal from '../../component/Modal'
+import Modal, { modalStyles } from '../../component/Modal'
 import CTokenPopup from '../CTokenPopup'
 import tick from '../shuttle-in/tick.svg'
 
@@ -33,6 +32,7 @@ import Input from '../Input'
 import { parseNum } from '../../data/formatNum'
 import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
+import checkAddress from '../../data/checkAddress'
 
 export default function ShuttleOut({ tokenInfo }) {
   const [
@@ -60,6 +60,16 @@ export default function ShuttleOut({ tokenInfo }) {
   const [feePopup, setFeePopup] = useState(false)
   const [ctokenPopup, setCTokenPopup] = useState(false)
   const [copyPopup, setCopyPopup] = useState(false)
+
+  const blockCallback = useRef(null)
+  const [confluxComfirmPopup, setConfluxComfirmPopup] = useState(false)
+
+  function blockConflux(cb) {
+    blockCallback.current = cb
+    setConfluxComfirmPopup(true)
+  }
+
+  function blockTbd() {}
 
   const displayCopy = useCallback(() => {
     setCopyPopup(true)
@@ -115,18 +125,34 @@ export default function ShuttleOut({ tokenInfo }) {
   const tx = useRef('')
   const onSubmit = (data) => {
     let { outwallet, outamount } = data
-    if (isAll.current) {
-      outamount = balance
-    }
-
-    burn(outamount, outwallet)
-      .then((e) => {
-        tx.current = e
-        setSuccessPopup(true)
+    checkAddress(outwallet).then((x) => {
+      console.log(x)
+      new Promise((resolve) => {
+        if (x === 'eth') {
+          resolve('yes')
+        } else if (x === 'conflux') {
+          blockConflux(resolve)
+        } else if (x === 'tbd') {
+          blockTbd(resolve)
+        }
+      }).then((result) => {
+        if (result === 'yes') {
+          console.log('burn')
+          return
+          if (isAll.current) {
+            outamount = balance
+          }
+          burn(outamount, outwallet)
+            .then((e) => {
+              tx.current = e
+              setSuccessPopup(true)
+            })
+            .catch((e) => {
+              setErrorPopup(true)
+            })
+        }
       })
-      .catch((e) => {
-        setErrorPopup(true)
-      })
+    })
   }
 
   if (token && !tokenInfo) {
@@ -369,8 +395,21 @@ export default function ShuttleOut({ tokenInfo }) {
           <div>{t('popup.copy')}</div>
         </div>
       </Modal>
+      <Modal show={confluxComfirmPopup}>
+        <div
+          onClick={() => {
+            blockCallback.current('yes')
+            blockCallback.current = null
+          }}
+        >
+          <div>{t('confirm-conflux')} </div>
+          
+          <div className={modalCx('btn')}> {t('popup.ok')}</div>
+        </div>
+      </Modal>
     </div>
   )
 }
 
-//admin　sponser
+
+

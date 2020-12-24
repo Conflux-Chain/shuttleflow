@@ -21,8 +21,6 @@ import { useHistory } from 'react-router-dom'
 import useUrlSearch from '../data/useUrlSearch'
 import WithQuestion from '../component/WithQuestion'
 import Modal, { modalStyles } from '../component/Modal'
-import { useRecoilState } from 'recoil'
-import displyRiskAtom from '../state/displyRisk'
 import { useBlockWithRisk } from '../layout/Risk'
 
 const FREQUENT_TOKENS = [

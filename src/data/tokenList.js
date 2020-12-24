@@ -12,7 +12,6 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
   return result.map((d) => {
     // cToken的totalSupply和sponsor_value都是18位，除以1e18就行
     // 其他的都是decimal
-    //todo symbol is undefined currently
     const {
       reference,
       symbol,
@@ -23,6 +22,7 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
       decimals,
       minimal_burn_value,
       minimal_mint_value,
+      in_token_list,
       mint_fee,
       burn_fee,
       wallet_fee,
@@ -41,6 +41,8 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
       burn_fee: format(burn_fee, decimals),
       wallet_fee: format(wallet_fee, decimals),
       icon: icon || icons[reference],
+      //btc and eth is not in gecko list,but they are trusted
+      in_token_list: ['btc', 'eth'].indexOf(reference) > -1 ? 1 : in_token_list,
     }
   })
 })
@@ -51,12 +53,3 @@ export const tokenMap = tokenList.then((list) => {
     return pre
   }, {})
 })
-
-// export const displayTokensList = tokenList.then((list) => {
-//   return list.filter((x) => {
-//     return (
-//       (x.supported === 1 && x.in_token_list === 1) ||
-//       ['btc', 'eth'].indexOf(x.reference) > -1
-//     )
-//   })
-// })
