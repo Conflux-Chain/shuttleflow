@@ -368,7 +368,9 @@ export default function ShuttleOut({ tokenInfo }) {
         onClose={() => setFeePopup(false)}
         clickAway={() => setFeePopup(false)}
       >
-        <div className={modalCx('content')}>{t('popup.fee')}</div>
+        <div className={modalCx('content')}>
+          <Trans values={tokenInfo} i18nKey="popup.fee" t={t}></Trans>
+        </div>
         <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
           {t('popup.ok')}
         </div>

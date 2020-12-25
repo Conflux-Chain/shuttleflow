@@ -28,6 +28,14 @@ export default function App() {
   const [block, setBlock] = useState(false)
   const [spec, setSpec] = useState(false)
   const [started, setStarted] = useState(false)
+  useEffect(() => {
+    if (isSmall) {
+      document.body.style.overflow = 'auto'
+    } else {
+      //disable scroll
+      document.body.style.overflow = 'hidden'
+    }
+  }, [isSmall])
 
   useEffect(() => {
     Promise.all([fontPromise, tokensList]).then(() => {
