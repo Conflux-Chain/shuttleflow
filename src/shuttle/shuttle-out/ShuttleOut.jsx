@@ -33,6 +33,7 @@ import { parseNum } from '../../data/formatNum'
 import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
 import checkAddress from '../../data/checkAddress'
+import Check from '../../component/Check/Check'
 
 export default function ShuttleOut({ tokenInfo }) {
   const [
@@ -62,14 +63,12 @@ export default function ShuttleOut({ tokenInfo }) {
   const [copyPopup, setCopyPopup] = useState(false)
 
   const blockCallback = useRef(null)
-  const [confluxComfirmPopup, setConfluxComfirmPopup] = useState(false)
+  const [comfirmTxt, setComfirmTxt] = useState('')
 
-  function blockConflux(cb) {
+  function blockShuttleout(cb, txt) {
     blockCallback.current = cb
-    setConfluxComfirmPopup(true)
+    setComfirmTxt(txt)
   }
-
-  function blockTbd() {}
 
   const displayCopy = useCallback(() => {
     setCopyPopup(true)
@@ -130,15 +129,13 @@ export default function ShuttleOut({ tokenInfo }) {
       new Promise((resolve) => {
         if (x === 'eth') {
           resolve('yes')
-        } else if (x === 'conflux') {
-          blockConflux(resolve)
-        } else if (x === 'tbd') {
-          blockTbd(resolve)
+        } else {
+          blockShuttleout(resolve, t(`confirm.${x}`))
         }
       }).then((result) => {
         if (result === 'yes') {
-          console.log('burn')
-          return
+          // console.log('burn')
+          // return
           if (isAll.current) {
             outamount = balance
           }
@@ -396,33 +393,53 @@ export default function ShuttleOut({ tokenInfo }) {
         </div>
       </Modal>
       <ComfirmPopup
-        confluxComfirmPopup={confluxComfirmPopup}
+        confluxComfirmPopup={comfirmTxt}
         blockCallback={blockCallback}
+        confirm={() => {
+          blockCallback.current('yes')
+          blockCallback.current = null
+          setComfirmTxt(false)
+        }}
+        close={() => setComfirmTxt(false)}
         t={t}
         modalCx={modalCx}
+        buttonCx={buttonCx}
+        shuttleOutCx={shuttleOutCx}
       />
     </div>
   )
 }
 
-function ComfirmPopup({ confluxComfirmPopup, blockCallback, t, modalCx }) {
+function ComfirmPopup({
+  confluxComfirmPopup,
+  modalCx,
+  buttonCx,
+  shuttleOutCx,
+  confirm,
+  close,
+  t,
+}) {
   const [checked, setChecked] = useState(false)
   return (
-    <Modal show={confluxComfirmPopup}>
-      <div>
-        <div>{t('confirm-conflux')} </div>
+    <Modal show={confluxComfirmPopup} onClose={close} title={t('confirm.btn')}>
+      <div className={modalCx('content')}>{confluxComfirmPopup} </div>
 
-
-        <div
-          onClick={() => {
-            blockCallback.current('yes')
-            blockCallback.current = null
-          }}
-          className={modalCx('btn')}
-        >
-          {t('confirm')}
-        </div>
+      <div className={shuttleOutCx('check')}>
+        <Check
+          checked={checked}
+          txt={t('confirm.check')}
+          setChecked={setChecked}
+          solid
+        />
       </div>
+
+      <button
+        disabled={!checked}
+        onClick={confirm}
+        className={buttonCx('btn') + ' ' + shuttleOutCx('comfirm-btn')}
+      >
+        {t('confirm.btn')}
+      </button>
     </Modal>
   )
 }
