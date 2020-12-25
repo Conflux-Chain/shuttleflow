@@ -134,8 +134,6 @@ export default function ShuttleOut({ tokenInfo }) {
         }
       }).then((result) => {
         if (result === 'yes') {
-          // console.log('burn')
-          // return
           if (isAll.current) {
             outamount = balance
           }

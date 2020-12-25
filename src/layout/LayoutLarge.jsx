@@ -161,11 +161,11 @@ export default function LayoutLarge({ history }) {
         </div>
       </header>
       <Scrollbars
-        autoHide
         renderThumbVertical={renderThumbVertical}
         style={{
           width: '544px',
           margin: 'auto',
+          borderRadius: '0.5rem',
           maxHeight: mainMaxHeight,
         }}
       >

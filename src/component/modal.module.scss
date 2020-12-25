@@ -3,18 +3,19 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
   border-radius: 0.5rem;
   background: white;
   z-index: 3;
-  &.small {
-    padding: 2rem;
-    max-width: 40rem;
-  }
-  &.large {
-    padding: 2rem;
-    width: auto;
-    max-width: 28rem;
+  .inner {
+    &.small {
+      padding: 2rem;
+      max-width: 40rem;
+    }
+    &.large {
+      padding: 2rem;
+      width: auto;
+      max-width: 28rem;
+    }
   }
 }
 
@@ -92,6 +93,7 @@
 .close {
   position: absolute;
   cursor: pointer;
+  z-index: 4;
   &.large {
     right: 0.75rem;
     top: 0.75rem;

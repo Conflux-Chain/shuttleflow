@@ -88,10 +88,7 @@ function TokenList({
       cause they share the same container of fixed height */}
       <Scrollbars
         renderThumbVertical={renderThumbVertical}
-        style={{
-          flex: 1,
-          position: 'relative',
-        }}
+        style={{ flex: 1, position: 'relative' }}
       >
         <PaddingContainer bottom={false}>
           {frequent && !search && tokenList.length && (

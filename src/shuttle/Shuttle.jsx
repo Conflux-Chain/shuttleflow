@@ -19,11 +19,8 @@ import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
 import useTokenList from '../data/useTokenList'
-import useUrlSearch from '../data/useUrlSearch'
 
-export default function Shuttle({
-  match: { path, url },
-}) {
+export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['nav'])
   const inUrl = `${url}/in`
@@ -35,7 +32,7 @@ export default function Shuttle({
   }, [setLayoutBottom])
 
   return (
-    <MainContainer style={{ background: '#1b1b1b' }}>
+    <MainContainer>
       <nav className={cx('nav')}>
         <MenuLink
           to={inUrl}
