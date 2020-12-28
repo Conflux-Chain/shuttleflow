@@ -16,5 +16,10 @@
   "shuttle-out": "跨出",
   "home": "主页",
   "banner": "请注意当前页面为测试环境！",
-  "be-caption": "成为舰长"
+  "be-caption": "成为舰长",
+  "spec": {
+    "btn": "平台汇率及手续费等项说明",
+    "content": "<strong>锚定比例</strong>\nShuttleFlow 以 1:1 锚定方式将目标资产在 Conflux 发行资产\n\n<strong>手续费原则</strong>\n每个 Token 的承兑商制定该 Token 的手续费规则，通常该手续费用来支付\n * 地址创建费（若有）\n * 交易Gas费\n * 承兑商服务费\n\n<strong>风险提示</strong>\n任何人都可以在 Conflux / Ethereum 网络上创建任何名称的 Token，包括创建现有 Token 的虚假版本以及生成代表没有 Token 的项目的 Token\n该页面可以通过 Token 地址加载任意 Token，与 Token 交互时，请格外小心并进行研究\n使用 ShuttleFlow 时，请确保您操作的资产属于标准 ERC20 Token，否则存在资金安全的风险，后果将由您自己承担\n\n",
+    "title": "锚定比例和手续费说明"
+  }
 }

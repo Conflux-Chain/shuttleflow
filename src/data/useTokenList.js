@@ -46,7 +46,6 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
           })
         } else if (search) {
           const lowersearch = search.toLowerCase()
-          console.log('lowersearch', lowersearch, tokens, erc20)
           if (isAddress(search)) {
             //must be ctoken search
             return tokens.filter(({ ctoken }) => lowersearch === ctoken)
@@ -63,9 +62,8 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
           }
         } else {
           return tokens.filter(
-            ({ reference, supported, in_token_list }) =>
-              ['btc', 'eth'].indexOf(reference) > -1 ||
-              (supported === 1 && in_token_list === 1)
+            ({ supported, in_token_list }) =>
+              supported === 1 && in_token_list === 1
           )
         }
       })

@@ -80,12 +80,8 @@ export default function Market() {
         </div>
       </div>
       <Scrollbars
-        autoHide
         renderThumbVertical={renderThumbVertical}
-        style={{
-          flex: 1,
-          position: 'relative',
-        }}
+        style={{ flex: 1, position: 'relative' }}
       >
         <PaddingContainer>
           {tokens

@@ -7,8 +7,7 @@ import inputStyles from '../../component/input.module.scss'
 import buttonStyles from '../../component/button.module.scss'
 import shuttleStyle from '../Shuttle.module.scss'
 import shuttleOutStyles from './ShuttleOut.module.scss'
-import modalStyles from '../../component/modal.module.scss'
-import Modal from '../../component/Modal'
+import Modal, { modalStyles } from '../../component/Modal'
 import CTokenPopup from '../CTokenPopup'
 import tick from '../shuttle-in/tick.svg'
 
@@ -33,6 +32,8 @@ import Input from '../Input'
 import { parseNum } from '../../data/formatNum'
 import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
+import checkAddress from '../../data/checkAddress'
+import Check from '../../component/Check/Check'
 
 export default function ShuttleOut({ tokenInfo }) {
   const [
@@ -60,6 +61,14 @@ export default function ShuttleOut({ tokenInfo }) {
   const [feePopup, setFeePopup] = useState(false)
   const [ctokenPopup, setCTokenPopup] = useState(false)
   const [copyPopup, setCopyPopup] = useState(false)
+
+  const blockCallback = useRef(null)
+  const [comfirmTxt, setComfirmTxt] = useState('')
+
+  function blockShuttleout(cb, txt) {
+    blockCallback.current = cb
+    setComfirmTxt(txt)
+  }
 
   const displayCopy = useCallback(() => {
     setCopyPopup(true)
@@ -115,18 +124,30 @@ export default function ShuttleOut({ tokenInfo }) {
   const tx = useRef('')
   const onSubmit = (data) => {
     let { outwallet, outamount } = data
-    if (isAll.current) {
-      outamount = balance
-    }
-
-    burn(outamount, outwallet)
-      .then((e) => {
-        tx.current = e
-        setSuccessPopup(true)
+    checkAddress(outwallet).then((x) => {
+      console.log(x)
+      new Promise((resolve) => {
+        if (x === 'eth') {
+          resolve('yes')
+        } else {
+          blockShuttleout(resolve, t(`confirm.${x}`))
+        }
+      }).then((result) => {
+        if (result === 'yes') {
+          if (isAll.current) {
+            outamount = balance
+          }
+          burn(outamount, outwallet)
+            .then((e) => {
+              tx.current = e
+              setSuccessPopup(true)
+            })
+            .catch((e) => {
+              setErrorPopup(true)
+            })
+        }
       })
-      .catch((e) => {
-        setErrorPopup(true)
-      })
+    })
   }
 
   if (token && !tokenInfo) {
@@ -347,7 +368,9 @@ export default function ShuttleOut({ tokenInfo }) {
         onClose={() => setFeePopup(false)}
         clickAway={() => setFeePopup(false)}
       >
-        <div className={modalCx('content')}>{t('popup.fee')}</div>
+        <div className={modalCx('content')}>
+          <Trans values={tokenInfo} i18nKey="popup.fee" t={t}></Trans>
+        </div>
         <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
           {t('popup.ok')}
         </div>
@@ -369,8 +392,54 @@ export default function ShuttleOut({ tokenInfo }) {
           <div>{t('popup.copy')}</div>
         </div>
       </Modal>
+      <ComfirmPopup
+        confluxComfirmPopup={comfirmTxt}
+        blockCallback={blockCallback}
+        confirm={() => {
+          blockCallback.current('yes')
+          blockCallback.current = null
+          setComfirmTxt(false)
+        }}
+        close={() => setComfirmTxt(false)}
+        t={t}
+        modalCx={modalCx}
+        buttonCx={buttonCx}
+        shuttleOutCx={shuttleOutCx}
+      />
     </div>
   )
 }
 
-//admin　sponser
+function ComfirmPopup({
+  confluxComfirmPopup,
+  modalCx,
+  buttonCx,
+  shuttleOutCx,
+  confirm,
+  close,
+  t,
+}) {
+  const [checked, setChecked] = useState(false)
+  return (
+    <Modal show={confluxComfirmPopup} onClose={close} title={t('confirm.btn')}>
+      <div className={modalCx('content')}>{confluxComfirmPopup} </div>
+
+      <div className={shuttleOutCx('check')}>
+        <Check
+          checked={checked}
+          txt={t('confirm.check')}
+          setChecked={setChecked}
+          solid
+        />
+      </div>
+
+      <button
+        disabled={!checked}
+        onClick={confirm}
+        className={buttonCx('btn') + ' ' + shuttleOutCx('comfirm-btn')}
+      >
+        {t('confirm.btn')}
+      </button>
+    </Modal>
+  )
+}

@@ -127,11 +127,7 @@ export default function History() {
       ) : (
         <Scrollbars
           renderThumbVertical={renderThumbVertical}
-          style={{
-            flex: 1,
-            // position: 'relative',
-          }}
-          autoHide={true}
+          style={{ flex: 1 }}
         >
           <PaddingContainer
             bottom

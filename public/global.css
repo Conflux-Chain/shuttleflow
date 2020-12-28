@@ -72,11 +72,15 @@ input {
   html {
     /* disable unexpected vertical scroll */
     overflow: hidden;
-
   }
 }
 
 strong {
   font-weight: 500;
   color: #44d7b6;
+}
+
+i {
+  font-style: normal;
+  color: #999999;
 }

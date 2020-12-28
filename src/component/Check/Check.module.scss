@@ -1,0 +1,20 @@
+.img {
+  cursor: pointer;
+  &.large {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.txt {
+  &.large {
+    margin-left: 0.75rem;
+  }
+}
+
+.known {
+  color: #44d7b6;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
