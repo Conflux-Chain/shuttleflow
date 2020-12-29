@@ -13,7 +13,7 @@
     "below-out-amount": "数值必须小于最小提现数量",
     "above-in-fee": "数值必须大于充值手续费",
     "above-out-fee": "数值必须大于提现手续费",
-    "above-current": "必须大于最小抵押量"
+    "above-current": "数值必须大于最小抵押量"
   },
   "min-mortgage": "最小抵押数量 {{minMortgage}} cETH",
   "ceth-balance": "钱包余额 {{amount}} cETH",

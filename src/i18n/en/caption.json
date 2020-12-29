@@ -3,17 +3,17 @@
   "countdown": "Countdown to Unfreeze ",
   "shuttle-in-fee": "Shuttle-In Fees",
   "shuttle-out-fee": "Shuttle-Out Fees",
-  "enter": "please enter",
+  "enter": "Please enter",
   "shuttle-in-amount": "Minimum Shuttle-In Amount",
   "shuttle-out-amount": "Minimum Shuttle-Out Amount",
   "create-fee": "New Address Creation Fee",
-  "morgage-amount": "Deposit Amount",
+  "morgage-amount": "Mortgage Amount",
   "error": {
     "below-in-amount": "The value must be smaller than the minimum Shuttle-In amount",
     "below-out-amount": "The value must be smaller than the minimum Shuttle-Out amount",
     "above-in-fee": "The value must be greater than the Shuttle-In fee",
     "above-out-fee": "The value must be greater than the Shuttle-Out fee",
-    "above-current": "必须大于最小抵押量"
+    "above-current": "The value must be greater than the minimum mortgage amount"
   },
   "min-mortgage": "Minimum Deposit Amount {{minMortgage}} cETH",
   "ceth-balance": "Balance {{amount}} cETH",

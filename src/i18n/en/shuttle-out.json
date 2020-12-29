@@ -16,13 +16,13 @@
     "address": "1. Please do not deposit any non-designated assets to the above address, otherwise the assets will not be recovered.\n2. Shuttle-Out requires several blocks to confirm the transaction.\n3. ShuttleFlow is a truly decentralized product, and the user's private key is not accessible under any circumstances.\n4. The users' assets are escrowed in the smart contract, which has passed the third party security audit, and is protected by ShuttleFlow Cross-chain Multi-signature Alliance. Even if the ShuttleFlow private key is leaked, the users' assets could still be protected from hacking or moving by the platform itself or any third party. ",
     "ctoken": "The token you received can be viewed in all Conflux Network wallets, such as ConfluxPortal. If the token cannot be found, you may need to add it by \"Add Token\".",
     "details": "View More",
-    "fee": "The fee is set by the current Token Captain, and might be adjusted accordingly If the Token Captain is changed. It is recommended to complete the transaction as soon as possible to avoid transaction fee fluctuations."
+    "fee": "The fee is set by the current Token Captain, and might be adjusted accordingly If the Token Captain is changed.It is recommended to complete the transaction as soon as possible to avoid transaction fee fluctuations."
   },
   "confirm": {
-    "conflux": "检测到地址为 Conflux 地址，请确保输入正确的 Ethereum 地址",
-    "tbd": "请确保输入正确的 Ethereum 地址",
-    "btn": "确认跨出",
-    "check": "我以确认无误",
-    "title": "确认地址"
+    "conflux": "It is detected that the address is a CONFLUX address，please make sure to enter the ETH address correctly",
+    "tbd": "Please make sure to enter the ETH address correctly",
+    "btn": "Confirm",
+    "check": "I have confirmed it is correct",
+    "title": "Confirm"
   }
 }
