@@ -23,6 +23,9 @@ import { useRecoilState } from 'recoil'
 import LayoutButtomState from './LayoutButtomState'
 import useStyle from '../component/useStyle'
 
+import { Scrollbars } from 'react-custom-scrollbars'
+import renderThumbVertical from '../component/renderThumbVertical'
+
 export default function LayoutSmall(props) {
   const [cx] = useStyle(layouyStyles)
   const history = useHistory()
@@ -133,15 +136,16 @@ export default function LayoutSmall(props) {
           />
         </nav>
       </CSSTransition>
-      <main
-        className={cx('main')}
+      <Scrollbars
+        renderThumbVertical={renderThumbVertical}
         style={{
-          //7.625rem is the height header
-          maxHeight: `calc(100vh - 7.625rem - ${bottomHeight})`,
+          flex: 1,
+          margin: 'auto',
+          borderRadius: '0.5rem',
         }}
       >
         <Main />
-      </main>
+      </Scrollbars>
     </div>
   )
 }

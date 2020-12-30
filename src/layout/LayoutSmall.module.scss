@@ -1,15 +1,11 @@
 $padding: 2rem;
 
 .container {
-  padding: 0 $padding;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.main {
-  left: 0;
-  right: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
 .header {
   z-index: 1;
   position: sticky;

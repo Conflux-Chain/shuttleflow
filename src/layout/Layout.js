@@ -21,6 +21,8 @@ const fontPromise = new Promise((resolve) => {
   })
 })
 
+const root = document.getElementById('root')
+
 export default function App() {
   const isSmall = useIsSamll()
   const [cx, modalCx] = useStyle(styles, modalStyles)
@@ -31,9 +33,13 @@ export default function App() {
   useEffect(() => {
     if (isSmall) {
       document.body.style.overflow = 'auto'
+      root.style.display = 'flex'
+      root.style.flexDirection = 'column'
     } else {
       //disable scroll
       document.body.style.overflow = 'hidden'
+      root.style.display = 'block'
+      root.style.flexDirection = ''
     }
   }, [isSmall])
 
@@ -56,11 +62,14 @@ export default function App() {
         <Route path="/" component={isSmall ? LayoutSmall : LayoutLarge}></Route>
       </Router>
       <Risk />
-      <div className={cx('footer')}>
-        <div onClick={() => setSpec(true)} className={cx('inner')}>
-          {t('spec.btn')}
+      {!isSmall && (
+        <div className={cx('footer')}>
+          <div onClick={() => setSpec(true)} className={cx('inner')}>
+            {t('spec.btn')}
+          </div>
         </div>
-      </div>
+      )}
+
       <Modal show={block}>
         <div className={cx('not-allow')}>
           <img src={notAllow} alt={notAllow}></img>

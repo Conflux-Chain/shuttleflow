@@ -89,6 +89,7 @@ function TokenList({
       <Scrollbars
         renderThumbVertical={renderThumbVertical}
         style={{ flex: 1, position: 'relative' }}
+        // autoHeight
       >
         <PaddingContainer bottom={false}>
           {frequent && !search && tokenList.length && (
