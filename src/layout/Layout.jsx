@@ -8,12 +8,13 @@ import Risk from './Risk'
 import { RecoilRoot } from 'recoil'
 import subscribeNetwork from '../data/subscribeNetwork'
 import { IS_DEV, NETWORKS } from '../config/config'
-import { useTranslation, Trans } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import useStyle from '../component/useStyle'
 import styles from './Layout.module.scss'
 import Modal, { modalStyles } from '../component/Modal'
 import notAllow from './not-allow.png'
 import tokensList from '../data/tokenList'
+import Spec from './Spec'
 import { Loading } from '@cfxjs/react-ui'
 const fontPromise = new Promise((resolve) => {
   document?.fonts?.ready?.then(function () {
@@ -25,10 +26,10 @@ const root = document.getElementById('root')
 
 export default function App() {
   const isSmall = useIsSamll()
-  const [cx, modalCx] = useStyle(styles, modalStyles)
+  const [cx] = useStyle(styles, modalStyles)
   const { t } = useTranslation()
   const [block, setBlock] = useState(false)
-  const [spec, setSpec] = useState(false)
+
   const [started, setStarted] = useState(false)
   useEffect(() => {
     if (isSmall) {
@@ -64,9 +65,7 @@ export default function App() {
       <Risk />
       {!isSmall && (
         <div className={cx('footer')}>
-          <div onClick={() => setSpec(true)} className={cx('inner')}>
-            {t('spec.btn')}
-          </div>
+          <Spec />
         </div>
       )}
 
@@ -75,19 +74,6 @@ export default function App() {
           <img src={notAllow} alt={notAllow}></img>
           <div className={cx('title')}>{t('error.block')}</div>
           <div>{t(`error.switch-${!IS_DEV ? 'main' : 'test'}`)}</div>
-        </div>
-      </Modal>
-      <Modal
-        clickAway={() => setSpec(false)}
-        onClose={() => setSpec(false)}
-        show={spec}
-        title={t('spec.title')}
-      >
-        <div className={modalCx('content')}>
-          <Trans i18nKey="spec.content" t={t}></Trans>
-        </div>
-        <div onClick={() => setSpec(false)} className={modalCx('btn')}>
-          {t('popup.ok')}
         </div>
       </Modal>
     </RecoilRoot>

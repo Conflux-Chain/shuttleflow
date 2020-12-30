@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
-
+import pocket from './pocket.png'
 import TokenList from './TokenList'
 import Search from './Search'
 import Button from './Button'
@@ -50,6 +50,15 @@ export default function ChooseToken({ caption, cToken, next, ...extra }) {
               ? t('be-caption')
               : t(isNotAvailable ? 'add-token' : 'choose-btn')}
           </Button>
+          <div
+            className={chooseCx('benefit')}
+            onClick={() => {
+              window.open(`/caption/${token ? token : ''}`, '_blank')
+            }}
+          >
+            {t('caption-benefit')}
+            <img className={chooseCx('pocket')} src={pocket} alt="pocket"></img>
+          </div>
         </PaddingContainer>
       )}
     </div>

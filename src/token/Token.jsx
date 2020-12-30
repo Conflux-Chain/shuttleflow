@@ -3,7 +3,6 @@ import Choose from './Choose.jsx'
 import { useTranslation } from 'react-i18next'
 
 import back from './back.png'
-import pocket from './pocket.png'
 
 import styles from './Token.module.scss'
 import useIsSamll from '../component/useSmallScreen'
@@ -36,23 +35,12 @@ export function TokenNavigation({ history, location: { search }, after }) {
 function Token(props) {
   const [cx] = useStyle(styles)
   const isSmall = useIsSamll()
-  const { t } = useTranslation(['token'])
   const { next, cToken, ...extra } = useUrlSearch()
-  const { token } = extra
   return (
     <MainContainer className={cx('container')}>
       {/* promote the navigation to top level is samll screen */}
       {!isSmall && <TokenNavigation {...props} />}
       <Choose {...extra} next={(token) => `${next}/${token}`} cToken={cToken} />
-      <div
-        className={cx('benefit')}
-        onClick={() => {
-          window.open(`/caption/${token ? token : ''}`, '_blank')
-        }}
-      >
-        {t('caption-benefit')}
-        <img className={cx('pocket')} src={pocket} alt="pocket"></img>
-      </div>
     </MainContainer>
   )
 }
