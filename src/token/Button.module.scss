@@ -1,11 +1,6 @@
 .btn-container {
   &.small {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 14rem;
-    // background: black;
+    margin-bottom: 2rem;
     .btn {
       margin-top: 3rem;
       width: 90%;

@@ -9,6 +9,12 @@
       margin-top: 16px;
       margin-bottom: 11px;
     }
+    &.small {
+      font-size: 1.75rem;
+      font-weight: 500;
+      margin-top: 2rem;
+      margin-bottom: 1.5rem;
+    }
   }
 
   .ctoken-copy {
@@ -19,6 +25,10 @@
 
     &.large {
       height: 3.375rem;
+    }
+    &.small {
+      font-size: 1.5rem;
+      height: 5rem;
     }
     .popup-address {
       margin-left: 0.75rem;
@@ -37,6 +47,11 @@
       &.large {
         width: 1.5rem;
         height: 1.5rem;
+        margin: 0 0.75rem;
+      }
+      &.small {
+        width: 2rem;
+        height: 2rem;
         margin: 0 0.75rem;
       }
     }

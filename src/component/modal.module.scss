@@ -9,7 +9,7 @@
   .inner {
     &.small {
       padding: 2rem;
-      max-width: 40rem;
+      width: 90vw;
     }
     &.large {
       padding: 2rem;
@@ -101,4 +101,11 @@
     width: 1.5rem;
     height: 1.5rem;
   }
+  &.small {
+    right: 0.75rem;
+    top: 0.75rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
 }

@@ -69,7 +69,7 @@
       cursor: pointer;
       &.small {
         margin-left: 0.5rem;
-        width: 1.2rem;
+        width: 2rem;
       }
       &.large {
         margin-left: 0.5rem;
@@ -188,12 +188,17 @@
   align-items: center;
   .right {
     display: flex;
+    align-items: center;
     margin-right: 8px;
     .btns {
       display: flex;
       flex-direction: column;
 
       &.large {
+        height: 1.875rem;
+        margin-left: 0.75rem;
+      }
+      &.small {
         height: 1.875rem;
         margin-left: 0.75rem;
       }

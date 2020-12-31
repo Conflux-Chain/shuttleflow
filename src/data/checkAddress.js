@@ -7,7 +7,6 @@ export default function checkAddress(address = '') {
           return 'eth'
         } else {
           return window.confluxJS.getNextNonce(address).then((x) => {
-            console.log(x, x.toString())
             if (x.toString() === '0') {
               return 'tbd'
             } else {
@@ -22,8 +21,4 @@ export default function checkAddress(address = '') {
   }
 }
 
-// window.checkAddress = checkAddress
 
-// checkAddress('0x197e4379f8b2147859466a6be9d1d098955ffcd1').then((x) => {
-//   console.log(x)
-// })

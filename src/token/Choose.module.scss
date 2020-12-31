@@ -2,7 +2,27 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  &.small {
-    margin-top: 2rem;
+}
+
+.benefit {
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+  &.large {
+    margin-top: 1rem;
   }
+  &.small {
+    margin-top: 1.5rem;
+    margin-bottom: -1.5rem;
+    font-size: 1.5rem;
+  }
+}
+
+.pocket {
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-left: 0.5rem;
 }

@@ -19,12 +19,14 @@ import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
 import useTokenList from '../data/useTokenList'
-
+import Spec from '../layout/Spec'
+import useIsSamll from '../component/useSmallScreen'
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['nav'])
   const inUrl = `${url}/in`
   const outUrl = `${url}/out`
+  const isSmall = useIsSamll()
   const [, setLayoutBottom] = useRecoilState(layoutBottomState)
   useEffect(() => {
     setLayoutBottom('8.5rem')
@@ -33,35 +35,43 @@ export default function Shuttle({ match: { path, url } }) {
 
   return (
     <MainContainer>
-      <nav className={cx('nav')}>
-        <MenuLink
-          to={inUrl}
-          render={({ active }) => {
-            return (
-              <div className={cx('item', { active })}>
-                <Link to={inUrl}>
-                  <img alt="in" src={active ? inActiveSvg : inSvg}></img>
-                  <span>{t('shuttle-in')}</span>
-                </Link>
-              </div>
-            )
-          }}
-        />
+      <div className={cx('footer')}>
+        {isSmall && (
+          <div className={cx('spec')}>
+            <Spec />
+          </div>
+        )}
 
-        <MenuLink
-          to={outUrl}
-          render={({ active }) => {
-            return (
-              <div className={cx('item', { active })}>
-                <Link to={outUrl}>
-                  <img alt="out" src={active ? outActiveSvg : outSvg}></img>
-                  <span>{t('shuttle-out')}</span>
-                </Link>
-              </div>
-            )
-          }}
-        />
-      </nav>
+        <nav className={cx('nav')}>
+          <MenuLink
+            to={inUrl}
+            render={({ active }) => {
+              return (
+                <div className={cx('item', { active })}>
+                  <Link to={inUrl}>
+                    <img alt="in" src={active ? inActiveSvg : inSvg}></img>
+                    <span>{t('shuttle-in')}</span>
+                  </Link>
+                </div>
+              )
+            }}
+          />
+
+          <MenuLink
+            to={outUrl}
+            render={({ active }) => {
+              return (
+                <div className={cx('item', { active })}>
+                  <Link to={outUrl}>
+                    <img alt="out" src={active ? outActiveSvg : outSvg}></img>
+                    <span>{t('shuttle-out')}</span>
+                  </Link>
+                </div>
+              )
+            }}
+          />
+        </nav>
+      </div>
       <PaddingContainer bottom>
         <Switch>
           <Redirect from={path} exact to={`${path}/in`} />
