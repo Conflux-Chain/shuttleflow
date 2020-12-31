@@ -288,7 +288,9 @@ function CaptionForm({
             }
             placeholder={t('enter')}
           />
-          <div className={formCx('after')}>{unit}</div>
+          <div className={formCx('after')}>
+            {unit.length > 8 ? unit.slice(0, 8) + '...' : unit}
+          </div>
         </div>
         <ErrorMessage
           errors={errors}
@@ -405,6 +407,7 @@ export default function CaptionFormData() {
     () => (tokens && tokens.length > 0 ? tokens[0] : {}),
     [tokens]
   )
+
   const { pendingCount, countdown } = useCaption(tokenInfo.reference)
 
   const [currentMortgage, setCurrentMortgage] = useState()
