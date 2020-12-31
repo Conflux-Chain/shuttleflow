@@ -5,21 +5,27 @@ import commonInputStyles from '../component/input.module.scss'
 import arrow from './i-right-56.png'
 import Icon from '../component/Icon/Icon'
 import WithQuestion from '../component/WithQuestion'
+import useIsSamll from '../component/useSmallScreen'
 
 export default function TokenInput({ tokenInfo, cToken, to, placeholder }) {
   const history = useHistory()
-  const [shuttleCx, commonCx] = useStyle(inputStyles, commonInputStyles)
+  const isSmall = useIsSamll()
+  const [tkInputCx, commonCx] = useStyle(inputStyles, commonInputStyles)
   return (
     <div
       onClick={() => history.push(to)}
-      className={shuttleCx('container') + ' ' + commonCx('input-common')}
+      className={tkInputCx('container') + ' ' + commonCx('input-common')}
     >
-      <div className={shuttleCx('left')}>
+      <div className={tkInputCx('left')}>
         {tokenInfo ? (
           <>
-            <Icon src={tokenInfo.icon} conflux={cToken} size="2rem" />
+            <Icon
+              src={tokenInfo.icon}
+              conflux={cToken}
+              size={isSmall ? '3rem' : '2rem'}
+            />
 
-            <span className={shuttleCx('symbol')}>
+            <span className={tkInputCx('symbol')}>
               {tokenInfo[cToken ? 'symbol' : 'reference_symbol']}
             </span>
 
@@ -34,12 +40,12 @@ export default function TokenInput({ tokenInfo, cToken, to, placeholder }) {
             )}
           </>
         ) : (
-          <span className={shuttleCx('placeholder')}>{placeholder}</span>
+          <span className={tkInputCx('placeholder')}>{placeholder}</span>
         )}
       </div>
 
       <div>
-        <img alt="arrow" className={shuttleCx('arrow')} src={arrow}></img>
+        <img alt="arrow" className={tkInputCx('arrow')} src={arrow}></img>
       </div>
     </div>
   )

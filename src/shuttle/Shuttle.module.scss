@@ -1,3 +1,5 @@
+$small-nav-height: 8.5rem;
+
 //navigtion root
 .nav {
   display: flex;
@@ -12,7 +14,7 @@
     right: 0;
     background: black;
     justify-content: space-around;
-    height: 8.5rem;
+    height: $small-nav-height;
 
     .item {
       display: flex;
@@ -66,6 +68,7 @@
 .root {
   &.small {
     margin-top: 2.5rem;
+    margin-bottom: $small-nav-height;
   }
 }
 
@@ -81,48 +84,17 @@
   }
 }
 
-// .with-question {
-//   display: flex;
-//   align-items: center;
-//   img {
-//     cursor: pointer;
-//   }
-//   &.small {
-//     img {
-//       width: 2.25rem;
-//       margin-left: 1rem;
-//     }
-//   }
-//   &.large {
-//     img {
-//       width: 1.25rem;
-//       margin-left: 1rem;
-//     }
-//   }
-// }
-
 .small-text {
   color: rgba($color: white, $alpha: 0.6);
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 1rem 0;
-
   &.small {
     font-size: 1.5rem;
-    img {
-      cursor: pointer;
-      width: 2rem;
-      margin-left: 1rem;
-    }
   }
   &.large {
     font-size: 1rem;
-    img {
-      cursor: pointer;
-      width: 1.25rem;
-      margin-left: 0.75rem;
-    }
   }
 }
 

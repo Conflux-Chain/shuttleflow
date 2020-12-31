@@ -1,10 +1,17 @@
 import styled from 'styled-components'
 import question from './question.svg'
+import useIsSamll from './useSmallScreen'
 export default function WithQuestion({ children, onClick, className, style }) {
+  const isSmall = useIsSamll()
   return (
     <Container className={className}>
       {children}
-      <Img onClick={onClick} src={question} alt={question}></Img>
+      <Img
+        style={{ width: isSmall ? '2rem' : '1.25rem' }}
+        onClick={onClick}
+        src={question}
+        alt={question}
+      ></Img>
     </Container>
   )
 }
@@ -15,6 +22,5 @@ const Container = styled.div`
 `
 const Img = styled.img`
   cursor: pointer;
-  width: 1.25rem;
   margin-left: 1rem;
 `

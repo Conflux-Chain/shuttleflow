@@ -11,9 +11,11 @@ import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer.jsx'
 import useUrlSearch from '../data/useUrlSearch.js'
 
-export function TokenNavigation({ history, location: { search }, after }) {
+export function TokenNavigation({ history, after }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['token'])
+  const { next } = useUrlSearch()
+  console.log('next', next)
   return (
     <PaddingContainer>
       <nav className={cx('nav-container')}>
@@ -21,7 +23,7 @@ export function TokenNavigation({ history, location: { search }, after }) {
           alt="back"
           className={cx('back')}
           src={back}
-          onClick={() => history.goBack()}
+          onClick={() => history.push(next)}
         ></img>
         <div className={cx('nav-tabs')}>
           <div className={cx('item')}>{t('choose')}</div>
@@ -39,7 +41,7 @@ function Token(props) {
   return (
     <MainContainer className={cx('container')}>
       {/* promote the navigation to top level is samll screen */}
-      {!isSmall && <TokenNavigation {...props} />}
+      {!isSmall && <TokenNavigation {...props} next={next} />}
       <Choose {...extra} next={(token) => `${next}/${token}`} cToken={cToken} />
     </MainContainer>
   )

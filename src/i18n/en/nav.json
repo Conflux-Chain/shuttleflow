@@ -21,5 +21,6 @@
     "btn": "Description of platform exchange rate and handling fee",
     "content": "<strong>Exchange ratio</strong>\nShuttleFlow introduces target assets into the CONFLUX network with 1:1 mapping\nAfter paying a small fee, the target asset can be cross-chained at a ratio of 1:1\n\n<strong>Fee</strong>\nEach token captain sets a fee to pay for cross-chain costs：\n* GAS fee for transaction\n* Create Address Fee(Only the first time)\n\n<strong>Risk Warning</strong>\nAnyone can create a token on Conflux/Ethereum with any name, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have a token.\n\nThis interface can load arbitrary tokens by token addresses. Please take extra caution and do your research when interacting with arbitrary tokens.\n\nWhen using ShuttleFlow, please make sure that the assets you operate belong to standard ERC20 tokens, otherwise there is a risk of fund security, and the consequences will be borne by you.",
     "title": "Description of platform exchange rate and handling fee"
-  }
+  },
+  "choose-lng": "Choose Language"
 }

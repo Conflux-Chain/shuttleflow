@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { Switch, Route, Link, Redirect, useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import layoutBottomState from '../layout/LayoutButtomState'
@@ -19,6 +19,7 @@ import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
 import useTokenList from '../data/useTokenList'
+import useIsSamll from '../component/useSmallScreen'
 
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)

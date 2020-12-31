@@ -7,11 +7,6 @@ $padding: 2rem;
 }
 
 .header {
-  z-index: 1;
-  position: sticky;
-  top: 0;
-  // background-color: #1b1b1b;
-
   padding: 2rem 0;
   justify-content: space-between;
   align-items: center;
@@ -44,22 +39,25 @@ $padding: 2rem;
 
 .enter {
   transform: scaleY(0.1);
+  // transform: translateY(-200px);
 }
 .enterActive {
   transform: scaleY(1);
+  // transform: translateY(0px);
 }
 .enterDone {
   transform: scaleY(1);
+  // transform: translateY(0px);
 }
 .exitActive {
   transform: scaleY(0.1);
+  // transform: translateY(-200px);
 }
 
 .dropdown {
   z-index: 1;
   position: absolute;
-  left: 0;
-  right: 0;
+  width: 100%;
   color: white;
   background-color: black;
   transition: 0.2s;

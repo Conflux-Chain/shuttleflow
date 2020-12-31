@@ -274,19 +274,17 @@ export default function ShuttleOut({ tokenInfo }) {
               name="outwallet"
               error={errors.outwallet}
               placeholder={
-                <div style={{ fontSize: '1.1rem' }}>
-                  <Trans
-                    values={{
-                      type: token
-                        ? token === 'btc'
-                          ? t('btc')
-                          : t('eth')
-                        : t('btc') + '/' + t('eth'),
-                    }}
-                    i18nKey={'placeholder.address'}
-                    t={t}
-                  ></Trans>
-                </div>
+                <Trans
+                  values={{
+                    type: token
+                      ? token === 'btc'
+                        ? t('btc')
+                        : t('eth')
+                      : t('btc') + '/' + t('eth'),
+                  }}
+                  i18nKey={'placeholder.address'}
+                  t={t}
+                ></Trans>
               }
             />
             <img
@@ -436,7 +434,13 @@ function ComfirmPopup({
       <button
         disabled={!checked}
         onClick={confirm}
-        className={buttonCx('btn') + ' ' + shuttleOutCx('comfirm-btn')}
+        className={
+          buttonCx('btn') +
+          ' ' +
+          modalCx('btn') +
+          ' ' +
+          shuttleOutCx('comfirm-btn')
+        }
       >
         {t('confirm.btn')}
       </button>
