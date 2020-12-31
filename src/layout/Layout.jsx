@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,Suspense } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import '../i18n/i18n'
 import LayoutLarge from './LayoutLarge'
@@ -32,13 +32,12 @@ export default function App() {
 
   const [started, setStarted] = useState(false)
   useEffect(() => {
+    //disable scroll
+    document.body.style.overflow = 'hidden'
     if (isSmall) {
-      document.body.style.overflow = 'auto'
       root.style.display = 'flex'
       root.style.flexDirection = 'column'
     } else {
-      //disable scroll
-      document.body.style.overflow = 'hidden'
       root.style.display = 'block'
       root.style.flexDirection = ''
     }
@@ -57,26 +56,31 @@ export default function App() {
   }, [])
 
   return started ? (
-    <RecoilRoot>
-      {IS_DEV && <div className={cx('banner')}>{t('banner')}</div>}
-      <Router>
-        <Route path="/" component={isSmall ? LayoutSmall : LayoutLarge}></Route>
-      </Router>
-      <Risk />
-      {!isSmall && (
-        <div className={cx('footer')}>
-          <Spec />
-        </div>
-      )}
+    <Suspense fallback={<Loading />}>
+      <RecoilRoot>
+        {IS_DEV && <div className={cx('banner')}>{t('banner')}</div>}
+        <Router>
+          <Route
+            path="/"
+            component={isSmall ? LayoutSmall : LayoutLarge}
+          ></Route>
+        </Router>
+        <Risk />
+        {!isSmall && (
+          <div className={cx('footer')}>
+            <Spec />
+          </div>
+        )}
 
-      <Modal show={block}>
-        <div className={cx('not-allow')}>
-          <img src={notAllow} alt={notAllow}></img>
-          <div className={cx('title')}>{t('error.block')}</div>
-          <div>{t(`error.switch-${!IS_DEV ? 'main' : 'test'}`)}</div>
-        </div>
-      </Modal>
-    </RecoilRoot>
+        <Modal show={block}>
+          <div className={cx('not-allow')}>
+            <img src={notAllow} alt={notAllow}></img>
+            <div className={cx('title')}>{t('error.block')}</div>
+            <div>{t(`error.switch-${!IS_DEV ? 'main' : 'test'}`)}</div>
+          </div>
+        </Modal>
+      </RecoilRoot>
+    </Suspense>
   ) : (
     <Loading size="large" />
   )

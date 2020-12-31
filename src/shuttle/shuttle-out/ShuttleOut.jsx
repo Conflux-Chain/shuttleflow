@@ -125,7 +125,6 @@ export default function ShuttleOut({ tokenInfo }) {
   const onSubmit = (data) => {
     let { outwallet, outamount } = data
     checkAddress(outwallet).then((x) => {
-      console.log(x)
       new Promise((resolve) => {
         if (x === 'eth') {
           resolve('yes')

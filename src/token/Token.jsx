@@ -15,7 +15,6 @@ export function TokenNavigation({ history, after }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['token'])
   const { next } = useUrlSearch()
-  console.log('next', next)
   return (
     <PaddingContainer>
       <nav className={cx('nav-container')}>

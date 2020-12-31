@@ -1,5 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+  Suspense,
+} from 'react'
 import { Link, useRouteMatch, useHistory } from 'react-router-dom'
+import { Loading } from '@cfxjs/react-ui'
 import '../i18n/i18n'
 
 import logo from './logo.png'
@@ -36,9 +43,10 @@ export default function LayoutSmall(props) {
   const { t, i18n } = useTranslation()
   const { address } = useConfluxPortal()
   const [headerHeight, setHeaderHeight] = useState(0)
-  useEffect(() => {
+  //todo: possible react bug, can not calculate dom dimention
+  //correctly when Suspense present
+  useLayoutEffect(() => {
     const { top, height } = headerRef.current.getBoundingClientRect()
-    // console.log(a)
     setHeaderHeight(top + height)
   }, [])
   return (
@@ -173,16 +181,18 @@ export default function LayoutSmall(props) {
           />
         </nav>
       </CSSTransition>
-      <Scrollbars
-        renderThumbVertical={renderThumbVertical}
-        style={{
-          flex: 1,
-          margin: 'auto',
-          borderRadius: '0.5rem',
-        }}
-      >
-        <Main />
-      </Scrollbars>
+      <Suspense fallback={<Loading />}>
+        <Scrollbars
+          renderThumbVertical={renderThumbVertical}
+          style={{
+            flex: 1,
+            margin: 'auto',
+            borderRadius: '0.5rem',
+          }}
+        >
+          <Main />
+        </Scrollbars>
+      </Suspense>
     </div>
   )
 }

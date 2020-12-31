@@ -1,4 +1,3 @@
-import React from 'react'
 import useStyle from '../useStyle'
 import styles from './Triangle.module.scss'
 
@@ -14,7 +13,7 @@ const IMAGES = {
   downActive,
 }
 
-export default function ({ reverse, active, onClick }) {
+export default function Triangle ({ reverse, active, onClick }) {
   const [cx] = useStyle(styles)
   return (
     <img

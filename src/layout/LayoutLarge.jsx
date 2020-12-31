@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 
 import Main from './Main'
 import logo from './logo.png'
@@ -13,6 +19,7 @@ import Accordion from '../component/Accordion'
 import UserAddress from './UserAddress'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
+import { Loading } from '@cfxjs/react-ui'
 
 const cx = classNamesBind.bind(styles)
 
@@ -160,17 +167,19 @@ export default function LayoutLarge({ history }) {
           ></Accordion>
         </div>
       </header>
-      <Scrollbars
-        renderThumbVertical={renderThumbVertical}
-        style={{
-          width: '544px',
-          margin: 'auto',
-          borderRadius: '0.5rem',
-          maxHeight: mainMaxHeight,
-        }}
-      >
-        <Main />
-      </Scrollbars>
+      <Suspense fallback={<Loading />}>
+        <Scrollbars
+          renderThumbVertical={renderThumbVertical}
+          style={{
+            width: '544px',
+            margin: 'auto',
+            borderRadius: '0.5rem',
+            maxHeight: mainMaxHeight,
+          }}
+        >
+          <Main />
+        </Scrollbars>
+      </Suspense>
     </>
   )
 }

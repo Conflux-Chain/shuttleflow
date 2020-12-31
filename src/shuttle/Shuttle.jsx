@@ -35,7 +35,7 @@ export default function Shuttle({ match: { path, url } }) {
 
   return (
     <MainContainer>
-      <div>
+      <div className={cx('footer')}>
         {isSmall && (
           <div className={cx('spec')}>
             <Spec />
@@ -86,7 +86,6 @@ export default function Shuttle({ match: { path, url } }) {
 }
 
 function RouteComponent() {
-  const [cx] = useStyle(styles)
   const { type, erc20 = '' } = useParams()
   const { tokens } = useTokenList({ erc20 })
   //display tokenInfo only when token is url available
