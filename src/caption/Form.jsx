@@ -287,6 +287,10 @@ function CaptionForm({
               formCx('input')
             }
             placeholder={t('enter')}
+            onChange={(e) => {
+              let value = e.target.value
+              e.target.value = value.slice(0, 8)
+            }}
           />
           <div className={formCx('after')}>
             {unit.length > 8 ? unit.slice(0, 8) + '...' : unit}
