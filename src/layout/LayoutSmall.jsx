@@ -33,7 +33,7 @@ export default function LayoutSmall(props) {
   const nodeRef = useRef(null)
   const headerRef = useRef(null)
   const isTokenRoute = !!useRouteMatch('/token')
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { address } = useConfluxPortal()
   const [headerHeight, setHeaderHeight] = useState(0)
   useEffect(() => {
@@ -105,6 +105,7 @@ export default function LayoutSmall(props) {
             className={cx('item')}
             onClick={() => {
               history.push('/history')
+              setDropdown(false)
             }}
           >
             {t('history')}
@@ -113,6 +114,7 @@ export default function LayoutSmall(props) {
             className={cx('item')}
             onClick={() => {
               history.push('/market')
+              setDropdown(false)
             }}
           >
             {t('markets')}
@@ -121,6 +123,7 @@ export default function LayoutSmall(props) {
             className={cx('item')}
             onClick={() => {
               history.push('/caption')
+              setDropdown(false)
             }}
           >
             {t('be-caption')}
@@ -128,12 +131,15 @@ export default function LayoutSmall(props) {
           <Accordion
             expanded={lngOpen}
             title={
-              <div className={cx('item')} style={{ position: 'relative' }}>
+              <div
+                onClick={() => {
+                  setLngOpen((x) => !x)
+                }}
+                className={cx('item')}
+                style={{ position: 'relative' }}
+              >
                 <span>{t('choose-lng')}</span>
                 <img
-                  onClick={() => {
-                    setLngOpen((x) => !x)
-                  }}
                   className={cx('up', { lngOpen: !lngOpen })}
                   src={up}
                   alt="up"
@@ -142,8 +148,26 @@ export default function LayoutSmall(props) {
             }
             content={
               <div>
-                <div className={cx('item', 'lng-item')}>中文</div>
-                <div className={cx('item', 'lng-item')}>English</div>
+                <div
+                  onClick={() => {
+                    setDropdown(false)
+                    setLngOpen(false)
+                    i18n.changeLanguage('zh')
+                  }}
+                  className={cx('item', 'lng-item')}
+                >
+                  中文
+                </div>
+                <div
+                  onClick={() => {
+                    setDropdown(false)
+                    setLngOpen(false)
+                    i18n.changeLanguage('en')
+                  }}
+                  className={cx('item', 'lng-item')}
+                >
+                  English
+                </div>
               </div>
             }
           />

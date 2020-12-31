@@ -109,7 +109,7 @@ export default function ShuttleIn({ tokenInfo }) {
         </div>
       </div>
       {tokenInfo && (
-        <p
+        <div
           style={{ alignItems: 'flex-start' }}
           className={shuttleCx('small-text')}
         >
@@ -127,14 +127,10 @@ export default function ShuttleIn({ tokenInfo }) {
             className={shuttleInCx('qr-container')}
             onClick={() => setQrPopup(true)}
           >
-            <img
-              className={shuttleInCx('img')}
-              alt="qr"
-              src={qr}
-            ></img>
+            <img className={shuttleInCx('img')} alt="qr" src={qr}></img>
             <span>{t('qr')}</span>
           </span>
-        </p>
+        </div>
       )}
       <ShuttleHistory type="mint" />
       <Modal
