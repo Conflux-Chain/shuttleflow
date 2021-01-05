@@ -19,7 +19,7 @@ import fail from './fail.svg'
 import sent from './sent.svg'
 
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers'
+import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { ErrorMessage } from '@hookform/error-message'
 

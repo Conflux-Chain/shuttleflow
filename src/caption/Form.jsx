@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { useParams } from 'react-router-dom'
-import { yupResolver } from '@hookform/resolvers'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { ErrorMessage } from '@hookform/error-message'
 
 import profile from './profile.svg'
@@ -22,7 +22,7 @@ import useConfluxPortal1 from '../lib/useConfluxPortal'
 import getLatestMortgage from '../data/getLatestMortgage'
 import formatAddress from '../component/formatAddress'
 import createBeCaption from '../data/beCaption'
-import formatNum from '../data/formatNum'
+import formatNum, { buildNum } from '../data/formatNum'
 import { Loading } from '@cfxjs/react-ui'
 import { CETH_ADDRESS } from '../config/config'
 import Modal from '../component/Modal'
@@ -412,25 +412,44 @@ export default function CaptionFormData() {
     [tokens]
   )
 
+  const { decimals } = tokenInfo
   const { pendingCount, countdown } = useCaption(tokenInfo.reference)
 
   const [currentMortgage, setCurrentMortgage] = useState()
 
+  console.log(tokenInfo)
   const beCaption = function (...args) {
+    const {
+      amount,
+      burnFee,
+      mintFee,
+      walletFee,
+      minimalMintValue,
+      minimalBurnValue,
+    } = args
+
     createBeCaption(
       address,
       erc20
-    )(...args)
-      .then((e) => {
+    )({
+      amount: buildNum(amount, 18),
+      burnFee: buildNum(burnFee, decimals),
+      mintFee: buildNum(mintFee, decimals),
+      walletFee: buildNum(walletFee, decimals),
+      minimalMintValue: buildNum(minimalMintValue, decimals),
+      minimalBurnValue: buildNum(minimalBurnValue, decimals),
+    })
+      .then(() => {
         setPopup('success')
       })
-      .catch((e) => {
+      .catch(() => {
         setPopup('fail')
       })
   }
 
   const updateMinMortgage = useCallback((reference) => {
     getLatestMortgage(reference).then((x) => {
+      // console.log(x, x.toString())
       setCurrentMortgage(x && x.toString())
     })
   }, [])

@@ -13,6 +13,7 @@ export default function createBeCaption(userAddress, erc20) {
     if (amount === '0') {
       return contract
         .setTokenParams(
+          erc20,
           burnFee,
           mintFee,
           walletFee,
@@ -35,30 +36,3 @@ export default function createBeCaption(userAddress, erc20) {
     }
   }
 }
-
-// // let
-
-// window?.confluxJS?.Contract(params)
-// export default function beCaption(){
-//     ? c
-//     ?.sponsorToken(
-//       refAddr,
-//       amount,
-//       burnFee,
-//       mintFee,
-//       walletFee,
-//       minimalMintValue,
-//       minimalBurnValue
-//     )
-//     ?.sendTransaction({ from: userAddr, to: contractAddr })
-
-//     ?.setTokenParams(
-//         refAddr,
-//         burnFee,
-//         mintFee,
-//         walletFee,
-//         minimalMintValue,
-//         minimalBurnValue
-//       )
-//       ?.sendTransaction({ from: userAddr, to: contractAddr })
-// }
