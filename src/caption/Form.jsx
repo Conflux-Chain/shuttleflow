@@ -29,18 +29,19 @@ import Modal from '../component/Modal'
 
 import success from './success.png'
 import fail from './fail.png'
+import WithQuestion from '../component/WithQuestion'
 
 function CaptionForm({
   pendingCount,
   countdown,
   address,
   icon,
-  symbol,
   beCaption,
   cethBalance,
   cethBalanceDisplay,
   burn_fee,
   mint_fee,
+  minMortgage,
   minimal_burn_value,
   minimal_mint_value,
   reference_symbol,
@@ -78,8 +79,8 @@ function CaptionForm({
     })
   }
 
-  const minMortgage = Math.max(
-    2,
+  minMortgage = Math.max(
+    minMortgage,
     currentMortgage ? formatNum(currentMortgage, 18) * 1.1 : 0
   )
 
@@ -159,13 +160,13 @@ function CaptionForm({
   const fields = [
     {
       label: t('shuttle-in-fee'),
-      unit: symbol,
+      unit: reference_symbol,
       name: 'mint_fee',
       readOnly: supported && countdown !== 0,
     },
     {
       label: t('shuttle-out-fee'),
-      unit: symbol,
+      unit: reference_symbol,
       name: 'burn_fee',
       readOnly: supported && countdown !== 0,
     },
@@ -177,94 +178,88 @@ function CaptionForm({
     },
     {
       label: t('shuttle-out-amount'),
-      unit: symbol,
+      unit: reference_symbol,
       name: 'minimal_burn_value',
       readOnly: supported && countdown !== 0,
     },
     {
       label: t('create-fee'),
       name: 'wallet_fee',
-      unit: symbol,
+      unit: reference_symbol,
       readOnly: supported && countdown !== 0,
     },
   ]
-
   return (
-    <MainContainer>
-      <PaddingContainer bottom top>
-        <Head />
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {fields.map((props) => input(props))}
-          <>
-            <div className={formCx('input-container')}>
-              <div className={formCx('label')}>{t('morgage-amount')}</div>
-              <input
-                ref={register}
-                name="mortgage_amount"
-                autoComplete="off"
-                data-lpignore="true"
-                onChange={(e) => {
-                  let value = e.target.value
-                  let [p1, p2] = value.split('.')
-                  if (p2) {
-                    p2 = p2.slice(0, 6)
-                    value = [p1, p2].join('.')
-                  }
-                  e.target.value = value
-                  isAll.current = false
-                }}
-                className={
-                  inputCx(
-                    'input-common',
-                    errors['mortgage_amount'] ? 'error' : ''
-                  ) +
-                  ' ' +
-                  formCx('input')
-                }
-                placeholder={t('enter')}
-              />
-              {isUpdate && (
-                <div className={formCx('for-not-update')}>
-                  {t('for-not-update')}
-                </div>
-              )}
-              <div className={formCx('after')}>cETH</div>
-            </div>
-            <div className={formCx('small-text', 'bottom-text')}>
-              <div>{t('min-mortgage', { minMortgage })}</div>
-              <div>
-                <span>
-                  {' '}
-                  {t('ceth-balance', { amount: cethBalanceDisplay })}
-                </span>
-                <span
-                  onClick={() => {
-                    isAll.current = true
-                    setValue('mortgage_amount', cethBalanceDisplay)
-                  }}
-                  className={formCx('all')}
-                >
-                  {t('all')}
-                </span>
-              </div>
-            </div>
-            <ErrorMessage
-              errors={errors}
+    <PaddingContainer bottom top>
+      <Head />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {fields.map((props) => input(props))}
+        <>
+          <div className={formCx('input-container')}>
+            <div className={formCx('label')}>{t('morgage-amount')}</div>
+            <input
+              ref={register}
               name="mortgage_amount"
-              render={({ message }) => {
-                return <p className={formCx('error')}>{message}</p>
+              autoComplete="off"
+              data-lpignore="true"
+              onChange={(e) => {
+                let value = e.target.value
+                let [p1, p2] = value.split('.')
+                if (p2) {
+                  p2 = p2.slice(0, 6)
+                  value = [p1, p2].join('.')
+                }
+                e.target.value = value
+                isAll.current = false
               }}
+              className={
+                inputCx(
+                  'input-common',
+                  errors['mortgage_amount'] ? 'error' : ''
+                ) +
+                ' ' +
+                formCx('input')
+              }
+              placeholder={t('enter')}
             />
-          </>
-
-          <input
-            type="submit"
-            value={isUpdate ? t('update') : t('be-caption')}
-            className={buttonCx('btn') + ' ' + formCx('btn')}
+            {isUpdate && (
+              <div className={formCx('for-not-update')}>
+                {t('for-not-update')}
+              </div>
+            )}
+            <div className={formCx('after')}>cETH</div>
+          </div>
+          <div className={formCx('small-text', 'bottom-text')}>
+            <div>{t('min-mortgage', { minMortgage })}</div>
+            <div>
+              <span> {t('ceth-balance', { amount: cethBalanceDisplay })}</span>
+              <span
+                onClick={() => {
+                  isAll.current = true
+                  setValue('mortgage_amount', cethBalanceDisplay)
+                }}
+                className={formCx('all')}
+              >
+                {t('all')}
+              </span>
+            </div>
+          </div>
+          <ErrorMessage
+            errors={errors}
+            name="mortgage_amount"
+            render={({ message }) => {
+              return <p className={formCx('error')}>{message}</p>
+            }}
           />
-        </form>
-      </PaddingContainer>
-    </MainContainer>
+        </>
+
+        <input
+          type="submit"
+          value={isUpdate ? t('update') : t('be-caption')}
+          className={buttonCx('btn') + ' ' + formCx('btn')}
+        />
+      </form>
+    </PaddingContainer>
   )
 
   //NOTICE:
@@ -293,7 +288,7 @@ function CaptionForm({
             }}
           />
           <div className={formCx('after')}>
-            {unit.length > 8 ? unit.slice(0, 8) + '...' : unit}
+            {unit && unit.length > 8 ? unit.slice(0, 8) + '...' : unit}
           </div>
         </div>
         <ErrorMessage
@@ -320,8 +315,7 @@ function CaptionForm({
           </div>
           <div className={formCx('right')}>
             <div className={formCx('large-text')}>
-              {(currentMortgage ? formatNum(currentMortgage, 18) : '--') +
-                ' cETH'}
+              {(supported ? formatNum(currentMortgage, 18) : '--') + ' cETH'}
             </div>
             <div
               className={formCx('small-text')}
@@ -338,20 +332,26 @@ function CaptionForm({
         </div>
         <div className={formCx('second-container')}>
           <div className={formCx('second-item')}>
-            <div className={formCx('large-text')}>{pendingCount || '--'}</div>
+            <div className={formCx('large-text')}>
+              {supported ? pendingCount : '--'}
+            </div>
             <div className={formCx('small-text', 'mTop')}>
               {t('pending-count')}
             </div>
           </div>
           <div className={formCx('second-item')}>
             <div className={formCx('large-text')}>
-              {countdown && countdown !== 0 ? (
+              {!supported ? (
+                '--'
+              ) : countdown && countdown !== 0 ? (
                 <Countdown initValue={countdown} />
               ) : (
                 formatSec(0)
               )}
             </div>
-            <div className={formCx('small-text', 'mTop')}>{t('countdown')}</div>
+            <div className={formCx('small-text', 'mTop')}>
+              <WithQuestion>{t('countdown')}</WithQuestion>
+            </div>
           </div>
         </div>
       </>
@@ -392,6 +392,7 @@ function Countdown({ initValue }) {
   }
 }
 
+//0xd50931bb32fca14acbc0cade5850ba597f3ee1a6
 export default function CaptionFormData() {
   const { erc20 } = useParams()
   const [popup, setPopup] = useState('')
@@ -413,11 +414,11 @@ export default function CaptionFormData() {
   )
 
   const { decimals } = tokenInfo
-  const { pendingCount, countdown } = useCaption(tokenInfo.reference)
+  const { pendingCount, countdown, minMortgage } = useCaption(
+    tokenInfo.reference
+  )
 
   const [currentMortgage, setCurrentMortgage] = useState()
-
-  console.log(tokenInfo)
   const beCaption = function (...args) {
     const {
       amount,
@@ -449,7 +450,7 @@ export default function CaptionFormData() {
 
   const updateMinMortgage = useCallback((reference) => {
     getLatestMortgage(reference).then((x) => {
-      // console.log(x, x.toString())
+      console.log(reference, x && x.toString())
       setCurrentMortgage(x && x.toString())
     })
   }, [])
@@ -473,6 +474,7 @@ export default function CaptionFormData() {
       countdown,
       currentMortgage,
       beCaption,
+      minMortgage,
       cethBalance,
       cethBalanceDisplay: formatNum(cethBalance, 18),
     }
