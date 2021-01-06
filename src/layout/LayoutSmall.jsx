@@ -130,11 +130,11 @@ export default function LayoutSmall(props) {
           <div
             className={cx('item')}
             onClick={() => {
-              history.push('/caption')
+              history.push('/captain')
               setDropdown(false)
             }}
           >
-            {t('be-caption')}
+            {t('be-captain')}
           </div>
           <Accordion
             expanded={lngOpen}

@@ -12,7 +12,7 @@ import chooseStyles from './Choose.module.scss'
 import useUrlSearch from '../data/useUrlSearch'
 import useIsSamll from '../component/useSmallScreen'
 
-export default function ChooseToken({ caption, cToken, next, ...extra }) {
+export default function ChooseToken({ captain, cToken, next }) {
   const [chooseCx] = useStyle(chooseStyles)
   const [searchTxt, setSearchTxt] = useState('')
   const [isNotAvailable, setIsNotAvailable] = useState(false)
@@ -28,8 +28,8 @@ export default function ChooseToken({ caption, cToken, next, ...extra }) {
       </PaddingContainer>
       <TokenList
         search={searchTxt}
-        frequent={!caption}
-        showMortgage={caption}
+        frequent={!captain}
+        showMortgage={captain}
         cToken={cToken}
         notFound={notFound}
         setNotFound={setNotFound}
@@ -43,31 +43,33 @@ export default function ChooseToken({ caption, cToken, next, ...extra }) {
               key="btn"
               path={{
                 pathname: isNotAvailable
-                  ? `/caption/${token}`
+                  ? `/captain/${token}`
                   : typeof next === 'function'
                   ? next(token)
                   : next,
               }}
-              disabled={caption ? !token : !token && !isNotAvailable}
+              disabled={captain ? !token : !token && !isNotAvailable}
             >
-              {caption
-                ? t('be-caption')
+              {captain
+                ? t('be-captain')
                 : t(isNotAvailable ? 'add-token' : 'choose-btn')}
             </Button>,
-            <div
-              key="benefit"
-              className={chooseCx('benefit')}
-              onClick={() => {
-                window.open(`/caption/${token ? token : ''}`, '_blank')
-              }}
-            >
-              {t('caption-benefit')}
-              <img
-                className={chooseCx('pocket')}
-                src={pocket}
-                alt="pocket"
-              ></img>
-            </div>,
+            !captain && (
+              <div
+                key="benefit"
+                className={chooseCx('benefit')}
+                onClick={() => {
+                  window.open(`/captain/${token ? token : ''}`, '_blank')
+                }}
+              >
+                {t('captain-benefit')}
+                <img
+                  className={chooseCx('pocket')}
+                  src={pocket}
+                  alt="pocket"
+                ></img>
+              </div>
+            ),
           ][isSmall ? 'reverse' : 'slice']()}
         </PaddingContainer>
       )}

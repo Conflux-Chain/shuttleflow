@@ -20,5 +20,6 @@
   "for-not-update": "表示不更新抵押数量",
   "update": "更新",
   "success": "交易已发出",
-  "fail": "交易失败"
+  "fail": "交易失败",
+  "what-captain": "什么是 Token 舰长 ？"
 }

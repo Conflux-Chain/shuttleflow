@@ -106,7 +106,7 @@
       max-width: 10rem;
     }
     &.large {
-      max-width: 6rem;
+      max-width: 12rem;
     }
   }
   .mTop {
@@ -206,4 +206,9 @@
     display: block;
     margin: auto;
   }
+}
+.loading-container {
+  height: 100px;
+  margin: auto;
+  width: 100px;
 }

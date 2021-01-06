@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import jsonrpc from './jsonrpc'
 import { getCustodianContract } from './contract'
+import formatNum from './formatNum'
 
 export default function usePendingOperationInfo(erc20) {
   const [info, setInfo] = useState({})
@@ -10,12 +11,16 @@ export default function usePendingOperationInfo(erc20) {
       Promise.all([
         jsonrpc('getPendingOperationInfo', { url: 'node', params: [erc20] }),
         getCustodianContract().token_cooldown(erc20).call(),
-      ]).then(([{ cnt = 0 } = {}, cooldown]) => {
+        getCustodianContract().minimal_sponsor_amount().call(),
+        getCustodianContract().default_cooldown().call(),
+      ]).then(([{ cnt = 0 } = {}, cooldown, minMortgage, defaultCooldown]) => {
+        // console.log('defaultCooldown', parseInt(defaultCooldown + ''))
         if (start) {
           const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))
           setInfo({
             pendingCount: cnt,
-            countdown: Math.max(0, 3 * 60 * 60 - diff),
+            minMortgage: formatNum(minMortgage, 18),
+            countdown: Math.max(0, parseInt(defaultCooldown + '') - diff),
           })
         }
       })

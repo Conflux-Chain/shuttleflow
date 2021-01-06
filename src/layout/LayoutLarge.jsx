@@ -37,6 +37,7 @@ export default function LayoutLarge({ history }) {
     let { marginBottom } = getComputedStyle(headerRef.current)
     marginBottom = parseFloat(marginBottom.replace('px', ''))
     const { innerHeight } = window
+    // console.log(bottom, marginBottom)
     setMainMaxHeight(innerHeight - bottom - marginBottom - 40)
   }, [])
 
@@ -105,14 +106,14 @@ export default function LayoutLarge({ history }) {
             }}
           />
           <MenuLink
-            to="/caption"
+            to="/captain"
             render={({ active }) => {
               return (
                 <div
-                  onClick={() => history.push('/caption')}
+                  onClick={() => history.push('/captain')}
                   className={cx('item', { active })}
                 >
-                  {t('be-caption')}
+                  {t('be-captain')}
                 </div>
               )
             }}

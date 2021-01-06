@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import useState1 from '../data/useState1'
 const Token = lazy(() => import('../token/Token'))
 const Shuttle = lazy(() => import('../shuttle/Shuttle'))
-const Caption = lazy(() => import('../caption/Caption'))
+const Captain = lazy(() => import('../captain/Captain'))
 const History = lazy(() => import('../history/History'))
 const Market = lazy(() => import('../market/Market'))
 
@@ -66,7 +66,7 @@ function Main() {
                 <Switch>
                   <Route path="/token" component={Token} />
                   <Route path="/shuttle" component={Shuttle} />
-                  <Route path="/caption" component={Caption} />
+                  <Route path="/captain" component={Captain} />
                   <Route path="/history" component={History} />
                   <Route path="/market" component={Market} />
                 </Switch>

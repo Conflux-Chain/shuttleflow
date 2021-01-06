@@ -32,7 +32,7 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
             if (!token) {
               return jsonrpc('searchToken', {
                 url: 'sponsor',
-                params: [search],
+                params: [erc20 || search],
               }).then((result) => {
                 if (result && result.is_valid_erc20) {
                   return [result]
@@ -51,9 +51,10 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
             return tokens.filter(({ ctoken }) => lowersearch === ctoken)
           } else {
             return tokens.filter(
-              ({ reference_symbol, reference_name, supported }) => {
+              ({ reference_symbol, reference_name, supported, symbol }) => {
                 return (
                   (reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
+                    symbol.toLowerCase().indexOf(lowersearch) > -1 ||
                     reference_name.toLowerCase().indexOf(lowersearch) > -1) &&
                   (cToken ? supported === 1 : true)
                 )

@@ -7,7 +7,7 @@ import zhTokenTrans from './zh/token.json'
 //market and translation
 import zhMHTrans from './zh/history-market.json'
 import zhNavTrans from './zh/nav.json'
-import zhCaptionTrans from './zh/caption.json'
+import zhCaptainTrans from './zh/captain.json'
 
 import enShuttleIn from './en/shuttle-in.json'
 import enShuttleOut from './en/shuttle-out.json'
@@ -15,7 +15,7 @@ import enCommon from './en/common.json'
 import enTokenTrans from './en/token.json'
 import enMHTrans from './en/history-market.json'
 import enNavTrans from './en/nav.json'
-import enCaptionTrans from './en/caption.json'
+import enCaptainTrans from './en/captain.json'
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -29,7 +29,7 @@ i18n
         history: enMHTrans,
         nav: enNavTrans,
         token: enTokenTrans,
-        caption: enCaptionTrans,
+        captain: enCaptainTrans,
       },
       zh: {
         'shuttle-in': zhShuttleIn,
@@ -39,7 +39,7 @@ i18n
         history: zhMHTrans,
         nav: zhNavTrans,
         token: zhTokenTrans,
-        caption: zhCaptionTrans,
+        captain: zhCaptainTrans,
       },
     },
     react: {
