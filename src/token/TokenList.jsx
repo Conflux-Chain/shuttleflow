@@ -55,6 +55,7 @@ function TokenList({
     tokens: displayedList,
     isLoading: isDisplayedLoading,
   } = useTokenList({ search, cToken })
+
   const setToken = (token) =>
     history.push(buildSearch({ ...searchParams, token }))
 
@@ -260,7 +261,7 @@ function TokenRow({
       <div className={ListCx('left')}>
         <Check checked={checked} />
         <Icon
-          risk={in_token_list === 0}
+          risk={!in_token_list}
           src={icon}
           conflux={cToken}
           style={{ marginLeft: '0.5rem', marginRight: '1rem' }}

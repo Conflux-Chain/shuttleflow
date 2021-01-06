@@ -20,5 +20,6 @@
   "for-not-update": "Indicates not to update the deposit amount",
   "update": "update",
   "success": "Transaction Submitted",
-  "fail": "Transaction Failed"
+  "fail": "Transaction Failed",
+  "what-caption": "What's Token Captain？"
 }
