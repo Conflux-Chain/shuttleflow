@@ -12,7 +12,7 @@ import chooseStyles from './Choose.module.scss'
 import useUrlSearch from '../data/useUrlSearch'
 import useIsSamll from '../component/useSmallScreen'
 
-export default function ChooseToken({ caption, cToken, next, ...extra }) {
+export default function ChooseToken({ caption, cToken, next }) {
   const [chooseCx] = useStyle(chooseStyles)
   const [searchTxt, setSearchTxt] = useState('')
   const [isNotAvailable, setIsNotAvailable] = useState(false)
@@ -54,20 +54,22 @@ export default function ChooseToken({ caption, cToken, next, ...extra }) {
                 ? t('be-caption')
                 : t(isNotAvailable ? 'add-token' : 'choose-btn')}
             </Button>,
-            <div
-              key="benefit"
-              className={chooseCx('benefit')}
-              onClick={() => {
-                window.open(`/caption/${token ? token : ''}`, '_blank')
-              }}
-            >
-              {t('caption-benefit')}
-              <img
-                className={chooseCx('pocket')}
-                src={pocket}
-                alt="pocket"
-              ></img>
-            </div>,
+            !caption && (
+              <div
+                key="benefit"
+                className={chooseCx('benefit')}
+                onClick={() => {
+                  window.open(`/caption/${token ? token : ''}`, '_blank')
+                }}
+              >
+                {t('caption-benefit')}
+                <img
+                  className={chooseCx('pocket')}
+                  src={pocket}
+                  alt="pocket"
+                ></img>
+              </div>
+            ),
           ][isSmall ? 'reverse' : 'slice']()}
         </PaddingContainer>
       )}
