@@ -69,8 +69,9 @@ function CaptionForm({
   const isMe = address === sponsor
 
   const onSubmit = (data) => {
+    console.log('cethBalance submit', cethBalance)
     beCaption({
-      amount: isAll.current ? cethBalance : data.mortgage_amount * 1e18,
+      amount: isAll.current ? cethBalance : data.mortgage_amount,
       burnFee: data.burn_fee,
       mintFee: data.mint_fee,
       walletFee: data.wallet_fee,
@@ -418,17 +419,17 @@ export default function CaptionFormData() {
     tokenInfo.reference
   )
 
-  const [currentMortgage, setCurrentMortgage] = useState()
-  const beCaption = function (...args) {
-    const {
-      amount,
-      burnFee,
-      mintFee,
-      walletFee,
-      minimalMintValue,
-      minimalBurnValue,
-    } = args
+  console.log('minMortgage', minMortgage, countdown)
 
+  const [currentMortgage, setCurrentMortgage] = useState()
+  const beCaption = function ({
+    amount,
+    burnFee,
+    mintFee,
+    walletFee,
+    minimalMintValue,
+    minimalBurnValue,
+  }) {
     createBeCaption(
       address,
       erc20
@@ -461,12 +462,18 @@ export default function CaptionFormData() {
     }
   }, [updateMinMortgage, tokenInfo.reference])
 
+  console.log('cethBalance', cethBalance)
   /**
    * the form default value can be read ONLY ONCE
    * make sure the default from data available when
    * the form compoment rendered the first time
    **/
-  if (typeof pendingCount === 'number' && currentMortgage && cethBalance) {
+  if (
+    // false &&
+    typeof pendingCount === 'number' &&
+    currentMortgage &&
+    cethBalance
+  ) {
     const data = {
       address,
       ...tokenInfo,
@@ -497,6 +504,10 @@ export default function CaptionFormData() {
       </>
     )
   } else {
-    return <Loading size="large" />
+    return (
+      <div className={cx('loading-container')}>
+        <Loading size="large" />
+      </div>
+    )
   }
 }

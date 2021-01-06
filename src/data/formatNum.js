@@ -10,6 +10,7 @@ export function parseNum(value, decimal) {
 }
 
 export function buildNum(value, decimal) {
+  console.log(value, decimal)
   return Big(value)
     .mul(Big(`1e${decimal}`))
     .toString()

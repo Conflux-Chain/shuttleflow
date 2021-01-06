@@ -4,7 +4,6 @@ import Choose from '../token/Choose'
 import styles from './Caption.module.scss'
 import CaptionForm from './Form'
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 
 export default function Caption(props) {
   const {
@@ -15,7 +14,7 @@ export default function Caption(props) {
 
   return (
     <MainContainer
-      styles={{ minHeight: '100%' }}
+      style={{ minHeight: '100%' }}
       className={fullHeight ? cx('container') : ''}
     >
       <Switch>
