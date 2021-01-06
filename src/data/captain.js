@@ -12,13 +12,15 @@ export default function usePendingOperationInfo(erc20) {
         jsonrpc('getPendingOperationInfo', { url: 'node', params: [erc20] }),
         getCustodianContract().token_cooldown(erc20).call(),
         getCustodianContract().minimal_sponsor_amount().call(),
-      ]).then(([{ cnt = 0 } = {}, cooldown, minMortgage]) => {
+        getCustodianContract().default_cooldown().call(),
+      ]).then(([{ cnt = 0 } = {}, cooldown, minMortgage, defaultCooldown]) => {
+        // console.log('defaultCooldown', parseInt(defaultCooldown + ''))
         if (start) {
           const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))
           setInfo({
             pendingCount: cnt,
             minMortgage: formatNum(minMortgage, 18),
-            countdown: Math.max(0, 3 * 60 * 60 - diff),
+            countdown: Math.max(0, parseInt(defaultCooldown + '') - diff),
           })
         }
       })

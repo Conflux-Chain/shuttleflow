@@ -1,7 +1,7 @@
 import { getCustodianContract } from './contract'
 
-export default function createBeCaption(userAddress, erc20) {
-  return function beCaption({
+export default function createBeCaptain(userAddress, erc20) {
+  return function beCaptain({
     amount,
     burnFee,
     mintFee,

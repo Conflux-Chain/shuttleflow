@@ -13,15 +13,15 @@ import { ErrorMessage } from '@hookform/error-message'
 
 import profile from './profile.svg'
 import useTokenList from '../data/useTokenList'
-import MainContainer from '../component/MainContainer/MainContainer'
+
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import Icon from '../component/Icon/Icon'
-import useCaption from '../data/useCaption'
+import useCaptain from '../data/captain'
 import useConfluxPortal1 from '../lib/useConfluxPortal'
 
 import getLatestMortgage from '../data/getLatestMortgage'
 import formatAddress from '../component/formatAddress'
-import createBeCaption from '../data/beCaption'
+import createBeCaptain from '../data/beCaptain'
 import formatNum, { buildNum } from '../data/formatNum'
 import { Loading } from '@cfxjs/react-ui'
 import { CETH_ADDRESS } from '../config/config'
@@ -31,12 +31,12 @@ import success from './success.png'
 import fail from './fail.png'
 import WithQuestion from '../component/WithQuestion'
 
-function CaptionForm({
+function CaptainForm({
   pendingCount,
   countdown,
   address,
   icon,
-  beCaption,
+  beCaptain,
   cethBalance,
   cethBalanceDisplay,
   burn_fee,
@@ -51,7 +51,7 @@ function CaptionForm({
   sponsor,
   currentMortgage,
 }) {
-  const { t } = useTranslation(['caption'])
+  const { t } = useTranslation(['captain'])
   const [inputCx, buttonCx, formCx] = useStyle(
     inputStyles,
     buttonStyles,
@@ -70,7 +70,7 @@ function CaptionForm({
 
   const onSubmit = (data) => {
     console.log('cethBalance submit', cethBalance)
-    beCaption({
+    beCaptain({
       amount: isAll.current ? cethBalance : data.mortgage_amount,
       burnFee: data.burn_fee,
       mintFee: data.mint_fee,
@@ -154,7 +154,7 @@ function CaptionForm({
   })
   const { mortgage_amount: minMortgageInput } = watch(['mortgage_amount'])
 
-  //current user is caption of the symbol and
+  //current user is captain of the symbol and
   //the mortgage of the symbol is not modified
   const isUpdate = isMe && minMortgageInput === '0'
 
@@ -256,7 +256,7 @@ function CaptionForm({
 
         <input
           type="submit"
-          value={isUpdate ? t('update') : t('be-caption')}
+          value={isUpdate ? t('update') : t('be-captain')}
           className={buttonCx('btn') + ' ' + formCx('btn')}
         />
       </form>
@@ -394,10 +394,10 @@ function Countdown({ initValue }) {
 }
 
 //0xd50931bb32fca14acbc0cade5850ba597f3ee1a6
-export default function CaptionFormData() {
+export default function CaptainFormData() {
   const { erc20 } = useParams()
   const [popup, setPopup] = useState('')
-  const { t } = useTranslation(['caption'])
+  const { t } = useTranslation(['captain'])
   const [cx, modalCx] = useStyle(formStyles, modalStyles)
   const {
     address,
@@ -415,14 +415,14 @@ export default function CaptionFormData() {
   )
 
   const { decimals } = tokenInfo
-  const { pendingCount, countdown, minMortgage } = useCaption(
+  const { pendingCount, countdown, minMortgage } = useCaptain(
     tokenInfo.reference
   )
 
   console.log('minMortgage', minMortgage, countdown)
 
   const [currentMortgage, setCurrentMortgage] = useState()
-  const beCaption = function ({
+  const beCaptain = function ({
     amount,
     burnFee,
     mintFee,
@@ -430,7 +430,7 @@ export default function CaptionFormData() {
     minimalMintValue,
     minimalBurnValue,
   }) {
-    createBeCaption(
+    createBeCaptain(
       address,
       erc20
     )({
@@ -480,14 +480,14 @@ export default function CaptionFormData() {
       pendingCount,
       countdown,
       currentMortgage,
-      beCaption,
+      beCaptain,
       minMortgage,
       cethBalance,
       cethBalanceDisplay: formatNum(cethBalance, 18),
     }
     return (
       <>
-        <CaptionForm {...data} />
+        <CaptainForm {...data} />
         <Modal show={popup} clickAway={() => setPopup(false)}>
           <img
             className={cx('status-img')}

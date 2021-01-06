@@ -1,11 +1,11 @@
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
 import Choose from '../token/Choose'
-import styles from './Caption.module.scss'
-import CaptionForm from './Form'
+import styles from './Captain.module.scss'
+import CaptainForm from './Form'
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
-export default function Caption(props) {
+export default function Captain(props) {
   const {
     match: { url, path },
   } = props
@@ -20,11 +20,11 @@ export default function Caption(props) {
       <Switch>
         <Route exact path={path}>
           <div className={cx('container')}>
-            <Choose next={(token) => `${url}/${token}`} caption />
+            <Choose next={(token) => `${url}/${token}`} captain />
           </div>
         </Route>
         <Route path={`${path}/:erc20`}>
-          <CaptionForm />
+          <CaptainForm />
         </Route>
       </Switch>
     </MainContainer>
