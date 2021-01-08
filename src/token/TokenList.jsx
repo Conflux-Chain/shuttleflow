@@ -44,7 +44,7 @@ function TokenList({
   search = '',
   cToken,
   frequent,
-  showMortgage,
+  captain,
   setNotFound,
   setIsNotAvailable, //if the corresponsing cToken available
 }) {
@@ -56,8 +56,9 @@ function TokenList({
     isLoading: isDisplayedLoading,
   } = useTokenList({ search, cToken })
 
-  const setToken = (token) =>
+  const setToken = (token) => {
     history.push(buildSearch({ ...searchParams, token }))
+  }
 
   const { t } = useTranslation(['token'])
   const [ListCx, titleCx, modalCx] = useStyle(
@@ -90,7 +91,6 @@ function TokenList({
       <Scrollbars
         renderThumbVertical={renderThumbVertical}
         style={{ flex: 1, position: 'relative' }}
-        // autoHeight
       >
         <PaddingContainer bottom={false}>
           {frequent && !search && tokenList.length && (
@@ -167,8 +167,12 @@ function TokenList({
                       ...tokenInfo,
                       token,
                       cToken,
-                      checked: token === tokenInfo.reference,
-                      showMortgage,
+                      checked:
+                        tokenInfo.is_admin === 1 && captain
+                          ? false
+                          : token === tokenInfo.reference,
+                      disabled: tokenInfo.is_admin === 1 && captain,
+                      captain,
                       setToken,
                       setIsNotAvailable,
                     }}
@@ -219,7 +223,8 @@ function TokenRow({
   sponsor_value,
   icon,
   cToken,
-  showMortgage,
+  captain,
+  disabled,
   setToken,
   setIsNotAvailable,
   checked,
@@ -244,9 +249,11 @@ function TokenRow({
             setToken('')
             setIsNotAvailable(false)
           } else {
-            setToken(reference)
-            if (notAvailable) {
-              setIsNotAvailable(true)
+            if (!disabled) {
+              setToken(reference)
+              if (notAvailable) {
+                setIsNotAvailable(true)
+              }
             }
           }
         } else {
@@ -259,7 +266,10 @@ function TokenRow({
       }}
     >
       <div className={ListCx('left')}>
-        <Check checked={checked} />
+        <div style={{ visibility: disabled ? 'hidden' : 'visible' }}>
+          <Check checked={checked} />
+        </div>
+
         <Icon
           risk={!in_token_list}
           src={icon}
@@ -282,7 +292,7 @@ function TokenRow({
       </div>
 
       <div className={ListCx('two-row')} style={{ alignItems: 'flex-end' }}>
-        {showMortgage && sponsor_value && (
+        {captain && sponsor_value && (
           <span className={ListCx('mortgage')}>{sponsor_value + ' cETH'}</span>
         )}
 

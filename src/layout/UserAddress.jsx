@@ -1,14 +1,14 @@
 import React from 'react'
 import formatAddress from '../component/formatAddress'
-import useConfluxPortal from '../lib/useConfluxPortal'
 import styles from './UserAddress.module.scss'
 import useStyle from '../component/useStyle'
 import { useTranslation } from 'react-i18next'
+import useAddress, { login } from '../data/useAddress'
 
 export default function UserAddress() {
   const { t } = useTranslation(['nav'])
   const [cx] = useStyle(styles)
-  const { address, login } = useConfluxPortal()
+  const address = useAddress()
   return (
     <div>
       <Circle active={!!address} />

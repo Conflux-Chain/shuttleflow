@@ -121,6 +121,7 @@
 
 .input-container {
   position: relative;
+  display: flex;
   &.small {
     margin-top: 1.5rem;
   }
@@ -129,19 +130,20 @@
   }
 }
 .label {
-  position: absolute;
+  // position: absolute;
   color: rgba($color: #ffffff, $alpha: 0.6);
+  white-space: nowrap;
   top: 0;
   bottom: 0;
   display: flex;
   align-items: center;
   pointer-events: none;
   &.small {
-    margin-left: 2rem;
+    // margin-left: 2rem;
     font-size: 1.75rem;
   }
   &.large {
-    margin-left: 1.5rem;
+    // margin-left: 1.5rem;
     font-size: 1.125rem;
   }
 }
@@ -160,24 +162,26 @@
 }
 
 .after {
-  position: absolute;
+  cursor: default;
   color: white;
-  top: 0;
-  bottom: 0;
   display: flex;
   align-items: center;
+  white-space: nowrap;
   &.small {
     font-size: 1.75rem;
-    right: 2rem;
+    margin-right: 1rem;
   }
   &.large {
     font-size: 1.25rem;
-    right: 1.5rem;
+    margin-right: 1rem;
   }
 }
 
 .input {
-  padding-left: 50% !important;
+  padding-left: 0 !important;
+  background-color: transparent !important;
+  text-align: right;
+  margin-right: 1rem;
 }
 
 .error {

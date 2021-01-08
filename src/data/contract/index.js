@@ -1,10 +1,11 @@
 import sponsorAbi from './TokenSponsor.json'
 import custodianAbi from './CustodianImpl.json'
+import balanceAbi from './Balance.json'
 import {
   SPONSOR_CONTRACT_ADDR,
   CUSTODIAN_CONTRACT_ADDR,
 } from '../../config/config'
-let sponsorContract, custodianContract
+let sponsorContract, custodianContract, balanceContract
 
 export function getSponsorContract() {
   if (!sponsorContract) {
@@ -24,4 +25,14 @@ export function getCustodianContract() {
     })
   }
   return custodianContract
+}
+
+export function getBalanceContract() {
+  if (!balanceContract) {
+    balanceContract = window.confluxJS.Contract({
+      abi: balanceAbi,
+      address: '0x8f35930629fce5b5cf4cd762e71006045bfeb24d',
+    })
+  }
+  return balanceContract
 }

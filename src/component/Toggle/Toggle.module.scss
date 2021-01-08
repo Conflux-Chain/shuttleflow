@@ -1,0 +1,32 @@
+.container {
+  display: inline-flex;
+  align-items: center;
+  &.large {
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 0.75rem;
+  }
+
+  .btn {
+    background-color: white;
+    &.large {
+      width: 1.2rem;
+      height: 1.2rem;
+      border-radius: 0.6rem;
+    }
+  }
+
+  &.on {
+    background-color: #44d7b6;
+    .btn {
+      transform: translateX(0.2rem);
+    }
+  }
+  &.off {
+    background-color: #e5e5e5;
+    flex-direction: row-reverse;
+    .btn {
+      transform: translateX(0.2rem);
+    }
+  }
+}

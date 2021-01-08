@@ -6,7 +6,7 @@ import formStyles from './Form.module.scss'
 import modalStyles from '../component/modal.module.scss'
 import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
+import { object } from 'yup'
 import { useParams } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ErrorMessage } from '@hookform/error-message'
@@ -17,12 +17,11 @@ import useTokenList from '../data/useTokenList'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import Icon from '../component/Icon/Icon'
 import useCaptain from '../data/captain'
-import useConfluxPortal1 from '../lib/useConfluxPortal'
 
 import getLatestMortgage from '../data/getLatestMortgage'
 import formatAddress from '../component/formatAddress'
 import createBeCaptain from '../data/beCaptain'
-import formatNum, { buildNum } from '../data/formatNum'
+import formatNum, { buildNum, parseNum } from '../data/formatNum'
 import { Loading } from '@cfxjs/react-ui'
 import { CETH_ADDRESS } from '../config/config'
 import Modal from '../component/Modal'
@@ -30,6 +29,9 @@ import Modal from '../component/Modal'
 import success from './success.png'
 import fail from './fail.png'
 import WithQuestion from '../component/WithQuestion'
+import { create as big } from '../lib/BigNumberSchema'
+import useAddress from '../data/useAddress'
+import { useBalance } from '../data/useBalance'
 
 function CaptainForm({
   pendingCount,
@@ -38,7 +40,6 @@ function CaptainForm({
   icon,
   beCaptain,
   cethBalance,
-  cethBalanceDisplay,
   burn_fee,
   mint_fee,
   minMortgage,
@@ -60,8 +61,6 @@ function CaptainForm({
 
   const isAll = useRef(false)
 
-  // cethDisplay=200
-
   //若当前连接钱包的 Address 为该 token captain 本人时
   //token captain 规则表单中 “抵押数量”默认值为0，
   //下方说明文案变为“0 表示不更新抵押，
@@ -69,9 +68,9 @@ function CaptainForm({
   const isMe = address === sponsor
 
   const onSubmit = (data) => {
-    console.log('cethBalance submit', cethBalance)
+    // return
     beCaptain({
-      amount: isAll.current ? cethBalance : data.mortgage_amount,
+      amount: data.mortgage_amount,
       burnFee: data.burn_fee,
       mintFee: data.mint_fee,
       walletFee: data.wallet_fee,
@@ -85,72 +84,43 @@ function CaptainForm({
     currentMortgage ? formatNum(currentMortgage, 18) * 1.1 : 0
   )
 
-  const schema = yup.object().shape({
-    mint_fee: yup
-      .number()
-      .typeError(t('error.number'))
-      .min(0, t('error.above-zero'))
-      .test('below-in-amount', t('error.below-in-amount'), function (params) {
-        const {
-          parent: { minimal_mint_value },
-        } = this
-        return Number.isNaN(minimal_mint_value)
-          ? true
-          : params < minimal_mint_value
-      }),
-    burn_fee: yup
-      .number()
-      .typeError(t('error.number'))
-      .min(0, t('error.above-zero'))
-      .test('below-out-amount', t('error.below-out-amount'), function (params) {
-        const {
-          parent: { minimal_burn_value },
-        } = this
-        return Number.isNaN(minimal_burn_value)
-          ? true
-          : params < minimal_burn_value
-      }),
-    minimal_mint_value: yup
-      .number()
-      .typeError(t('error.number'))
-      .min(0, t('error.above-zero'))
-      .test('above-in-fee', t('error.above-in-fee'), function (params) {
-        const { parent } = this
-        return Number.isNaN(parent.mint_fee) ? true : params > parent.mint_fee
-      }),
-    minimal_burn_value: yup
-      .number()
-      .typeError(t('error.number'))
-      .test('above-out-fee', t('error.above-out-fee'), function (params) {
-        const { parent } = this
-        return Number.isNaN(parent.burn_fee) || params > parent.burn_fee
-      }),
-    wallet_fee: yup
-      .number()
-      .typeError(t('error.number'))
-      .min(0, t('errors.above-zero')),
-    mortgage_amount: yup
-      .number()
-      .typeError(t('error.number'))
-      .max(cethBalanceDisplay, t('error.insufficient'))
-      .test(
-        'above-current-ifnot-me',
-        t('error.above-current'),
-        (v) => (isMe && v === 0) || v > minMortgage
-      ),
+  const field = () => {
+    return big().typeError(t('error.number')).aboveZero(t('error.above-zero'))
+  }
+  const schema = object().shape({
+    mint_fee: field(),
+    burn_fee: field(),
+    minimal_mint_value: field().greaterThan(
+      'mint_fee',
+      t('error.above-in-fee')
+    ),
+    minimal_burn_value: field().greaterThan(
+      'burn_fee',
+      t('error.above-out-fee')
+    ),
+    wallet_fee: field(),
+    // mortgage_amount: yup.string(),
+    // .number()
+    // .typeError(t('error.number'))
+    // .max(cethBalanceDisplay, t('error.insufficient'))
+    // .test(
+    //   'above-current-ifnot-me',
+    //   t('error.above-current'),
+    //   (v) => (isMe && v === 0) || v > minMortgage
+    // ),
   })
 
   const { register, handleSubmit, errors, setValue, watch } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      mint_fee: mint_fee,
-      burn_fee: burn_fee,
-      minimal_mint_value: minimal_mint_value,
-      minimal_burn_value: minimal_burn_value,
+      mint_fee,
+      burn_fee,
+      minimal_mint_value,
+      minimal_burn_value,
       wallet_fee,
-      mortgage_amount: isMe ? 0 : minMortgage,
+      mortgage_amount: isMe ? '0' : minMortgage,
     },
-    mode: 'onBlur',
+    mode: 'onSubmit',
   })
   const { mortgage_amount: minMortgageInput } = watch(['mortgage_amount'])
 
@@ -166,15 +136,15 @@ function CaptainForm({
       readOnly: supported && countdown !== 0,
     },
     {
-      label: t('shuttle-out-fee'),
-      unit: reference_symbol,
-      name: 'burn_fee',
-      readOnly: supported && countdown !== 0,
-    },
-    {
       label: t('shuttle-in-amount'),
       unit: reference_symbol,
       name: 'minimal_mint_value',
+      readOnly: supported && countdown !== 0,
+    },
+    {
+      label: t('shuttle-out-fee'),
+      unit: reference_symbol,
+      name: 'burn_fee',
       readOnly: supported && countdown !== 0,
     },
     {
@@ -189,38 +159,56 @@ function CaptainForm({
       unit: reference_symbol,
       readOnly: supported && countdown !== 0,
     },
+    {
+      label: t('morgage-amount'),
+      name: 'mortgage_amount',
+      unit: 'cETH',
+      readOnly: false,
+    },
   ]
   return (
     <PaddingContainer bottom top>
-      <Head />
+      <Head
+        {...{
+          icon,
+          formCx,
+          t,
+          reference_symbol,
+          reference_name,
+          supported,
+          currentMortgage,
+          sponsor,
+          pendingCount,
+          countdown,
+        }}
+      />
       <form onSubmit={handleSubmit(onSubmit)}>
         {fields.map((props) => input(props))}
         <>
-          <div className={formCx('input-container')}>
+          <div
+            className={
+              formCx('input-container') +
+              ' ' +
+              inputCx('input-common', errors['mortgage_amount'] ? 'error' : '')
+            }
+          >
             <div className={formCx('label')}>{t('morgage-amount')}</div>
             <input
               ref={register}
               name="mortgage_amount"
               autoComplete="off"
               data-lpignore="true"
-              onChange={(e) => {
-                let value = e.target.value
-                let [p1, p2] = value.split('.')
-                if (p2) {
-                  p2 = p2.slice(0, 6)
-                  value = [p1, p2].join('.')
-                }
-                e.target.value = value
-                isAll.current = false
-              }}
-              className={
-                inputCx(
-                  'input-common',
-                  errors['mortgage_amount'] ? 'error' : ''
-                ) +
-                ' ' +
-                formCx('input')
-              }
+              // onChange={(e) => {
+              //   let value = e.target.value
+              //   let [p1, p2] = value.split('.')
+              //   if (p2) {
+              //     p2 = p2.slice(0, 6)
+              //     value = [p1, p2].join('.')
+              //   }
+              //   e.target.value = value
+              //   isAll.current = false
+              // }}
+              className={inputCx('input-common') + ' ' + formCx('input')}
               placeholder={t('enter')}
             />
             {isUpdate && (
@@ -233,11 +221,11 @@ function CaptainForm({
           <div className={formCx('small-text', 'bottom-text')}>
             <div>{t('min-mortgage', { minMortgage })}</div>
             <div>
-              <span> {t('ceth-balance', { amount: cethBalanceDisplay })}</span>
+              <span> {t('ceth-balance', { amount: cethBalance })}</span>
               <span
                 onClick={() => {
                   isAll.current = true
-                  setValue('mortgage_amount', cethBalanceDisplay)
+                  setValue('mortgage_amount', cethBalance)
                 }}
                 className={formCx('all')}
               >
@@ -269,7 +257,13 @@ function CaptainForm({
   function input({ label, name, readOnly, unit }) {
     return (
       <div key={label}>
-        <div className={formCx('input-container')}>
+        <div
+          className={
+            inputCx('input-common', errors[name] ? 'error' : '') +
+            ' ' +
+            formCx('input-container')
+          }
+        >
           <div className={formCx('label')}>{label}</div>
           <input
             ref={register}
@@ -277,19 +271,15 @@ function CaptainForm({
             autoComplete="off"
             readOnly={readOnly}
             data-lpignore="true"
-            className={
-              inputCx('input-common', errors[name] ? 'error' : '') +
-              ' ' +
-              formCx('input')
-            }
+            className={inputCx('input-common') + ' ' + formCx('input')}
             placeholder={t('enter')}
-            onChange={(e) => {
-              let value = e.target.value
-              e.target.value = value.slice(0, 8)
-            }}
+            // onChange={(e) => {
+            //   let value = e.target.value
+            //   e.target.value = value.slice(0, 8)
+            // }}
           />
           <div className={formCx('after')}>
-            {unit && unit.length > 8 ? unit.slice(0, 8) + '...' : unit}
+            {unit && unit.length > 20 ? unit.slice(0, 20) + '...' : unit}
           </div>
         </div>
         <ErrorMessage
@@ -302,62 +292,73 @@ function CaptainForm({
       </div>
     )
   }
+}
 
-  function Head() {
-    return (
-      <>
-        <div className={formCx('first-container')}>
-          <div className={formCx('left')}>
-            <Icon src={icon} style={{ marginRight: '1rem' }} />
-            <div className={formCx('left-text')}>
-              <div className={formCx('large-text')}>{reference_symbol}</div>
-              <div className={formCx('small-text')}>{reference_name}</div>
-            </div>
-          </div>
-          <div className={formCx('right')}>
-            <div className={formCx('large-text')}>
-              {(supported ? formatNum(currentMortgage, 18) : '--') + ' cETH'}
-            </div>
-            <div
-              className={formCx('small-text')}
-              style={{ display: 'flex', alignItems: 'center' }}
-            >
-              <img
-                alt="profile"
-                className={formCx('profile')}
-                src={profile}
-              ></img>
-              <span>{sponsor ? formatAddress(sponsor) : '--'}</span>
-            </div>
+function Head({
+  icon,
+  formCx,
+  t,
+  reference_symbol,
+  reference_name,
+  supported,
+  currentMortgage,
+  sponsor,
+  pendingCount,
+  countdown,
+}) {
+  return (
+    <>
+      <div className={formCx('first-container')}>
+        <div className={formCx('left')}>
+          <Icon src={icon} style={{ marginRight: '1rem' }} />
+          <div className={formCx('left-text')}>
+            <div className={formCx('large-text')}>{reference_symbol}</div>
+            <div className={formCx('small-text')}>{reference_name}</div>
           </div>
         </div>
-        <div className={formCx('second-container')}>
-          <div className={formCx('second-item')}>
-            <div className={formCx('large-text')}>
-              {supported ? pendingCount : '--'}
-            </div>
-            <div className={formCx('small-text', 'mTop')}>
-              {t('pending-count')}
-            </div>
+        <div className={formCx('right')}>
+          <div className={formCx('large-text')}>
+            {(supported ? formatNum(currentMortgage, 18) : '--') + ' cETH'}
           </div>
-          <div className={formCx('second-item')}>
-            <div className={formCx('large-text')}>
-              {!supported ? (
-                '--'
-              ) : countdown && countdown !== 0 ? (
-                <Countdown initValue={countdown} />
-              ) : (
-                formatSec(0)
-              )}
-            </div>
-            <div className={formCx('small-text', 'mTop')}>
-              <WithQuestion>{t('countdown')}</WithQuestion>
-            </div>
+          <div
+            className={formCx('small-text')}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            <img
+              alt="profile"
+              className={formCx('profile')}
+              src={profile}
+            ></img>
+            <span>{sponsor ? formatAddress(sponsor) : '--'}</span>
           </div>
         </div>
-      </>
-    )
-  }
+      </div>
+      <div className={formCx('second-container')}>
+        <div className={formCx('second-item')}>
+          <div className={formCx('large-text')}>
+            {supported ? pendingCount : '--'}
+          </div>
+          <div className={formCx('small-text', 'mTop')}>
+            {t('pending-count')}
+          </div>
+        </div>
+        <div className={formCx('second-item')}>
+          <div className={formCx('large-text')}>
+            {!supported ? (
+              '--'
+            ) : countdown && countdown !== 0 ? (
+              <Countdown initValue={countdown} />
+            ) : (
+              formatSec(0)
+            )}
+          </div>
+          <div className={formCx('small-text', 'mTop')}>
+            <WithQuestion>{t('countdown')}</WithQuestion>
+          </div>
+        </div>
+      </div>
+    </>
+  )
 }
 
 function formatSec(sec) {
@@ -399,10 +400,11 @@ export default function CaptainFormData() {
   const [popup, setPopup] = useState('')
   const { t } = useTranslation(['captain'])
   const [cx, modalCx] = useStyle(formStyles, modalStyles)
-  const {
-    address,
-    balances: [, [cethBalance]],
-  } = useConfluxPortal1([CETH_ADDRESS])
+  const address = useAddress()
+  const cethBalance = useBalance(CETH_ADDRESS)
+
+  // const address = useAddress()
+  // console.log('address', address)
   /**
    * tokens will change on every render(no cache in useTokenList)
    * which will into invalid all the following identity check
@@ -418,8 +420,6 @@ export default function CaptainFormData() {
   const { pendingCount, countdown, minMortgage } = useCaptain(
     tokenInfo.reference
   )
-
-  console.log('minMortgage', minMortgage, countdown)
 
   const [currentMortgage, setCurrentMortgage] = useState()
   const beCaptain = function ({
@@ -441,7 +441,8 @@ export default function CaptainFormData() {
       minimalMintValue: buildNum(minimalMintValue, decimals),
       minimalBurnValue: buildNum(minimalBurnValue, decimals),
     })
-      .then(() => {
+      .then((e) => {
+        console.log(e)
         setPopup('success')
       })
       .catch(() => {
@@ -451,7 +452,6 @@ export default function CaptainFormData() {
 
   const updateMinMortgage = useCallback((reference) => {
     getLatestMortgage(reference).then((x) => {
-      console.log(reference, x && x.toString())
       setCurrentMortgage(x && x.toString())
     })
   }, [])
@@ -462,7 +462,6 @@ export default function CaptainFormData() {
     }
   }, [updateMinMortgage, tokenInfo.reference])
 
-  console.log('cethBalance', cethBalance)
   /**
    * the form default value can be read ONLY ONCE
    * make sure the default from data available when
@@ -482,8 +481,7 @@ export default function CaptainFormData() {
       currentMortgage,
       beCaptain,
       minMortgage,
-      cethBalance,
-      cethBalanceDisplay: formatNum(cethBalance, 18),
+      cethBalance: parseNum(cethBalance, 18),
     }
     return (
       <>

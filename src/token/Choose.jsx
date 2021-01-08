@@ -29,7 +29,7 @@ export default function ChooseToken({ captain, cToken, next }) {
       <TokenList
         search={searchTxt}
         frequent={!captain}
-        showMortgage={captain}
+        captain={captain}
         cToken={cToken}
         notFound={notFound}
         setNotFound={setNotFound}
