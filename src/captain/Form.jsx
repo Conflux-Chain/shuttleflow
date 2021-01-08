@@ -185,39 +185,6 @@ function CaptainForm({
       <form onSubmit={handleSubmit(onSubmit)}>
         {fields.map((props) => input(props))}
         <>
-          <div
-            className={
-              formCx('input-container') +
-              ' ' +
-              inputCx('input-common', errors['mortgage_amount'] ? 'error' : '')
-            }
-          >
-            <div className={formCx('label')}>{t('morgage-amount')}</div>
-            <input
-              ref={register}
-              name="mortgage_amount"
-              autoComplete="off"
-              data-lpignore="true"
-              // onChange={(e) => {
-              //   let value = e.target.value
-              //   let [p1, p2] = value.split('.')
-              //   if (p2) {
-              //     p2 = p2.slice(0, 6)
-              //     value = [p1, p2].join('.')
-              //   }
-              //   e.target.value = value
-              //   isAll.current = false
-              // }}
-              className={inputCx('input-common') + ' ' + formCx('input')}
-              placeholder={t('enter')}
-            />
-            {isUpdate && (
-              <div className={formCx('for-not-update')}>
-                {t('for-not-update')}
-              </div>
-            )}
-            <div className={formCx('after')}>cETH</div>
-          </div>
           <div className={formCx('small-text', 'bottom-text')}>
             <div>{t('min-mortgage', { minMortgage })}</div>
             <div>
