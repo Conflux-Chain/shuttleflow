@@ -1,5 +1,5 @@
 import jsonrpc from './jsonrpc'
-import format, { parseNum } from './formatNum'
+import { parseNum } from './formatNum'
 import btc from './bcoin.svg'
 import eth from './ether.svg'
 

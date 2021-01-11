@@ -5,6 +5,7 @@ export function create() {
   return new BigSchema()
 }
 
+const TYPE_ERROR = 'TYPE_ERROR'
 export default class BigSchema extends BaseSchema {
   constructor() {
     super({ type: 'bigNumber' })
@@ -14,10 +15,7 @@ export default class BigSchema extends BaseSchema {
           try {
             value = new Big(value)
           } catch (e) {
-            //indicating a type error
-            console.log(e)
-            // value = new Big('-1')
-            value = 'type error'
+            value = TYPE_ERROR
           }
         }
         return value
@@ -25,7 +23,7 @@ export default class BigSchema extends BaseSchema {
     })
   }
   _typeCheck(value) {
-    return value !== 'type error'
+    return value !== TYPE_ERROR
   }
   aboveZero(message) {
     return this.test({
@@ -33,7 +31,7 @@ export default class BigSchema extends BaseSchema {
       name: 'zero',
       exclusive: true,
       test(value) {
-        return value.gte('0')
+        return value instanceof Big ? value.gte('0') : true
       },
     })
   }
