@@ -10,12 +10,13 @@
     "big.js": "^6.0.1",
     "classnames": "^2.2.6",
     "i18next": "^19.7.0",
+    "prettier": "^2.2.1",
     "qrcode.react": "^1.0.0",
     "react": "^17.0.1",
     "react-copy-to-clipboard": "^5.0.2",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^17.0.1",
-    "react-hook-form": "^6.8.6",
+    "react-hook-form": "^6.14.1",
     "react-i18next": "^11.7.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
@@ -23,7 +24,7 @@
     "recoil": "^0.1.2",
     "styled-components": "^5.2.1",
     "use-deep-compare-effect": "^1.4.0",
-    "yup": "^0.29.3"
+    "yup": "^0.32.8"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -47,13 +48,12 @@
     ]
   },
   "devDependencies": {
-    "@types/big.js": "^6.0.0",
+    "@types/big.js": "^6.0.2",
     "customize-cra": "^1.0.0",
+    "http-proxy-middleware": "^1.0.6",
     "node-sass": "^4.14.1",
-    "prettier": "2.1.2",
     "react-app-rewired": "^2.1.7",
     "react-scripts": "^4.0.1",
-    "http-proxy-middleware": "^1.0.6",
     "typescript": "^4.0.3"
   }
 }

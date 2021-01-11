@@ -10,7 +10,7 @@ export default function createBeCaptain(userAddress, erc20) {
     minimalBurnValue,
   }) {
     const contract = getCustodianContract()
-    if (amount === '0') {
+    if (!amount) {
       return contract
         .setTokenParams(
           erc20,

@@ -15,6 +15,8 @@ export default class BigSchema extends BaseSchema {
             value = new Big(value)
           } catch (e) {
             //indicating a type error
+            console.log(e)
+            // value = new Big('-1')
             value = 'type error'
           }
         }
@@ -23,7 +25,6 @@ export default class BigSchema extends BaseSchema {
     })
   }
   _typeCheck(value) {
-    console.log('value', value + '')
     return value !== 'type error'
   }
   aboveZero(message) {
@@ -46,11 +47,34 @@ export default class BigSchema extends BaseSchema {
         const {
           parent: { [key]: value },
         } = this
-        if (params && value) {
+
+        //values in parent can not be typechecked properly
+        //TODO: read source code and provide PR?
+        if (params && value && params instanceof Big && value instanceof Big) {
           return params.gt(value)
         } else {
           return true
         }
+      },
+    })
+  }
+  max(value, message) {
+    return this.test({
+      message,
+      name: 'max',
+      exclusive: true,
+      test(params) {
+        return params.lte(value)
+      },
+    })
+  }
+  min(value, message) {
+    return this.test({
+      message,
+      name: 'min',
+      exclusive: true,
+      test(params) {
+        return params.gte(value)
       },
     })
   }

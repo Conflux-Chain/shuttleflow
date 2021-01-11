@@ -20,14 +20,11 @@ import UserAddress from './UserAddress'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import { Loading } from '@cfxjs/react-ui'
-import useAddress from '../data/useAddress'
 
 const cx = classNamesBind.bind(styles)
 
 export default function LayoutLarge({ history }) {
 
-  const address11 = useAddress()
-  console.log('useAddress', address11)
   const [expandLng, setExpandLng] = useState(false)
   const { t, i18n } = useTranslation()
   const headerRef = useRef(null)
