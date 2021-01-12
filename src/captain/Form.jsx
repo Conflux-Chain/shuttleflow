@@ -173,8 +173,7 @@ export default function CaptainForm({
       />
       <Modal
         clickAway={() => setReadonlyPopup(false)}
-        // show={readonlyPopup}
-        show={true}
+        show={readonlyPopup}
       >
         <span className={formCx('locked')}>
           <img src={close} alt="close" /> {t('locked')}
