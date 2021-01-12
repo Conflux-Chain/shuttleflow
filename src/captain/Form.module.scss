@@ -91,7 +91,7 @@
 
 .second-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   border-bottom: 1px solid rgba($color: #979797, $alpha: 0.2);
   &.small {
     margin-top: 2.25rem;
@@ -101,83 +101,57 @@
     padding-bottom: 1.5rem;
   }
   .second-item {
-    text-align: center;
-    &.small {
-      max-width: 10rem;
-    }
-    &.large {
-      max-width: 12rem;
-    }
-  }
-  .mTop {
-    &.small {
-      margin-top: 1rem;
-    }
-    &.large {
-      margin-top: 0.5rem;
-    }
+    align-items: center;
+    display: inline-flex;
   }
 }
 
 .input-container {
   position: relative;
+  display: flex;
   &.small {
     margin-top: 1.5rem;
   }
   &.large {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
   }
 }
 .label {
-  position: absolute;
   color: rgba($color: #ffffff, $alpha: 0.6);
-  top: 0;
-  bottom: 0;
+  white-space: nowrap;
   display: flex;
   align-items: center;
-  pointer-events: none;
   &.small {
-    margin-left: 2rem;
     font-size: 1.75rem;
   }
   &.large {
-    margin-left: 1.5rem;
     font-size: 1.125rem;
-  }
-}
-.for-not-update {
-  position: absolute;
-  pointer-events: none;
-  color: rgba($color: #ffffff, $alpha: 0.4);
-  left: 40%;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  &.large {
-    font-size: 1rem;
   }
 }
 
 .after {
-  position: absolute;
+  cursor: default;
   color: white;
-  top: 0;
-  bottom: 0;
   display: flex;
   align-items: center;
+  white-space: nowrap;
   &.small {
     font-size: 1.75rem;
-    right: 2rem;
+    margin-right: 1rem;
   }
   &.large {
     font-size: 1.25rem;
-    right: 1.5rem;
+    margin-right: 1rem;
   }
 }
 
 .input {
-  padding-left: 50% !important;
+  background-color: transparent !important;
+  text-align: right;
+  margin-right: 1rem;
+  &:read-only {
+    cursor: not-allowed;
+  }
 }
 
 .error {
@@ -199,6 +173,11 @@
   }
 }
 
+.update {
+  color: white;
+  justify-content: space-between;
+  align-items: center;
+}
 .status-img {
   &.large {
     width: 21.25rem;
@@ -211,4 +190,19 @@
   height: 100px;
   margin: auto;
   width: 100px;
+}
+
+.locked {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333333;
+  font-size: 1.5rem;
+
+  img {
+    overflow: visible;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
+  }
 }

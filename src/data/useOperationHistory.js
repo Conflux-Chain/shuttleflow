@@ -4,10 +4,10 @@ import jsonrpc from './jsonrpc'
 import { tokenMap as tokeMapPms } from './tokenList'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import formatNum from './formatNum'
-import { useConfluxPortal } from '@cfxjs/react-hooks'
+import useAddress from './useAddress'
 
 export default function useHistory({ token, status, limit = 100, type } = {}) {
-  const { address } = useConfluxPortal()
+  const address = useAddress()
   const [state, setState] = useState1({ data: [], loading: true })
   const reload = useRef(null)
   useDeepCompareEffect(() => {

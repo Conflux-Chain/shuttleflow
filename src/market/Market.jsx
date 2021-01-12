@@ -98,7 +98,7 @@ export default function Market() {
                       </div>
                     </div>
                   </div>
-                  <div className={cx('right')}>{total_supply}</div>
+                  <div className={cx('right')}>{total_supply + ''}</div>
                 </div>
               )
             })}

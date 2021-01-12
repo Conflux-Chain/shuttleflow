@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useConfluxPortal } from '@cfxjs/react-hooks'
-import useCToken from '@cfxjs/react-hooks/lib/useCToken'
+
+import { useBalance } from '../../data/useBalance'
 
 import inputStyles from '../../component/input.module.scss'
 import buttonStyles from '../../component/button.module.scss'
@@ -34,7 +34,9 @@ import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
 import checkAddress from '../../data/checkAddress'
 import Check from '../../component/Check/Check'
+import useCToken from '@cfxjs/react-hooks/lib/useCToken'
 
+// dec5 usdt
 export default function ShuttleOut({ tokenInfo }) {
   const [
     commonCx,
@@ -85,13 +87,16 @@ export default function ShuttleOut({ tokenInfo }) {
     CUSTODIAN_CONTRACT_ADDR
   )
 
-  let {
-    balances: [, [_balance]],
-  } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
+  // let {
+  //   balances: [, [_balance]],
+  // } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
 
+  const _balance = useBalance(tokenInfo && tokenInfo.ctoken)
   let balance = 0
 
   if (_balance) {
+    //balanace is 18 decimal point, it is fixed rather
+    //than configurable
     balance = parseNum(_balance, 18)
   }
 

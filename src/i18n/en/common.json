@@ -10,7 +10,8 @@
     "ok": "I Understand",
     "sent": "Transaction Submitted",
     "title": "Tips",
-    "copy": "Copied"
+    "copy": "Copied",
+    "details": "View More"
   },
   "error": {
     "above-zero": "The value must be greater than or equal to 0",

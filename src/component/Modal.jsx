@@ -16,7 +16,7 @@ export default function Modal({ children, show, ...props }) {
   )
 }
 
-function Inner({ children, clickAway, title, onClose }) {
+function Inner({ children, clickAway, title, onClose, ok, content }) {
   const ref = useRef(null)
   const [cx] = useStyle(styles)
   const { t } = useTranslation()
@@ -24,14 +24,14 @@ function Inner({ children, clickAway, title, onClose }) {
   useEffect(() => {
     const listener = (e) => {
       if (!ref.current.contains(e.target) && clickAway) {
-        clickAway()
+        typeof clickAway === 'function' ? clickAway() : onClose && onClose()
       }
     }
     window.addEventListener('mousedown', listener)
     return () => {
       window.removeEventListener('mousedown', listener)
     }
-  }, [clickAway])
+  }, [clickAway, onClose])
   return (
     <>
       <div className={cx('backdrop')}></div>
@@ -57,6 +57,12 @@ function Inner({ children, clickAway, title, onClose }) {
               </div>
             )}
             {children}
+            {content && <div className={cx('content')}>{content}</div>}
+            {ok && (
+              <div onClick={onClose} className={cx('btn')}>
+                {t('popup.ok')}
+              </div>
+            )}
           </div>
         </Scrollbars>
       </div>

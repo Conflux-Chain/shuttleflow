@@ -1,0 +1,33 @@
+.container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  &.large {
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 0.75rem;
+  }
+
+  .btn {
+    background-color: white;
+    transition: 0.2s;
+    &.large {
+      width: 1.2rem;
+      height: 1.2rem;
+      border-radius: 0.6rem;
+    }
+  }
+
+  &.off {
+    background-color: rgba($color: #f8f8f8, $alpha: 0.2);
+    .btn {
+      transform: translateX(0.2rem);
+    }
+  }
+  &.on {
+    background-color: #44d7b6;
+    .btn {
+      transform: translateX(1.6rem);
+    }
+  }
+}

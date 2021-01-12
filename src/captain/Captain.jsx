@@ -2,7 +2,7 @@ import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
 import Choose from '../token/Choose'
 import styles from './Captain.module.scss'
-import CaptainForm from './Form'
+import CaptainForm from './FormProvider'
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
 export default function Captain(props) {

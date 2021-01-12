@@ -20,6 +20,7 @@ import UserAddress from './UserAddress'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import { Loading } from '@cfxjs/react-ui'
+import pocket from '../component/pocket.png'
 
 const cx = classNamesBind.bind(styles)
 
@@ -111,8 +112,9 @@ export default function LayoutLarge({ history }) {
               return (
                 <div
                   onClick={() => history.push('/captain')}
-                  className={cx('item', { active })}
+                  className={cx('item', 'captain', { active })}
                 >
+                  <img className={cx('pocket')} src={pocket} alt="pocket"></img>
                   {t('be-captain')}
                 </div>
               )
@@ -131,7 +133,9 @@ export default function LayoutLarge({ history }) {
                   })
                 }}
               >
-                <span>{i18n.language === 'zh' ? '中文' : 'English'}</span>
+                <span style={{ whiteSpace: 'nowrap' }}>
+                  {i18n.language === 'zh' ? '中文' : 'English'}
+                </span>
                 <img
                   alt="up"
                   className={cx('up', { 'icon-active': !expandLng })}

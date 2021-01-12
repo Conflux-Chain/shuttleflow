@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import jsonrpc from './jsonrpc'
 import { getCustodianContract } from './contract'
-import formatNum from './formatNum'
 
-export default function usePendingOperationInfo(erc20) {
+//txHash is used to flush data from server
+export default function usePendingOperationInfo(erc20, txHash) {
   const [info, setInfo] = useState({})
   useEffect(() => {
     if (erc20) {
@@ -17,9 +17,10 @@ export default function usePendingOperationInfo(erc20) {
         // console.log('defaultCooldown', parseInt(defaultCooldown + ''))
         if (start) {
           const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))
+          // console.log('minMortgage', minMortgage)
           setInfo({
             pendingCount: cnt,
-            minMortgage: formatNum(minMortgage, 18),
+            minMortgage: minMortgage.toString(),
             countdown: Math.max(0, parseInt(defaultCooldown + '') - diff),
           })
         }
@@ -28,6 +29,6 @@ export default function usePendingOperationInfo(erc20) {
         start = false
       }
     }
-  }, [erc20])
+  }, [erc20, txHash])
   return info
 }

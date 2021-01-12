@@ -91,3 +91,13 @@
     }
   }
 }
+
+.captain {
+  display: flex;
+  align-items: center;
+  .pocket {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.5rem;
+  }
+}

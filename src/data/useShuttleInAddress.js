@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useConfluxPortal } from '@cfxjs/react-hooks'
 import jsonrpc from './jsonrpc'
+import useAddress from './useAddress'
 
 export default function useShuttleInAddress(tokenInfo) {
-  const { address } = useConfluxPortal()
+  const address = useAddress()
   const { reference } = tokenInfo || {}
   const [result, setResult] = useState('')
   //the endpoint will be called over and over again

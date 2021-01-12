@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, lazy } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Modal from '../component/Modal'
-import useConfluxPortal from '../lib/useConfluxPortal'
 
 import { useTranslation } from 'react-i18next'
 
 import useState1 from '../data/useState1'
+import useAddress, { login } from '../data/useAddress'
 const Token = lazy(() => import('../token/Token'))
 const Shuttle = lazy(() => import('../shuttle/Shuttle'))
 const Captain = lazy(() => import('../captain/Captain'))
@@ -13,7 +13,8 @@ const History = lazy(() => import('../history/History'))
 const Market = lazy(() => import('../market/Market'))
 
 function Main() {
-  const { address, login } = useConfluxPortal()
+  const address = useAddress()
+
   //When referer detected, display popup and then login
   const [{ popup, referer }, setState] = useState1({
     popup: false,
@@ -38,7 +39,7 @@ function Main() {
         login()
       }
     }
-  }, [address, referer, login, popup, setState])
+  }, [address, referer, popup, setState])
 
   const { t } = useTranslation()
   return (

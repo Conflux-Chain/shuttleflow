@@ -6,11 +6,10 @@ export default function formatNum(value, decimal) {
 }
 
 export function parseNum(value, decimal) {
-  return Big(value).div(Big(`1e${decimal}`))
+  return value && Big(value).div(Big(`1e${decimal}`))
 }
 
 export function buildNum(value, decimal) {
-  console.log(value, decimal)
   return Big(value)
     .mul(Big(`1e${decimal}`))
     .toString()
