@@ -49,7 +49,7 @@ export default class BigSchema extends BaseSchema {
         //values in parent can not be typechecked properly
         //TODO: read source code and provide PR?
         if (params && value && params instanceof Big && value instanceof Big) {
-          return params.gt(value)
+          return params.gte(value)
         } else {
           return true
         }

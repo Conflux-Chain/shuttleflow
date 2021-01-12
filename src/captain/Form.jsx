@@ -91,6 +91,7 @@ export default function CaptainForm({
     { defaultValues: {}, schema: {} }
   )
 
+  console.log('schema', schema)
   const { register, handleSubmit, errors, setValue } = useForm({
     resolver: yupResolver(object().shape(schema)),
     shouldUnregister: true,
@@ -159,6 +160,8 @@ export default function CaptainForm({
 
           <input
             type="submit"
+            disabled={!showMortgage && countdown !== 0}
+            onClick={() => {}}
             value={!showMortgage ? t('update') : t('be-captain')}
             className={buttonCx('btn') + ' ' + formCx('btn')}
           />
@@ -171,10 +174,7 @@ export default function CaptainForm({
         ok
         content={t('mortgage-popup')}
       />
-      <Modal
-        clickAway={() => setReadonlyPopup(false)}
-        show={readonlyPopup}
-      >
+      <Modal clickAway={() => setReadonlyPopup(false)} show={readonlyPopup}>
         <span className={formCx('locked')}>
           <img src={close} alt="close" /> {t('locked')}
         </span>

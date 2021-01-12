@@ -50,10 +50,11 @@ export default function Header({
                 <span>
                   {sponsor ? (
                     <a
+                      className={formCx('address')}
                       href={`${CONFLUXSCAN_ADDR}/${sponsor}`}
                       target="_blank"
                       rel="noreferrer"
-                      style={{ textDecoration: 'underline' }}
+                      // style={{ textDecoration: 'underline' }}
                     >
                       {formatAddress(sponsor)}
                     </a>

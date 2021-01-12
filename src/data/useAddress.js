@@ -9,7 +9,7 @@ window?.conflux?.on('accountsChanged', (e) => {
   updateAccount(e)
 })
 export default function useAddress() {
-  const [address, setAddress] = useState(window?.conflux.selectedAddress)
+  const [address, setAddress] = useState(window?.conflux?.selectedAddress)
   useEffect(() => {
     listeners.push(setAddress)
     return () => {
@@ -20,7 +20,7 @@ export default function useAddress() {
 }
 
 export const login = () => {
-  if (!window?.conflux.selectedAddress) {
+  if (!window?.conflux?.selectedAddress) {
     if (window?.conflux?.enable) {
       return window.conflux.enable().then((addresses) => {
         updateAccount(addresses)
