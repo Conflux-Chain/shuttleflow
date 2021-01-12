@@ -14,7 +14,7 @@ export default function getFields({
   minimal_mint_value,
   wallet_fee,
   showMortgage,
-  cethBalance,
+  cethBalanceBig,
   defaultMortgageBig,
 }) {
   return [
@@ -70,7 +70,7 @@ export default function getFields({
       defaultValue: defaultMortgageBig + '',
       validate: showMortgage
         ? basicValidate()
-            .max(cethBalance, 'error.insufficient')
+            .max(cethBalanceBig, 'error.insufficient')
             .min(defaultMortgageBig, 'error.above-current')
         : false,
       decimals: 18,

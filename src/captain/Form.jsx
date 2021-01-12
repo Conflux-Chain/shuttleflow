@@ -13,6 +13,7 @@ import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import Toggle from '../component/Toggle/Toggle'
 import createInput from './createInput'
 import getFields from './fields'
+import Modal from '../component/Modal'
 
 export default function CaptainForm({
   pendingCount,
@@ -20,7 +21,7 @@ export default function CaptainForm({
   address,
   icon,
   beCaptain,
-  cethBalance,
+  cethBalanceBig,
   burn_fee,
   mint_fee,
   minimal_burn_value,
@@ -34,6 +35,7 @@ export default function CaptainForm({
   minMortgageBig,
   currentMortgageBig,
   defaultMortgageBig,
+  cethBalanceDisplay,
 }) {
   const { t } = useTranslation(['captain'])
   const [inputCx, buttonCx, formCx] = useStyle(
@@ -41,7 +43,11 @@ export default function CaptainForm({
     buttonStyles,
     formStyles
   )
+  const [mortgagePopup, setMortgagePopup] = useState(false)
 
+  function clickLabel() {
+    setMortgagePopup(true)
+  }
   const isMe = address === sponsor
   const [showMortgage, setShowMortgage] = useState(!isMe)
 
@@ -67,7 +73,7 @@ export default function CaptainForm({
     minimal_mint_value,
     wallet_fee,
     showMortgage,
-    cethBalance,
+    cethBalanceBig,
     defaultMortgageBig,
   })
 
@@ -90,59 +96,71 @@ export default function CaptainForm({
   })
   const inputCtx = { errors, register, inputCx, formCx, t }
   return (
-    <PaddingContainer bottom top>
-      <Header
-        {...{
-          icon,
-          formCx,
-          t,
-          reference_symbol,
-          reference_name,
-          supported,
-          currentMortgageBig,
-          sponsor,
-          pendingCount,
-          countdown,
-        }}
-      />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {fields
-          .slice(0, 5)
-          .map((props) => createInput({ ...props, ...inputCtx }))}
-        {isMe && (
-          <Toggle
-            value={showMortgage}
-            onChange={() => setShowMortgage((x) => (x = !x))}
-          ></Toggle>
-        )}
-        {showMortgage && (
-          <>
-            {createInput({ ...inputCtx, ...fields[5] })}
-            <div className={formCx('small-text', 'bottom-text')}>
-              <div>
-                {t('min-mortgage', { minMortgage: minMortgageBig + '' })}
-              </div>
-              <div>
-                <span> {t('ceth-balance', { amount: cethBalance })}</span>
-                <span
-                  onClick={() => {
-                    setValue('mortgage_amount', cethBalance)
-                  }}
-                  className={formCx('all')}
-                >
-                  {t('all')}
-                </span>
-              </div>
-            </div>
-          </>
-        )}
-
-        <input
-          type="submit"
-          value={!showMortgage ? t('update') : t('be-captain')}
-          className={buttonCx('btn') + ' ' + formCx('btn')}
+    <>
+      <PaddingContainer bottom top>
+        <Header
+          {...{
+            icon,
+            formCx,
+            t,
+            reference_symbol,
+            reference_name,
+            supported,
+            currentMortgageBig,
+            sponsor,
+            pendingCount,
+            countdown,
+          }}
         />
-      </form>
-    </PaddingContainer>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {fields
+            .slice(0, 5)
+            .map((props) => createInput({ ...props, ...inputCtx }))}
+          {isMe && (
+            <div className={formCx('update', 'input-container')}>
+              <span>{t('update-mortgage')}</span>
+              <Toggle
+                value={showMortgage}
+                onChange={() => setShowMortgage((x) => (x = !x))}
+              ></Toggle>
+            </div>
+          )}
+          {showMortgage && (
+            <>
+              {createInput({ ...inputCtx, ...fields[5], clickLabel })}
+              <div className={formCx('small-text', 'bottom-text')}>
+                <div>
+                  {t('min-mortgage', { minMortgage: minMortgageBig + '' })}
+                </div>
+                <div>
+                  <span>
+                    {t('ceth-balance', { amount: cethBalanceDisplay })}
+                  </span>
+                  <span
+                    onClick={() => {
+                      setValue('mortgage_amount', cethBalanceBig)
+                    }}
+                    className={formCx('all')}
+                  >
+                    {t('all')}
+                  </span>
+                </div>
+              </div>
+            </>
+          )}
+
+          <input
+            type="submit"
+            value={!showMortgage ? t('update') : t('be-captain')}
+            className={buttonCx('btn') + ' ' + formCx('btn')}
+          />
+        </form>
+      </PaddingContainer>
+      <Modal
+        show={mortgagePopup}
+        onClose={() => setMortgagePopup(false)}
+        title="Mortgage popup"
+      ></Modal>
+    </>
   )
 }

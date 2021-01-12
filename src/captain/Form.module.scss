@@ -126,38 +126,19 @@
     margin-top: 1.5rem;
   }
   &.large {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
   }
 }
 .label {
-  // position: absolute;
   color: rgba($color: #ffffff, $alpha: 0.6);
   white-space: nowrap;
-  top: 0;
-  bottom: 0;
   display: flex;
   align-items: center;
-  pointer-events: none;
   &.small {
-    // margin-left: 2rem;
     font-size: 1.75rem;
   }
   &.large {
-    // margin-left: 1.5rem;
     font-size: 1.125rem;
-  }
-}
-.for-not-update {
-  position: absolute;
-  pointer-events: none;
-  color: rgba($color: #ffffff, $alpha: 0.4);
-  left: 40%;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  &.large {
-    font-size: 1rem;
   }
 }
 
@@ -203,6 +184,11 @@
   }
 }
 
+.update {
+  color: white;
+  justify-content: space-between;
+  align-items: center;
+}
 .status-img {
   &.large {
     width: 21.25rem;

@@ -21,5 +21,6 @@
   "update": "update",
   "success": "Transaction Submitted",
   "fail": "Transaction Failed",
-  "what-captain": "What's Token Captain？"
+  "what-captain": "What's Token Captain？",
+  "update-mortgage": "更新抵押数量"
 }

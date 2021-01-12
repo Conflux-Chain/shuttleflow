@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import useStyle from '../component/useStyle'
-import { buildNum, parseNum } from '../data/formatNum'
+import { buildNum } from '../data/formatNum'
 import useAddress from '../data/useAddress'
 import { useBalance } from '../data/useBalance'
 
@@ -22,6 +22,8 @@ import CaptainForm from './Form'
 
 import success from './success.png'
 import fail from './fail.png'
+
+const MAX_DECIMAL_DISPLAY = 8
 
 //0xd50931bb32fca14acbc0cade5850ba597f3ee1a6
 export default function FormProvider() {
@@ -109,7 +111,16 @@ export default function FormProvider() {
     if (currentMortgageBig.gt(minMortgageBig)) {
       minMortgageBig = currentMortgageBig
     }
-    const defaultMortgageBig = minMortgageBig.plus('1e-8')
+
+    const cethBalanceBig = new Big(cethBalance).div('1e18')
+
+    let cethBalanceDisplay = cethBalanceBig.round(MAX_DECIMAL_DISPLAY, 0)
+    if (!cethBalanceDisplay.eq(cethBalanceBig)) {
+      cethBalanceDisplay += '...'
+    }
+
+    minMortgageBig = minMortgageBig.round(MAX_DECIMAL_DISPLAY, 3)
+    const defaultMortgageBig = minMortgageBig.plus(`1e-${MAX_DECIMAL_DISPLAY}`)
     const data = {
       address,
       ...tokenInfo,
@@ -121,7 +132,8 @@ export default function FormProvider() {
       minMortgageBig,
       currentMortgageBig,
       defaultMortgageBig,
-      cethBalance: parseNum(cethBalance, 18),
+      cethBalanceBig,
+      cethBalanceDisplay,
     }
     return (
       <>

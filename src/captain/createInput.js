@@ -1,5 +1,5 @@
-import { ErrorMessage } from "@hookform/error-message"
-
+import { ErrorMessage } from '@hookform/error-message'
+import WithQuestion from '../component/WithQuestion'
 //NOTICE:
 //input should NOT be a component, i.e. not Input
 //remounted Conponent can not be identified by register
@@ -14,7 +14,9 @@ export default function createInput({
   inputCx,
   formCx,
   t,
+  clickLabel,
 }) {
+  console.log(clickLabel)
   let oldValue
   return (
     <div key={label}>
@@ -25,7 +27,13 @@ export default function createInput({
           formCx('input-container')
         }
       >
-        <div className={formCx('label')}>{t(label)}</div>
+        <div className={formCx('label')}>
+          {clickLabel ? (
+            <WithQuestion onClick={clickLabel}>{t(label)}</WithQuestion>
+          ) : (
+            t(label)
+          )}
+        </div>
         <input
           ref={register}
           name={name}

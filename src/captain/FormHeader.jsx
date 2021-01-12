@@ -39,7 +39,15 @@ export default function Header({
               className={formCx('profile')}
               src={profile}
             ></img>
-            <span>{sponsor ? formatAddress(sponsor) : '--'}</span>
+            <span>
+              {sponsor ? (
+                <span onClick={() => window.open()}>
+                  {formatAddress(sponsor)}
+                </span>
+              ) : (
+                '--'
+              )}
+            </span>
           </div>
         </div>
       </div>
