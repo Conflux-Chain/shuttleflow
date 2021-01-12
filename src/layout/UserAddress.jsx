@@ -10,7 +10,7 @@ export default function UserAddress() {
   const [cx] = useStyle(styles)
   const address = useAddress()
   return (
-    <div>
+    <div style={{ whiteSpace: 'nowrap' }}>
       <Circle active={!!address} />
       <span className={cx('address', { active: address })}>
         {address ? (

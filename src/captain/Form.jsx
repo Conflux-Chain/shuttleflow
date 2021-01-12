@@ -14,6 +14,7 @@ import Toggle from '../component/Toggle/Toggle'
 import createInput from './createInput'
 import getFields from './fields'
 import Modal, { modalStyles } from '../component/Modal'
+import close from './close.svg'
 
 export default function CaptainForm({
   pendingCount,
@@ -170,9 +171,13 @@ export default function CaptainForm({
         ok
         content={t('mortgage-popup')}
       />
-      <Modal clickAway={() => setReadonlyPopup(false)} show={readonlyPopup}>
+      <Modal
+        clickAway={() => setReadonlyPopup(false)}
+        // show={readonlyPopup}
+        show={true}
+      >
         <span className={formCx('locked')}>
-          <div>x</div> {t('locked')}
+          <img src={close} alt="close" /> {t('locked')}
         </span>
       </Modal>
     </>

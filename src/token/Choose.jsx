@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
-import pocket from './pocket.png'
+import pocket from '../component/pocket.png'
 import TokenList from './TokenList'
 import Search from './Search'
 import Button from './Button'
