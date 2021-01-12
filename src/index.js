@@ -4,8 +4,8 @@ import App from './layout/Layout'
 
 import Big from 'big.js'
 
-Big.PE = 40
-Big.NE = -18
+Big.PE = 80
+Big.NE = -20
 
 ReactDOM.render(
   <React.StrictMode>
