@@ -7,6 +7,7 @@ export default function createInput({
   label,
   name,
   readOnly,
+  onReadonly,
   unit,
   decimals,
   errors,
@@ -16,11 +17,11 @@ export default function createInput({
   t,
   clickLabel,
 }) {
-  console.log(clickLabel)
   let oldValue
   return (
     <div key={label}>
       <div
+        onClick={readOnly ? onReadonly : undefined}
         className={
           inputCx('input-common', errors[name] ? 'error' : '') +
           ' ' +

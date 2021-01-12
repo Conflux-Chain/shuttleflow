@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from 'react'
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import useStyle from '../component/useStyle'
@@ -11,7 +11,7 @@ import useCaptain from '../data/captain'
 
 import formStyles from './Form.module.scss'
 import modalStyles from '../component/modal.module.scss'
-import { CETH_ADDRESS } from '../config/config'
+import { CETH_ADDRESS, CONFLUXSCAN_TX } from '../config/config'
 import createBeCaptain from '../data/beCaptain'
 import getLatestMortgage from '../data/getLatestMortgage'
 import Big from 'big.js'
@@ -33,6 +33,7 @@ export default function FormProvider() {
   const [cx, modalCx] = useStyle(formStyles, modalStyles)
   const address = useAddress()
   const cethBalance = useBalance(CETH_ADDRESS)
+  const txHash = useRef()
 
   /**
    * tokens will change on every render(no cache in useTokenList)
@@ -47,7 +48,7 @@ export default function FormProvider() {
 
   const { decimals } = tokenInfo
   const { pendingCount, countdown, minMortgage } = useCaptain(
-    tokenInfo.reference
+    tokenInfo.reference,txHash
   )
 
   const [currentMortgage, setCurrentMortgage] = useState()
@@ -71,8 +72,9 @@ export default function FormProvider() {
       minimalMintValue: buildNum(minimalMintValue, decimals),
       minimalBurnValue: buildNum(minimalBurnValue, decimals),
     })
-      .then((e) => {
-        console.log(e)
+      .then((hash) => {
+        console.log(hash)
+        txHash.current = hash
         setPopup('success')
       })
       .catch(() => {
@@ -138,18 +140,30 @@ export default function FormProvider() {
     return (
       <>
         <CaptainForm {...data} />
-        <Modal show={popup} clickAway={() => setPopup(false)}>
+        <Modal show={popup} onClose={() => setPopup(false)} clickAway>
           <img
             className={cx('status-img')}
             src={popup === 'success' ? success : fail}
             alt="status"
           ></img>
-          <div className={modalCx('title')}>
-            {t(popup === 'success' ? 'success' : 'fail')}
-          </div>
-          <div onClick={() => setPopup('')} className={modalCx('btn')}>
-            {t('popup.ok')}
-          </div>
+          {popup === 'success' ? (
+            <>
+              <div className={modalCx('title')}>{t('success')}</div>
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href={`${CONFLUXSCAN_TX}${txHash.current}`}
+                className={modalCx('btn')}
+              >
+                {t('popup.details')}
+              </a>
+            </>
+          ) : (
+            <>
+              <div className={modalCx('title')}>{t('fail')}</div>
+              <div className={modalCx('btn')}>{t('popup.ok')}</div>
+            </>
+          )}
         </Modal>
       </>
     )

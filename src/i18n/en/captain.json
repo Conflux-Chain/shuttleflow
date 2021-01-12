@@ -22,5 +22,9 @@
   "success": "Transaction Submitted",
   "fail": "Transaction Failed",
   "what-captain": "What's Token Captain？",
-  "update-mortgage": "更新抵押数量"
+  "update-mortgage": "更新抵押数量",
+  "mortgage-popup": "将抵押数量更新为您输入的数值\n当前余额将被退回",
+  "popup-cool": "为了避免规则频繁波动，规则修改后有5分钟的冻结时间，解冻后方可再次修改",
+  "me": "You are token captain",
+  "locked": "规则冻结期内，暂时无法修改"
 }

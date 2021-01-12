@@ -132,7 +132,7 @@ function TokenList({
               </WithQuestion>
 
               <div className={ListCx('right')}>
-                <span className={ListCx('name')}> {t('Name')}</span>
+                <span className={ListCx('name')}> {t('name')}</span>
                 <div className={ListCx('btns')}>
                   <Triangle
                     onClick={() => setSort('name')}

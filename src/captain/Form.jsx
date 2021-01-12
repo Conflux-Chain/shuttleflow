@@ -13,7 +13,7 @@ import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import Toggle from '../component/Toggle/Toggle'
 import createInput from './createInput'
 import getFields from './fields'
-import Modal from '../component/Modal'
+import Modal, { modalStyles } from '../component/Modal'
 
 export default function CaptainForm({
   pendingCount,
@@ -41,9 +41,11 @@ export default function CaptainForm({
   const [inputCx, buttonCx, formCx] = useStyle(
     inputStyles,
     buttonStyles,
-    formStyles
+    formStyles,
+    modalStyles
   )
   const [mortgagePopup, setMortgagePopup] = useState(false)
+  const [readonlyPopup, setReadonlyPopup] = useState(false)
 
   function clickLabel() {
     setMortgagePopup(true)
@@ -100,6 +102,7 @@ export default function CaptainForm({
       <PaddingContainer bottom top>
         <Header
           {...{
+            isMe,
             icon,
             formCx,
             t,
@@ -113,9 +116,13 @@ export default function CaptainForm({
           }}
         />
         <form onSubmit={handleSubmit(onSubmit)}>
-          {fields
-            .slice(0, 5)
-            .map((props) => createInput({ ...props, ...inputCtx }))}
+          {fields.slice(0, 5).map((props) =>
+            createInput({
+              ...props,
+              ...inputCtx,
+              onReadonly: () => setReadonlyPopup(true),
+            })
+          )}
           {isMe && (
             <div className={formCx('update', 'input-container')}>
               <span>{t('update-mortgage')}</span>
@@ -159,8 +166,15 @@ export default function CaptainForm({
       <Modal
         show={mortgagePopup}
         onClose={() => setMortgagePopup(false)}
-        title="Mortgage popup"
-      ></Modal>
+        title
+        ok
+        content={t('mortgage-popup')}
+      />
+      <Modal clickAway={() => setReadonlyPopup(false)} show={readonlyPopup}>
+        <span className={formCx('locked')}>
+          <div>x</div> {t('locked')}
+        </span>
+      </Modal>
     </>
   )
 }
