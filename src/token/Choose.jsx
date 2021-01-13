@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import Button from '../component/Button/Button'
 
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import pocket from '../component/pocket.png'
 import TokenList from './TokenList'
 import Search from './Search'
-import Button from './Button'
 
 import useStyle from '../component/useStyle'
 import chooseStyles from './Choose.module.scss'
 import useUrlSearch from '../data/useUrlSearch'
 import useIsSamll from '../component/useSmallScreen'
+import { useHistory } from 'react-router'
 
 export default function ChooseToken({ captain, cToken, next }) {
   const [chooseCx] = useStyle(chooseStyles)
@@ -19,6 +20,7 @@ export default function ChooseToken({ captain, cToken, next }) {
   const [notFound, setNotFound] = useState(false)
   const { token } = useUrlSearch()
   const isSmall = useIsSamll()
+  const history = useHistory()
   const { t } = useTranslation(['token'])
 
   return (
@@ -41,12 +43,15 @@ export default function ChooseToken({ captain, cToken, next }) {
           {[
             <Button
               key="btn"
-              path={{
-                pathname: isNotAvailable
-                  ? `/captain/${token}`
-                  : typeof next === 'function'
-                  ? next(token)
-                  : next,
+              className={chooseCx('btn')}
+              onClick={() => {
+                history.push(
+                  isNotAvailable
+                    ? `/captain/${token}`
+                    : typeof next === 'function'
+                    ? next(token)
+                    : next
+                )
               }}
               disabled={captain ? !token : !token && !isNotAvailable}
             >

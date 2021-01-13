@@ -27,3 +27,14 @@
   height: 1.375rem;
   margin-left: 0.5rem;
 }
+
+.btn {
+  width: 100%;
+  &.small {
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+  }
+  &.large {
+    margin-top: 1rem;
+  }
+}
