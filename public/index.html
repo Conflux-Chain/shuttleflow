@@ -32,29 +32,7 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="background"></div>
     <script>
-      function scaleLinear(domain, range) {
-        const [d1, d2] = domain
-        const [r1, r2] = range
-        return function (v) {
-          return r1 + ((r2 - r1) * (v - d1)) / (d2 - d1)
-        }
-      }
 
-      const s1 = scaleLinear([375, 675], [8, 8])
-      const s2 = scaleLinear([675, 1920], [12, 16])
-
-      function setRem() {
-        const width = window.innerWidth
-        const s = width <= 675 ? s1 : s2
-
-        // const
-        const fontSize = s(width)
-        document.documentElement.style.fontSize = fontSize + 'px'
-      }
-
-      setRem()
-
-      window.onresize = setRem
     </script>
     <div id="root"></div>
     <div

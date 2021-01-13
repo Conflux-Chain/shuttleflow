@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import useStyle from '../component/useStyle'
 import inputStyles from '../component/input.module.scss'
-import buttonStyles from '../component/button.module.scss'
 import formStyles from './Form.module.scss'
 import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
@@ -15,6 +14,8 @@ import createInput from './createInput'
 import getFields from './fields'
 import Modal, { modalStyles } from '../component/Modal'
 import close from './close.svg'
+
+import Button from '../component/Button/Button'
 
 export default function CaptainForm({
   pendingCount,
@@ -39,12 +40,7 @@ export default function CaptainForm({
   cethBalanceDisplay,
 }) {
   const { t } = useTranslation(['captain'])
-  const [inputCx, buttonCx, formCx] = useStyle(
-    inputStyles,
-    buttonStyles,
-    formStyles,
-    modalStyles
-  )
+  const [inputCx, formCx] = useStyle(inputStyles, formStyles)
   const [mortgagePopup, setMortgagePopup] = useState(false)
   const [readonlyPopup, setReadonlyPopup] = useState(false)
 
@@ -158,12 +154,14 @@ export default function CaptainForm({
             </>
           )}
 
-          <input
+          <Button
+            as="input"
             type="submit"
             disabled={!showMortgage && countdown !== 0}
             onClick={() => {}}
+            style={{ width: '100%' }}
             value={!showMortgage ? t('update') : t('be-captain')}
-            className={buttonCx('btn') + ' ' + formCx('btn')}
+            className={formCx('btn')}
           />
         </form>
       </PaddingContainer>

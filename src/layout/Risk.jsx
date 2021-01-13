@@ -1,21 +1,17 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Modal from '../component/Modal'
-import modalStyles from '../component/modal.module.scss'
-import buttonStyles from '../component/button.module.scss'
+import Modal, { modalStyles } from '../component/Modal'
+
 import riskStyles from './risk.module.scss'
 import useStyle from '../component/useStyle'
 import { useRecoilState } from 'recoil'
 import displyRiskAtom from '../state/displyRisk'
 import Check from '../component/Check/Check'
+import Button from '../component/Button/Button'
 
 let onComfirm
 export default function Risk() {
-  const [riskCx, modalCx, buttonCx] = useStyle(
-    riskStyles,
-    modalStyles,
-    buttonStyles
-  )
+  const [riskCx, modalCx] = useStyle(riskStyles, modalStyles)
   const [checked, setChecked] = useState(false)
   const [displayFromLocalStorage, setLocalStorageDisplay] = useState(
     !localStorage.getItem('risk')
@@ -47,8 +43,8 @@ export default function Risk() {
         />
       </div>
 
-      <button
-        className={buttonCx('btn') + ' ' + riskCx('btn')}
+      <Button
+        className={riskCx('btn')}
         disabled={!checked}
         onClick={() => {
           localStorage.setItem('risk', true)
@@ -62,7 +58,7 @@ export default function Risk() {
         }}
       >
         {t('risk.continue')}
-      </button>
+      </Button>
     </Modal>
   )
 }

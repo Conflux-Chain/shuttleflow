@@ -46,9 +46,10 @@ export default function FormProvider() {
     [tokens]
   )
 
-  const { decimals } = tokenInfo
+  const { decimals, sponsor } = tokenInfo
   const { pendingCount, countdown, minMortgage } = useCaptain(
-    tokenInfo.reference,txHash
+    tokenInfo.reference,
+    txHash
   )
 
   const [currentMortgage, setCurrentMortgage] = useState()
@@ -105,13 +106,14 @@ export default function FormProvider() {
     currentMortgage &&
     cethBalance
   ) {
-    const currentMortgageBig = new Big(currentMortgage)
-      .mul(Big('1.1'))
-      .div('1e18')
+    console.log('sponsor', sponsor)
+    const currentMortgageBig = new Big(currentMortgage).div('1e18')
     let minMortgageBig = new Big(minMortgage).div('1e18')
 
-    if (currentMortgageBig.gt(minMortgageBig)) {
-      minMortgageBig = currentMortgageBig
+    const currentMortgageBigBigger = currentMortgageBig.mul(Big('1.1'))
+
+    if (currentMortgageBigBigger.gt(minMortgageBig)) {
+      minMortgageBig = currentMortgageBigBigger
     }
 
     const cethBalanceBig = new Big(cethBalance).div('1e18')
@@ -122,7 +124,9 @@ export default function FormProvider() {
     }
 
     minMortgageBig = minMortgageBig.round(MAX_DECIMAL_DISPLAY, 3)
-    const defaultMortgageBig = minMortgageBig.plus(`1e-${MAX_DECIMAL_DISPLAY}`)
+    const defaultMortgageBig = sponsor
+      ? minMortgageBig.plus(`1e-${MAX_DECIMAL_DISPLAY}`)
+      : minMortgageBig
     const data = {
       address,
       ...tokenInfo,

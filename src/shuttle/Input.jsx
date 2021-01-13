@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useState } from 'react'
 import useStyle from '../component/useStyle'
 import commonInputStyles from '../component/input.module.scss'
 
@@ -13,6 +13,7 @@ function Input(
   ref
 ) {
   const [commonCx] = useStyle(commonInputStyles)
+  const [displayPlaceholder, setDisplayPlaceholder] = useState(true)
 
   return (
     <div>
@@ -20,7 +21,9 @@ function Input(
         type="text"
         data-lpignore="true"
         autoComplete="off"
-        onChange={onChange}
+        onChange={(e) => {
+          onChange(e)
+        }}
         ref={ref}
         name={name}
         className={commonCx('input-common', { error })}

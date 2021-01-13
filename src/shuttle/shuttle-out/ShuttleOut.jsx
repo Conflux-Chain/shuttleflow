@@ -4,7 +4,6 @@ import { Trans, useTranslation } from 'react-i18next'
 import { useBalance } from '../../data/useBalance'
 
 import inputStyles from '../../component/input.module.scss'
-import buttonStyles from '../../component/button.module.scss'
 import shuttleStyle from '../Shuttle.module.scss'
 import shuttleOutStyles from './ShuttleOut.module.scss'
 import Modal, { modalStyles } from '../../component/Modal'
@@ -12,7 +11,7 @@ import CTokenPopup from '../CTokenPopup'
 import tick from '../shuttle-in/tick.svg'
 
 import useStyle from '../../component/useStyle'
-
+import Button from '../../component/Button/Button'
 import clear from '../../component/clear.svg'
 import down from '../down.svg'
 import fail from './fail.svg'
@@ -38,16 +37,8 @@ import useCToken from '@cfxjs/react-hooks/lib/useCToken'
 
 // dec5 usdt
 export default function ShuttleOut({ tokenInfo }) {
-  const [
-    commonCx,
-    buttonCx,
-    modalCx,
-    shuttleCx,
-    shuttleOutCx,
-    shuttleInCx,
-  ] = useStyle(
+  const [commonCx, modalCx, shuttleCx, shuttleOutCx, shuttleInCx] = useStyle(
     inputStyles,
-    buttonStyles,
     modalStyles,
     shuttleStyle,
     shuttleOutStyles,
@@ -316,12 +307,13 @@ export default function ShuttleOut({ tokenInfo }) {
           }}
         />
 
-        <input
+        <Button
           disabled={!tokenInfo}
           type="submit"
-          value={t('shuttle-out')}
-          className={buttonCx('btn') + ' ' + shuttleOutCx('btn')}
-        />
+          className={shuttleOutCx('btn')}
+        >
+          {t('shuttle-out')}
+        </Button>
       </form>
       <ShuttleHistory type="burn" />
       <Modal
@@ -405,7 +397,6 @@ export default function ShuttleOut({ tokenInfo }) {
         close={() => setComfirmTxt(false)}
         t={t}
         modalCx={modalCx}
-        buttonCx={buttonCx}
         shuttleOutCx={shuttleOutCx}
       />
     </div>
@@ -415,7 +406,6 @@ export default function ShuttleOut({ tokenInfo }) {
 function ComfirmPopup({
   confluxComfirmPopup,
   modalCx,
-  buttonCx,
   shuttleOutCx,
   confirm,
   close,
@@ -435,19 +425,13 @@ function ComfirmPopup({
         />
       </div>
 
-      <button
+      <Button
         disabled={!checked}
         onClick={confirm}
-        className={
-          buttonCx('btn') +
-          ' ' +
-          modalCx('btn') +
-          ' ' +
-          shuttleOutCx('comfirm-btn')
-        }
+        className={modalCx('btn') + ' ' + shuttleOutCx('comfirm-btn')}
       >
         {t('confirm.btn')}
-      </button>
+      </Button>
     </Modal>
   )
 }
