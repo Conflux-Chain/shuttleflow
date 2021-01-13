@@ -11,8 +11,8 @@
   "error": {
     "below-in-amount": "数值必须小于最小跨入数量",
     "below-out-amount": "数值必须小于最小跨出数量",
-    "above-in-fee": "数值必须大于跨入手续费",
-    "above-out-fee": "数值必须大于跨出手续费",
+    "above-in-fee": "数值必须大于等于跨入手续费",
+    "above-out-fee": "数值必须大于等于跨出手续费",
     "above-current": "数值必须大于最小抵押量"
   },
   "min-mortgage": "最小抵押数量 {{minMortgage}} cETH",
@@ -23,7 +23,7 @@
   "fail": "交易失败",
   "what-captain": "什么是 Token 舰长 ？",
   "update-mortgage": "更新抵押数量",
-  "mortgage-popup": "将抵押数量更新为您输入的数值\n当前余额将被退回",
+  "mortgage-popup": "将抵押数量更新为您输入的数值\n当前抵押余额将被退回",
   "popup-cool": "为了避免规则频繁波动，规则修改后有5分钟的冻结时间，解冻后方可再次修改",
   "me": "You are token captain",
   "locked": "规则冻结期内，暂时无法修改"

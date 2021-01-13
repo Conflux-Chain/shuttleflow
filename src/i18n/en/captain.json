@@ -11,8 +11,8 @@
   "error": {
     "below-in-amount": "The value must be smaller than the minimum Shuttle-In amount",
     "below-out-amount": "The value must be smaller than the minimum Shuttle-Out amount",
-    "above-in-fee": "The value must be greater than the Shuttle-In fee",
-    "above-out-fee": "The value must be greater than the Shuttle-Out fee",
+    "above-in-fee": "The value must be greater than or equal to the Shuttle-In fee",
+    "above-out-fee": "The value must be greater than or equal to the Shuttle-Out fee",
     "above-current": "The value must be greater than the minimum mortgage amount"
   },
   "min-mortgage": "Minimum Deposit Amount {{minMortgage}} cETH",
@@ -22,9 +22,9 @@
   "success": "Transaction Submitted",
   "fail": "Transaction Failed",
   "what-captain": "What's Token Captain？",
-  "update-mortgage": "更新抵押数量",
-  "mortgage-popup": "将抵押数量更新为您输入的数值\n当前余额将被退回",
-  "popup-cool": "为了避免规则频繁波动，规则修改后有5分钟的冻结时间，解冻后方可再次修改",
-  "me": "You are token captain",
-  "locked": "规则冻结期内，暂时无法修改"
+  "update-mortgage": "Update the number of mortgages",
+  "mortgage-popup": "Update the mortgage amount to the value you entered\nThe current mortgage balance will be refunded",
+  "popup-cool": "In order to avoid frequent fluctuations in the rules, there will be a 5-minute freeze time after the rules are modified, and they can be modified again after thawing",
+  "me": "您是此代币服务商",
+  "locked": "The rules are frozen and cannot be modified temporarily"
 }
