@@ -1,38 +1,37 @@
 import sponsorAbi from './TokenSponsor.json'
 import custodianAbi from './CustodianImpl.json'
 import balanceAbi from './Balance.json'
+import tokenAbi from './TokenBase.json'
 import {
   SPONSOR_CONTRACT_ADDR,
   CUSTODIAN_CONTRACT_ADDR,
 } from '../../config/config'
-let sponsorContract, custodianContract, balanceContract
 
-export function getSponsorContract() {
-  if (!sponsorContract) {
-    sponsorContract = window.confluxJS.Contract({
-      abi: sponsorAbi,
-      address: SPONSOR_CONTRACT_ADDR,
-    })
+function createGetContract(abi, address) {
+  let contract
+  return function getContract() {
+    if (!contract) {
+      contract = window.confluxJS.Contract({
+        abi,
+        address,
+      })
+    }
+    return contract
   }
-  return sponsorContract
 }
 
-export function getCustodianContract() {
-  if (!custodianContract) {
-    custodianContract = window.confluxJS.Contract({
-      abi: custodianAbi,
-      address: CUSTODIAN_CONTRACT_ADDR,
-    })
-  }
-  return custodianContract
-}
+export const getSponsorContract = createGetContract(
+  sponsorAbi,
+  SPONSOR_CONTRACT_ADDR
+)
+export const getCustodianContract = createGetContract(
+  custodianAbi,
+  CUSTODIAN_CONTRACT_ADDR
+)
 
-export function getBalanceContract() {
-  if (!balanceContract) {
-    balanceContract = window.confluxJS.Contract({
-      abi: balanceAbi,
-      address: '0x8f35930629fce5b5cf4cd762e71006045bfeb24d',
-    })
-  }
-  return balanceContract
-}
+export const getBalanceContract = createGetContract(
+  balanceAbi,
+  '0x8f35930629fce5b5cf4cd762e71006045bfeb24d'
+)
+
+export const getTokenContract = createGetContract(tokenAbi)

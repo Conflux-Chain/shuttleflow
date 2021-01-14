@@ -21,11 +21,13 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import { Loading } from '@cfxjs/react-ui'
 import pocket from '../component/pocket.png'
+import useStyle from '../component/useStyle'
 
 const cx = classNamesBind.bind(styles)
 
 export default function LayoutLarge({ history }) {
   const [expandLng, setExpandLng] = useState(false)
+  const [expandHelp, setExpandHelp] = useState(false)
   const { t, i18n } = useTranslation()
   const headerRef = useRef(null)
   const [mainMaxHeight, setMainMaxHeight] = useState(0)
@@ -93,19 +95,45 @@ export default function LayoutLarge({ history }) {
               )
             }}
           />
-          <MenuLink
-            to="/help"
-            render={({ active }) => {
-              return (
-                <div
-                  onClick={() => window.open(t('help-link'), '_blank')}
-                  className={cx('item', { active })}
-                >
-                  {t('help')}
-                </div>
-              )
-            }}
+
+          <Accordion
+            contentStyle={{ position: 'absolute', top: '5rem' }}
+            clickAway={() => setExpandHelp(false)}
+            expanded={expandHelp}
+            title={
+              <div
+                onClick={() => {
+                  setExpandHelp((x) => {
+                    return !x
+                  })
+                }}
+                className={cx('item')}
+              >
+                {t('help')}
+              </div>
+            }
+            content={
+              <div className={cx('dropdown-container')}>
+                {[
+                  [t('what-sf'), t('what-sf-link')],
+                  [t('what-captain'), t('what-captain-link')],
+                ].map(([txt, link]) => {
+                  return (
+                    <div
+                      key={txt}
+                      onClick={() => {
+                        window.open(link, '_blank')
+                      }}
+                      className={cx('lng-item')}
+                    >
+                      {txt}
+                    </div>
+                  )
+                })}
+              </div>
+            }
           />
+
           <MenuLink
             to="/captain"
             render={({ active }) => {
@@ -122,7 +150,7 @@ export default function LayoutLarge({ history }) {
           />
           <Accordion
             contentStyle={{ position: 'absolute', right: '2rem', top: '5rem' }}
-            clickAway={clickAway}
+            clickAway={() => setExpandLng(false)}
             expanded={expandLng}
             title={
               <div
@@ -145,28 +173,22 @@ export default function LayoutLarge({ history }) {
             }
             content={
               <div className={cx('dropdown-container')}>
-                <div
-                  onClick={() => {
-                    i18n.changeLanguage('en')
-                    setExpandLng(false)
-                  }}
-                  className={cx('lng-item', {
-                    selected: i18n.language === 'en',
-                  })}
-                >
-                  English
-                </div>
-                <div
-                  onClick={() => {
-                    i18n.changeLanguage('zh')
-                    setExpandLng(false)
-                  }}
-                  className={cx('lng-item', {
-                    selected: i18n.language === 'zh',
-                  })}
-                >
-                  中文
-                </div>
+                {['en', 'zh'].map((lng) => {
+                  return (
+                    <div
+                      key={lng}
+                      onClick={() => {
+                        i18n.changeLanguage(lng)
+                        setExpandLng(false)
+                      }}
+                      className={cx('lng-item', {
+                        selected: i18n.language === lng,
+                      })}
+                    >
+                      {lng === 'en' ? 'English' : '中文'}
+                    </div>
+                  )
+                })}
               </div>
             }
           ></Accordion>
