@@ -20,6 +20,7 @@ import Button from '../component/Button/Button'
 export default function CaptainForm({
   pendingCount,
   countdown,
+  cooldownMinutes,
   address,
   icon,
   beCaptain,
@@ -39,6 +40,7 @@ export default function CaptainForm({
   defaultMortgageBig,
   cethBalanceDisplay,
 }) {
+
   const { t } = useTranslation(['captain'])
   const [inputCx, formCx] = useStyle(inputStyles, formStyles)
   const [mortgagePopup, setMortgagePopup] = useState(false)
@@ -87,7 +89,6 @@ export default function CaptainForm({
     { defaultValues: {}, schema: {} }
   )
 
-  console.log('schema', schema)
   const { register, handleSubmit, errors, setValue } = useForm({
     resolver: yupResolver(object().shape(schema)),
     shouldUnregister: true,
@@ -111,6 +112,7 @@ export default function CaptainForm({
             sponsor,
             pendingCount,
             countdown,
+            cooldownMinutes
           }}
         />
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -156,13 +158,10 @@ export default function CaptainForm({
 
           <Button
             type="submit"
-            loading
             disabled={!showMortgage && countdown !== 0}
-            onClick={() => {}}
-            style={{ width: '100%' }}
             className={formCx('btn')}
           >
-            {!showMortgage ? t('update') : t('be-captain')}
+            {isMe ? t('update') : t('be-captain')}
           </Button>
         </form>
       </PaddingContainer>

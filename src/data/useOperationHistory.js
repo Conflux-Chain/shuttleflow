@@ -3,7 +3,7 @@ import useState1 from './useState1'
 import jsonrpc from './jsonrpc'
 import { tokenMap as tokeMapPms } from './tokenList'
 import useDeepCompareEffect from 'use-deep-compare-effect'
-import formatNum from './formatNum'
+import formatNum from '../util/formatNum'
 import useAddress from './useAddress'
 
 export default function useHistory({ token, status, limit = 100, type } = {}) {

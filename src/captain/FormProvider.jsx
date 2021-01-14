@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import useStyle from '../component/useStyle'
-import { buildNum } from '../data/formatNum'
+import { buildNum } from '../util/formatNum'
 import useAddress from '../data/useAddress'
 import { useBalance } from '../data/useBalance'
 
@@ -47,7 +47,7 @@ export default function FormProvider() {
   )
 
   const { decimals, sponsor } = tokenInfo
-  const { pendingCount, countdown, minMortgage } = useCaptain(
+  const { pendingCount, countdown, minMortgage, cooldownMinutes } = useCaptain(
     tokenInfo.reference,
     txHash
   )
@@ -74,7 +74,6 @@ export default function FormProvider() {
       minimalBurnValue: buildNum(minimalBurnValue, decimals),
     })
       .then((hash) => {
-        console.log(hash)
         txHash.current = hash
         setPopup('success')
       })
@@ -106,7 +105,6 @@ export default function FormProvider() {
     currentMortgage &&
     cethBalance
   ) {
-    console.log('sponsor', sponsor)
     const currentMortgageBig = new Big(currentMortgage).div('1e18')
     let minMortgageBig = new Big(minMortgage).div('1e18')
 
@@ -132,7 +130,9 @@ export default function FormProvider() {
       ...tokenInfo,
       pendingCount,
       countdown,
+      cooldownMinutes,
       currentMortgage,
+
       beCaptain,
       minMortgage,
       minMortgageBig,
@@ -165,7 +165,9 @@ export default function FormProvider() {
           ) : (
             <>
               <div className={modalCx('title')}>{t('fail')}</div>
-              <div className={modalCx('btn')}>{t('popup.ok')}</div>
+              <div onClick={() => setPopup(false)} className={modalCx('btn')}>
+                {t('popup.ok')}
+              </div>
             </>
           )}
         </Modal>

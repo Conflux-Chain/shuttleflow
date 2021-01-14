@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import useState1 from './useState1'
 
 import tokenList from './tokenList'
-import { isAddress } from './address'
+import { isAddress } from '../util/address'
 import jsonrpc from './jsonrpc'
 
 let supportedTokensResolved

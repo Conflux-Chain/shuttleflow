@@ -55,7 +55,7 @@ export default function createInput({
           }}
         />
         <div className={formCx('after')}>
-          {unit && unit.length > 20 ? unit.slice(0, 20) + '...' : unit}
+          {unit && unit.length > 10 ? unit.slice(0, 10) + '...' : unit}
         </div>
       </div>
       <ErrorMessage
