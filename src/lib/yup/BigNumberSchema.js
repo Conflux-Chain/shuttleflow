@@ -1,9 +1,6 @@
+// yup@v0.32.8
 import BaseSchema from 'yup/es/mixed'
 import Big from 'big.js'
-
-export function create() {
-  return new BigSchema()
-}
 
 const TYPE_ERROR = 'TYPE_ERROR'
 export default class BigSchema extends BaseSchema {
@@ -77,4 +74,7 @@ export default class BigSchema extends BaseSchema {
     })
   }
 }
-create.prototype = BigSchema.prototype
+
+export const big = () => {
+  return new BigSchema().typeError('error.number').aboveZero('error.above-zero')
+}

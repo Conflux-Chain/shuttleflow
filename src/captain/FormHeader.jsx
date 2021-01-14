@@ -18,8 +18,10 @@ export default function Header({
   sponsor,
   pendingCount,
   countdown,
+  cooldownMinutes,
 }) {
   const [cooldownPopup, setCooldownPopup] = useState(false)
+  console.log('cooldownMinutes', cooldownMinutes)
   return (
     <>
       <div className={formCx('first-container')}>
@@ -97,7 +99,7 @@ export default function Header({
         onClose={() => setCooldownPopup(false)}
         title
         ok
-        content={t('popup-cool')}
+        content={t('popup-cool', { cooldownMinutes })}
       ></Modal>
     </>
   )

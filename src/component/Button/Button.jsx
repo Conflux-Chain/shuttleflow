@@ -1,7 +1,16 @@
+import { Loading } from '@cfxjs/react-ui'
 import styled from 'styled-components'
 import { device } from '../../config/size'
 
-export default styled.button`
+export default function Button({ children, loading, ...props }) {
+  return (
+    <StyledButton {...props}>
+      {loading ? <Loading color="white" size="1.5rem" /> : children}
+    </StyledButton>
+  )
+}
+
+const StyledButton = styled.button`
   background: #44d7b6;
   color: white;
   box-shadow: 0px 0px 0px transparent;

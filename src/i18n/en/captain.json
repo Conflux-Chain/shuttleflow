@@ -1,6 +1,6 @@
 {
-  "pending-count": "Shuttle-In&Out Pending Transactions",
-  "countdown": "Countdown to Unfreeze ",
+  "pending-count": "Shuttle-In&Out Pending\nTransactions",
+  "countdown": "Countdown to\nUnfreeze ",
   "shuttle-in-fee": "Shuttle-In Fees",
   "shuttle-out-fee": "Shuttle-Out Fees",
   "enter": "Please enter",
@@ -24,7 +24,7 @@
   "what-captain": "What's Token Captain？",
   "update-mortgage": "Update the number of mortgages",
   "mortgage-popup": "Update the mortgage amount to the value you entered\nThe current mortgage balance will be refunded",
-  "popup-cool": "In order to avoid frequent fluctuations in the rules, there will be a 5-minute freeze time after the rules are modified, and they can be modified again after thawing",
-  "me": "您是此代币服务商",
+  "popup-cool": "In order to avoid frequent fluctuations in the rules, there will be a {{cooldownMinutes}}-minute freeze time after the rules are modified, and they can be modified again after thawing",
+  "me": "You are token captain",
   "locked": "The rules are frozen and cannot be modified temporarily"
 }

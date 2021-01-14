@@ -11,6 +11,7 @@
 
 .small-text {
   color: rgba($color: #ffffff, $alpha: 0.4);
+  white-space: pre-line;
   &.small {
     font-size: 1.5rem;
   }

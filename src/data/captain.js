@@ -14,10 +14,11 @@ export default function usePendingOperationInfo(erc20, txHash) {
         getCustodianContract().minimal_sponsor_amount().call(),
         getCustodianContract().default_cooldown().call(),
       ]).then(([{ cnt = 0 } = {}, cooldown, minMortgage, defaultCooldown]) => {
-        console.log('defaultCooldown', parseInt(defaultCooldown + ''))
         if (start) {
+          const cooldownMinutes = parseInt(defaultCooldown) / 60
           const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))
           setInfo({
+            cooldownMinutes,
             pendingCount: cnt,
             minMortgage: minMortgage.toString(),
             countdown: Math.max(0, parseInt(defaultCooldown + '') - diff),

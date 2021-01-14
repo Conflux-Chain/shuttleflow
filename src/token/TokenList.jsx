@@ -260,7 +260,12 @@ function TokenRow({
           if (checked) {
             setToken('')
           } else {
-            block(() => setToken(reference))
+            block(() => {
+              setToken(reference)
+              if (notAvailable) {
+                setIsNotAvailable(true)
+              }
+            })
           }
         }
       }}

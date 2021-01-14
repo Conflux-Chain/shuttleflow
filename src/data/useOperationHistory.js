@@ -3,7 +3,7 @@ import useState1 from './useState1'
 import jsonrpc from './jsonrpc'
 import { tokenMap as tokeMapPms } from './tokenList'
 import useDeepCompareEffect from 'use-deep-compare-effect'
-import formatNum from './formatNum'
+import formatNum from '../util/formatNum'
 import useAddress from './useAddress'
 
 export default function useHistory({ token, status, limit = 100, type } = {}) {
@@ -19,7 +19,7 @@ export default function useHistory({ token, status, limit = 100, type } = {}) {
           status,
           limit,
           type,
-          address: localStorage.getItem('qiubo') ? undefined : address,
+          address,
         })
       const _reload = () => {
         setState({ loading: true })
@@ -120,9 +120,8 @@ function historyAdapter({
 
   return {
     //btc and eth do not have symbol
-    //todo remove USDT; test only
     ...rest,
-    symbol: reference_symbol || reference || 'USDT',
+    symbol: reference_symbol || reference,
     type,
     step,
     settled_tx,

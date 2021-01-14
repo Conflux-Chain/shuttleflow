@@ -1,4 +1,4 @@
-import { create as big } from '../lib/BigNumberSchema'
+import { big } from '../lib/yup/BigNumberSchema'
 
 const basicValidate = () => {
   return big().typeError('error.number').aboveZero('error.above-zero')

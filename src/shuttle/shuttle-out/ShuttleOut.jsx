@@ -19,7 +19,7 @@ import sent from './sent.svg'
 
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
+import { string, object } from 'yup'
 import { ErrorMessage } from '@hookform/error-message'
 
 import { buildSearch } from '../../component/urlSearch'
@@ -27,13 +27,14 @@ import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
 import TokenInput from '../TokenInput'
-import Input from '../Input'
-import { parseNum } from '../../data/formatNum'
+import ShuttleOutInput from '../Input'
+import { parseNum } from '../../util/formatNum'
 import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
 import checkAddress from '../../data/checkAddress'
 import Check from '../../component/Check/Check'
 import useCToken from '@cfxjs/react-hooks/lib/useCToken'
+import { big } from '../../lib/yup/BigNumberSchema'
 
 // dec5 usdt
 export default function ShuttleOut({ tokenInfo }) {
@@ -78,10 +79,6 @@ export default function ShuttleOut({ tokenInfo }) {
     CUSTODIAN_CONTRACT_ADDR
   )
 
-  // let {
-  //   balances: [, [_balance]],
-  // } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
-
   const _balance = useBalance(tokenInfo && tokenInfo.ctoken)
   let balance = 0
 
@@ -92,14 +89,12 @@ export default function ShuttleOut({ tokenInfo }) {
   }
 
   //to do fake a balance
-  const schema = yup.object().shape({
-    outamount: yup
-      .number()
-      .typeError('error.number')
+  const schema = object().shape({
+    outamount: big()
       .min(tokenInfo ? tokenInfo.minimal_burn_value : 0, 'error.min')
       .max(balance, 'error.insufficient'),
-    outwallet: yup //outaddress maybe a better name, it will trigger Chrome autofill
-      .string()
+    //outaddress maybe a better name, it will trigger Chrome autofill
+    outwallet: string()
       .required('error.required')
       .matches(/^0x[0-9a-fA-F]{40}$/, 'error.invalid-address'),
   })
@@ -120,6 +115,8 @@ export default function ShuttleOut({ tokenInfo }) {
   const tx = useRef('')
   const onSubmit = (data) => {
     let { outwallet, outamount } = data
+    console.log(data)
+    // return
     checkAddress(outwallet).then((x) => {
       new Promise((resolve) => {
         if (x === 'eth') {
@@ -189,21 +186,12 @@ export default function ShuttleOut({ tokenInfo }) {
           </div>
 
           <div className={shuttleOutCx('amount-input')}>
-            <Input
-              value={watch('outamount')}
+            <ShuttleOutInput
+              showPlaceholder={watch('outamount')}
               name="outamount"
               ref={register}
+              decimals={tokenInfo && tokenInfo.decimals}
               error={errors.outamount}
-              onChange={(e) => {
-                let value = e.target.value
-                let [p1, p2] = value.split('.')
-                if (p2) {
-                  p2 = p2.slice(0, 6)
-                  value = [p1, p2].join('.')
-                }
-                e.target.value = value
-                isAll.current = false
-              }}
               placeholder={
                 !tokenInfo
                   ? t('placeholder.input-amount')
@@ -262,8 +250,8 @@ export default function ShuttleOut({ tokenInfo }) {
             <span>{t('address')}</span>
           </WithQuestion>
           <div className={shuttleOutCx('address-input')}>
-            <Input
-              value={watch('outwallet')}
+            <ShuttleOutInput
+              showPlaceholder={watch('outwallet')}
               style={{ fontSize: '1.1rem' }}
               ref={register}
               name="outwallet"
@@ -284,7 +272,9 @@ export default function ShuttleOut({ tokenInfo }) {
             />
             <img
               style={{ display: !!getValues().outwallet ? 'block' : 'none' }}
-              onClick={() => setValue('outwallet', '')}
+              onClick={() => {
+                setValue('outwallet', '')
+              }}
               src={clear}
               alt="clear"
               className={commonCx('clear')}

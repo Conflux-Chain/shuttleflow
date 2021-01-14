@@ -66,6 +66,9 @@
   align-items: center;
   width: fit-content;
   cursor: pointer;
+  &:visited {
+    color: white;
+  }
   &.small {
     margin: 3.75rem auto;
     padding: 0 9.5rem;
@@ -107,5 +110,4 @@
     width: 2rem;
     height: 2rem;
   }
-
 }
