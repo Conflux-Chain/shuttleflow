@@ -19,7 +19,7 @@ export default function useHistory({ token, status, limit = 100, type } = {}) {
           status,
           limit,
           type,
-          address: localStorage.getItem('qiubo') ? undefined : address,
+          address,
         })
       const _reload = () => {
         setState({ loading: true })
@@ -120,9 +120,8 @@ function historyAdapter({
 
   return {
     //btc and eth do not have symbol
-    //todo remove USDT; test only
     ...rest,
-    symbol: reference_symbol || reference || 'USDT',
+    symbol: reference_symbol || reference,
     type,
     step,
     settled_tx,

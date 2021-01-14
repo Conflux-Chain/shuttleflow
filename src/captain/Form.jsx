@@ -12,7 +12,7 @@ import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import Toggle from '../component/Toggle/Toggle'
 import createInput from './createInput'
 import getFields from './fields'
-import Modal, { modalStyles } from '../component/Modal'
+import Modal from '../component/Modal'
 import close from './close.svg'
 
 import Button from '../component/Button/Button'
@@ -155,14 +155,15 @@ export default function CaptainForm({
           )}
 
           <Button
-            as="input"
             type="submit"
+            loading
             disabled={!showMortgage && countdown !== 0}
             onClick={() => {}}
             style={{ width: '100%' }}
-            value={!showMortgage ? t('update') : t('be-captain')}
             className={formCx('btn')}
-          />
+          >
+            {!showMortgage ? t('update') : t('be-captain')}
+          </Button>
         </form>
       </PaddingContainer>
       <Modal
