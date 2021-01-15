@@ -11,10 +11,11 @@ function createGetContract(abi, address) {
   let contract
   return function getContract() {
     if (!contract) {
-      contract = window.confluxJS.Contract({
-        abi,
-        address,
-      })
+      const args = { abi }
+      if (address) {
+        args.address = address
+      }
+      contract = window.confluxJS.Contract(args)
     }
     return contract
   }
