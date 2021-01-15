@@ -1,45 +1,72 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Modal from '../component/Modal'
-import modalStyles from '../component/modal.module.scss'
-import buttonStyles from '../component/button.module.scss'
+import Modal, { modalStyles } from '../component/Modal'
+
 import riskStyles from './risk.module.scss'
 import useStyle from '../component/useStyle'
-import checkSrc from './i-check-64.png'
-import checkedSrc from './i-checked-64.png'
+import { useRecoilState } from 'recoil'
+import displyRiskAtom from '../state/displyRisk'
+import Check from '../component/Check/Check'
+import Button from '../component/Button/Button'
 
+let onComfirm
 export default function Risk() {
-  const [riskCx, modalCx, buttonCx] = useStyle(
-    riskStyles,
-    modalStyles,
-    buttonStyles
-  )
+  const [riskCx, modalCx] = useStyle(riskStyles, modalStyles)
   const [checked, setChecked] = useState(false)
-  const [display, setDisplay] = useState(!localStorage.getItem('risk'))
+  const [displayFromLocalStorage, setLocalStorageDisplay] = useState(
+    !localStorage.getItem('risk')
+  )
+  const [displayFromRecoil, setRecoilState] = useRecoilState(displyRiskAtom)
   const { t } = useTranslation()
   return (
-    <Modal show={display} title={t('risk.title')}>
+    <Modal
+      onClose={
+        displayFromRecoil
+          ? () => {
+              setRecoilState(false)
+            }
+          : ''
+      }
+      show={displayFromLocalStorage || displayFromRecoil}
+      title={t('risk.title')}
+    >
+      {displayFromRecoil && (
+        <div className={modalCx('content')}>{t('risk.not-in-gecko')}</div>
+      )}
       <div className={modalCx('content')}>{t('risk.content')}</div>
-      <div className={riskCx('known')}>
-        <img
-          className={riskCx('img')}
-          alt="check"
-          onClick={() => setChecked((x) => !x)}
-          src={!checked ? checkSrc : checkedSrc}
-        ></img>
-        <span>{t('risk.known')}</span>
+      <div className={riskCx('check')}>
+        <Check
+          solid
+          checked={checked}
+          setChecked={setChecked}
+          txt={t('risk.known')}
+        />
       </div>
 
-      <button
-        className={buttonCx('btn') + ' ' + riskCx('btn')}
+      <Button
+        className={riskCx('btn')}
         disabled={!checked}
         onClick={() => {
           localStorage.setItem('risk', true)
-          setDisplay(false)
+          setChecked(false)
+          setLocalStorageDisplay(false)
+          setRecoilState(false)
+          if (typeof onComfirm === 'function') {
+            onComfirm()
+            onComfirm = undefined
+          }
         }}
       >
         {t('risk.continue')}
-      </button>
+      </Button>
     </Modal>
   )
+}
+
+export function useBlockWithRisk() {
+  const [, setRecoilState] = useRecoilState(displyRiskAtom)
+  return function (cb) {
+    setRecoilState(true)
+    onComfirm = cb
+  }
 }

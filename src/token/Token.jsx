@@ -1,76 +1,31 @@
 import React from 'react'
-import { Switch, Route, Link } from 'react-router-dom'
-
-import Choose from './choose/Choose.jsx'
-import Caption from './caption/Caption'
+import Choose from './Choose.jsx'
 import { useTranslation } from 'react-i18next'
 
 import back from './back.png'
 
 import styles from './Token.module.scss'
-import MenuLink from '../component/MenuLink'
 import useIsSamll from '../component/useSmallScreen'
 import useStyle from '../component/useStyle'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer.jsx'
+import useUrlSearch from '../data/useUrlSearch.js'
 
-export function TokenNavigation({ history, location: { search }, after }) {
+export function TokenNavigation({ history, after }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['token'])
-  //we hard code the token url here because it not bound
-  //to parrent route url, i.e. it will present in either
-  //top level or nested level
-  const url = '/token'
-  const captionUrl = `${url}/caption`
+  const { next } = useUrlSearch()
   return (
-    <PaddingContainer bottom={false}>
+    <PaddingContainer>
       <nav className={cx('nav-container')}>
         <img
           alt="back"
           className={cx('back')}
           src={back}
-          onClick={() => history.goBack()}
+          onClick={() => history.push(next)}
         ></img>
         <div className={cx('nav-tabs')}>
           <div className={cx('item')}>{t('choose')}</div>
-          {/* <MenuLink
-          to={url}
-          exact
-          render={({ active }) => {
-            return (
-              <div className={cx('item', { active })}>
-                <Link
-                  to={{
-                    pathname: url,
-                    search: search,
-                  }}
-                >
-                  {t('btn.choose-token')}
-                </Link>
-              </div>
-            )
-          }}
-        /> */}
-          {/* <MenuLink
-          to={captionUrl}
-          render={({ active }) => {
-            return (
-              <div
-                style={{ display: 'none' }}
-                className={cx('item', { active })}
-              >
-                <Link
-                  to={{
-                    pathname: captionUrl,
-                    search: search,
-                  }}
-                >
-                  {t('btn.token-caption')}
-                </Link>
-              </div>
-            )
-          }}
-        /> */}
         </div>
         {after}
       </nav>
@@ -79,19 +34,14 @@ export function TokenNavigation({ history, location: { search }, after }) {
 }
 
 function Token(props) {
-  const {
-    match: { path },
-  } = props
   const [cx] = useStyle(styles)
   const isSmall = useIsSamll()
+  const { next, cToken, ...extra } = useUrlSearch()
   return (
     <MainContainer className={cx('container')}>
       {/* promote the navigation to top level is samll screen */}
-      {!isSmall && <TokenNavigation {...props} />}
-      <Switch>
-        <Route exact path={path} component={Choose} />
-        <Route path={`${path}/caption`} component={Caption} />
-      </Switch>
+      {!isSmall && <TokenNavigation {...props} next={next} />}
+      <Choose {...extra} next={(token) => `${next}/${token}`} cToken={cToken} />
     </MainContainer>
   )
 }

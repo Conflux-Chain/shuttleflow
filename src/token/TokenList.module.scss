@@ -1,0 +1,213 @@
+.container {
+  .row {
+    // padding: 0 0.5rem;
+    cursor: pointer;
+    &.checked {
+      background: rgba($color: #f2f6fd, $alpha: 0.1);
+    }
+    &.small {
+      svg {
+        width: 3rem;
+      }
+      .icon {
+        width: 5rem;
+      }
+      height: 9rem;
+    }
+
+    &.large {
+      svg {
+        width: 2rem;
+      }
+      .icon {
+        margin-left: 0.5rem;
+        margin-right: 1rem;
+        width: 3rem;
+        border-radius: 1.5rem;
+      }
+      height: 6.25rem;
+    }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba($color: #ffffff, $alpha: 0.18);
+
+    .left {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .symbol {
+      color: white;
+      font-weight: 500;
+
+      &.small {
+        font-size: 2rem;
+      }
+      &.large {
+        font-size: 1.25rem;
+      }
+    }
+
+    .name {
+      color: rgba($color: #ffffff, $alpha: 0.3);
+      &.small {
+        font-size: 1.5rem;
+      }
+      &.large {
+        font-size: 1rem;
+      }
+    }
+
+    .link {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .link-img {
+      cursor: pointer;
+      &.small {
+        margin-left: 0.5rem;
+        width: 2rem;
+      }
+      &.large {
+        margin-left: 0.5rem;
+        width: 2rem;
+      }
+    }
+
+    .link-txt {
+      color: rgba($color: #ffffff, $alpha: 0.4);
+      &.small {
+        font-size: 1.5rem;
+      }
+    }
+
+    label {
+      input {
+        width: 0;
+        height: 0;
+      }
+    }
+    .symbol-row {
+      display: flex;
+      align-items: center;
+    }
+    .not-available {
+      color: black;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.3);
+      text-align: center;
+      vertical-align: middle;
+      &.small {
+        font-size: 1.25rem;
+        margin-left: 1rem;
+        width: 8.75rem;
+        line-height: 2.25rem;
+        height: 2.25rem;
+      }
+      &.large {
+        margin-left: 0.75rem;
+        padding: 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
+    .mortgage {
+      color: white;
+      &.small {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  .two-row {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.frequent-container {
+  justify-content: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  &.small {
+    margin-bottom: 4.17rem;
+  }
+
+  &.large {
+    margin-bottom: -1rem;
+  }
+
+  .active {
+    background-color: #44d7b6 !important;
+  }
+  .frequent {
+    cursor: pointer;
+    &.small {
+      font-size: 1.875rem;
+      height: 3.375rem;
+      padding: 0 2.25rem;
+      border-radius: 1.6875rem;
+      margin-bottom: 1.5rem;
+      margin-right: 2rem;
+    }
+    &.large {
+      font-size: 1.125rem;
+      height: 2.25rem;
+      padding: 0 2rem;
+      border-radius: 1.125rem;
+      margin-bottom: 1rem;
+      margin-right: 1.175rem;
+    }
+
+    // &.large:not
+
+    color: white;
+    display: flex;
+    align-items: center;
+    background: rgba($color: #f8f8f8, $alpha: 0.2);
+  }
+}
+
+.not-found {
+  display: block;
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  &.large {
+    width: 15rem;
+  }
+}
+.list-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .right {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+    .btns {
+      display: flex;
+      flex-direction: column;
+
+      &.large {
+        height: 1.875rem;
+        margin-left: 0.75rem;
+      }
+      &.small {
+        height: 1.875rem;
+        margin-left: 0.75rem;
+      }
+    }
+    .name {
+      color: white;
+      &.large {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}

@@ -8,7 +8,6 @@ import copy from './i-copy-48.png'
 
 import tick from './tick.svg'
 import qr from './qr.svg'
-import question from '../../component/question.svg'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import Modal from '../../component/Modal'
@@ -20,25 +19,19 @@ import commonInputStyles from '../../component/input.module.scss'
 import shuttleStyle from '../Shuttle.module.scss'
 import shuttleInStyles from './ShuttleIn.module.scss'
 import useShuttleInAddress from '../../data/useShuttleInAddress'
-import useTokenList from '../../data/useTokenList'
 import TokenInput from '../TokenInput'
 
 import CTokenPopup from '../CTokenPopup'
+import WithQuestion from '../../component/WithQuestion'
 
-export default function ShuttleIn({ location: { search }, match: { url } }) {
+export default function ShuttleIn({ tokenInfo }) {
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
     commonInputStyles,
     shuttleStyle,
     shuttleInStyles,
     modalStyles
   )
-  const urlToken = new URLSearchParams(search).get('token')
-  const { tokens } = useTokenList(urlToken, { isReference: true })
-
-  //display tokenInfo only when token is url available
-  const tokenInfo = urlToken && tokens ? tokens[0] : null
   const { t } = useTranslation('shuttle-in')
-
   const shuttleInAddress = useShuttleInAddress(tokenInfo)
 
   const [addressPopup, setAddressPopup] = useState(false)
@@ -61,7 +54,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       <TokenInput
         to={{
           pathname: '/token',
-          search: `?next=${url}`,
+          search: '?next=/shuttle/in',
         }}
         tokenInfo={tokenInfo}
         placeholder={t('placeholder.out')}
@@ -72,7 +65,7 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       <TokenInput
         to={{
           pathname: '/token',
-          search: `?next=${url}&cToken=1`,
+          search: `?next=/shuttle/in&cToken=1`,
         }}
         tokenInfo={tokenInfo}
         placeholder={t('common:placeholder.in')}
@@ -80,30 +73,24 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
       />
 
       {tokenInfo && (
-        <p className={shuttleCx('small-text')}>
-          <span style={{ display: 'flex' }}>
+        <div className={shuttleCx('small-text')}>
+          <WithQuestion onClick={() => setMinPopup(true)}>
             <span>{t('amount', tokenInfo)}</span>
-            <img alt="?" onClick={() => setMinPopup(true)} src={question}></img>
-          </span>
+          </WithQuestion>
 
-          <span style={{ display: 'flex' }}>
+          <WithQuestion onClick={() => setFeePopup(true)}>
             <span>{t('fee', tokenInfo)}</span>
-            <img alt="?" onClick={() => setFeePopup(true)} src={question}></img>
-          </span>
-        </p>
+          </WithQuestion>
+        </div>
       )}
 
       <div className={shuttleInCx('address')}>
-        <div className={shuttleCx('title', 'with-question')}>
+        <WithQuestion
+          className={shuttleCx('title')}
+          onClick={() => setAddressPopup(true)}
+        >
           <span>{t('address')}</span>
-          <img
-            alt="?"
-            onClick={() => {
-              setAddressPopup(true)
-            }}
-            src={question}
-          ></img>
-        </div>
+        </WithQuestion>
 
         <div className={shuttleInCx('address-input')}>
           <input
@@ -122,7 +109,10 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
         </div>
       </div>
       {tokenInfo && (
-        <p style={{alignItems:'flex-start'}} className={shuttleCx('small-text')}>
+        <div
+          style={{ alignItems: 'flex-start' }}
+          className={shuttleCx('small-text')}
+        >
           <span>
             <Trans
               t={t}
@@ -137,10 +127,10 @@ export default function ShuttleIn({ location: { search }, match: { url } }) {
             className={shuttleInCx('qr-container')}
             onClick={() => setQrPopup(true)}
           >
-            <img style={{ marginRight: '1rem' }} alt="qr" src={qr}></img>
+            <img className={shuttleInCx('img')} alt="qr" src={qr}></img>
             <span>{t('qr')}</span>
           </span>
-        </p>
+        </div>
       )}
       <ShuttleHistory type="mint" />
       <Modal

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Switch, Route, Link, Redirect } from 'react-router-dom'
+import { Switch, Route, Link, Redirect, useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import layoutBottomState from '../layout/LayoutButtomState'
 
@@ -18,57 +18,78 @@ import MenuLink from '../component/MenuLink'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
-
+import useTokenList from '../data/useTokenList'
+import Spec from '../layout/Spec'
+import useIsSamll from '../component/useSmallScreen'
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['nav'])
   const inUrl = `${url}/in`
   const outUrl = `${url}/out`
+  const isSmall = useIsSamll()
   const [, setLayoutBottom] = useRecoilState(layoutBottomState)
-
   useEffect(() => {
     setLayoutBottom('8.5rem')
     return () => setLayoutBottom('0rem')
   }, [setLayoutBottom])
 
   return (
-    <MainContainer style={{ background: '#1b1b1b' }}>
-      <nav className={cx('nav')}>
-        <MenuLink
-          to={inUrl}
-          render={({ active }) => {
-            return (
-              <div className={cx('item', { active })}>
-                <Link to={inUrl}>
-                  <img alt="in" src={active ? inActiveSvg : inSvg}></img>
-                  <span>{t('shuttle-in')}</span>
-                </Link>
-              </div>
-            )
-          }}
-        />
+    <MainContainer>
+      <div className={cx('footer')}>
+        {isSmall && (
+          <div className={cx('spec')}>
+            <Spec />
+          </div>
+        )}
 
-        <MenuLink
-          to={outUrl}
-          render={({ active }) => {
-            return (
-              <div className={cx('item', { active })}>
-                <Link to={outUrl}>
-                  <img alt="out" src={active ? outActiveSvg : outSvg}></img>
-                  <span>{t('shuttle-out')}</span>
-                </Link>
-              </div>
-            )
-          }}
-        />
-      </nav>
-      <PaddingContainer>
+        <nav className={cx('nav')}>
+          <MenuLink
+            to={inUrl}
+            render={({ active }) => {
+              return (
+                <div className={cx('item', { active })}>
+                  <Link to={inUrl}>
+                    <img alt="in" src={active ? inActiveSvg : inSvg}></img>
+                    <span>{t('shuttle-in')}</span>
+                  </Link>
+                </div>
+              )
+            }}
+          />
+
+          <MenuLink
+            to={outUrl}
+            render={({ active }) => {
+              return (
+                <div className={cx('item', { active })}>
+                  <Link to={outUrl}>
+                    <img alt="out" src={active ? outActiveSvg : outSvg}></img>
+                    <span>{t('shuttle-out')}</span>
+                  </Link>
+                </div>
+              )
+            }}
+          />
+        </nav>
+      </div>
+      <PaddingContainer bottom>
         <Switch>
           <Redirect from={path} exact to={`${path}/in`} />
-          <Route path={`${path}/in`} component={ShuttleIn} />
-          <Route path={`${path}/out`} component={ShuttleOut} />
+          <Route
+            path={`${path}/:type/:erc20?`}
+            component={RouteComponent}
+          ></Route>
         </Switch>
       </PaddingContainer>
     </MainContainer>
   )
+}
+
+function RouteComponent() {
+  const { type, erc20 = '' } = useParams()
+  const { tokens } = useTokenList({ erc20 })
+  //display tokenInfo only when token is url available
+  const tokenInfo = erc20 && tokens ? tokens[0] : null
+  const Component = type === 'in' ? ShuttleIn : ShuttleOut
+  return <Component tokenInfo={tokenInfo} />
 }

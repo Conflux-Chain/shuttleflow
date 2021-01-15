@@ -1,14 +1,16 @@
 .input-common {
   width: 100%;
-  background-color: rgba(229, 229, 229, 0.2);
+  background-color: rgba(105, 105, 105, 0.2);
   color: white;
   border: none;
+  text-overflow: ellipsis;
 
   &.small {
     font-size: 1.875rem;
     height: 6.25rem;
     line-height: 6.25rem;
     padding-left: 2rem;
+    padding-right: 5rem;
   }
 
   &.large {

@@ -1,23 +1,22 @@
-import React, { useEffect, useRef, useReducer } from 'react'
+import React, { useEffect, useRef, lazy } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Modal from '../component/Modal'
-import useConfluxPortal from '../lib/useConfluxPortal'
-import Shuttle from '../shuttle/Shuttle'
-import Token from '../token/Token'
-import Caption from '../token/caption/Caption'
-import History from '../history/History'
-import Market from '../market/Market'
+
 import { useTranslation } from 'react-i18next'
 
-function reducer(state, action) {
-  return { ...state, ...action }
-}
+import useState1 from '../data/useState1'
+import useAddress, { login } from '../data/useAddress'
+const Token = lazy(() => import('../token/Token'))
+const Shuttle = lazy(() => import('../shuttle/Shuttle'))
+const Captain = lazy(() => import('../captain/Captain'))
+const History = lazy(() => import('../history/History'))
+const Market = lazy(() => import('../market/Market'))
 
 function Main() {
-  const { address, login } = useConfluxPortal()
+  const address = useAddress()
 
   //When referer detected, display popup and then login
-  const [{ popup, referer }, dispatch] = useReducer(reducer, {
+  const [{ popup, referer }, setState] = useState1({
     popup: false,
     referer: false,
   })
@@ -28,10 +27,10 @@ function Main() {
   useEffect(() => {
     if (!address) {
       if (referer && !popup) {
-        dispatch({ popup: true })
+        setState({ popup: true })
         setTimeout(() => {
           // reset referer
-          dispatch({ popup: false, referer: false })
+          setState({ popup: false, referer: false })
           login()
         }, 2000)
       } else if (!initLoginTriggered.current) {
@@ -40,9 +39,7 @@ function Main() {
         login()
       }
     }
-  }, [address, referer, login, popup])
-
-  // useEffect(() => {}, [login])
+  }, [address, referer, popup, setState])
 
   const { t } = useTranslation()
   return (
@@ -61,7 +58,7 @@ function Main() {
               //prevent the default init login
               initLoginTriggered.current = true
               return (
-                <PopupWrapper setReferer={(referer) => dispatch({ referer })}>
+                <PopupWrapper setReferer={(referer) => setState({ referer })}>
                   <Redirect to={{ pathname: '/shuttle/in' }}></Redirect>
                 </PopupWrapper>
               )
@@ -70,7 +67,7 @@ function Main() {
                 <Switch>
                   <Route path="/token" component={Token} />
                   <Route path="/shuttle" component={Shuttle} />
-                  <Route path="/caption" component={Caption} />
+                  <Route path="/captain" component={Captain} />
                   <Route path="/history" component={History} />
                   <Route path="/market" component={Market} />
                 </Switch>
@@ -94,6 +91,5 @@ function PopupWrapper({ setReferer, children }) {
   }, [setReferer])
   return children
 }
-
 
 export default React.memo(Main)

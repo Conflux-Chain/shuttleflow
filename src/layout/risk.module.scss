@@ -1,23 +1,14 @@
-.img {
-  cursor: pointer;
-  &.large {
-    width: 2rem;
-    height: 2rem;
-    margin-right: 0.75rem;
-  }
-}
-
-.known {
-  margin-top: 1.25rem;
-  color: #44d7b6;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-}
-
 .btn {
   &.large {
     margin-top: 2rem;
     padding: 0 6.25rem;
   }
+  &.small {
+    margin-top: 2rem;
+    padding: 0 6.25rem;
+  }
+}
+
+.check {
+  margin-top: 1.25rem;
 }

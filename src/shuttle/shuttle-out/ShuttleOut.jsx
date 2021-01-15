@@ -1,60 +1,52 @@
 import React, { useState, useRef, useCallback } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useConfluxPortal } from '@cfxjs/react-hooks'
-import useCToken from '@cfxjs/react-hooks/lib/useCToken'
+
+import { useBalance } from '../../data/useBalance'
 
 import inputStyles from '../../component/input.module.scss'
-import buttonStyles from '../../component/button.module.scss'
 import shuttleStyle from '../Shuttle.module.scss'
 import shuttleOutStyles from './ShuttleOut.module.scss'
-import modalStyles from '../../component/modal.module.scss'
-import Modal from '../../component/Modal'
+import Modal, { modalStyles } from '../../component/Modal'
 import CTokenPopup from '../CTokenPopup'
 import tick from '../shuttle-in/tick.svg'
 
 import useStyle from '../../component/useStyle'
-
+import Button from '../../component/Button/Button'
 import clear from '../../component/clear.svg'
 import down from '../down.svg'
-import question from '../../component/question.svg'
 import fail from './fail.svg'
 import sent from './sent.svg'
 
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers'
-import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { string, object } from 'yup'
 import { ErrorMessage } from '@hookform/error-message'
 
-import { buildSearch, parseSearch } from '../../component/urlSearch'
-import useTokenList from '../../data/useTokenList'
+import { buildSearch } from '../../component/urlSearch'
 import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
 import TokenInput from '../TokenInput'
-import Input from '../Input'
-import { parseNum } from '../../data/formatNum'
-import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
+import ShuttleOutInput from '../Input'
+import { parseNum } from '../../util/formatNum'
+import { CONFLUXSCAN_TX } from '../../config/config'
+import WithQuestion from '../../component/WithQuestion'
+import checkAddress from '../../data/checkAddress'
+import Check from '../../component/Check/Check'
+import { big } from '../../lib/yup/BigNumberSchema'
+import burn from '../../data/burn'
 
-export default function ShuttleOut({ location: { search }, match: { url } }) {
-  const [
-    commonCx,
-    buttonCx,
-    modalCx,
-    shuttleCx,
-    shuttleOutCx,
-    shuttleInCx,
-  ] = useStyle(
+// dec5 usdt
+export default function ShuttleOut({ tokenInfo }) {
+  const [commonCx, modalCx, shuttleCx, shuttleOutCx, shuttleInCx] = useStyle(
     inputStyles,
-    buttonStyles,
     modalStyles,
     shuttleStyle,
     shuttleOutStyles,
     shuttleInStyle
   )
   const { t } = useTranslation('shuttle-out')
-  const { token, ...extra } = parseSearch(search)
-  const { tokens } = useTokenList(token, { isReference: true })
-  const tokenInfo = tokens && token ? tokens[0] : null
+  const token = tokenInfo && tokenInfo.reference
 
   const [errorPopup, setErrorPopup] = useState(false)
   const [successPopup, setSuccessPopup] = useState(false)
@@ -62,6 +54,14 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
   const [feePopup, setFeePopup] = useState(false)
   const [ctokenPopup, setCTokenPopup] = useState(false)
   const [copyPopup, setCopyPopup] = useState(false)
+
+  const blockCallback = useRef(null)
+  const [comfirmTxt, setComfirmTxt] = useState('')
+
+  function blockShuttleout(cb, txt) {
+    blockCallback.current = cb
+    setComfirmTxt(txt)
+  }
 
   const displayCopy = useCallback(() => {
     setCopyPopup(true)
@@ -71,32 +71,20 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     }
   }, [])
 
-  const isAll = useRef(false)
-
-  const { burn } = useCToken(
-    tokenInfo ? tokenInfo.ctoken : '',
-    CUSTODIAN_CONTRACT_ADDR
-  )
-
-  let {
-    balances: [, [_balance]],
-  } = useConfluxPortal(tokenInfo ? [tokenInfo.ctoken] : undefined)
+  const _balance = useBalance(tokenInfo && tokenInfo.ctoken)
   let balance = 0
 
-  console.log(_balance && _balance.toString(), tokenInfo && tokenInfo.ctoken)
   if (_balance) {
     balance = parseNum(_balance, 18)
   }
 
   //to do fake a balance
-  const schema = yup.object().shape({
-    outamount: yup
-      .number()
-      .typeError('error.number')
+  const schema = object().shape({
+    outamount: big()
       .min(tokenInfo ? tokenInfo.minimal_burn_value : 0, 'error.min')
       .max(balance, 'error.insufficient'),
-    outwallet: yup //outaddress maybe a better name, it will trigger Chrome autofill
-      .string()
+    //outaddress maybe a better name, it will trigger Chrome autofill
+    outwallet: string()
       .required('error.required')
       .matches(/^0x[0-9a-fA-F]{40}$/, 'error.invalid-address'),
   })
@@ -110,25 +98,40 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
     errors,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: extra,
     mode: 'onBlur',
   })
   //not necessarily trigger render
   const tx = useRef('')
   const onSubmit = (data) => {
     let { outwallet, outamount } = data
-    if (isAll.current) {
-      outamount = balance
-    }
+    const { burn_fee, decimals, ctoken } = tokenInfo
 
-    burn(outamount, outwallet)
-      .then((e) => {
-        tx.current = e
-        setSuccessPopup(true)
+    checkAddress(outwallet).then((x) => {
+      new Promise((resolve) => {
+        if (x === 'eth') {
+          resolve('yes')
+        } else {
+          blockShuttleout(resolve, t(`confirm.${x}`))
+        }
+      }).then((result) => {
+        if (result === 'yes') {
+          burn(
+            outwallet,
+            ctoken,
+            outamount.mul('1e18') + '',
+            burn_fee.mul('1e18') + ''
+          )
+            .then((e) => {
+              tx.current = e
+              setSuccessPopup(true)
+            })
+            .catch((e) => {
+              console.log(e)
+              setErrorPopup(true)
+            })
+        }
       })
-      .catch((e) => {
-        setErrorPopup(true)
-      })
+    })
   }
 
   if (token && !tokenInfo) {
@@ -143,7 +146,10 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           placeholder={t('placeholder.out')}
           to={{
             pathname: '/token',
-            search: buildSearch({ next: url, cToken: 1, ...getValues() }),
+            search: buildSearch({
+              next: 'shuttle/out',
+              cToken: 1,
+            }),
           }}
           tokenInfo={tokenInfo}
           cToken={() => setCTokenPopup(true)}
@@ -158,8 +164,7 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           to={{
             pathname: '/token',
             search: buildSearch({
-              next: url,
-              ...getValues(),
+              next: '/shuttle/out',
             }),
           }}
           tokenInfo={tokenInfo}
@@ -173,21 +178,12 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           </div>
 
           <div className={shuttleOutCx('amount-input')}>
-            <Input
-              value={watch('outamount')}
+            <ShuttleOutInput
+              showPlaceholder={watch('outamount')}
               name="outamount"
               ref={register}
+              decimals={tokenInfo && tokenInfo.decimals}
               error={errors.outamount}
-              onChange={(e) => {
-                let value = e.target.value
-                let [p1, p2] = value.split('.')
-                if (p2) {
-                  p2 = p2.slice(0, 6)
-                  value = [p1, p2].join('.')
-                }
-                e.target.value = value
-                isAll.current = false
-              }}
               placeholder={
                 !tokenInfo
                   ? t('placeholder.input-amount')
@@ -199,7 +195,6 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
             />
             <div
               onClick={() => {
-                isAll.current = true
                 setValue('outamount', balance)
               }}
               className={shuttleOutCx('all') + ' ' + shuttleCx('small-text')}
@@ -212,14 +207,9 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
         {tokenInfo && (
           <div className={shuttleCx('small-text')}>
             <span> {t('min-amount', tokenInfo)}</span>
-            <span className={shuttleCx('with-question')}>
+            <WithQuestion onClick={() => setFeePopup(true)}>
               <span>{t('fee', tokenInfo)}</span>
-              <img
-                alt="?"
-                onClick={() => setFeePopup(true)}
-                src={question}
-              ></img>
-            </span>
+            </WithQuestion>
           </div>
         )}
 
@@ -242,42 +232,40 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
 
         {/* shuttle out address */}
         <div className={shuttleOutCx('address-container')}>
-          <div className={shuttleCx('title', 'with-question')}>
+          <WithQuestion
+            className={shuttleCx('title')}
+            onClick={(e) => {
+              setAddrPopup(true)
+            }}
+          >
             <span>{t('address')}</span>
-            <img
-              alt="?"
-              onClick={(e) => {
-                setAddrPopup(true)
-              }}
-              src={question}
-            ></img>
-          </div>
+          </WithQuestion>
           <div className={shuttleOutCx('address-input')}>
-            <Input
-              value={watch('outwallet')}
+            <ShuttleOutInput
+              showPlaceholder={watch('outwallet')}
               style={{ fontSize: '1.1rem' }}
               ref={register}
               name="outwallet"
               error={errors.outwallet}
               placeholder={
-                <div style={{ fontSize: '1.1rem' }}>
-                  <Trans
-                    values={{
-                      type: token
-                        ? token === 'btc'
-                          ? t('btc')
-                          : t('eth')
-                        : t('btc') + '/' + t('eth'),
-                    }}
-                    i18nKey={'placeholder.address'}
-                    t={t}
-                  ></Trans>
-                </div>
+                <Trans
+                  values={{
+                    type: token
+                      ? token === 'btc'
+                        ? t('btc')
+                        : t('eth')
+                      : t('btc') + '/' + t('eth'),
+                  }}
+                  i18nKey={'placeholder.address'}
+                  t={t}
+                ></Trans>
               }
             />
             <img
               style={{ display: !!getValues().outwallet ? 'block' : 'none' }}
-              onClick={() => setValue('outwallet', '')}
+              onClick={() => {
+                setValue('outwallet', '')
+              }}
               src={clear}
               alt="clear"
               className={commonCx('clear')}
@@ -300,12 +288,13 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           }}
         />
 
-        <input
+        <Button
           disabled={!tokenInfo}
           type="submit"
-          value={t('shuttle-out')}
-          className={buttonCx('btn') + ' ' + shuttleOutCx('btn')}
-        />
+          className={shuttleOutCx('btn')}
+        >
+          {t('shuttle-out')}
+        </Button>
       </form>
       <ShuttleHistory type="burn" />
       <Modal
@@ -354,7 +343,9 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
         onClose={() => setFeePopup(false)}
         clickAway={() => setFeePopup(false)}
       >
-        <div className={modalCx('content')}>{t('popup.fee')}</div>
+        <div className={modalCx('content')}>
+          <Trans values={tokenInfo} i18nKey="popup.fee" t={t}></Trans>
+        </div>
         <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
           {t('popup.ok')}
         </div>
@@ -376,8 +367,52 @@ export default function ShuttleOut({ location: { search }, match: { url } }) {
           <div>{t('popup.copy')}</div>
         </div>
       </Modal>
+      <ComfirmPopup
+        confluxComfirmPopup={comfirmTxt}
+        blockCallback={blockCallback}
+        confirm={() => {
+          blockCallback.current('yes')
+          blockCallback.current = null
+          setComfirmTxt(false)
+        }}
+        close={() => setComfirmTxt(false)}
+        t={t}
+        modalCx={modalCx}
+        shuttleOutCx={shuttleOutCx}
+      />
     </div>
   )
 }
 
-//admin　sponser
+function ComfirmPopup({
+  confluxComfirmPopup,
+  modalCx,
+  shuttleOutCx,
+  confirm,
+  close,
+  t,
+}) {
+  const [checked, setChecked] = useState(false)
+  return (
+    <Modal show={confluxComfirmPopup} onClose={close} title={t('confirm.btn')}>
+      <div className={modalCx('content')}>{confluxComfirmPopup} </div>
+
+      <div className={shuttleOutCx('check')}>
+        <Check
+          checked={checked}
+          txt={t('confirm.check')}
+          setChecked={setChecked}
+          solid
+        />
+      </div>
+
+      <Button
+        disabled={!checked}
+        onClick={confirm}
+        className={modalCx('btn') + ' ' + shuttleOutCx('comfirm-btn')}
+      >
+        {t('confirm.btn')}
+      </Button>
+    </Modal>
+  )
+}

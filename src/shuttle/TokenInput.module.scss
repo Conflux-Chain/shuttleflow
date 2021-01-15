@@ -12,46 +12,13 @@
       pointer-events: none;
     }
 
-    .icon-container {
-      position: relative;
-      .icon {
-        //remove descender
-        display: block;
-        &.large {
-          width: 2rem;
-          height: 2rem;
-          border-radius: 1rem;
-        }
-      }
-      .c-icon {
-        position: absolute;
-        &.large {
-          bottom: -0.2rem;
-          right: -0.3rem;
-          width: 1rem;
-          height: 1rem;
-        }
-      }
-    }
-
     .symbol {
       font-weight: bold;
       &.large {
         margin-left: 1rem;
       }
-    }
-
-    .question-area {
-      height: 100%;
-      display: flex;
-      &.large {
-        width: 4rem;
-      }
-      .question {
-        &.large {
-          margin-left: 1rem;
-          width: 1.25rem;
-        }
+      &.small {
+        margin-left: 1rem;
       }
     }
   }
@@ -63,7 +30,7 @@
     margin: auto;
     display: flex;
     &.small {
-      width: 1rem;
+      width: 2.5rem;
       right: 2rem;
     }
     &.large {

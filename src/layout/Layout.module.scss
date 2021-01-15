@@ -36,3 +36,11 @@
     }
   }
 }
+
+.footer {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0.5rem;
+  width: 100%;
+}

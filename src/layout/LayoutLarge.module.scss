@@ -60,7 +60,7 @@
     }
     .dropdown-container {
       color: #333333;
-      width: 8.75rem;
+      min-width: 8.75rem;
       background-color: white;
       border-radius: 0px 0px 0.25rem 0.25rem;
       overflow: hidden;
@@ -89,5 +89,15 @@
         right: 1rem;
       }
     }
+  }
+}
+
+.captain {
+  display: flex;
+  align-items: center;
+  .pocket {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.5rem;
   }
 }

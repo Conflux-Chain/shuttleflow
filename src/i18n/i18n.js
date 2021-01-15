@@ -7,6 +7,7 @@ import zhTokenTrans from './zh/token.json'
 //market and translation
 import zhMHTrans from './zh/history-market.json'
 import zhNavTrans from './zh/nav.json'
+import zhCaptainTrans from './zh/captain.json'
 
 import enShuttleIn from './en/shuttle-in.json'
 import enShuttleOut from './en/shuttle-out.json'
@@ -14,6 +15,7 @@ import enCommon from './en/common.json'
 import enTokenTrans from './en/token.json'
 import enMHTrans from './en/history-market.json'
 import enNavTrans from './en/nav.json'
+import enCaptainTrans from './en/captain.json'
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -27,6 +29,7 @@ i18n
         history: enMHTrans,
         nav: enNavTrans,
         token: enTokenTrans,
+        captain: enCaptainTrans,
       },
       zh: {
         'shuttle-in': zhShuttleIn,
@@ -36,10 +39,15 @@ i18n
         history: zhMHTrans,
         nav: zhNavTrans,
         token: zhTokenTrans,
+        captain: zhCaptainTrans,
       },
     },
     react: {
       nsMode: 'fallback',
+      defaultTransParent: 'div', // a valid react element - required before react 16
+      transEmptyNodeValue: '', // what to return for empty Trans
+      transSupportBasicHtmlNodes: true, // allow <br/> and simple html elements in translations
+      transKeepBasicHtmlNodesFor: ['br', 'strong', 'i'], // don't convert to <1></1> if simple react elements
     },
     lng: 'zh',
     fallbackLng: 'zh',

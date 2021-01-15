@@ -76,3 +76,12 @@
     height: 23.5rem;
   }
 }
+
+.check {
+  margin: 2rem 0;
+}
+.comfirm-btn {
+  &.large {
+    padding: 0 6.25rem;
+  }
+}

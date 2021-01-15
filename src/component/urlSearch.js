@@ -8,11 +8,3 @@ export function buildSearch(obj) {
   });
   return '?' + searchParams.toString();
 }
-
-export function parseSearch(search) {
-  return [...new URLSearchParams(search).entries()]
-    .reduce((pre, [key, value]) => {
-      pre[key] = value
-      return pre
-    }, {})
-}

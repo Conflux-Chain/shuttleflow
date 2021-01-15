@@ -3,7 +3,8 @@
     "title": "安全提示",
     "known": "我知道了",
     "continue": "继续",
-    "content": "任何人都可以在 Conflux/Ethereum 网络上创建任何名称的代币，包括创建现有代币的虚假版本以及声称代表没有代币的项目的代币。与任意代币交互时，请格外小心并进行研究。 \n\n使用 ShuttleFlow 时，请确保您操作的资产属于标准 ERC20 Token，否则存在资金安全的风险，后果将由您自己承担。"
+    "content": "任何人都可以在 Conflux/Ethereum 网络上创建任何名称的代币，包括创建现有代币的虚假版本以及声称代表没有代币的项目的代币。与任意代币交互时，请格外小心并进行研究。 \n\n使用 ShuttleFlow 时，请确保您操作的资产属于标准 ERC20 Token，否则存在资金安全的风险，后果将由您自己承担。",
+    "not-in-gecko": "CoinGecko 未收录此 Token"
   },
   "login": "请先连接钱包，稍后自动跳转页面...",
   "connect": "连接钱包",
@@ -14,5 +15,16 @@
   "shuttle-in": "跨入",
   "shuttle-out": "跨出",
   "home": "主页",
-  "banner": "请注意当前页面为测试环境！"
+  "banner": "请注意当前页面为测试环境！",
+  "be-captain": "成为服务商",
+  "spec": {
+    "btn": "平台汇率及手续费等项说明",
+    "content": "<strong>兑换比例</strong>\nShuttleFlow 以 1:1 映射的方式将目标资产引入到 Conflux 网络环境中\n在支付少量手续费后，即可将目标资产以 1:1 的比例完成跨链\n\n<strong>手续费说明</strong>\n每个代币的服务商制定该代币的手续费规则，该手续费用来支付跨链产生的费用：\n* 交易花费的Gas费\n* 地址创建费\n\n<strong>风险提示</strong>\n任何人都可以在 Conflux / Ethereum 网络上创建任何名称的代币，包括创建现有代币的虚假版本以及声称代表没有代币的项目的代币\n\n该页面可以通过代币地址加载任意代币. 与任意代币交互时，请格外小心并进行研究\n\n使用 ShuttleFlow 时，请确保您操作的资产属于标准 ERC20 代币，否则存在资金安全的风险，后果将由您自己承担",
+    "title": "平台汇率及手续费等项说明"
+  },
+  "choose-lng": "选择语言",
+  "what-sf": "什么是 ShuttleFlow？",
+  "what-captain": "什么是代币服务商？",
+  "what-sf-link": "https://juejin.im/post/6886458514097733639",
+  "what-captain-link": "https://forum.conflux.fun/t/topic/4719"
 }

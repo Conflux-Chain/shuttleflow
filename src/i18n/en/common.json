@@ -10,7 +10,8 @@
     "ok": "I Understand",
     "sent": "Transaction Submitted",
     "title": "Tips",
-    "copy": "Copied"
+    "copy": "Copied",
+    "details": "View More"
   },
   "error": {
     "above-zero": "The value must be greater than or equal to 0",
@@ -18,8 +19,10 @@
     "required": "This is required",
     "block": "Error",
     "switch-test": "Unsupported network, please change it in the wallet: Conflux Test Network",
-    "switch-main": "Unsupported network, please change it in the wallet: Conflux Tethys"
+    "switch-main": "Unsupported network, please change it in the wallet: Conflux Tethys",
+    "insufficient": "Insufficient balance"
   },
   "btc": "BTC",
-  "eth": "Ethereum"
+  "eth": "Ethereum",
+  "all": "All"
 }

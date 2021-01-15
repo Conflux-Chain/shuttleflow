@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.benefit {
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+  &.large {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  &.small {
+    margin-top: 1.5rem;
+    margin-bottom: -1.5rem;
+    font-size: 1.5rem;
+  }
+}
+
+.pocket {
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-left: 0.5rem;
+}
+
+.btn {
+  width: 100%;
+  &.small {
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+  }
+  &.large {
+    margin-top: 1rem;
+  }
+}

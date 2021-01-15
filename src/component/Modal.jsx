@@ -5,6 +5,10 @@ import styles from './modal.module.scss'
 import useStyle from './useStyle'
 import close from './i-close-48.png'
 
+import { Scrollbars } from 'react-custom-scrollbars'
+import { renderThumbVerticalDark } from '../component/renderThumbVertical'
+
+export const modalStyles = styles
 export default function Modal({ children, show, ...props }) {
   return createPortal(
     show && <Inner {...props}>{children}</Inner>,
@@ -12,7 +16,7 @@ export default function Modal({ children, show, ...props }) {
   )
 }
 
-function Inner({ children, clickAway, title, onClose }) {
+function Inner({ children, clickAway, title, onClose, ok, content }) {
   const ref = useRef(null)
   const [cx] = useStyle(styles)
   const { t } = useTranslation()
@@ -20,15 +24,15 @@ function Inner({ children, clickAway, title, onClose }) {
   useEffect(() => {
     const listener = (e) => {
       if (!ref.current.contains(e.target) && clickAway) {
-        clickAway()
+        typeof clickAway === 'function' ? clickAway() : onClose && onClose()
       }
     }
     window.addEventListener('mousedown', listener)
     return () => {
       window.removeEventListener('mousedown', listener)
     }
-  }, [clickAway])
-  return createPortal(
+  }, [clickAway, onClose])
+  return (
     <>
       <div className={cx('backdrop')}></div>
       <div ref={ref} className={cx('container')}>
@@ -41,14 +45,27 @@ function Inner({ children, clickAway, title, onClose }) {
           ></img>
         )}
 
-        {title && (
-          <div className={cx('title')}>
-            {typeof title === 'string' ? title : t('popup.title')}
+        <Scrollbars
+          autoHeight
+          autoHeightMax="80vh"
+          renderThumbVertical={renderThumbVerticalDark}
+        >
+          <div className={cx('inner')}>
+            {title && (
+              <div className={cx('title')}>
+                {typeof title === 'string' ? title : t('popup.title')}
+              </div>
+            )}
+            {children}
+            {content && <div className={cx('content')}>{content}</div>}
+            {ok && (
+              <div onClick={onClose} className={cx('btn')}>
+                {t('popup.ok')}
+              </div>
+            )}
           </div>
-        )}
-        {children}
+        </Scrollbars>
       </div>
-    </>,
-    document.getElementById('popup')
+    </>
   )
 }

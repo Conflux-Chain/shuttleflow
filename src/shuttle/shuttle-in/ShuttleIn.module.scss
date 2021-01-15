@@ -66,6 +66,11 @@
 .input-address {
   cursor: default;
   color: rgba($color: #ffffff, $alpha: 0.6);
+  text-overflow: ellipsis;
+
+  &.small {
+    padding-right: 5rem;
+  }
   &.large {
     font-size: 1.1rem;
   }
@@ -74,9 +79,18 @@
 .qr-container {
   display: flex;
   cursor: pointer;
+  align-items: center;
   white-space: nowrap;
   &.large {
     margin-left: 0.75rem;
+  }
+
+  .img {
+    margin-right: 1rem;
+    &.small {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
   }
 }
 

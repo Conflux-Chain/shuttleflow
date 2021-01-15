@@ -3,15 +3,17 @@ import historyStyles from './history.module.scss'
 import useStyle from '../component/useStyle'
 import Accordion from '../component/Accordion'
 import { useTranslation } from 'react-i18next'
-import useUserHistory from '../data/useHistory'
+import useOperationHistory from '../data/useOperationHistory'
 import { useHistory } from 'react-router-dom'
 import notFound from '../component/not-found.png'
 import Histories from './Histories'
 import open from './down.svg'
 import { Loading } from '@cfxjs/react-ui'
-import { parseSearch } from '../component/urlSearch'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
+import useUrlSearch from '../data/useUrlSearch'
+import { Scrollbars } from 'react-custom-scrollbars'
+import renderThumbVertical from '../component/renderThumbVertical'
 
 const FILTERS = [
   ['all', ['doing', 'finished']],
@@ -19,25 +21,25 @@ const FILTERS = [
   ['pending', ['doing']],
 ]
 
-export default function History({ location: { search } }) {
+export default function History() {
   const [cx] = useStyle(historyStyles)
   const { t } = useTranslation('history')
   const [statusExpanded, setStatusExpanded] = useState(false)
   const [typeExpanded, setTypeExpanded] = useState(false)
   const [filter, setFilter] = useState(0)
-  const { type = 'mint' } = parseSearch(search)
+  const { type = 'mint' } = useUrlSearch()
   const history = useHistory()
 
-  const { data: histories, loading } = useUserHistory({
+  const { data: histories, loading } = useOperationHistory({
     status: FILTERS[filter][1],
     type,
   })
   return (
-    <MainContainer className={cx('history-container')}>
+    <div className={cx('history-container')}>
       <MainContainer className={cx('select')}>
         <Accordion
           expanded={typeExpanded}
-          contentStyle={{ position: 'absolute', left: 0, right: 0 }}
+          contentStyle={{ position: 'absolute', left: 0, right: 0, zIndex: 1 }}
           title={
             <div
               onClick={() => {
@@ -79,7 +81,7 @@ export default function History({ location: { search } }) {
         />
         <Accordion
           expanded={statusExpanded}
-          contentStyle={{ position: 'absolute', left: 0, right: 0 }}
+          contentStyle={{ position: 'absolute', left: 0, right: 0, zIndex: 1 }}
           title={
             <div
               onClick={() => {
@@ -123,16 +125,31 @@ export default function History({ location: { search } }) {
           <Loading size="large" />
         </div>
       ) : (
-        <PaddingContainer>
-          <div className={cx('history-items')}>
-            {histories.length > 0 ? (
-              <Histories histories={histories} />
-            ) : (
-              <img className={cx('not-found')} alt="not found" src={notFound} />
-            )}
-          </div>
-        </PaddingContainer>
+        <Scrollbars
+          renderThumbVertical={renderThumbVertical}
+          style={{ flex: 1 }}
+        >
+          <PaddingContainer
+            bottom
+            style={{
+              backgroundColor: '#1b1b1b',
+              display: 'flow-root',
+            }}
+          >
+            <div className={cx('history-items')}>
+              {histories.length > 0 ? (
+                <Histories histories={histories} />
+              ) : (
+                <img
+                  className={cx('not-found')}
+                  alt="not found"
+                  src={notFound}
+                />
+              )}
+            </div>
+          </PaddingContainer>
+        </Scrollbars>
       )}
-    </MainContainer>
+    </div>
   )
 }

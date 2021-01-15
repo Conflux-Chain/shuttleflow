@@ -1,6 +1,8 @@
 .history-container {
   position: relative;
-
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   .tab-container {
     font-weight: bold;
     font-size: 16px;
@@ -22,20 +24,6 @@
     display: flex;
     justify-content: space-around;
     border-bottom: solid 1px rgba($color: #ffffff, $alpha: 0.1);
-    &.small {
-      //todo it can go outside
-      //overflow:scroll somehow
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      right: 0;
-    }
-    &.large {
-      position: absolute;
-      z-index: 1;
-      left: 0;
-      right: 0;
-    }
 
     .select-item {
       display: flex;
@@ -72,16 +60,6 @@
   }
 }
 
-.history-items {
-  //make room for the absolute filter at the top
-  &.small {
-    padding-top: 7.75rem;
-  }
-  &.large {
-    padding-top: 6.75rem;
-  }
-}
-
 .filter-container {
   display: flex;
   align-items: center;
@@ -114,4 +92,5 @@
 
 .loading {
   height: 20rem;
+  background-color: #1b1b1b;
 }

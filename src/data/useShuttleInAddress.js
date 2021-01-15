@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
-import { useConfluxPortal } from '@cfxjs/react-hooks'
 import jsonrpc from './jsonrpc'
+import useAddress from './useAddress'
 
 export default function useShuttleInAddress(tokenInfo) {
-  const { address } = useConfluxPortal()
+  const address = useAddress()
   const { reference } = tokenInfo || {}
   const [result, setResult] = useState('')
   //the endpoint will be called over and over again
   //OK though
   useEffect(() => {
+    let mount = true
     if (address && reference) {
       jsonrpc(
         reference === 'btc'
@@ -19,8 +20,13 @@ export default function useShuttleInAddress(tokenInfo) {
           params: [address, '0x0000000000000000000000000000000000000000'],
         }
       ).then((e) => {
-        setResult(e)
+        if (mount) {
+          setResult(e)
+        }
       })
+    }
+    return () => {
+      mount = false
     }
   }, [address, reference])
 

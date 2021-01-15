@@ -3,18 +3,19 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
   border-radius: 0.5rem;
   background: white;
   z-index: 3;
-  &.small {
-    padding: 2rem;
-    max-width: 40rem;
-  }
-  &.large {
-    padding: 2rem;
-    width: auto;
-    max-width: 28rem;
+  .inner {
+    &.small {
+      padding: 2rem;
+      width: 90vw;
+    }
+    &.large {
+      padding: 2rem;
+      width: auto;
+      max-width: 28rem;
+    }
   }
 }
 
@@ -65,6 +66,9 @@
   align-items: center;
   width: fit-content;
   cursor: pointer;
+  &:visited {
+    color: white;
+  }
   &.small {
     margin: 3.75rem auto;
     padding: 0 9.5rem;
@@ -72,7 +76,8 @@
     font-size: 1.75rem;
   }
   &.large {
-    margin: 2rem auto;
+    margin: auto;
+    margin-top: 2rem;
     padding: 0 6.25rem;
     height: 4.5rem;
     font-size: 1.25rem;
@@ -92,10 +97,17 @@
 .close {
   position: absolute;
   cursor: pointer;
+  z-index: 4;
   &.large {
     right: 0.75rem;
     top: 0.75rem;
     width: 1.5rem;
     height: 1.5rem;
+  }
+  &.small {
+    right: 0.75rem;
+    top: 0.75rem;
+    width: 2rem;
+    height: 2rem;
   }
 }
