@@ -119,7 +119,7 @@ export default function ShuttleOut({ tokenInfo }) {
             outwallet,
             ctoken,
             outamount.mul('1e18') + '',
-            burn_fee.mul(`1e${decimals}`) + ''
+            burn_fee.mul('1e18') + ''
           )
             .then((e) => {
               tx.current = e
