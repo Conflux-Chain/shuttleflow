@@ -1,18 +1,16 @@
-import Big from 'big.js'
-import { CUSTODIAN_CONTRACT_ADDR } from '../config/config'
 import { getTokenContract } from './contract'
 
-export default function burn(ref, amount, burnfee) {
+export default function burn(addr, ctoken, amount, burnfee) {
   const selectedAddress = window.conflux.selectedAddress
   return getTokenContract()
     .burn(
       selectedAddress,
-      Big(amount).mul('1e18'),
+      amount,
       burnfee,
-      CUSTODIAN_CONTRACT_ADDR,
+      addr,
       '0x0000000000000000000000000000000000000000'
     )
-    .sendTransaction({ from: selectedAddress, to: ref })
+    .sendTransaction({ from: selectedAddress, to: ctoken })
 }
 
 // const burn1 = (

@@ -29,12 +29,12 @@ import ShuttleHistory from '../../history/ShuttleHistory'
 import TokenInput from '../TokenInput'
 import ShuttleOutInput from '../Input'
 import { parseNum } from '../../util/formatNum'
-import { CONFLUXSCAN_TX, CUSTODIAN_CONTRACT_ADDR } from '../../config/config'
+import { CONFLUXSCAN_TX } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
 import checkAddress from '../../data/checkAddress'
 import Check from '../../component/Check/Check'
-import useCToken from '@cfxjs/react-hooks/lib/useCToken'
 import { big } from '../../lib/yup/BigNumberSchema'
+import burn from '../../data/burn'
 
 // dec5 usdt
 export default function ShuttleOut({ tokenInfo }) {
@@ -46,7 +46,6 @@ export default function ShuttleOut({ tokenInfo }) {
     shuttleInStyle
   )
   const { t } = useTranslation('shuttle-out')
-  const extra = {}
   const token = tokenInfo && tokenInfo.reference
 
   const [errorPopup, setErrorPopup] = useState(false)
@@ -72,19 +71,10 @@ export default function ShuttleOut({ tokenInfo }) {
     }
   }, [])
 
-  const isAll = useRef(false)
-
-  const { burn } = useCToken(
-    tokenInfo ? tokenInfo.ctoken : '',
-    CUSTODIAN_CONTRACT_ADDR
-  )
-
   const _balance = useBalance(tokenInfo && tokenInfo.ctoken)
   let balance = 0
 
   if (_balance) {
-    //balanace is 18 decimal point, it is fixed rather
-    //than configurable
     balance = parseNum(_balance, 18)
   }
 
@@ -108,15 +98,14 @@ export default function ShuttleOut({ tokenInfo }) {
     errors,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: extra,
     mode: 'onBlur',
   })
   //not necessarily trigger render
   const tx = useRef('')
   const onSubmit = (data) => {
     let { outwallet, outamount } = data
-    console.log(data)
-    // return
+    const { burn_fee, decimals, ctoken } = tokenInfo
+
     checkAddress(outwallet).then((x) => {
       new Promise((resolve) => {
         if (x === 'eth') {
@@ -126,15 +115,18 @@ export default function ShuttleOut({ tokenInfo }) {
         }
       }).then((result) => {
         if (result === 'yes') {
-          if (isAll.current) {
-            outamount = balance
-          }
-          burn(outamount, outwallet)
+          burn(
+            outwallet,
+            ctoken,
+            outamount.mul('1e18') + '',
+            burn_fee.mul(`1e${decimals}`) + ''
+          )
             .then((e) => {
               tx.current = e
               setSuccessPopup(true)
             })
             .catch((e) => {
+              console.log(e)
               setErrorPopup(true)
             })
         }
@@ -203,7 +195,6 @@ export default function ShuttleOut({ tokenInfo }) {
             />
             <div
               onClick={() => {
-                isAll.current = true
                 setValue('outamount', balance)
               }}
               className={shuttleOutCx('all') + ' ' + shuttleCx('small-text')}

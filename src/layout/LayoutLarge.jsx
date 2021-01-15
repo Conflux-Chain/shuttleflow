@@ -1,10 +1,4 @@
-import React, {
-  Suspense,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 
 import Main from './Main'
 import logo from './logo.png'
@@ -21,7 +15,6 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import { Loading } from '@cfxjs/react-ui'
 import pocket from '../component/pocket.png'
-import useStyle from '../component/useStyle'
 
 const cx = classNamesBind.bind(styles)
 
@@ -31,16 +24,12 @@ export default function LayoutLarge({ history }) {
   const { t, i18n } = useTranslation()
   const headerRef = useRef(null)
   const [mainMaxHeight, setMainMaxHeight] = useState(0)
-  const clickAway = useCallback(() => {
-    setExpandLng(false)
-  }, [])
 
   useEffect(() => {
     const { bottom } = headerRef.current.getBoundingClientRect()
     let { marginBottom } = getComputedStyle(headerRef.current)
     marginBottom = parseFloat(marginBottom.replace('px', ''))
     const { innerHeight } = window
-    // console.log(bottom, marginBottom)
     setMainMaxHeight(innerHeight - bottom - marginBottom - 40)
   }, [])
 
