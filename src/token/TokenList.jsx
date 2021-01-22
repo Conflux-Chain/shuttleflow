@@ -42,6 +42,7 @@ const sorts = {
 
 function TokenList({
   search = '',
+  searching,
   cToken,
   frequent,
   captain,
@@ -157,8 +158,8 @@ function TokenList({
             ></img>
           ) : (
             displayedList
-              .slice()
-              .sort(sorts[sort])
+              .slice(0, searching ? 5 : undefined)
+              .sort(!search ? sorts[sort] : undefined)
               .map((tokenInfo, i) => {
                 return (
                   <TokenRow
@@ -283,7 +284,11 @@ function TokenRow({
         />
         <div className={ListCx('two-row')}>
           <div className={ListCx('symbol-row')}>
-            <span className={ListCx('symbol')}>{symbolName}</span>
+            <span className={ListCx('symbol')}>
+              {symbolName.length > 10
+                ? symbolName.slice(0, 10) + '...'
+                : symbolName}
+            </span>
 
             {notAvailable && (
               <span className={ListCx('not-available')}>
@@ -292,7 +297,9 @@ function TokenRow({
             )}
           </div>
 
-          <span className={ListCx('name')}>{name}</span>
+          <span className={ListCx('name')}>
+            {name.length > 30 ? name.slice(0, 30) + '...' : name}
+          </span>
         </div>
       </div>
 

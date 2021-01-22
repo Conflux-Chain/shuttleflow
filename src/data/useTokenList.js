@@ -50,16 +50,34 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
             //must be ctoken search
             return tokens.filter(({ ctoken }) => lowersearch === ctoken)
           } else {
-            return tokens.filter(
-              ({ reference_symbol, reference_name, supported, symbol }) => {
-                return (
-                  (reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
-                    symbol.toLowerCase().indexOf(lowersearch) > -1 ||
-                    reference_name.toLowerCase().indexOf(lowersearch) > -1) &&
-                  (cToken ? supported === 1 : true)
-                )
-              }
-            )
+            return tokens
+              .filter(
+                ({ reference_symbol, reference_name, supported, symbol }) => {
+                  return (
+                    (reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
+                      symbol.toLowerCase().indexOf(lowersearch) > -1 ||
+                      reference_name.toLowerCase().indexOf(lowersearch) > -1) &&
+                    (cToken ? supported === 1 : true)
+                  )
+                }
+              )
+              .slice()
+              .sort(
+                (
+                  {
+                    supported: supported0,
+                    in_token_list: in_token_list0,
+                  },
+                  {
+                    supported: supported1,
+                    in_token_list: in_token_list1,
+                  }
+                ) => {
+                  return (
+                    supported1 - supported0 || in_token_list1 - in_token_list0
+                  )
+                }
+              )
           }
         } else {
           return tokens.filter(

@@ -104,7 +104,7 @@ export default function ShuttleOut({ tokenInfo }) {
   const tx = useRef('')
   const onSubmit = (data) => {
     let { outwallet, outamount } = data
-    const { burn_fee, decimals, ctoken } = tokenInfo
+    const { burn_fee, ctoken } = tokenInfo
 
     checkAddress(outwallet).then((x) => {
       new Promise((resolve) => {
