@@ -119,7 +119,7 @@ export default function ShuttleOut({ tokenInfo }) {
     ;(isBtc
       ? Promise.resolve('yes')
       : checkAddress(outwallet).then((x) => {
-          new Promise((resolve) => {
+          return new Promise((resolve) => {
             if (x === 'eth') {
               resolve('yes')
             } else {

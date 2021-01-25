@@ -20,5 +20,3 @@ export default function checkAddress(address = '') {
     return Promise.resolve('eth')
   }
 }
-
-
