@@ -87,7 +87,7 @@ function fetchHistory({
     return histories
       .map(({ token, ...rest }) => {
         //todo make up for data error
-        if (token === '') {
+        if (!token) {
           token = 'btc'
         }
         //It can happen due to some unexpected human operation
