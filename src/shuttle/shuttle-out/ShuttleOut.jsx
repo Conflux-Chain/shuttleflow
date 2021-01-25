@@ -29,12 +29,14 @@ import ShuttleHistory from '../../history/ShuttleHistory'
 import TokenInput from '../TokenInput'
 import ShuttleOutInput from '../Input'
 import { parseNum } from '../../util/formatNum'
-import { CONFLUXSCAN_TX } from '../../config/config'
+import { CONFLUXSCAN_TX, IS_DEV } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
 import checkAddress from '../../data/checkAddress'
 import Check from '../../component/Check/Check'
 import { big } from '../../lib/yup/BigNumberSchema'
 import burn from '../../data/burn'
+
+var WAValidator = require('wallet-address-validator')
 
 // dec5 usdt
 export default function ShuttleOut({ tokenInfo }) {
@@ -60,8 +62,6 @@ export default function ShuttleOut({ tokenInfo }) {
   const blockCallback = useRef(null)
   const [comfirmTxt, setComfirmTxt] = useState('')
 
-  console.log(token)
-
   function blockShuttleout(cb, txt) {
     blockCallback.current = cb
     setComfirmTxt(txt)
@@ -86,15 +86,17 @@ export default function ShuttleOut({ tokenInfo }) {
   const schema = object().shape({
     outamount: big()
       .min(tokenInfo ? tokenInfo.minimal_burn_value : 0, 'error.min')
-      // .max(balance, 'error.insufficient')
-      ,
+      .max(balance, 'error.insufficient'),
     //outaddress maybe a better name, it will trigger Chrome autofill
     outwallet: string()
       .required('error.required')
-      .matches(
-        isBtc ? /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/ : /^0x[0-9a-fA-F]{40}$/,
-        'error.invalid-address'
-      ),
+      .test('address-valid', 'error.invalid-address', (address) => {
+        return WAValidator.validate(
+          address,
+          isBtc ? 'bitcoin' : 'ethereum',
+          IS_DEV ? 'testnet' : 'prod'
+        )
+      }),
   })
 
   const {
@@ -112,7 +114,7 @@ export default function ShuttleOut({ tokenInfo }) {
   const tx = useRef('')
   const onSubmit = (data) => {
     let { outwallet, outamount } = data
-    const { burn_fee, decimals, ctoken } = tokenInfo
+    const { burn_fee, ctoken } = tokenInfo
 
     ;(isBtc
       ? Promise.resolve('yes')
@@ -288,6 +290,7 @@ export default function ShuttleOut({ tokenInfo }) {
           errors={errors}
           name="outwallet"
           render={({ message }) => {
+            console.log('message', message)
             return (
               <p
                 style={{ color: '#F3504F' }}
