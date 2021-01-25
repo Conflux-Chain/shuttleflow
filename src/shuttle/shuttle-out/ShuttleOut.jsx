@@ -48,6 +48,8 @@ export default function ShuttleOut({ tokenInfo }) {
   const { t } = useTranslation('shuttle-out')
   const token = tokenInfo && tokenInfo.reference
 
+  const isBtc = token === 'btc'
+
   const [errorPopup, setErrorPopup] = useState(false)
   const [successPopup, setSuccessPopup] = useState(false)
   const [addrPopup, setAddrPopup] = useState(false)
@@ -57,6 +59,8 @@ export default function ShuttleOut({ tokenInfo }) {
 
   const blockCallback = useRef(null)
   const [comfirmTxt, setComfirmTxt] = useState('')
+
+  console.log(token)
 
   function blockShuttleout(cb, txt) {
     blockCallback.current = cb
@@ -82,11 +86,15 @@ export default function ShuttleOut({ tokenInfo }) {
   const schema = object().shape({
     outamount: big()
       .min(tokenInfo ? tokenInfo.minimal_burn_value : 0, 'error.min')
-      .max(balance, 'error.insufficient'),
+      // .max(balance, 'error.insufficient')
+      ,
     //outaddress maybe a better name, it will trigger Chrome autofill
     outwallet: string()
       .required('error.required')
-      .matches(/^0x[0-9a-fA-F]{40}$/, 'error.invalid-address'),
+      .matches(
+        isBtc ? /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/ : /^0x[0-9a-fA-F]{40}$/,
+        'error.invalid-address'
+      ),
   })
 
   const {
@@ -106,31 +114,34 @@ export default function ShuttleOut({ tokenInfo }) {
     let { outwallet, outamount } = data
     const { burn_fee, decimals, ctoken } = tokenInfo
 
-    checkAddress(outwallet).then((x) => {
-      new Promise((resolve) => {
-        if (x === 'eth') {
-          resolve('yes')
-        } else {
-          blockShuttleout(resolve, t(`confirm.${x}`))
-        }
-      }).then((result) => {
-        if (result === 'yes') {
-          burn(
-            outwallet,
-            ctoken,
-            outamount.mul('1e18') + '',
-            burn_fee.mul('1e18') + ''
-          )
-            .then((e) => {
-              tx.current = e
-              setSuccessPopup(true)
-            })
-            .catch((e) => {
-              console.log(e)
-              setErrorPopup(true)
-            })
-        }
-      })
+    ;(isBtc
+      ? Promise.resolve('yes')
+      : checkAddress(outwallet).then((x) => {
+          new Promise((resolve) => {
+            if (x === 'eth') {
+              resolve('yes')
+            } else {
+              blockShuttleout(resolve, t(`confirm.${x}`))
+            }
+          })
+        })
+    ).then((result) => {
+      if (result === 'yes') {
+        burn(
+          outwallet,
+          ctoken,
+          outamount.mul('1e18') + '',
+          burn_fee.mul('1e18') + ''
+        )
+          .then((e) => {
+            tx.current = e
+            setSuccessPopup(true)
+          })
+          .catch((e) => {
+            console.log(e)
+            setErrorPopup(true)
+          })
+      }
     })
   }
 
@@ -251,7 +262,7 @@ export default function ShuttleOut({ tokenInfo }) {
                 <Trans
                   values={{
                     type: token
-                      ? token === 'btc'
+                      ? isBtc
                         ? t('btc')
                         : t('eth')
                       : t('btc') + '/' + t('eth'),
