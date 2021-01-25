@@ -65,7 +65,7 @@ function fetchHistory({
   token = null,
   limit,
   status = ['comfirming', 'doing', 'finished'],
-  address = '0x1d09cd4830CA044a9B6a3B47e81ebA857D58aD9C',
+  address,
 } = {}) {
   return Promise.all([
     tokeMapPms,
@@ -86,16 +86,25 @@ function fetchHistory({
   ]).then(([tokenMap, histories]) => {
     return histories
       .map(({ token, ...rest }) => {
-        return { ...rest, ...tokenMap[token], token }
+        //todo make up for data error
+        if (token === '') {
+          token = 'btc'
+        }
+        //It can happen due to some unexpected human operation
+        if (tokenMap[token]) {
+          return { ...rest, ...tokenMap[token], token }
+        } else {
+          return false
+        }
       })
+      .filter((x) => x)
       .map(historyAdapter)
   })
 }
 
 function historyAdapter({
   reference,
-  //todo remove 8; test only
-  decimals = 8,
+  decimals,
   reference_symbol,
   type,
   nonce_or_txid,
