@@ -34,6 +34,7 @@ export default function History() {
     status: FILTERS[filter][1],
     type,
   })
+
   return (
     <div className={cx('history-container')}>
       <MainContainer className={cx('select')}>

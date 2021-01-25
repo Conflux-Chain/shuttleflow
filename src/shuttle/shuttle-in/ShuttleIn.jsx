@@ -68,7 +68,7 @@ export default function ShuttleIn({ tokenInfo }) {
           search: `?next=/shuttle/in&cToken=1`,
         }}
         tokenInfo={tokenInfo}
-        placeholder={t('common:placeholder.in')}
+        placeholder={t('placeholder.in')}
         cToken={() => setCTokenPopup(true)}
       />
 

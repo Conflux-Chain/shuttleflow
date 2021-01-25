@@ -31,6 +31,8 @@ export default function HistoryItem(props) {
   const [cx] = useStyle(itemStyle)
   const { t } = useTranslation('history')
 
+  // console.log(props)
+
   return (
     <Accordion
       title={
