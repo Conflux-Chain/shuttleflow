@@ -27,6 +27,7 @@ export default function CaptainForm({
   cethBalanceBig,
   burn_fee,
   mint_fee,
+  symbol,
   minimal_burn_value,
   minimal_mint_value,
   reference_symbol,
@@ -40,7 +41,6 @@ export default function CaptainForm({
   defaultMortgageBig,
   cethBalanceDisplay,
 }) {
-
   const { t } = useTranslation(['captain'])
   const [inputCx, formCx] = useStyle(inputStyles, formStyles)
   const [mortgagePopup, setMortgagePopup] = useState(false)
@@ -66,6 +66,7 @@ export default function CaptainForm({
   }
   const fields = getFields({
     reference_symbol,
+    symbol,
     mint_fee,
     burn_fee,
     countdown,
@@ -112,7 +113,7 @@ export default function CaptainForm({
             sponsor,
             pendingCount,
             countdown,
-            cooldownMinutes
+            cooldownMinutes,
           }}
         />
         <form onSubmit={handleSubmit(onSubmit)}>
