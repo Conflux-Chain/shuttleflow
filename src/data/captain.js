@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import jsonrpc from './jsonrpc'
 import { getCustodianContract } from './contract'
+import { ensureAddressForSdk } from '../util/address'
 
 //txHash is used to flush data from server
 export default function usePendingOperationInfo(erc20, txHash) {
@@ -10,7 +11,9 @@ export default function usePendingOperationInfo(erc20, txHash) {
       let start = true
       Promise.all([
         jsonrpc('getPendingOperationInfo', { url: 'node', params: [erc20] }),
-        getCustodianContract().token_cooldown(erc20).call(),
+        getCustodianContract()
+          .token_cooldown(ensureAddressForSdk(erc20))
+          .call(),
         getCustodianContract().minimal_sponsor_amount().call(),
         getCustodianContract().default_cooldown().call(),
       ]).then(([{ cnt = 0 } = {}, cooldown, minMortgage, defaultCooldown]) => {

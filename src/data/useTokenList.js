@@ -6,9 +6,7 @@ import { isAddress } from '../util/address'
 import jsonrpc from './jsonrpc'
 
 let supportedTokensResolved
-// displayTokensList.then((x) => {
-//   supportedTokensResolved = true
-// })
+
 
 export default function useTokenList({ search, erc20 = '', cToken } = {}) {
   const [state, setState] = useState1({
@@ -47,7 +45,7 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
         } else if (search) {
           const lowersearch = search.toLowerCase()
           if (isAddress(search)) {
-            //must be ctoken search
+            //MUST be ctoken search
             return tokens.filter(({ ctoken }) => lowersearch === ctoken)
           } else {
             return tokens
