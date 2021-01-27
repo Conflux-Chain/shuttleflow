@@ -16,6 +16,7 @@ import Modal from '../component/Modal'
 import close from './close.svg'
 
 import Button from '../component/Button/Button'
+import { ensureAddressForSdk } from '../util/address'
 
 export default function CaptainForm({
   pendingCount,
@@ -49,7 +50,7 @@ export default function CaptainForm({
   function clickLabel() {
     setMortgagePopup(true)
   }
-  const isMe = address === sponsor
+  const isMe = address === ensureAddressForSdk(sponsor)
   const [showMortgage, setShowMortgage] = useState(!isMe)
 
   const onSubmit = (data) => {
