@@ -50,15 +50,15 @@ function TokenList({
   setIsNotAvailable, //if the corresponsing cToken available
 }) {
   const history = useHistory()
-  const { token, ...searchParams } = useUrlSearch()
+  const { selected, ...searchParams } = useUrlSearch()
   const { tokens: tokenList, isLoading: isListLoading } = useTokenList({})
   const {
     tokens: displayedList,
     isLoading: isDisplayedLoading,
   } = useTokenList({ search, cToken })
 
-  const setToken = (token) => {
-    history.push(buildSearch({ ...searchParams, token }))
+  const setToken = (selected) => {
+    history.push(buildSearch({ ...searchParams, selected }))
   }
 
   const { t } = useTranslation(['token'])
@@ -109,7 +109,7 @@ function TokenList({
                     if (!tokenData) {
                       return null
                     }
-                    active = tokenData.reference === token
+                    active = tokenData.reference === selected
                   }
                   return (
                     <div
@@ -166,12 +166,12 @@ function TokenList({
                     key={i}
                     {...{
                       ...tokenInfo,
-                      token,
+                      token: selected,
                       cToken,
                       checked:
                         tokenInfo.is_admin === 1 && captain
                           ? false
-                          : token === tokenInfo.reference,
+                          : selected === tokenInfo.reference,
                       disabled: tokenInfo.is_admin === 1 && captain,
                       captain,
                       setToken,

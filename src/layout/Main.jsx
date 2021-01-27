@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import useState1 from '../data/useState1'
 import useAddress, { login } from '../data/useAddress'
+import { useRouteMatch } from 'react-router-dom'
 const Token = lazy(() => import('../token/Token'))
 const Shuttle = lazy(() => import('../shuttle/Shuttle'))
 const Captain = lazy(() => import('../captain/Captain'))
@@ -14,6 +15,7 @@ const Market = lazy(() => import('../market/Market'))
 
 function Main() {
   const address = useAddress()
+  const match = useRouteMatch()
 
   //When referer detected, display popup and then login
   const [{ popup, referer }, setState] = useState1({
@@ -45,7 +47,7 @@ function Main() {
   return (
     <>
       <Switch>
-        <Redirect from={'/'} exact to="/shuttle" />
+        <Redirect from={match.url} exact to={`${match.url}/shuttle`} />
         <Route
           render={({ location: { pathname } }) => {
             if (
@@ -65,11 +67,11 @@ function Main() {
             } else {
               return (
                 <Switch>
-                  <Route path="/token" component={Token} />
-                  <Route path="/shuttle" component={Shuttle} />
-                  <Route path="/captain" component={Captain} />
-                  <Route path="/history" component={History} />
-                  <Route path="/market" component={Market} />
+                  <Route path={`${match.path}/token`} component={Token} />
+                  <Route path={`${match.path}/shuttle`} component={Shuttle} />
+                  <Route path={`${match.path}/captain`} component={Captain} />
+                  <Route path={`${match.path}/history`} component={History} />
+                  <Route path={`${match.path}/market`} component={Market} />
                 </Switch>
               )
             }

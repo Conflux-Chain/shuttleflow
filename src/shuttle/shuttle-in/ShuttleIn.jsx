@@ -9,6 +9,7 @@ import copy from './i-copy-48.png'
 import tick from './tick.svg'
 import qr from './qr.svg'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { useRouteMatch, useParams } from 'react-router-dom'
 
 import Modal from '../../component/Modal'
 import modalStyles from '../../component/modal.module.scss'
@@ -33,6 +34,7 @@ export default function ShuttleIn({ tokenInfo }) {
   )
   const { t } = useTranslation('shuttle-in')
   const shuttleInAddress = useShuttleInAddress(tokenInfo)
+  const match = useRouteMatch()
 
   const [addressPopup, setAddressPopup] = useState(false)
   const [cTokenPopup, setCTokenPopup] = useState(false)
@@ -51,22 +53,11 @@ export default function ShuttleIn({ tokenInfo }) {
 
   return (
     <div className={shuttleInCx('container')}>
-      <TokenInput
-        to={{
-          pathname: '/token',
-          search: '?next=/shuttle/in',
-        }}
-        tokenInfo={tokenInfo}
-        placeholder={t('placeholder.out')}
-      />
+      <TokenInput tokenInfo={tokenInfo} placeholder={t('placeholder.out')} />
       <div className={shuttleCx('down')}>
         <img alt="down" src={down}></img>
       </div>
       <TokenInput
-        to={{
-          pathname: '/token',
-          search: `?next=/shuttle/in&cToken=1`,
-        }}
         tokenInfo={tokenInfo}
         placeholder={t('placeholder.in')}
         cToken={() => setCTokenPopup(true)}

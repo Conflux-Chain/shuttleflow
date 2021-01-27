@@ -21,6 +21,7 @@ import useStyle from '../component/useStyle'
 import useTokenList from '../data/useTokenList'
 import Spec from '../layout/Spec'
 import useIsSamll from '../component/useSmallScreen'
+import useUrlSearch from '../data/useUrlSearch'
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['nav'])
@@ -86,7 +87,8 @@ export default function Shuttle({ match: { path, url } }) {
 }
 
 function RouteComponent() {
-  const { type, erc20 = '' } = useParams()
+  const { type } = useParams()
+  const { erc20 = '' } = useUrlSearch()
   const { tokens } = useTokenList({ erc20 })
   //display tokenInfo only when token is url available
   const tokenInfo = erc20 && tokens ? tokens[0] : null

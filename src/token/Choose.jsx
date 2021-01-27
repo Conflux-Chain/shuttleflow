@@ -11,7 +11,7 @@ import useStyle from '../component/useStyle'
 import chooseStyles from './Choose.module.scss'
 import useUrlSearch from '../data/useUrlSearch'
 import useIsSamll from '../component/useSmallScreen'
-import { useHistory } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 import useState1 from '../data/useState1'
 
 export default function ChooseToken({ captain, cToken, next }) {
@@ -22,9 +22,10 @@ export default function ChooseToken({ captain, cToken, next }) {
   })
   const searchTimer = useRef()
 
+  const { chain } = useParams()
   const [isNotAvailable, setIsNotAvailable] = useState(false)
   const [notFound, setNotFound] = useState(false)
-  const { token } = useUrlSearch()
+  const { selected } = useUrlSearch()
   const isSmall = useIsSamll()
   const history = useHistory()
   const { t } = useTranslation(['token'])
@@ -65,13 +66,13 @@ export default function ChooseToken({ captain, cToken, next }) {
               onClick={() => {
                 history.push(
                   isNotAvailable
-                    ? `/captain/${token}`
+                    ? `${chain}/captain?erc20=${selected}`
                     : typeof next === 'function'
-                    ? next(token)
+                    ? next(selected)
                     : next
                 )
               }}
-              disabled={captain ? !token : !token && !isNotAvailable}
+              disabled={captain ? !selected : !selected && !isNotAvailable}
             >
               {captain
                 ? t('be-captain')
@@ -82,7 +83,10 @@ export default function ChooseToken({ captain, cToken, next }) {
                 key="benefit"
                 className={chooseCx('benefit')}
                 onClick={() => {
-                  window.open(`/captain${token ? token : ''}`, '_blank')
+                  window.open(
+                    `${chain}/captain${selected ? '?erc20=' + selected : ''}`,
+                    '_blank'
+                  )
                 }}
               >
                 {t('captain-benefit')}

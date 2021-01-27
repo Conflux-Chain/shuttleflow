@@ -1,5 +1,10 @@
-import React, { useEffect, useState,Suspense } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import React, { useEffect, useState, Suspense } from 'react'
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  useRouteMatch,
+} from 'react-router-dom'
 import '../i18n/i18n'
 import LayoutLarge from './LayoutLarge'
 import LayoutSmall from './LayoutSmall'
@@ -32,8 +37,6 @@ export default function App() {
 
   const [started, setStarted] = useState(false)
   useEffect(() => {
-    //disable scroll
-    document.body.style.overflow = 'hidden'
     if (isSmall) {
       root.style.display = 'flex'
       root.style.flexDirection = 'column'
@@ -44,6 +47,8 @@ export default function App() {
   }, [isSmall])
 
   useEffect(() => {
+    //disable scroll
+    document.body.style.overflow = 'hidden'
     Promise.all([fontPromise, tokensList]).then(() => {
       setStarted(true)
     })
@@ -55,15 +60,19 @@ export default function App() {
     })
   }, [])
 
+  // const match = useRouteMatch()
+  // console.log('mm', match)
   return started ? (
     <Suspense fallback={<Loading />}>
       <RecoilRoot>
         {IS_DEV && <div className={cx('banner')}>{t('banner')}</div>}
+
         <Router>
           <Route
-            path="/"
+            path="/:chain"
             component={isSmall ? LayoutSmall : LayoutLarge}
           ></Route>
+          <Redirect to="/eth"></Redirect>
         </Router>
         <Risk />
         {!isSmall && (

@@ -157,13 +157,6 @@ export default function ShuttleOut({ tokenInfo }) {
         {/* token */}
         <TokenInput
           placeholder={t('placeholder.out')}
-          to={{
-            pathname: '/token',
-            search: buildSearch({
-              next: 'shuttle/out',
-              cToken: 1,
-            }),
-          }}
           tokenInfo={tokenInfo}
           cToken={() => setCTokenPopup(true)}
         />
@@ -173,16 +166,7 @@ export default function ShuttleOut({ tokenInfo }) {
         </div>
 
         {/* conflux token */}
-        <TokenInput
-          to={{
-            pathname: '/token',
-            search: buildSearch({
-              next: '/shuttle/out',
-            }),
-          }}
-          tokenInfo={tokenInfo}
-          placeholder={t('placeholder.in')}
-        />
+        <TokenInput tokenInfo={tokenInfo} placeholder={t('placeholder.in')} />
 
         {/* shuttle out amount */}
         <label className={shuttleOutCx('amount-container')}>

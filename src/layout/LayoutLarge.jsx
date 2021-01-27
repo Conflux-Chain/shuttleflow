@@ -15,6 +15,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import { Loading } from '@cfxjs/react-ui'
 import pocket from '../component/pocket.png'
+import { useParams } from 'react-router'
 
 const cx = classNamesBind.bind(styles)
 
@@ -33,24 +34,27 @@ export default function LayoutLarge({ history }) {
     setMainMaxHeight(innerHeight - bottom - marginBottom - 40)
   }, [])
 
+  const { chain } = useParams()
+  const chainRoot = `/${chain}`
   return (
     <>
       <header ref={headerRef} className={cx('header')}>
         <img
           className={cx('logo')}
           alt="home"
-          onClick={() => history.push('/')}
+          onClick={() => history.push(chainRoot)}
           src={logo}
         ></img>
 
         <div className={cx('right')}>
           <UserAddress />
           <MenuLink
-            to="/shuttle"
+            to={`${chainRoot}/shuttle/in`}
+            exact
             render={({ active }) => {
               return (
                 <div
-                  onClick={() => history.push('/')}
+                  onClick={() => history.push(chainRoot)}
                   className={cx('item', { active })}
                 >
                   {t('home')}
@@ -59,11 +63,11 @@ export default function LayoutLarge({ history }) {
             }}
           />
           <MenuLink
-            to="/history"
+            to={`${chainRoot}/history`}
             render={({ active }) => {
               return (
                 <div
-                  onClick={() => history.push('/history')}
+                  onClick={() => history.push(`${chainRoot}/history`)}
                   className={cx('item', { active })}
                 >
                   {t('history')}
@@ -72,11 +76,11 @@ export default function LayoutLarge({ history }) {
             }}
           />
           <MenuLink
-            to="/market"
+            to={`${chainRoot}/market`}
             render={({ active }) => {
               return (
                 <div
-                  onClick={() => history.push('/market')}
+                  onClick={() => history.push(`${chainRoot}/market`)}
                   className={cx('item', { active })}
                 >
                   {t('markets')}
@@ -124,11 +128,11 @@ export default function LayoutLarge({ history }) {
           />
 
           <MenuLink
-            to="/captain"
+            to={`${chainRoot}/captain`}
             render={({ active }) => {
               return (
                 <div
-                  onClick={() => history.push('/captain')}
+                  onClick={() => history.push(`${chainRoot}/captain`)}
                   className={cx('item', 'captain', { active })}
                 >
                   <img className={cx('pocket')} src={pocket} alt="pocket"></img>
