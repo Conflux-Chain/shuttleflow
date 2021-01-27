@@ -1,6 +1,6 @@
 import Icon from '../component/Icon/Icon'
 import profile from './profile.svg'
-import formatAddress from '../component/formatAddress'
+import { formatAddress } from '../util/address'
 import { useEffect, useState } from 'react'
 import WithQuestion from '../component/WithQuestion'
 import Modal from '../component/Modal'
@@ -56,9 +56,8 @@ export default function Header({
                       href={`${CONFLUXSCAN_ADDR}/${sponsor}`}
                       target="_blank"
                       rel="noreferrer"
-                      // style={{ textDecoration: 'underline' }}
                     >
-                      {formatAddress(sponsor)}
+                      {formatAddress(sponsor, { chain: 'cfx' })}
                     </a>
                   ) : (
                     '--'

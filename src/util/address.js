@@ -1,27 +1,19 @@
 import { IS_DEV } from '../config/config'
-
 const confluxAddr = require('conflux-address-js')
 
-// const confluxAddr = require('conflux-address-js')
-const hexBuffer = Buffer.from('106d49f8505410eb4e671d51f7d96d2c87807b09', 'hex')
-const netId = 1029 // Conflux main-net
-
-// console.log(confluxAddr.encode(hexBuffer, netId))
-
-// console.log(
-//   confluxAddr
-//     .decode('cfx:aajg4wt2mbmbb44sp6szd783ry0jtad5bea80xdy7p')
-//     .hexAddress.toString('hex')
-// )
-export function isAddress(value = '') {
-  let isCfxAddress
+function isNewCfxAddress(value) {
+  let isNewCfxAddress
   try {
     confluxAddr.decode(value).hexAddress.toString('hex')
-    isCfxAddress = true
+    isNewCfxAddress = true
   } catch (error) {
-    isCfxAddress = false
+    isNewCfxAddress = false
   }
-  return /^0x[0-9a-fA-F]{40}$/.test(value) || isCfxAddress
+  return isNewCfxAddress
+}
+
+export function isAddress(value = '') {
+  return /^0x[0-9a-fA-F]{40}$/.test(value) || isNewCfxAddress(value)
 }
 
 export function ensureAddressForSdk(oldOrNewAddress) {
@@ -54,4 +46,30 @@ export function ensureAddressForSdk(oldOrNewAddress) {
   }
 }
 
-window.ensureAddressForSdk = ensureAddressForSdk
+function formatEth(txt) {
+  const first6 = txt.slice(0, 6)
+  const last4 = txt.slice(txt.length - 4)
+  return first6 + '...' + last4
+}
+
+function formatCfx(txt) {
+  //not sure about verbose or not
+  const parts = txt.split(':')
+  const network = parts[0]
+  const hex = parts[parts.length - 1]
+  return `${network}:${hex.slice(0, 8)}...`
+}
+
+export function formatAddress(txt, { chain } = { chain: 'eth' }) {
+  if (!txt) {
+    return ''
+  }
+  if (chain === 'eth') {
+    return formatEth(txt)
+  } else if (chain === 'cfx') {
+    return formatCfx(txt)
+  } else {
+    //address type is unpredictable due to mixed version of portal
+    isNewCfxAddress(txt) ? formatCfx(txt) : formatEth(txt)
+  }
+}

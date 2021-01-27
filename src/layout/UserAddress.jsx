@@ -1,5 +1,5 @@
 import React from 'react'
-import formatAddress from '../component/formatAddress'
+import { formatAddress } from '../util/address'
 import styles from './UserAddress.module.scss'
 import useStyle from '../component/useStyle'
 import { useTranslation } from 'react-i18next'

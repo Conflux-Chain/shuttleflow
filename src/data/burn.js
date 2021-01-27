@@ -2,10 +2,15 @@ import { ensureAddressForSdk } from '../util/address'
 import { getTokenContract } from './contract'
 
 export default function burn(addr, ctoken, amount, burnfee) {
-  const selectedAddress = window.conflux.selectedAddress
+  let selectedAddress = window.conflux.selectedAddress
+
+  addr = ensureAddressForSdk(addr)
+  ctoken = ensureAddressForSdk(ctoken)
+  selectedAddress = ensureAddressForSdk(selectedAddress)
+
   return getTokenContract()
     .burn(
-      ensureAddressForSdk(selectedAddress),
+      selectedAddress,
       amount,
       burnfee,
       addr,
