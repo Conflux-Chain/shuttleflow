@@ -8,7 +8,7 @@ import Triangle from '../component/Triangle/Triangle.jsx'
 import titleStyles from './title.module.scss'
 import Check from '../component/Check/Check'
 import { useTranslation } from 'react-i18next'
-import formatAddress from '../component/formatAddress'
+import { formatAddress } from '../util/address'
 import useTokenList from '../data/useTokenList'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
@@ -51,6 +51,8 @@ function TokenList({
 }) {
   const history = useHistory()
   const { selected, ...searchParams } = useUrlSearch()
+  const { chain } = { chain: 'eth' }
+
   const { tokens: tokenList, isLoading: isListLoading } = useTokenList({})
   const {
     tokens: displayedList,
@@ -167,6 +169,7 @@ function TokenList({
                     {...{
                       ...tokenInfo,
                       token: selected,
+                      chain,
                       cToken,
                       checked:
                         tokenInfo.is_admin === 1 && captain
@@ -229,6 +232,7 @@ function TokenRow({
   setToken,
   setIsNotAvailable,
   checked,
+  chain,
 }) {
   const [ListCx] = useStyle(tokenListStyles, titleStyles)
   const { t } = useTranslation(['token'])
@@ -239,7 +243,8 @@ function TokenRow({
     : `${EHTHERSCAN_TK}${reference}`
   const name = (cToken ? 'Conflux ' : '') + reference_name
   const symbolName = cToken ? symbol : reference_symbol
-  const address = cToken ? ctoken : reference
+  const address = cToken ? ctoken : reference.startsWith('0x') ? reference : ''
+  chain = cToken ? 'cfx' : chain
   return (
     <PaddingContainer
       bottom={false}
@@ -308,9 +313,11 @@ function TokenRow({
           <span className={ListCx('mortgage')}>{sponsor_value + ' cETH'}</span>
         )}
 
-        {address && address.startsWith('0x') && (
+        {address && (
           <div className={ListCx('link')}>
-            <span className={ListCx('link-txt')}>{formatAddress(address)}</span>
+            <span className={ListCx('link-txt')}>
+              {formatAddress(address, { chain })}
+            </span>
             <img
               alt="link"
               onClick={() => window.open(link, '_blank')}
