@@ -66,7 +66,7 @@ export default function ChooseToken({ captain, cToken, next }) {
               onClick={() => {
                 history.push(
                   isNotAvailable
-                    ? `${chain}/captain?erc20=${selected}`
+                    ? `${chain}/captain?reference=${selected}`
                     : typeof next === 'function'
                     ? next(selected)
                     : next
@@ -84,7 +84,7 @@ export default function ChooseToken({ captain, cToken, next }) {
                 className={chooseCx('benefit')}
                 onClick={() => {
                   window.open(
-                    `/${chain}/captain${selected ? '?erc20=' + selected : ''}`,
+                    `/${chain}/captain${selected ? '?reference=' + selected : ''}`,
                     '_blank'
                   )
                 }}

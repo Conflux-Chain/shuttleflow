@@ -7,30 +7,29 @@ import jsonrpc from './jsonrpc'
 
 let supportedTokensResolved
 
-
-export default function useTokenList({ search, erc20 = '', cToken } = {}) {
+export default function useTokenList({ search, reference = '', cToken } = {}) {
   const [state, setState] = useState1({
     tokens: [],
     isLoading: supportedTokensResolved,
   })
   if (isAddress(search)) {
     if (!cToken) {
-      erc20 = search
+      reference = search
     }
   }
 
-  erc20 = erc20.toLocaleLowerCase()
+  reference = reference.toLocaleLowerCase()
   useEffect(() => {
     return tokenList
       .then((tokens) => {
-        if (erc20) {
+        if (reference) {
           return Promise.resolve(
-            tokens.filter(({ reference }) => erc20 === reference)
+            tokens.filter(({ reference }) => reference === reference)
           ).then(([token]) => {
             if (!token) {
               return jsonrpc('searchToken', {
                 url: 'sponsor',
-                params: [erc20 || search],
+                params: [reference || search],
               }).then((result) => {
                 if (result && result.is_valid_erc20) {
                   return [result]
@@ -62,14 +61,8 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
               .slice()
               .sort(
                 (
-                  {
-                    supported: supported0,
-                    in_token_list: in_token_list0,
-                  },
-                  {
-                    supported: supported1,
-                    in_token_list: in_token_list1,
-                  }
+                  { supported: supported0, in_token_list: in_token_list0 },
+                  { supported: supported1, in_token_list: in_token_list1 }
                 ) => {
                   return (
                     supported1 - supported0 || in_token_list1 - in_token_list0
@@ -87,6 +80,6 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
       .then((tokens) => {
         setState({ tokens: tokens.filter((x) => x), isLoading: false })
       })
-  }, [search, setState, erc20, cToken])
+  }, [search, setState, reference, cToken])
   return state
 }

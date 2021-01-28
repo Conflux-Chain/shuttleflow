@@ -43,7 +43,7 @@ function Token(props) {
       {!isSmall && <TokenNavigation {...props} next={next} />}
       <Choose
         {...extra}
-        next={(token) => `${next}?erc20=${token}`}
+        next={(token) => `${next}?reference=${token}`}
         cToken={cToken}
       />
     </MainContainer>

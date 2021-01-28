@@ -77,7 +77,7 @@ export default function Shuttle({ match: { path, url } }) {
         <Switch>
           <Redirect from={path} exact to={`${path}/in`} />
           <Route
-            path={`${path}/:type/:erc20?`}
+            path={`${path}/:type/:reference?`}
             component={RouteComponent}
           ></Route>
         </Switch>
@@ -88,10 +88,10 @@ export default function Shuttle({ match: { path, url } }) {
 
 function RouteComponent() {
   const { type } = useParams()
-  const { erc20 = '' } = useUrlSearch()
-  const { tokens } = useTokenList({ erc20 })
+  const { reference = '' } = useUrlSearch()
+  const { tokens } = useTokenList({ reference })
   //display tokenInfo only when token is url available
-  const tokenInfo = erc20 && tokens ? tokens[0] : null
+  const tokenInfo = reference && tokens ? tokens[0] : null
   const Component = type === 'in' ? ShuttleIn : ShuttleOut
   return <Component tokenInfo={tokenInfo} />
 }
