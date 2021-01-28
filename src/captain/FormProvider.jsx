@@ -26,14 +26,16 @@ import fail from './fail.png'
 const MAX_DECIMAL_DISPLAY = 8
 
 //0xd50931bb32fca14acbc0cade5850ba597f3ee1a6
-export default function FormProvider() {
-  const { erc20 } = useParams()
+export default function FormProvider({erc20}) {
+  // const { erc20 } = useParams()
   const [popup, setPopup] = useState('')
   const { t } = useTranslation(['captain'])
   const [cx, modalCx] = useStyle(formStyles, modalStyles)
   const address = useAddress()
   const cethBalance = useBalance(CETH_ADDRESS)
   const txHash = useRef()
+
+  console.log('erc20', erc20)
 
   /**
    * tokens will change on every render(no cache in useTokenList)

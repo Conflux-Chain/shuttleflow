@@ -84,7 +84,7 @@ export default function ChooseToken({ captain, cToken, next }) {
                 className={chooseCx('benefit')}
                 onClick={() => {
                   window.open(
-                    `${chain}/captain${selected ? '?erc20=' + selected : ''}`,
+                    `/${chain}/captain${selected ? '?erc20=' + selected : ''}`,
                     '_blank'
                   )
                 }}

@@ -65,6 +65,7 @@ function Main() {
                 </PopupWrapper>
               )
             } else {
+              console.log('match.path', match.path)
               return (
                 <Switch>
                   <Route path={`${match.path}/token`} component={Token} />

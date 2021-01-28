@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Redirect,
   Route,
+  Switch,
   useRouteMatch,
 } from 'react-router-dom'
 import '../i18n/i18n'
@@ -68,11 +69,13 @@ export default function App() {
         {IS_DEV && <div className={cx('banner')}>{t('banner')}</div>}
 
         <Router>
-          <Route
-            path="/:chain"
-            component={isSmall ? LayoutSmall : LayoutLarge}
-          ></Route>
-          <Redirect to="/eth"></Redirect>
+          <Switch>
+            <Route
+              path="/:chain"
+              component={isSmall ? LayoutSmall : LayoutLarge}
+            ></Route>
+            <Redirect to="/eth"></Redirect>
+          </Switch>
         </Router>
         <Risk />
         {!isSmall && (
