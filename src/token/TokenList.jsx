@@ -111,12 +111,12 @@ function TokenList({
                     if (!tokenData) {
                       return null
                     }
-                    active = tokenData.reference === selected
+                    active = tokenData.id === selected
                   }
                   return (
                     <div
                       onClick={() =>
-                        setToken(active ? '' : tokenData.reference)
+                        setToken(active ? '' : tokenData.id)
                       }
                       className={ListCx({ active }, 'frequent')}
                       key={_preset_reference}

@@ -190,8 +190,6 @@ function LinkItem({ to, content, alsoMatch = [] }) {
         const next = new URLSearchParams(search).get('next')
         let match = [...alsoMatch, to].some((x) => x === pathname)
         let matchSearch = [...alsoMatch, to].some((x) => x === next)
-
-        console.log(matchSearch)
         return match || matchSearch
       }}
       className={cx('item')}

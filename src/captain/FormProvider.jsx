@@ -26,7 +26,7 @@ import fail from './fail.png'
 const MAX_DECIMAL_DISPLAY = 8
 
 //0xd50931bb32fca14acbc0cade5850ba597f3ee1a6
-export default function FormProvider({reference}) {
+export default function FormProvider({ pair }) {
   const [popup, setPopup] = useState('')
   const { t } = useTranslation(['captain'])
   const [cx, modalCx] = useStyle(formStyles, modalStyles)
@@ -34,13 +34,12 @@ export default function FormProvider({reference}) {
   const cethBalance = useBalance(CETH_ADDRESS)
   const txHash = useRef()
 
-
   /**
    * tokens will change on every render(no cache in useTokenList)
    * which will into invalid all the following identity check
    * no a big problem though
    */
-  const { tokens } = useTokenList({  reference })
+  const { tokens } = useTokenList({ pair })
   const tokenInfo = useMemo(
     () => (tokens && tokens.length > 0 ? tokens[0] : {}),
     [tokens]
@@ -64,7 +63,7 @@ export default function FormProvider({reference}) {
   }) {
     createBeCaptain(
       address,
-      reference
+      pair
     )({
       amount: amount && buildNum(amount, 18),
       burnFee: buildNum(burnFee, decimals),

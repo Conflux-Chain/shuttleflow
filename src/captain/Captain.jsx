@@ -8,19 +8,19 @@ import useUrlSearch from '../data/useUrlSearch'
 
 export default function Captain() {
   const [cx] = useStyle(styles)
-  const { reference } = useUrlSearch()
+  const { pair } = useUrlSearch()
   const { url } = useRouteMatch()
 
   return (
     <MainContainer
       style={{ minHeight: '100%' }}
-      className={!reference ? cx('container') : ''}
+      className={!pair ? cx('container') : ''}
     >
-      {reference ? (
-        <CaptainForm reference={reference} />
+      {pair ? (
+        <CaptainForm pair={pair} />
       ) : (
         <div className={cx('container')}>
-          <Choose next={(token) => `${url}?reference=${token}`} captain />
+          <Choose next={(token) => `${url}?pair=${token}`} captain />
         </div>
       )}
     </MainContainer>

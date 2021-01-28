@@ -41,7 +41,7 @@ function Token(props) {
     <MainContainer className={cx('container')}>
       {/* promote the navigation to top level is samll screen */}
       {!isSmall && <TokenNavigation {...props} next={next} />}
-      <Choose next={(token) => `${next}?reference=${token}`} cToken={cToken} />
+      <Choose next={(token) => `${next}?pair=${token}`} cToken={cToken} />
     </MainContainer>
   )
 }

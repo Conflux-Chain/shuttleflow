@@ -7,40 +7,40 @@ import jsonrpc from './jsonrpc'
 
 let supportedTokensResolved
 
-export default function useTokenList({ search, reference = '', cToken } = {}) {
+export default function useTokenList({ search, pair = '', cToken } = {}) {
   const [state, setState] = useState1({
     tokens: [],
     isLoading: supportedTokensResolved,
   })
   if (isAddress(search)) {
     if (!cToken) {
-      reference = search
+      pair = search
     }
   }
 
-  reference = reference.toLocaleLowerCase()
+  pair = pair.toLocaleLowerCase()
   useEffect(() => {
     return tokenList
       .then((tokens) => {
-        if (reference) {
-          return Promise.resolve(
-            tokens.filter(({ id }) => reference === id)
-          ).then(([token]) => {
-            if (!token) {
-              return jsonrpc('searchToken', {
-                url: 'sponsor',
-                params: [reference || search],
-              }).then((result) => {
-                if (result && result.is_valid_erc20) {
-                  return [result]
-                } else {
-                  return []
-                }
-              })
-            } else {
-              return [token]
+        if (pair) {
+          return Promise.resolve(tokens.filter(({ id }) => pair === id)).then(
+            ([token]) => {
+              if (!token) {
+                return jsonrpc('searchToken', {
+                  url: 'sponsor',
+                  params: [pair || search],
+                }).then((result) => {
+                  if (result && result.is_valid_erc20) {
+                    return [result]
+                  } else {
+                    return []
+                  }
+                })
+              } else {
+                return [token]
+              }
             }
-          })
+          )
         } else if (search) {
           const lowersearch = search.toLowerCase()
           if (isAddress(search)) {
@@ -80,6 +80,6 @@ export default function useTokenList({ search, reference = '', cToken } = {}) {
       .then((tokens) => {
         setState({ tokens: tokens.filter((x) => x), isLoading: false })
       })
-  }, [search, setState, reference, cToken])
+  }, [search, setState, pair, cToken])
   return state
 }
