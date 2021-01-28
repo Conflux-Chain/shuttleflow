@@ -1,6 +1,5 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router'
 import useStyle from '../component/useStyle'
 import { buildNum } from '../util/formatNum'
 import useAddress from '../data/useAddress'

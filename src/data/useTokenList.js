@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
 import useState1 from './useState1'
 
-import tokenList from './tokenList'
+import tokenList, { btcTokenList, ethTokenList } from './tokenList'
 import { isAddress } from '../util/address'
 import jsonrpc from './jsonrpc'
+import { useParams } from 'react-router'
 
 let supportedTokensResolved
 
@@ -12,15 +13,16 @@ export default function useTokenList({ search, pair = '', cToken } = {}) {
     tokens: [],
     isLoading: supportedTokensResolved,
   })
+  const { chain } = useParams()
   if (isAddress(search)) {
     if (!cToken) {
       pair = search
     }
   }
 
-  pair = pair.toLocaleLowerCase()
+  // pair = pair.toLocaleLowerCase()
   useEffect(() => {
-    return tokenList
+    return (chain === 'btc' ? btcTokenList : ethTokenList)
       .then((tokens) => {
         if (pair) {
           return Promise.resolve(tokens.filter(({ id }) => pair === id)).then(
@@ -80,6 +82,6 @@ export default function useTokenList({ search, pair = '', cToken } = {}) {
       .then((tokens) => {
         setState({ tokens: tokens.filter((x) => x), isLoading: false })
       })
-  }, [search, setState, pair, cToken])
+  }, [search, setState, pair, cToken, chain])
   return state
 }

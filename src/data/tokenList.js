@@ -12,11 +12,16 @@ const icons = {
 
 const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
   return result.map(listItemMapper)
-
-  // .filter((x) => x.reference === 'btc')
 })
 
 export default tokenList
+
+export const ethTokenList = tokenList.then((l) =>
+  l.filter((x) => x.reference !== 'btc')
+)
+export const btcTokenList = tokenList.then((l) =>
+  l.filter((x) => x.reference === 'btc')
+)
 
 export const tokenMap = tokenList.then((list) => {
   return list.reduce((pre, cur) => {
