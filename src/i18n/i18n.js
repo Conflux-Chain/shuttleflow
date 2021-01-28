@@ -51,7 +51,7 @@ i18n
       transSupportBasicHtmlNodes: true, // allow <br/> and simple html elements in translations
       transKeepBasicHtmlNodesFor: ['br', 'strong', 'i'], // don't convert to <1></1> if simple react elements
     },
-    fallbackLng: 'zh',
+    fallbackLng: 'en',
     fallbackNS: ['nav', 'common'],
     interpolation: {
       escapeValue: false,
