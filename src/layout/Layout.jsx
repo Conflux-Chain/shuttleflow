@@ -8,7 +8,7 @@ import { IS_DEV, NETWORKS } from '../config/config'
 import { useTranslation } from 'react-i18next'
 import useStyle from '../component/useStyle'
 import styles from './Layout.module.scss'
-import Modal, { modalStyles } from '../component/Modal'
+import Modal from '../component/Modal'
 import notAllow from './not-allow.png'
 import tokensList from '../data/tokenList'
 import Spec from './Spec'
@@ -24,7 +24,7 @@ const root = document.getElementById('root')
 
 export default function App() {
   const isSmall = useIsSamll()
-  const [cx] = useStyle(styles, modalStyles)
+  const [cx] = useStyle(styles)
   const { t } = useTranslation()
   const [block, setBlock] = useState(false)
 

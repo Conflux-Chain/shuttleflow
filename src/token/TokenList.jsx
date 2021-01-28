@@ -174,7 +174,7 @@ function TokenList({
                       checked:
                         tokenInfo.is_admin === 1 && captain
                           ? false
-                          : selected === tokenInfo.reference,
+                          : selected === tokenInfo.id,
                       disabled: tokenInfo.is_admin === 1 && captain,
                       captain,
                       setToken,
@@ -223,6 +223,7 @@ function TokenRow({
   reference_name,
   reference,
   symbol,
+  id,
   ctoken,
   sponsor_value,
   icon,
@@ -256,7 +257,7 @@ function TokenRow({
             setIsNotAvailable(false)
           } else {
             if (!disabled) {
-              setToken(reference)
+              setToken(id)
               if (notAvailable) {
                 setIsNotAvailable(true)
               }

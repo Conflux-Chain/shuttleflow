@@ -1,4 +1,4 @@
-const CAPTAIN = {
+export const CAPTAIN = {
   NONE: 0,
   TO_CFX: 1,
   TO_REF: 2,

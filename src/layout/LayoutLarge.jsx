@@ -6,7 +6,6 @@ import triangle from './triangle.svg'
 
 import classNamesBind from 'classnames/bind'
 import styles from './LayoutLarge.module.scss'
-import MenuLink from '../component/MenuLink'
 import { useTranslation } from 'react-i18next'
 
 import Accordion from '../component/Accordion'
@@ -17,6 +16,8 @@ import { Loading } from '@cfxjs/react-ui'
 import pocket from '../component/pocket.png'
 import { useParams } from 'react-router'
 import { NavLink } from 'react-router-dom'
+
+import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
 
 const cx = classNamesBind.bind(styles)
 
@@ -104,16 +105,19 @@ export default function LayoutLarge({ history }) {
             }
           />
 
-          <LinkItem
-            to={`${chainRoot}/captain`}
-            content={
-              <div className={cx('captain')}>
-                <img className={cx('pocket')} src={pocket} alt="pocket"></img>
-                {t('be-captain')}
-              </div>
-            }
-            history={history}
-          />
+          {CHAIN_CONFIG[chain].captain !== CAPTAIN.NONE && (
+            <LinkItem
+              to={`${chainRoot}/captain`}
+              content={
+                <div className={cx('captain')}>
+                  <img className={cx('pocket')} src={pocket} alt="pocket"></img>
+                  {t('be-captain')}
+                </div>
+              }
+              history={history}
+            />
+          )}
+
           <Accordion
             contentStyle={{ position: 'absolute', right: '2rem', top: '5rem' }}
             clickAway={() => setExpandLng(false)}

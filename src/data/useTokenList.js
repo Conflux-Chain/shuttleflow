@@ -24,7 +24,7 @@ export default function useTokenList({ search, reference = '', cToken } = {}) {
       .then((tokens) => {
         if (reference) {
           return Promise.resolve(
-            tokens.filter(({ reference }) => reference === reference)
+            tokens.filter(({ id }) => reference === id)
           ).then(([token]) => {
             if (!token) {
               return jsonrpc('searchToken', {

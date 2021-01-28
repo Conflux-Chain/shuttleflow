@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, lazy } from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect, useParams } from 'react-router-dom'
 import Modal from '../component/Modal'
 
 import { useTranslation } from 'react-i18next'
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import useState1 from '../data/useState1'
 import useAddress, { login } from '../data/useAddress'
 import { useRouteMatch } from 'react-router-dom'
+import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
 const Token = lazy(() => import('../token/Token'))
 const Shuttle = lazy(() => import('../shuttle/Shuttle'))
 const Captain = lazy(() => import('../captain/Captain'))
@@ -16,6 +17,8 @@ const Market = lazy(() => import('../market/Market'))
 function Main() {
   const address = useAddress()
   const match = useRouteMatch()
+
+  const { chain } = useParams()
 
   //When referer detected, display popup and then login
   const [{ popup, referer }, setState] = useState1({
@@ -61,7 +64,7 @@ function Main() {
               initLoginTriggered.current = true
               return (
                 <PopupWrapper setReferer={(referer) => setState({ referer })}>
-                  <Redirect to={{ pathname: '/shuttle/in' }}></Redirect>
+                  <Redirect to={{ pathname: `${chain}/shuttle/in` }}></Redirect>
                 </PopupWrapper>
               )
             } else {
@@ -70,9 +73,11 @@ function Main() {
                 <Switch>
                   <Route path={`${match.path}/token`} component={Token} />
                   <Route path={`${match.path}/shuttle`} component={Shuttle} />
-                  <Route path={`${match.path}/captain`} component={Captain} />
                   <Route path={`${match.path}/history`} component={History} />
                   <Route path={`${match.path}/market`} component={Market} />
+                  {CHAIN_CONFIG[chain].captain !== CAPTAIN.NONE && (
+                    <Route path={`${match.path}/captain`} component={Captain} />
+                  )}
                 </Switch>
               )
             }
