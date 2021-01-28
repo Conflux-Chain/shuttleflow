@@ -256,7 +256,7 @@ export default function ShuttleOut({ tokenInfo }) {
           <div className={shuttleOutCx('address-input')}>
             <ShuttleOutInput
               showPlaceholder={watch('outwallet')}
-              style={{ fontSize: '1.1rem' }}
+              style={{ fontSize: '1.1rem', paddingRight: '5rem' }}
               ref={register}
               name="outwallet"
               error={errors.outwallet}

@@ -60,16 +60,22 @@ function formatCfx(txt) {
   return `${network}:${hex.slice(0, 8)}...`
 }
 
-export function formatAddress(txt, { chain } = { chain: 'eth' }) {
-  if (!txt) {
+export function formatAddress(addr, { chain } = { chain: 'eth' }) {
+  if (!addr) {
     return ''
   }
   if (chain === 'eth') {
-    return formatEth(txt)
+    return formatEth(addr)
   } else if (chain === 'cfx') {
-    return formatCfx(txt)
+    try {
+      addr = confluxAddr.encode(
+        Buffer.from(addr.slice(2), 'hex'),
+        IS_DEV ? 1 : 1029
+      )
+    } catch (e) {}
+    return formatCfx(addr)
   } else {
     //address type is unpredictable due to mixed version of portal
-    isNewCfxAddress(txt) ? formatCfx(txt) : formatEth(txt)
+    isNewCfxAddress(addr) ? formatCfx(addr) : formatEth(addr)
   }
 }
