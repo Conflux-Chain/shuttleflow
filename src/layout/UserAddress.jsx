@@ -14,7 +14,7 @@ export default function UserAddress() {
       <Circle active={!!address} />
       <span className={cx('address', { active: address })}>
         {address ? (
-          formatAddress(address)
+          formatAddress(address, { chain: 'cfx' })
         ) : (
           <span onClick={login} style={{ cursor: 'pointer' }}>
             {t('connect')}
