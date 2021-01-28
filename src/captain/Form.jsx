@@ -98,6 +98,7 @@ export default function CaptainForm({
     mode: 'onSubmit',
   })
   const inputCtx = { errors, register, inputCx, formCx, t }
+
   return (
     <>
       <PaddingContainer bottom top>
@@ -136,7 +137,11 @@ export default function CaptainForm({
           )}
           {showMortgage && (
             <>
-              {createInput({ ...inputCtx, ...fields[5], clickLabel })}
+              {createInput({
+                ...inputCtx,
+                ...fields[5],
+                ...(isMe && { clickLabel }),
+              })}
               <div className={formCx('small-text', 'bottom-text')}>
                 <div>
                   {t('min-mortgage', { minMortgage: minMortgageBig + '' })}
