@@ -16,6 +16,7 @@ import renderThumbVertical from '../component/renderThumbVertical'
 import { Loading } from '@cfxjs/react-ui'
 import pocket from '../component/pocket.png'
 import { useParams } from 'react-router'
+import { NavLink } from 'react-router-dom'
 
 const cx = classNamesBind.bind(styles)
 
@@ -48,45 +49,21 @@ export default function LayoutLarge({ history }) {
 
         <div className={cx('right')}>
           <UserAddress />
-          <MenuLink
+          <LinkItem
             to={`${chainRoot}/shuttle/in`}
-            exact
-            render={({ active }) => {
-              return (
-                <div
-                  onClick={() => history.push(chainRoot)}
-                  className={cx('item', { active })}
-                >
-                  {t('home')}
-                </div>
-              )
-            }}
+            alsoMatch={[`${chainRoot}/shuttle/out`]}
+            content={t('home')}
+            history={history}
           />
-          <MenuLink
+          <LinkItem
             to={`${chainRoot}/history`}
-            render={({ active }) => {
-              return (
-                <div
-                  onClick={() => history.push(`${chainRoot}/history`)}
-                  className={cx('item', { active })}
-                >
-                  {t('history')}
-                </div>
-              )
-            }}
+            content={t('history')}
+            history={history}
           />
-          <MenuLink
+          <LinkItem
             to={`${chainRoot}/market`}
-            render={({ active }) => {
-              return (
-                <div
-                  onClick={() => history.push(`${chainRoot}/market`)}
-                  className={cx('item', { active })}
-                >
-                  {t('markets')}
-                </div>
-              )
-            }}
+            content={t('markets')}
+            history={history}
           />
 
           <Accordion
@@ -127,19 +104,15 @@ export default function LayoutLarge({ history }) {
             }
           />
 
-          <MenuLink
+          <LinkItem
             to={`${chainRoot}/captain`}
-            render={({ active }) => {
-              return (
-                <div
-                  onClick={() => history.push(`${chainRoot}/captain`)}
-                  className={cx('item', 'captain', { active })}
-                >
-                  <img className={cx('pocket')} src={pocket} alt="pocket"></img>
-                  {t('be-captain')}
-                </div>
-              )
-            }}
+            content={
+              <div className={cx('captain')}>
+                <img className={cx('pocket')} src={pocket} alt="pocket"></img>
+                {t('be-captain')}
+              </div>
+            }
+            history={history}
           />
           <Accordion
             contentStyle={{ position: 'absolute', right: '2rem', top: '5rem' }}
@@ -201,5 +174,39 @@ export default function LayoutLarge({ history }) {
         </Scrollbars>
       </Suspense>
     </>
+  )
+}
+
+function LinkItem({ to, content, alsoMatch = [] }) {
+  return (
+    <NavLink
+      to={to}
+      isActive={(_, location) => {
+        const { search, pathname } = location
+        const next = new URLSearchParams(search).get('next')
+        let match = [...alsoMatch, to].some((x) => x === pathname)
+        let matchSearch = [...alsoMatch, to].some((x) => x === next)
+
+        console.log(matchSearch)
+        return match || matchSearch
+      }}
+      className={cx('item')}
+      activeClassName={cx('active')}
+    >
+      {content}
+    </NavLink>
+    // <MenuLink
+    //   to={match || to}
+    //   render={({ active }) => {
+    //     return (
+    //       <div
+    //         onClick={() => history.push(to)}
+    //         className={cx('item', { active })}
+    //       >
+    //         {content}
+    //       </div>
+    //     )
+    //   }}
+    // />
   )
 }

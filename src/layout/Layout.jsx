@@ -1,14 +1,5 @@
 import React, { useEffect, useState, Suspense } from 'react'
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-  useRouteMatch,
-} from 'react-router-dom'
 import '../i18n/i18n'
-import LayoutLarge from './LayoutLarge'
-import LayoutSmall from './LayoutSmall'
 import useIsSamll from '../component/useSmallScreen'
 import Risk from './Risk'
 import { RecoilRoot } from 'recoil'
@@ -22,6 +13,7 @@ import notAllow from './not-allow.png'
 import tokensList from '../data/tokenList'
 import Spec from './Spec'
 import { Loading } from '@cfxjs/react-ui'
+import RouterRoot from './RouterRoot'
 const fontPromise = new Promise((resolve) => {
   document?.fonts?.ready?.then(function () {
     resolve(true)
@@ -48,8 +40,6 @@ export default function App() {
   }, [isSmall])
 
   useEffect(() => {
-    //disable scroll
-    document.body.style.overflow = 'hidden'
     Promise.all([fontPromise, tokensList]).then(() => {
       setStarted(true)
     })
@@ -61,22 +51,12 @@ export default function App() {
     })
   }, [])
 
-  // const match = useRouteMatch()
-  // console.log('mm', match)
   return started ? (
     <Suspense fallback={<Loading />}>
       <RecoilRoot>
         {IS_DEV && <div className={cx('banner')}>{t('banner')}</div>}
 
-        <Router>
-          <Switch>
-            <Route
-              path="/:chain"
-              component={isSmall ? LayoutSmall : LayoutLarge}
-            ></Route>
-            <Redirect to="/eth"></Redirect>
-          </Switch>
-        </Router>
+        <RouterRoot />
         <Risk />
         {!isSmall && (
           <div className={cx('footer')}>

@@ -19,7 +19,10 @@ export default function TokenInput({ tokenInfo, cToken, to, placeholder }) {
       onClick={() =>
         history.push({
           pathname: `/${chain}/token`,
-          search: buildSearch({ next: match.url, cToken: !!cToken }),
+          search: buildSearch({
+            next: match.url,
+            ...(cToken && { cToken: 1 }),
+          }),
         })
       }
       className={tkInputCx('container') + ' ' + commonCx('input-common')}
