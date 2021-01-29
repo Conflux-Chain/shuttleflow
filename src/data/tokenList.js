@@ -16,12 +16,26 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
 
 export default tokenList
 
-export const ethTokenList = tokenList.then((l) =>
-  l.filter((x) => x.reference !== 'btc')
-)
 export const btcTokenList = tokenList.then((l) =>
   l.filter((x) => x.reference === 'btc')
 )
+
+export const btcTokenMap = btcTokenList.then((list) => {
+  return list.reduce((pre, cur) => {
+    pre[cur.id] = cur
+    return pre
+  }, {})
+})
+
+export const ethTokenList = tokenList.then((l) =>
+  l.filter((x) => x.reference !== 'btc')
+)
+export const ethTokenMap = ethTokenList.then((list) => {
+  return list.reduce((pre, cur) => {
+    pre[cur.id] = cur
+    return pre
+  }, {})
+})
 
 export const tokenMap = tokenList.then((list) => {
   return list.reduce((pre, cur) => {

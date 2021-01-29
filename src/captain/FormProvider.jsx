@@ -21,6 +21,7 @@ import CaptainForm from './Form'
 
 import success from './success.png'
 import fail from './fail.png'
+import usePair from '../data/usePair'
 
 const MAX_DECIMAL_DISPLAY = 8
 
@@ -33,16 +34,7 @@ export default function FormProvider({ pair }) {
   const cethBalance = useBalance(CETH_ADDRESS)
   const txHash = useRef()
 
-  /**
-   * tokens will change on every render(no cache in useTokenList)
-   * which will into invalid all the following identity check
-   * no a big problem though
-   */
-  const { tokens } = useTokenList({ pair })
-  const tokenInfo = useMemo(
-    () => (tokens && tokens.length > 0 ? tokens[0] : {}),
-    [tokens]
-  )
+  const tokenInfo = usePair(pair) || {}
 
   const { decimals, sponsor } = tokenInfo
   const { pendingCount, countdown, minMortgage, cooldownMinutes } = useCaptain(

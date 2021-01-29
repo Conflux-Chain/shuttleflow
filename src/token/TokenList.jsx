@@ -115,9 +115,7 @@ function TokenList({
                   }
                   return (
                     <div
-                      onClick={() =>
-                        setToken(active ? '' : tokenData.id)
-                      }
+                      onClick={() => setToken(active ? '' : tokenData.id)}
                       className={ListCx({ active }, 'frequent')}
                       key={_preset_reference}
                     >
