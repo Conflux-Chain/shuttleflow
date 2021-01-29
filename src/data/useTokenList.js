@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import useState1 from './useState1'
 
-import { btcTokenList, ethTokenList } from './tokenList'
+import { getTokenList } from './tokenList'
 import { isAddress } from '../util/address'
 import jsonrpc from './jsonrpc'
 import { useParams } from 'react-router'
@@ -20,12 +20,11 @@ export default function useTokenList({ search, pair = '', cToken } = {}) {
     }
   }
 
+  // getTokenList(chain).then(({ tokenList }) => tokenList)
   // pair = pair.toLocaleLowerCase()
   useEffect(() => {
-    // if (chain === 'btc') {
-    //   return btcTokenList
-    // }
-    return (chain === 'btc' ? btcTokenList : ethTokenList)
+    return getTokenList(chain)
+      .then(({ tokenList }) => tokenList)
       .then((tokens) => {
         if (tokens.length === 1) {
           return tokens

@@ -10,15 +10,10 @@ import useStyle from '../component/useStyle'
 import styles from './Layout.module.scss'
 import Modal from '../component/Modal'
 import notAllow from './not-allow.png'
-import tokensList from '../data/tokenList'
 import Spec from './Spec'
 import { Loading } from '@cfxjs/react-ui'
 import RouterRoot from './RouterRoot'
-const fontPromise = new Promise((resolve) => {
-  document?.fonts?.ready?.then(function () {
-    resolve(true)
-  })
-})
+import wrapPromise from '../lib/wrapPromise'
 
 const root = document.getElementById('root')
 
@@ -28,7 +23,6 @@ export default function App() {
   const { t } = useTranslation()
   const [block, setBlock] = useState(false)
 
-  const [started, setStarted] = useState(false)
   useEffect(() => {
     if (isSmall) {
       root.style.display = 'flex'
@@ -40,9 +34,6 @@ export default function App() {
   }, [isSmall])
 
   useEffect(() => {
-    Promise.all([fontPromise, tokensList]).then(() => {
-      setStarted(true)
-    })
     return subscribeNetwork((chainId) => {
       const network = NETWORKS[parseInt(chainId)]
       setBlock(
@@ -51,29 +42,45 @@ export default function App() {
     })
   }, [])
 
-  return started ? (
+  return (
     <Suspense fallback={<Loading />}>
       <RecoilRoot>
-        {IS_DEV && <div className={cx('banner')}>{t('banner')}</div>}
+        <MakeSureFont>
+          {IS_DEV && <div className={cx('banner')}>{t('banner')}</div>}
+          <RouterRoot />
+          <Risk />
+          {!isSmall && (
+            <div className={cx('footer')}>
+              <Spec />
+            </div>
+          )}
 
-        <RouterRoot />
-        <Risk />
-        {!isSmall && (
-          <div className={cx('footer')}>
-            <Spec />
-          </div>
-        )}
-
-        <Modal show={block}>
-          <div className={cx('not-allow')}>
-            <img src={notAllow} alt={notAllow}></img>
-            <div className={cx('title')}>{t('error.block')}</div>
-            <div>{t(`error.switch-${!IS_DEV ? 'main' : 'test'}`)}</div>
-          </div>
-        </Modal>
+          <Modal show={block}>
+            <div className={cx('not-allow')}>
+              <img src={notAllow} alt={notAllow}></img>
+              <div className={cx('title')}>{t('error.block')}</div>
+              <div>{t(`error.switch-${!IS_DEV ? 'main' : 'test'}`)}</div>
+            </div>
+          </Modal>
+        </MakeSureFont>
       </RecoilRoot>
     </Suspense>
-  ) : (
-    <Loading size="large" />
   )
+}
+
+const waitFont = wrapPromise(
+  new Promise((resolve) => {
+    const ready = document?.fonts?.ready
+    if (!ready) {
+      resolve(true)
+    } else {
+      ready.then(function (v) {
+        resolve(true)
+      })
+    }
+  })
+)
+function MakeSureFont({ children }) {
+  waitFont()
+  return children
 }
