@@ -4,18 +4,15 @@ import useStyle from '../useStyle'
 export default function Check({ checked, setChecked, txt, solid }) {
   const [cx] = useStyle(styles)
   return (
-    <div className={cx('known')}>
-      <svg
-        onClick={() => {
-          if (setChecked) {
-            setChecked((x) => !x)
-          }
-        }}
-        className={cx('img')}
-        width="29px"
-        height="29px"
-        viewBox="0 0 30 30"
-      >
+    <div
+      className={cx('known')}
+      onClick={() => {
+        if (setChecked) {
+          setChecked((x) => !x)
+        }
+      }}
+    >
+      <svg className={cx('img')} width="29px" height="29px" viewBox="0 0 30 30">
         <path
           d="M15.8117647,1.97647059 C8.17147059,1.97647059 1.97647059,8.17147059 1.97647059,15.8117647 C1.97647059,23.4520588 8.17147059,29.6470588 15.8117647,29.6470588 C23.4520588,29.6470588 29.6470588,23.4520588 29.6470588,15.8117647 C29.6470588,8.17147059 23.4520588,1.97647059 15.8117647,1.97647059 Z"
           fill={checked ? '#44D7B6' : solid ? 'rgba(204,204,204,0.4)' : ''}

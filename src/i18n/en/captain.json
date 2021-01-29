@@ -7,13 +7,13 @@
   "shuttle-in-amount": "Minimum Shuttle-In Amount",
   "shuttle-out-amount": "Minimum Shuttle-Out Amount",
   "create-fee": "New Address Creation Fee",
-  "morgage-amount": "Mortgage Amount",
+  "morgage-amount": "Collateral Amount",
   "error": {
     "below-in-amount": "The value must be smaller than the minimum Shuttle-In amount",
     "below-out-amount": "The value must be smaller than the minimum Shuttle-Out amount",
     "above-in-fee": "The value must be greater than or equal to the Shuttle-In fee",
     "above-out-fee": "The value must be greater than or equal to the Shuttle-Out fee",
-    "above-current": "The value must be greater than the minimum mortgage amount"
+    "above-current": "The value must be greater than the minimum collateral amount"
   },
   "min-mortgage": "Minimum Deposit Amount {{minMortgage}} cETH",
   "ceth-balance": "Balance {{amount}} cETH",
@@ -22,8 +22,8 @@
   "success": "Transaction Submitted",
   "fail": "Transaction Failed",
   "what-captain": "What's Token Captain？",
-  "update-mortgage": "Update the number of mortgages",
-  "mortgage-popup": "Update the mortgage amount to the value you entered\nThe current mortgage balance will be refunded",
+  "update-mortgage": "Update the number of collaterals",
+  "mortgage-popup": "Update the collaterals amount to the value you entered. The current collaterals balance will be refunded",
   "popup-cool": "In order to avoid frequent fluctuations in the rules, there will be a {{cooldownMinutes}}-minute freeze time after the rules are modified, and they can be modified again after thawing",
   "me": "You are token captain",
   "locked": "The rules are frozen and cannot be modified temporarily"
