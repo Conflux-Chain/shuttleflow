@@ -16,6 +16,7 @@ import Modal from '../component/Modal'
 import close from './close.svg'
 
 import Button from '../component/Button/Button'
+import { ensureAddressForSdk } from '../util/address'
 
 export default function CaptainForm({
   pendingCount,
@@ -27,6 +28,7 @@ export default function CaptainForm({
   cethBalanceBig,
   burn_fee,
   mint_fee,
+  symbol,
   minimal_burn_value,
   minimal_mint_value,
   reference_symbol,
@@ -40,7 +42,6 @@ export default function CaptainForm({
   defaultMortgageBig,
   cethBalanceDisplay,
 }) {
-
   const { t } = useTranslation(['captain'])
   const [inputCx, formCx] = useStyle(inputStyles, formStyles)
   const [mortgagePopup, setMortgagePopup] = useState(false)
@@ -49,7 +50,7 @@ export default function CaptainForm({
   function clickLabel() {
     setMortgagePopup(true)
   }
-  const isMe = address === sponsor
+  const isMe = address === ensureAddressForSdk(sponsor)
   const [showMortgage, setShowMortgage] = useState(!isMe)
 
   const onSubmit = (data) => {
@@ -66,6 +67,7 @@ export default function CaptainForm({
   }
   const fields = getFields({
     reference_symbol,
+    symbol,
     mint_fee,
     burn_fee,
     countdown,
@@ -96,6 +98,7 @@ export default function CaptainForm({
     mode: 'onSubmit',
   })
   const inputCtx = { errors, register, inputCx, formCx, t }
+
   return (
     <>
       <PaddingContainer bottom top>
@@ -112,7 +115,7 @@ export default function CaptainForm({
             sponsor,
             pendingCount,
             countdown,
-            cooldownMinutes
+            cooldownMinutes,
           }}
         />
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -134,7 +137,11 @@ export default function CaptainForm({
           )}
           {showMortgage && (
             <>
-              {createInput({ ...inputCtx, ...fields[5], clickLabel })}
+              {createInput({
+                ...inputCtx,
+                ...fields[5],
+                ...(isMe && { clickLabel }),
+              })}
               <div className={formCx('small-text', 'bottom-text')}>
                 <div>
                   {t('min-mortgage', { minMortgage: minMortgageBig + '' })}

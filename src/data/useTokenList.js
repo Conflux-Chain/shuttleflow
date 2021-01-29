@@ -6,9 +6,7 @@ import { isAddress } from '../util/address'
 import jsonrpc from './jsonrpc'
 
 let supportedTokensResolved
-// displayTokensList.then((x) => {
-//   supportedTokensResolved = true
-// })
+
 
 export default function useTokenList({ search, erc20 = '', cToken } = {}) {
   const [state, setState] = useState1({
@@ -47,19 +45,37 @@ export default function useTokenList({ search, erc20 = '', cToken } = {}) {
         } else if (search) {
           const lowersearch = search.toLowerCase()
           if (isAddress(search)) {
-            //must be ctoken search
+            //MUST be ctoken search
             return tokens.filter(({ ctoken }) => lowersearch === ctoken)
           } else {
-            return tokens.filter(
-              ({ reference_symbol, reference_name, supported, symbol }) => {
-                return (
-                  (reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
-                    symbol.toLowerCase().indexOf(lowersearch) > -1 ||
-                    reference_name.toLowerCase().indexOf(lowersearch) > -1) &&
-                  (cToken ? supported === 1 : true)
-                )
-              }
-            )
+            return tokens
+              .filter(
+                ({ reference_symbol, reference_name, supported, symbol }) => {
+                  return (
+                    (reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
+                      symbol.toLowerCase().indexOf(lowersearch) > -1 ||
+                      reference_name.toLowerCase().indexOf(lowersearch) > -1) &&
+                    (cToken ? supported === 1 : true)
+                  )
+                }
+              )
+              .slice()
+              .sort(
+                (
+                  {
+                    supported: supported0,
+                    in_token_list: in_token_list0,
+                  },
+                  {
+                    supported: supported1,
+                    in_token_list: in_token_list1,
+                  }
+                ) => {
+                  return (
+                    supported1 - supported0 || in_token_list1 - in_token_list0
+                  )
+                }
+              )
           }
         } else {
           return tokens.filter(

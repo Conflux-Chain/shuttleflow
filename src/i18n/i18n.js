@@ -1,5 +1,6 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
 import zhShuttleIn from './zh/shuttle-in.json'
 import zhShuttleOut from './zh/shuttle-out.json'
 import zhCommon from './zh/common.json'
@@ -19,6 +20,7 @@ import enCaptainTrans from './en/captain.json'
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
+  .use(LanguageDetector)
   .init({
     resources: {
       en: {
@@ -49,13 +51,14 @@ i18n
       transSupportBasicHtmlNodes: true, // allow <br/> and simple html elements in translations
       transKeepBasicHtmlNodesFor: ['br', 'strong', 'i'], // don't convert to <1></1> if simple react elements
     },
-    lng: 'zh',
-    fallbackLng: 'zh',
+    fallbackLng: 'en',
     fallbackNS: ['nav', 'common'],
-    // debug: true,
-
     interpolation: {
       escapeValue: false,
+    },
+    detection: {
+      order: ['localStorage', 'navigator'],
+      caches: ['localStorage'],
     },
   })
 

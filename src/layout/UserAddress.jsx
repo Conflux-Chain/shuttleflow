@@ -1,5 +1,5 @@
 import React from 'react'
-import formatAddress from '../component/formatAddress'
+import { formatAddress } from '../util/address'
 import styles from './UserAddress.module.scss'
 import useStyle from '../component/useStyle'
 import { useTranslation } from 'react-i18next'
@@ -14,7 +14,7 @@ export default function UserAddress() {
       <Circle active={!!address} />
       <span className={cx('address', { active: address })}>
         {address ? (
-          formatAddress(address)
+          formatAddress(address, { chain: 'cfx' })
         ) : (
           <span onClick={login} style={{ cursor: 'pointer' }}>
             {t('connect')}

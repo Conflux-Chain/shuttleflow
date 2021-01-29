@@ -86,7 +86,7 @@ export default function Market() {
         <PaddingContainer>
           {tokens
             .sort(sorts[sort])
-            .map(({ icon, symbol, reference_name, total_supply }) => {
+            .map(({ icon, symbol, reference_name, _total_supply }) => {
               return (
                 <div key={symbol} className={cx('list')}>
                   <div className={cx('left')}>
@@ -98,7 +98,7 @@ export default function Market() {
                       </div>
                     </div>
                   </div>
-                  <div className={cx('right')}>{total_supply + ''}</div>
+                  <div className={cx('right')}>{_total_supply}</div>
                 </div>
               )
             })}

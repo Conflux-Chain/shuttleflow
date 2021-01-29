@@ -17,7 +17,7 @@ import { TokenNavigation } from '../token/Token'
 import layouyStyles from './LayoutSmall.module.scss'
 import { useTranslation } from 'react-i18next'
 import { CSSTransition } from 'react-transition-group'
-import formatAddress from '../component/formatAddress'
+import { formatAddress } from '../util/address'
 
 import useStyle from '../component/useStyle'
 
@@ -35,7 +35,7 @@ export default function LayoutSmall(props) {
   const headerRef = useRef(null)
   const isTokenRoute = !!useRouteMatch('/token')
   const { t, i18n } = useTranslation()
-  const address=useAddress()
+  const address = useAddress()
   const [headerHeight, setHeaderHeight] = useState(0)
   //todo: possible react bug, can not calculate dom dimention
   //correctly when Suspense present

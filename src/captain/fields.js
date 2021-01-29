@@ -6,6 +6,7 @@ const basicValidate = () => {
 
 export default function getFields({
   reference_symbol,
+  symbol,
   mint_fee,
   burn_fee,
   countdown,
@@ -17,11 +18,12 @@ export default function getFields({
   cethBalanceBig,
   defaultMortgageBig,
 }) {
+  symbol = symbol || 'c' + reference_symbol.toUpperCase()
   return [
     {
       name: 'mint_fee',
       label: 'shuttle-in-fee',
-      unit: reference_symbol,
+      unit: symbol,
       decimals,
       validate: basicValidate(),
       defaultValue: mint_fee,
@@ -38,7 +40,7 @@ export default function getFields({
     },
     {
       label: 'shuttle-out-fee',
-      unit: reference_symbol,
+      unit: symbol,
       name: 'burn_fee',
       defaultValue: burn_fee,
       validate: basicValidate(),
@@ -47,7 +49,7 @@ export default function getFields({
     },
     {
       label: 'shuttle-out-amount',
-      unit: reference_symbol,
+      unit: symbol,
       name: 'minimal_burn_value',
       defaultValue: minimal_burn_value,
       validate: basicValidate().greaterThan('burn_fee', 'error.above-out-fee'),
@@ -57,7 +59,7 @@ export default function getFields({
     {
       label: 'create-fee',
       name: 'wallet_fee',
-      unit: reference_symbol,
+      unit: symbol,
       defaultValue: wallet_fee,
       validate: basicValidate(),
       decimals,

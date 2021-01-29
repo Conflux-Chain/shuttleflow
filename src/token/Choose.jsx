@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button from '../component/Button/Button'
 
@@ -12,10 +12,16 @@ import chooseStyles from './Choose.module.scss'
 import useUrlSearch from '../data/useUrlSearch'
 import useIsSamll from '../component/useSmallScreen'
 import { useHistory } from 'react-router'
+import useState1 from '../data/useState1'
 
 export default function ChooseToken({ captain, cToken, next }) {
   const [chooseCx] = useStyle(chooseStyles)
-  const [searchTxt, setSearchTxt] = useState('')
+  const [{ txt: searchTxt, searching }, setSearch] = useState1({
+    txt: '',
+    searching: false,
+  })
+  const searchTimer = useRef()
+
   const [isNotAvailable, setIsNotAvailable] = useState(false)
   const [notFound, setNotFound] = useState(false)
   const { token } = useUrlSearch()
@@ -26,10 +32,22 @@ export default function ChooseToken({ captain, cToken, next }) {
   return (
     <div className={chooseCx('container')}>
       <PaddingContainer bottom={false}>
-        <Search searchTxt={searchTxt} setSearchTxt={setSearchTxt} />
+        <Search
+          searchTxt={searchTxt}
+          setSearchTxt={(txt) => {
+            setSearch({ txt, searching: true })
+            if (searchTimer.current) {
+              clearTimeout(searchTimer.current)
+            }
+            searchTimer.current = setTimeout(() => {
+              setSearch({ searching: false })
+            }, 1000)
+          }}
+        />
       </PaddingContainer>
       <TokenList
         search={searchTxt}
+        searching={searching}
         frequent={!captain}
         captain={captain}
         cToken={cToken}
@@ -64,7 +82,7 @@ export default function ChooseToken({ captain, cToken, next }) {
                 key="benefit"
                 className={chooseCx('benefit')}
                 onClick={() => {
-                  window.open(`/captain/${token ? token : ''}`, '_blank')
+                  window.open(`/captain${token ? token : ''}`, '_blank')
                 }}
               >
                 {t('captain-benefit')}

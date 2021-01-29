@@ -2,6 +2,7 @@ import jsonrpc from './jsonrpc'
 import { parseNum } from '../util/formatNum'
 import btc from './bcoin.svg'
 import eth from './ether.svg'
+import Big from 'big.js'
 
 const icons = {
   btc,
@@ -28,13 +29,17 @@ const tokenList = jsonrpc('getTokenList', { url: 'sponsor' }).then((result) => {
       wallet_fee,
       icon,
     } = d
+    const totalSupplyBig = total_supply && parseNum(total_supply, 18)
+
     return {
       ...d,
       symbol: symbol || '',
       reference_name: reference_name || '',
       reference_symbol: reference_symbol || '',
-      total_supply: parseNum(total_supply, 18),
+      total_supply: totalSupplyBig,
+      _total_supply: totalSupplyBig && formatSupply(totalSupplyBig),
       sponsor_value: parseNum(sponsor_value, 18),
+
       minimal_burn_value: parseNum(minimal_burn_value, decimals),
       minimal_mint_value: parseNum(minimal_mint_value, decimals),
       mint_fee: parseNum(mint_fee, decimals),
@@ -53,3 +58,18 @@ export const tokenMap = tokenList.then((list) => {
     return pre
   }, {})
 })
+
+function formatSupply(totalSupplyBig) {
+  let [p0, p1] = (totalSupplyBig + '').split('.')
+  if (p1) {
+    if (p0.length > 6) {
+      p1 = ''
+    } else if (p0.length > 3) {
+      p1 = p1.slice(0, 2)
+    } else {
+      p1 = p1.slice(0, 4)
+    }
+  }
+  //Big is used to remove trailing 0
+  return new Big(p0 + (p1 ? `.${p1}` : '')) + ''
+}
