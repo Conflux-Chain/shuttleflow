@@ -17,7 +17,7 @@ export function isAddress(value = '') {
 }
 
 export function ensureAddressForSdk(oldOrNewAddress) {
-  const isNew = window.ConfluxJSSDK.format.hexAddress
+  const isNew = window.ConfluxJSSDK?.format?.hexAddress
   if (isNew) {
     try {
       if (
