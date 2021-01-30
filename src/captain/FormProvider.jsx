@@ -1,11 +1,10 @@
-import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import useStyle from '../component/useStyle'
 import { buildNum } from '../util/formatNum'
 import useAddress from '../data/useAddress'
 import { useBalance } from '../data/useBalance'
 
-import useTokenList from '../data/useTokenList'
 import useCaptain from '../data/captain'
 
 import formStyles from './Form.module.scss'

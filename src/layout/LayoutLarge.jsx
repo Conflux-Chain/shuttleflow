@@ -22,8 +22,6 @@ import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
 const cx = classNamesBind.bind(styles)
 
 export default function LayoutLarge({ history }) {
-  const [expandLng, setExpandLng] = useState(false)
-  const [expandHelp, setExpandHelp] = useState(false)
   const { t, i18n } = useTranslation()
   const headerRef = useRef(null)
   const [mainMaxHeight, setMainMaxHeight] = useState(0)
@@ -38,6 +36,7 @@ export default function LayoutLarge({ history }) {
 
   const { chain } = useParams()
   const chainRoot = `/${chain}`
+
   return (
     <>
       <header ref={headerRef} className={cx('header')}>
@@ -67,42 +66,25 @@ export default function LayoutLarge({ history }) {
             history={history}
           />
 
-          <Accordion
-            contentStyle={{ position: 'absolute', top: '5rem' }}
-            clickAway={() => setExpandHelp(false)}
-            expanded={expandHelp}
-            title={
-              <div
-                onClick={() => {
-                  setExpandHelp((x) => {
-                    return !x
-                  })
-                }}
-                className={cx('item')}
-              >
-                {t('help')}
-              </div>
-            }
-            content={
-              <div className={cx('dropdown-container')}>
-                {[
-                  [t('what-sf'), t('what-sf-link')],
-                  [t('what-captain'), t('what-captain-link')],
-                ].map(([txt, link]) => {
-                  return (
-                    <div
-                      key={txt}
-                      onClick={() => {
-                        window.open(link, '_blank')
-                      }}
-                      className={cx('lng-item')}
-                    >
-                      {txt}
-                    </div>
-                  )
-                })}
-              </div>
-            }
+          <Select
+            title={t('help')}
+            options={[
+              [t('what-sf'), t('what-sf-link')],
+              [t('what-captain'), t('what-captain-link')],
+            ].map(([txt, link]) => {
+              return {
+                value: (
+                  <div
+                    key={txt}
+                    onClick={() => {
+                      window.open(link, '_blank')
+                    }}
+                  >
+                    {txt}
+                  </div>
+                ),
+              }
+            })}
           />
 
           {CHAIN_CONFIG[chain].captain !== CAPTAIN.NONE && (
@@ -117,51 +99,16 @@ export default function LayoutLarge({ history }) {
               history={history}
             />
           )}
-
-          <Accordion
-            contentStyle={{ position: 'absolute', right: '2rem', top: '5rem' }}
-            clickAway={() => setExpandLng(false)}
-            expanded={expandLng}
-            title={
-              <div
-                className={cx('lng')}
-                onClick={() => {
-                  setExpandLng((x) => {
-                    return !x
-                  })
-                }}
-              >
-                <span style={{ whiteSpace: 'nowrap' }}>
-                  {i18n.language === 'zh' ? '中文' : 'English'}
-                </span>
-                <img
-                  alt="up"
-                  className={cx('up', { 'icon-active': !expandLng })}
-                  src={triangle}
-                ></img>
-              </div>
-            }
-            content={
-              <div className={cx('dropdown-container')}>
-                {['en', 'zh'].map((lng) => {
-                  return (
-                    <div
-                      key={lng}
-                      onClick={() => {
-                        i18n.changeLanguage(lng)
-                        setExpandLng(false)
-                      }}
-                      className={cx('lng-item', {
-                        selected: i18n.language === lng,
-                      })}
-                    >
-                      {lng === 'en' ? 'English' : '中文'}
-                    </div>
-                  )
-                })}
-              </div>
-            }
-          ></Accordion>
+          <Select
+            border
+            icon
+            current={i18n.language}
+            options={[
+              { key: 'en', value: 'English' },
+              { key: 'zh', value: '中文' },
+            ]}
+            setCurrent={i18n.changeLanguage.bind(i18n)}
+          />
         </div>
       </header>
       <Suspense fallback={<Loading />}>
@@ -197,18 +144,60 @@ function LinkItem({ to, content, alsoMatch = [] }) {
     >
       {content}
     </NavLink>
-    // <MenuLink
-    //   to={match || to}
-    //   render={({ active }) => {
-    //     return (
-    //       <div
-    //         onClick={() => history.push(to)}
-    //         className={cx('item', { active })}
-    //       >
-    //         {content}
-    //       </div>
-    //     )
-    //   }}
-    // />
+  )
+}
+
+function Select({ current, options, setCurrent, title, border, icon }) {
+  const [expand, setExpand] = useState(false)
+  const currentOption = options.find((x) => x.key === current)
+  return (
+    <Accordion
+      contentStyle={{ position: 'absolute', top: '5rem' }}
+      clickAway={() => setExpand(false)}
+      expanded={expand}
+      title={
+        <div
+          className={cx('lng', { border })}
+          onClick={() => {
+            setExpand((x) => {
+              return !x
+            })
+          }}
+        >
+          <span style={{ whiteSpace: 'nowrap' }}>
+            {title || (currentOption || options[0]).value}
+          </span>
+          {icon && (
+            <img
+              alt="up"
+              className={cx('up', { 'icon-active': !expand })}
+              src={triangle}
+            ></img>
+          )}
+        </div>
+      }
+      content={
+        <div className={cx('dropdown-container')}>
+          {options.map(({ key, value }, i) => {
+            return (
+              <div
+                key={i}
+                onClick={() => {
+                  if (setCurrent) {
+                    setCurrent(key)
+                  }
+                  setExpand(false)
+                }}
+                className={cx('lng-item', {
+                  selected: key && current && key === current,
+                })}
+              >
+                {value}
+              </div>
+            )
+          })}
+        </div>
+      }
+    ></Accordion>
   )
 }

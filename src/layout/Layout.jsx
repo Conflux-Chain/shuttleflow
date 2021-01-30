@@ -13,7 +13,7 @@ import notAllow from './not-allow.png'
 import Spec from './Spec'
 import { Loading } from '@cfxjs/react-ui'
 import RouterRoot from './RouterRoot'
-import wrapPromise from '../lib/wrapPromise'
+import PrepareData from './PrepareData'
 
 const root = document.getElementById('root')
 
@@ -45,7 +45,7 @@ export default function App() {
   return (
     <Suspense fallback={<Loading />}>
       <RecoilRoot>
-        <MakeSureFont>
+        <PrepareData>
           {IS_DEV && <div className={cx('banner')}>{t('banner')}</div>}
           <RouterRoot />
           <Risk />
@@ -54,7 +54,6 @@ export default function App() {
               <Spec />
             </div>
           )}
-
           <Modal show={block}>
             <div className={cx('not-allow')}>
               <img src={notAllow} alt={notAllow}></img>
@@ -62,25 +61,8 @@ export default function App() {
               <div>{t(`error.switch-${!IS_DEV ? 'main' : 'test'}`)}</div>
             </div>
           </Modal>
-        </MakeSureFont>
+        </PrepareData>
       </RecoilRoot>
     </Suspense>
   )
-}
-
-const waitFont = wrapPromise(
-  new Promise((resolve) => {
-    const ready = document?.fonts?.ready
-    if (!ready) {
-      resolve(true)
-    } else {
-      ready.then(function (v) {
-        resolve(true)
-      })
-    }
-  })
-)
-function MakeSureFont({ children }) {
-  waitFont()
-  return children
 }

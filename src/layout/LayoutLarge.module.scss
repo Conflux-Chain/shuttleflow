@@ -36,6 +36,10 @@
       color: #44d7b6;
       border-bottom: solid 2px #44d7b6;
     }
+    .border {
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 2.25rem;
+    }
     .lng {
       cursor: pointer;
       display: flex;
@@ -43,10 +47,9 @@
       margin-left: 1rem;
       align-items: center;
       height: 2.5rem;
-      border-radius: 2.25rem;
+
       text-align: center;
       line-height: 2.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.5);
 
       margin-right: 2rem;
       padding: 1.5rem;
