@@ -21,22 +21,19 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { string, object } from 'yup'
 import { ErrorMessage } from '@hookform/error-message'
-
-import { buildSearch } from '../../component/urlSearch'
 import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
 import TokenInput from '../TokenInput'
 import ShuttleOutInput from '../Input'
 import { parseNum } from '../../util/formatNum'
-import { CONFLUXSCAN_TX, IS_DEV } from '../../config/config'
+import { CONFLUXSCAN_TX } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
-import checkAddress from '../../data/checkAddress'
 import Check from '../../component/Check/Check'
 import { big } from '../../lib/yup/BigNumberSchema'
 import burn from '../../data/burn'
-
-var WAValidator = require('wallet-address-validator')
+import CHAIN_CONFIG from '../../config/chainConfig'
+import { useParams } from 'react-router'
 
 // dec5 usdt
 export default function ShuttleOut({ tokenInfo }) {
@@ -49,6 +46,7 @@ export default function ShuttleOut({ tokenInfo }) {
   )
   const { t } = useTranslation('shuttle-out')
   const token = tokenInfo && tokenInfo.reference
+  const { chain } = useParams()
 
   const isBtc = token === 'btc'
 
@@ -90,13 +88,9 @@ export default function ShuttleOut({ tokenInfo }) {
     //outaddress maybe a better name, it will trigger Chrome autofill
     outwallet: string()
       .required('error.required')
-      .test('address-valid', 'error.invalid-address', (address) => {
-        return WAValidator.validate(
-          address,
-          isBtc ? 'bitcoin' : 'ethereum',
-          IS_DEV ? 'testnet' : 'prod'
-        )
-      }),
+      .test('address-valid', 'error.invalid-address', (address) =>
+        CHAIN_CONFIG[chain].outFormatCheck(address)
+      ),
   })
 
   const {
@@ -116,35 +110,25 @@ export default function ShuttleOut({ tokenInfo }) {
     let { outwallet, outamount } = data
     const { burn_fee, ctoken } = tokenInfo
 
-    ;(isBtc
-      ? Promise.resolve('yes')
-      : checkAddress(outwallet).then((x) => {
-          return new Promise((resolve) => {
-            if (x === 'eth') {
-              resolve('yes')
-            } else {
-              blockShuttleout(resolve, t(`confirm.${x}`))
-            }
-          })
-        })
-    ).then((result) => {
-      if (result === 'yes') {
-        burn(
-          outwallet,
-          ctoken,
-          outamount.mul('1e18') + '',
-          burn_fee.mul('1e18') + ''
-        )
-          .then((e) => {
-            tx.current = e
-            setSuccessPopup(true)
-          })
-          .catch((e) => {
-            console.log(e)
-            setErrorPopup(true)
-          })
-      }
-    })
+    CHAIN_CONFIG[chain]
+      .checkAddress(outwallet, blockShuttleout, t)
+      .then((result) => {
+        if (result === 'yes') {
+          burn(
+            outwallet,
+            ctoken,
+            outamount.mul('1e18') + '',
+            burn_fee.mul('1e18') + ''
+          )
+            .then((e) => {
+              tx.current = e
+              setSuccessPopup(true)
+            })
+            .catch((e) => {
+              setErrorPopup(true)
+            })
+        }
+      })
   }
 
   if (token && !tokenInfo) {
@@ -156,6 +140,7 @@ export default function ShuttleOut({ tokenInfo }) {
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="chrome-off">
         {/* token */}
         <TokenInput
+          dir="from"
           placeholder={t('placeholder.out')}
           tokenInfo={tokenInfo}
           cToken={() => setCTokenPopup(true)}
@@ -166,7 +151,11 @@ export default function ShuttleOut({ tokenInfo }) {
         </div>
 
         {/* conflux token */}
-        <TokenInput tokenInfo={tokenInfo} placeholder={t('placeholder.in')} />
+        <TokenInput
+          dir="to"
+          tokenInfo={tokenInfo}
+          placeholder={t('placeholder.in')}
+        />
 
         {/* shuttle out amount */}
         {tokenInfo && (

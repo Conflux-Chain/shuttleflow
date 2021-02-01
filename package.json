@@ -23,6 +23,7 @@
     "react-transition-group": "^4.4.1",
     "recoil": "^0.1.2",
     "styled-components": "^5.2.1",
+    "swr": "^0.4.1",
     "use-deep-compare-effect": "^1.4.0",
     "wallet-address-validator": "^0.2.4",
     "yup": "^0.32.8"

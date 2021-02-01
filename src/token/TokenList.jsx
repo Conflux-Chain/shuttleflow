@@ -17,19 +17,12 @@ import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../config/config'
 import Icon from '../component/Icon/Icon'
 import { Loading } from '@cfxjs/react-ui'
 import { buildSearch } from '../component/urlSearch'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import useUrlSearch from '../data/useUrlSearch'
 import WithQuestion from '../component/WithQuestion'
 import Modal, { modalStyles } from '../component/Modal'
 import { useBlockWithRisk } from '../layout/Risk'
-
-const FREQUENT_TOKENS = [
-  'btc',
-  'eth',
-  '0xdac17f958d2ee523a2206206994597c13d831ec7', //usdt
-  '0x6b175474e89094c44da98b954eedeac495271d0f', // dai
-  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', //usdc
-]
+import CHAIN_CONFIG from '../config/chainConfig'
 
 const sorts = {
   name: (a, b) => {
@@ -51,7 +44,7 @@ function TokenList({
 }) {
   const history = useHistory()
   const { selected, ...searchParams } = useUrlSearch()
-  const { chain } = { chain: 'eth' }
+  const { chain } = useParams()
 
   const { tokens: tokenList, isLoading: isListLoading } = useTokenList({})
   const {
@@ -100,7 +93,7 @@ function TokenList({
             <>
               <div className={titleCx('title')}>{t('frequent')}</div>
               <div className={ListCx('frequent-container')}>
-                {FREQUENT_TOKENS.map((_preset_reference) => {
+                {CHAIN_CONFIG[chain].frequentTokens.map((_preset_reference) => {
                   let tokenData, active
                   if (tokenList.length > 0) {
                     tokenData = tokenList.find(

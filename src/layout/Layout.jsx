@@ -14,6 +14,7 @@ import Spec from './Spec'
 import { Loading } from '@cfxjs/react-ui'
 import RouterRoot from './RouterRoot'
 import PrepareData from './PrepareData'
+import { SWRConfig } from 'swr'
 
 const root = document.getElementById('root')
 
@@ -47,7 +48,9 @@ export default function App() {
       <RecoilRoot>
         <PrepareData>
           {IS_DEV && <div className={cx('banner')}>{t('banner')}</div>}
-          <RouterRoot />
+          <SWRConfig value={{ suspense: true, revalidateOnFocus: false }}>
+            <RouterRoot />
+          </SWRConfig>
           <Risk />
           {!isSmall && (
             <div className={cx('footer')}>

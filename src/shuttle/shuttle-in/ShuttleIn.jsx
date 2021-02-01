@@ -51,11 +51,16 @@ export default function ShuttleIn({ tokenInfo }) {
 
   return (
     <div className={shuttleInCx('container')}>
-      <TokenInput tokenInfo={tokenInfo} placeholder={t('placeholder.out')} />
+      <TokenInput
+        tokenInfo={tokenInfo}
+        dir="from"
+        placeholder={t('placeholder.out')}
+      />
       <div className={shuttleCx('down')}>
         <img alt="down" src={down}></img>
       </div>
       <TokenInput
+        dir="to"
         tokenInfo={tokenInfo}
         placeholder={t('placeholder.in')}
         cToken={() => setCTokenPopup(true)}
