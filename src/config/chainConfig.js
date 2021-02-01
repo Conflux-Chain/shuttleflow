@@ -7,6 +7,8 @@ export const CAPTAIN = {
 const config = {
   btc: {
     captain: CAPTAIN.NONE,
+    // set the singleton one as default when no token selected
+    singleToken: true,
   },
   eth: {
     captain: CAPTAIN.TO_CFX,

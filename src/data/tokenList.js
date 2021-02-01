@@ -18,9 +18,9 @@ export const getTokenList = (chain) => {
       .then((list) => list.map(listItemMapper))
       .then((tokenList) => {
         const tokenMap = tokenList.reduce((pre, cur) => {
-          pre[cur.id] = cur
+          pre[cur.id] = { ...cur, fromId: true }
           if (cur.reference) {
-            pre[cur.reference] = cur //operation history data
+            pre[cur.reference] = { ...cur, fromRef: true } //operation history data
           }
           return pre
         }, {})

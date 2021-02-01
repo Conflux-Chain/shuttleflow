@@ -3,6 +3,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 1.125rem;
+  font-weight: bold;
   line-height: 5rem;
   height: 5rem;
   color: white;
@@ -10,6 +11,40 @@
   background-color: rgba($color: #000000, $alpha: 0.6);
   margin-bottom: 2.5rem;
   position: relative;
+
+
+  .dropdown-container {
+    color: #333333;
+    min-width: 8.75rem;
+    background-color: white;
+    border-radius: 0px 0px 0.25rem 0.25rem;
+    overflow: hidden;
+
+    .lng-item {
+      padding: 0 1rem;
+      line-height: 2.5rem;
+      font-size: 1rem;
+      z-index: 2;
+      cursor: pointer;
+    }
+    .selected {
+      position: relative;
+      color: white;
+      background: #44d7b6;
+    }
+
+    .selected::after {
+      content: url(./tick.svg);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      height: 1.5rem;
+      width: 1.5rem;
+      right: 1rem;
+    }
+  }
+
   .logo {
     max-height: 2.5rem;
     margin-left: 3.5rem;
@@ -25,7 +60,7 @@
   .right {
     display: flex;
     align-items: center;
-    font-weight: bold;
+
 
     .item {
       cursor: pointer;
@@ -59,37 +94,6 @@
         height: 0.56rem;
         margin-left: 0.5rem;
         transform: rotate(180deg);
-      }
-    }
-    .dropdown-container {
-      color: #333333;
-      min-width: 8.75rem;
-      background-color: white;
-      border-radius: 0px 0px 0.25rem 0.25rem;
-      overflow: hidden;
-
-      .lng-item {
-        padding: 0 1rem;
-        line-height: 2.5rem;
-        font-size: 1rem;
-        z-index: 2;
-        cursor: pointer;
-      }
-      .selected {
-        position: relative;
-        color: white;
-        background: #44d7b6;
-      }
-
-      .selected::after {
-        content: url(./tick.svg);
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        height: 1.5rem;
-        width: 1.5rem;
-        right: 1rem;
       }
     }
   }

@@ -62,64 +62,68 @@ export default function ShuttleIn({ tokenInfo }) {
       />
 
       {tokenInfo && (
-        <div className={shuttleCx('small-text')}>
-          <WithQuestion onClick={() => setMinPopup(true)}>
-            <span>{t('amount', tokenInfo)}</span>
-          </WithQuestion>
+        <>
+          <div className={shuttleCx('small-text')}>
+            <WithQuestion onClick={() => setMinPopup(true)}>
+              <span>{t('amount', tokenInfo)}</span>
+            </WithQuestion>
 
-          <WithQuestion onClick={() => setFeePopup(true)}>
-            <span>{t('fee', tokenInfo)}</span>
-          </WithQuestion>
-        </div>
-      )}
+            <WithQuestion onClick={() => setFeePopup(true)}>
+              <span>{t('fee', tokenInfo)}</span>
+            </WithQuestion>
+          </div>
 
-      <div className={shuttleInCx('address')}>
-        <WithQuestion
-          className={shuttleCx('title')}
-          onClick={() => setAddressPopup(true)}
-        >
-          <span>{t('address')}</span>
-        </WithQuestion>
+          <div className={shuttleInCx('address')}>
+            <WithQuestion
+              className={shuttleCx('title')}
+              onClick={() => setAddressPopup(true)}
+            >
+              <span>{t('address')}</span>
+            </WithQuestion>
 
-        <div className={shuttleInCx('address-input')}>
-          <input
-            readOnly
-            defaultValue={shuttleInAddress}
-            className={
-              commonCx('input-common') + ' ' + shuttleInCx('input-address')
-            }
-            placeholder={t('address-placeholder')}
-          />
-          {shuttleInAddress && (
-            <CopyToClipboard text={shuttleInAddress} onCopy={displayCopy}>
-              <img alt="copy" className={shuttleInCx('copy')} src={copy}></img>
-            </CopyToClipboard>
-          )}
-        </div>
-      </div>
-      {tokenInfo && (
-        <div
-          style={{ alignItems: 'flex-start' }}
-          className={shuttleCx('small-text')}
-        >
-          <span>
-            <Trans
-              t={t}
-              i18nKey="latest"
-              values={{
-                type: t(tokenInfo.reference === 'btc' ? 'btc' : 'eth'),
-              }}
-            ></Trans>
-          </span>
-
-          <span
-            className={shuttleInCx('qr-container')}
-            onClick={() => setQrPopup(true)}
+            <div className={shuttleInCx('address-input')}>
+              <input
+                readOnly
+                defaultValue={shuttleInAddress}
+                className={
+                  commonCx('input-common') + ' ' + shuttleInCx('input-address')
+                }
+                placeholder={t('address-placeholder')}
+              />
+              {shuttleInAddress && (
+                <CopyToClipboard text={shuttleInAddress} onCopy={displayCopy}>
+                  <img
+                    alt="copy"
+                    className={shuttleInCx('copy')}
+                    src={copy}
+                  ></img>
+                </CopyToClipboard>
+              )}
+            </div>
+          </div>
+          <div
+            style={{ alignItems: 'flex-start' }}
+            className={shuttleCx('small-text')}
           >
-            <img className={shuttleInCx('img')} alt="qr" src={qr}></img>
-            <span>{t('qr')}</span>
-          </span>
-        </div>
+            <span>
+              <Trans
+                t={t}
+                i18nKey="latest"
+                values={{
+                  type: t(tokenInfo.reference === 'btc' ? 'btc' : 'eth'),
+                }}
+              ></Trans>
+            </span>
+
+            <span
+              className={shuttleInCx('qr-container')}
+              onClick={() => setQrPopup(true)}
+            >
+              <img className={shuttleInCx('img')} alt="qr" src={qr}></img>
+              <span>{t('qr')}</span>
+            </span>
+          </div>
+        </>
       )}
       <ShuttleHistory type="mint" />
       <Modal

@@ -1,8 +1,9 @@
+.txt {
+  color: rgba($color: #ffffff, $alpha: 0.6);
+}
 .container {
   position: relative;
   display: flex;
-  cursor: pointer;
-
   .left {
     display: flex;
     align-items: center;

@@ -86,8 +86,8 @@ export default function Shuttle({ match: { path, url } }) {
 function RouteComponent() {
   const { type } = useParams()
   const { pair = '' } = useUrlSearch()
-  const tokenInfo = usePair(pair)
-  console.log('tokenInfo',tokenInfo)
+  const { chain } = useParams()
+  const tokenInfo = usePair(pair || chain)
   const Component = type === 'in' ? ShuttleIn : ShuttleOut
   return <Component tokenInfo={tokenInfo} />
 }

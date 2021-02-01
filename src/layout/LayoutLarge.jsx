@@ -18,13 +18,15 @@ import { useParams } from 'react-router'
 import { NavLink } from 'react-router-dom'
 
 import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
+import { useHistory } from 'react-router-dom'
 
 const cx = classNamesBind.bind(styles)
 
-export default function LayoutLarge({ history }) {
+export default function LayoutLarge() {
   const { t, i18n } = useTranslation()
   const headerRef = useRef(null)
   const [mainMaxHeight, setMainMaxHeight] = useState(0)
+  const history = useHistory()
 
   useEffect(() => {
     const { bottom } = headerRef.current.getBoundingClientRect()
@@ -46,6 +48,19 @@ export default function LayoutLarge({ history }) {
           onClick={() => history.push(chainRoot)}
           src={logo}
         ></img>
+        <Select
+          setCurrent={(v) => history.push(`/${v}`)}
+          current={chain}
+          options={[
+            ['btc', 'BTC'],
+            ['eth', 'ETH'],
+          ].map(([key, name]) => {
+            return {
+              key,
+              value: <div key={key}>{key}</div>,
+            }
+          })}
+        />
 
         <div className={cx('right')}>
           <UserAddress />
