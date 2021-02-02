@@ -6,11 +6,11 @@ import Triangle from '../component/Triangle/Triangle.jsx'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 
 import { useTranslation } from 'react-i18next'
-import useTokenList from '../data/useTokenList'
 import MainContainer from '../component/MainContainer/MainContainer'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import Icon from '../component/Icon/Icon'
+import useTokenListSearch from '../data/useTokenList'
 
 const sorts = {
   name: (a, b) => {
@@ -28,7 +28,7 @@ const sorts = {
 }
 
 export default function Market() {
-  const { tokens } = useTokenList({})
+  const tokens = useTokenListSearch()
   const [cx] = useStyle(styles)
   const { t } = useTranslation('market')
   const [sort, setSort] = useState('name')

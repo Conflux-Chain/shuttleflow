@@ -4,15 +4,15 @@ import { getCustodianContract } from './contract'
 import { ensureAddressForSdk } from '../util/address'
 
 //txHash is used to flush data from server
-export default function usePendingOperationInfo(erc20, txHash) {
+export default function usePendingOperationInfo(reference, txHash) {
   const [info, setInfo] = useState({})
   useEffect(() => {
-    if (erc20) {
+    if (reference) {
       let start = true
       Promise.all([
-        jsonrpc('getPendingOperationInfo', { url: 'node', params: [erc20] }),
+        jsonrpc('getPendingOperationInfo', { url: 'node', params: [reference] }),
         getCustodianContract()
-          .token_cooldown(ensureAddressForSdk(erc20))
+          .token_cooldown(ensureAddressForSdk(reference))
           .call(),
         getCustodianContract().minimal_sponsor_amount().call(),
         getCustodianContract().default_cooldown().call(),
@@ -32,6 +32,6 @@ export default function usePendingOperationInfo(erc20, txHash) {
         start = false
       }
     }
-  }, [erc20, txHash])
+  }, [reference, txHash])
   return info
 }

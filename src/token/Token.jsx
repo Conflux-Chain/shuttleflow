@@ -9,7 +9,7 @@ import useIsSamll from '../component/useSmallScreen'
 import useStyle from '../component/useStyle'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer.jsx'
-import useUrlSearch from '../data/useUrlSearch.js'
+import useUrlSearch from '../lib/useUrlSearch.js'
 
 export function TokenNavigation({ history, after }) {
   const [cx] = useStyle(styles)
@@ -36,12 +36,12 @@ export function TokenNavigation({ history, after }) {
 function Token(props) {
   const [cx] = useStyle(styles)
   const isSmall = useIsSamll()
-  const { next, cToken, ...extra } = useUrlSearch()
+  const { next, cToken } = useUrlSearch()
   return (
     <MainContainer className={cx('container')}>
       {/* promote the navigation to top level is samll screen */}
       {!isSmall && <TokenNavigation {...props} next={next} />}
-      <Choose {...extra} next={(token) => `${next}/${token}`} cToken={cToken} />
+      <Choose next={(token) => `${next}?pair=${token}`} cToken={cToken} />
     </MainContainer>
   )
 }

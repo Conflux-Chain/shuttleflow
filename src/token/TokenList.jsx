@@ -9,27 +9,19 @@ import titleStyles from './title.module.scss'
 import Check from '../component/Check/Check'
 import { useTranslation } from 'react-i18next'
 import { formatAddress } from '../util/address'
-import useTokenList from '../data/useTokenList'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../config/config'
 import Icon from '../component/Icon/Icon'
-import { Loading } from '@cfxjs/react-ui'
 import { buildSearch } from '../component/urlSearch'
-import { useHistory } from 'react-router-dom'
-import useUrlSearch from '../data/useUrlSearch'
+import { useHistory, useParams } from 'react-router-dom'
+import useUrlSearch from '../lib/useUrlSearch'
 import WithQuestion from '../component/WithQuestion'
 import Modal, { modalStyles } from '../component/Modal'
 import { useBlockWithRisk } from '../layout/Risk'
-
-const FREQUENT_TOKENS = [
-  'btc',
-  'eth',
-  '0xdac17f958d2ee523a2206206994597c13d831ec7', //usdt
-  '0x6b175474e89094c44da98b954eedeac495271d0f', // dai
-  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', //usdc
-]
+import CHAIN_CONFIG from '../config/chainConfig'
+import useTokenListSearch from '../data/useTokenList'
 
 const sorts = {
   name: (a, b) => {
@@ -50,16 +42,14 @@ function TokenList({
   setIsNotAvailable, //if the corresponsing cToken available
 }) {
   const history = useHistory()
-  const { token, ...searchParams } = useUrlSearch()
-  const { chain } = { chain: 'eth' }
-  const { tokens: tokenList, isLoading: isListLoading } = useTokenList({})
-  const {
-    tokens: displayedList,
-    isLoading: isDisplayedLoading,
-  } = useTokenList({ search, cToken })
+  const { selected, ...searchParams } = useUrlSearch()
+  const { chain } = useParams()
 
-  const setToken = (token) => {
-    history.push(buildSearch({ ...searchParams, token }))
+  const tokenList = useTokenListSearch()
+  const displayedList = useTokenListSearch({ search, cToken })
+
+  const setToken = (selected) => {
+    history.push(buildSearch({ ...searchParams, selected }))
   }
 
   const { t } = useTranslation(['token'])
@@ -78,14 +68,6 @@ function TokenList({
     }
   }, [displayedList, setNotFound])
 
-  if (isListLoading || isDisplayedLoading) {
-    return (
-      <PaddingContainer bottom={false}>
-        <Loading size="large" />
-      </PaddingContainer>
-    )
-  }
-
   return (
     <>
       {/* we should combine frequent token and tokenlist in one component 
@@ -99,7 +81,7 @@ function TokenList({
             <>
               <div className={titleCx('title')}>{t('frequent')}</div>
               <div className={ListCx('frequent-container')}>
-                {FREQUENT_TOKENS.map((_preset_reference) => {
+                {CHAIN_CONFIG[chain].frequentTokens.map((_preset_reference) => {
                   let tokenData, active
                   if (tokenList.length > 0) {
                     tokenData = tokenList.find(
@@ -110,13 +92,11 @@ function TokenList({
                     if (!tokenData) {
                       return null
                     }
-                    active = tokenData.reference === token
+                    active = tokenData.id === selected
                   }
                   return (
                     <div
-                      onClick={() =>
-                        setToken(active ? '' : tokenData.reference)
-                      }
+                      onClick={() => setToken(active ? '' : tokenData.id)}
                       className={ListCx({ active }, 'frequent')}
                       key={_preset_reference}
                     >
@@ -167,13 +147,13 @@ function TokenList({
                     key={i}
                     {...{
                       ...tokenInfo,
-                      token,
+                      token: selected,
                       chain,
                       cToken,
                       checked:
                         tokenInfo.is_admin === 1 && captain
                           ? false
-                          : token === tokenInfo.reference,
+                          : selected === tokenInfo.id,
                       disabled: tokenInfo.is_admin === 1 && captain,
                       captain,
                       setToken,
@@ -222,6 +202,7 @@ function TokenRow({
   reference_name,
   reference,
   symbol,
+  id,
   ctoken,
   sponsor_value,
   icon,
@@ -255,7 +236,7 @@ function TokenRow({
             setIsNotAvailable(false)
           } else {
             if (!disabled) {
-              setToken(reference)
+              setToken(id)
               if (notAvailable) {
                 setIsNotAvailable(true)
               }

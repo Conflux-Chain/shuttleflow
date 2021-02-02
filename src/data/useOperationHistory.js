@@ -1,14 +1,16 @@
 import { useRef } from 'react'
-import useState1 from './useState1'
+import useState1 from '../lib/useState1'
 import jsonrpc from './jsonrpc'
-import { tokenMap as tokeMapPms } from './tokenList'
+import { getTokenList } from './tokenList'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import formatNum from '../util/formatNum'
 import useAddress from './useAddress'
+import { useParams } from 'react-router'
 
-export default function useHistory({ token, status, limit = 100, type } = {}) {
+export default function useOperationHistory({ token, status, limit = 100, type } = {}) {
   const address = useAddress()
   const [state, setState] = useState1({ data: [], loading: true })
+  const { chain } = useParams()
   const reload = useRef(null)
   useDeepCompareEffect(() => {
     let mount = true
@@ -20,6 +22,7 @@ export default function useHistory({ token, status, limit = 100, type } = {}) {
           limit,
           type,
           address,
+          chain,
         })
       const _reload = () => {
         setState({ loading: true })
@@ -66,9 +69,10 @@ function fetchHistory({
   limit,
   status = ['comfirming', 'doing', 'finished'],
   address,
+  chain,
 } = {}) {
   return Promise.all([
-    tokeMapPms,
+    getTokenList(chain).then(({ tokenMap }) => tokenMap),
     jsonrpc('getSpecificUserOperationList', {
       url: 'node',
       params: [
@@ -90,6 +94,7 @@ function fetchHistory({
         if (!token) {
           token = 'btc'
         }
+        // console.log(tokenMap,to)
         //It can happen due to some unexpected human operation
         if (tokenMap[token]) {
           return { ...rest, ...tokenMap[token], token }

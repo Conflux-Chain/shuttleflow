@@ -1,7 +1,7 @@
 import { ensureAddressForSdk } from '../util/address'
 import { getCustodianContract } from './contract'
 
-export default function createBeCaptain(userAddress, erc20) {
+export default function createBeCaptain(userAddress, reference) {
   return function beCaptain({
     amount,
     burnFee,
@@ -14,7 +14,7 @@ export default function createBeCaptain(userAddress, erc20) {
     if (!amount) {
       return contract
         .setTokenParams(
-          ensureAddressForSdk(erc20),
+          ensureAddressForSdk(reference),
           burnFee,
           mintFee,
           walletFee,
@@ -25,7 +25,7 @@ export default function createBeCaptain(userAddress, erc20) {
     } else {
       return contract
         .sponsorToken(
-          ensureAddressForSdk(erc20),
+          ensureAddressForSdk(reference),
           amount,
           burnFee,
           mintFee,

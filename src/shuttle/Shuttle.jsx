@@ -18,9 +18,11 @@ import MenuLink from '../component/MenuLink'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
-import useTokenList from '../data/useTokenList'
 import Spec from '../layout/Spec'
 import useIsSamll from '../component/useSmallScreen'
+import useUrlSearch from '../lib/useUrlSearch'
+import useTokenList from '../data/useTokenList'
+import { CHAIN_SINGLE_PAIR } from '../config/constant'
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['nav'])
@@ -75,10 +77,7 @@ export default function Shuttle({ match: { path, url } }) {
       <PaddingContainer bottom>
         <Switch>
           <Redirect from={path} exact to={`${path}/in`} />
-          <Route
-            path={`${path}/:type/:erc20?`}
-            component={RouteComponent}
-          ></Route>
+          <Route path={`${path}/:type`} component={RouteComponent}></Route>
         </Switch>
       </PaddingContainer>
     </MainContainer>
@@ -86,10 +85,12 @@ export default function Shuttle({ match: { path, url } }) {
 }
 
 function RouteComponent() {
-  const { type, erc20 = '' } = useParams()
-  const { tokens } = useTokenList({ erc20 })
-  //display tokenInfo only when token is url available
-  const tokenInfo = erc20 && tokens ? tokens[0] : null
+  const { type } = useParams()
+  const { pair = '' } = useUrlSearch()
+
+  const tokenInfo = useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
+
+  console.log(tokenInfo)
   const Component = type === 'in' ? ShuttleIn : ShuttleOut
   return <Component tokenInfo={tokenInfo} />
 }

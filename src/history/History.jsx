@@ -11,7 +11,7 @@ import open from './down.svg'
 import { Loading } from '@cfxjs/react-ui'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
-import useUrlSearch from '../data/useUrlSearch'
+import useUrlSearch from '../lib/useUrlSearch'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 

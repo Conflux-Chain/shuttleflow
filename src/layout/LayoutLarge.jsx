@@ -6,7 +6,6 @@ import triangle from './triangle.svg'
 
 import classNamesBind from 'classnames/bind'
 import styles from './LayoutLarge.module.scss'
-import MenuLink from '../component/MenuLink'
 import { useTranslation } from 'react-i18next'
 
 import Accordion from '../component/Accordion'
@@ -15,15 +14,23 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import { Loading } from '@cfxjs/react-ui'
 import pocket from '../component/pocket.png'
+import { useParams } from 'react-router'
+import { NavLink } from 'react-router-dom'
+
+import tickSrc from './tick.svg'
+import tickSolidSrc from './tick-solid.svg'
+
+import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
+import { useHistory } from 'react-router-dom'
+import icons from '../data/tokenIcons'
 
 const cx = classNamesBind.bind(styles)
 
-export default function LayoutLarge({ history }) {
-  const [expandLng, setExpandLng] = useState(false)
-  const [expandHelp, setExpandHelp] = useState(false)
+export default function LayoutLarge() {
   const { t, i18n } = useTranslation()
   const headerRef = useRef(null)
   const [mainMaxHeight, setMainMaxHeight] = useState(0)
+  const history = useHistory()
 
   useEffect(() => {
     const { bottom } = headerRef.current.getBoundingClientRect()
@@ -33,154 +40,97 @@ export default function LayoutLarge({ history }) {
     setMainMaxHeight(innerHeight - bottom - marginBottom - 40)
   }, [])
 
+  const { chain } = useParams()
+  const chainRoot = `/${chain}`
+
   return (
     <>
       <header ref={headerRef} className={cx('header')}>
-        <img
-          className={cx('logo')}
-          alt="home"
-          onClick={() => history.push('/')}
-          src={logo}
-        ></img>
-
+        <div className={cx('left')}>
+          <img
+            className={cx('logo')}
+            alt="home"
+            onClick={() => history.push(chainRoot)}
+            src={logo}
+          ></img>
+          <Select
+            type="chain"
+            setCurrent={(v) => history.push(`/${v}`)}
+            render={renderChainSelect}
+            current={chain}
+            dropdownTitle={t('choose-chain')}
+            options={['btc', 'eth'].map((key) => {
+              return {
+                key,
+                value: key,
+              }
+            })}
+          />
+        </div>
         <div className={cx('right')}>
           <UserAddress />
-          <MenuLink
-            to="/shuttle"
-            render={({ active }) => {
-              return (
-                <div
-                  onClick={() => history.push('/')}
-                  className={cx('item', { active })}
-                >
-                  {t('home')}
-                </div>
-              )
-            }}
+          <LinkItem
+            to={`${chainRoot}/shuttle/in`}
+            alsoMatch={[`${chainRoot}/shuttle/out`]}
+            content={t('home')}
+            history={history}
           />
-          <MenuLink
-            to="/history"
-            render={({ active }) => {
-              return (
-                <div
-                  onClick={() => history.push('/history')}
-                  className={cx('item', { active })}
-                >
-                  {t('history')}
-                </div>
-              )
-            }}
+          <LinkItem
+            to={`${chainRoot}/history`}
+            content={t('history')}
+            history={history}
           />
-          <MenuLink
-            to="/market"
-            render={({ active }) => {
-              return (
-                <div
-                  onClick={() => history.push('/market')}
-                  className={cx('item', { active })}
-                >
-                  {t('markets')}
-                </div>
-              )
-            }}
+          <LinkItem
+            to={`${chainRoot}/market`}
+            content={t('markets')}
+            history={history}
           />
 
-          <Accordion
-            contentStyle={{ position: 'absolute', top: '5rem' }}
-            clickAway={() => setExpandHelp(false)}
-            expanded={expandHelp}
-            title={
-              <div
-                onClick={() => {
-                  setExpandHelp((x) => {
-                    return !x
-                  })
-                }}
-                className={cx('item')}
-              >
-                {t('help')}
-              </div>
-            }
-            content={
-              <div className={cx('dropdown-container')}>
-                {[
-                  [t('what-sf'), t('what-sf-link')],
-                  [t('what-captain'), t('what-captain-link')],
-                ].map(([txt, link]) => {
-                  return (
-                    <div
-                      key={txt}
-                      onClick={() => {
-                        window.open(link, '_blank')
-                      }}
-                      className={cx('lng-item')}
-                    >
-                      {txt}
-                    </div>
-                  )
-                })}
-              </div>
-            }
+          <Select
+            title={t('help')}
+            options={[
+              [t('what-sf'), t('what-sf-link')],
+              [t('what-captain'), t('what-captain-link')],
+            ].map(([txt, link]) => {
+              return {
+                value: (
+                  <div
+                    key={txt}
+                    onClick={() => {
+                      window.open(link, '_blank')
+                    }}
+                  >
+                    {txt}
+                  </div>
+                ),
+              }
+            })}
           />
 
-          <MenuLink
-            to="/captain"
-            render={({ active }) => {
-              return (
-                <div
-                  onClick={() => history.push('/captain')}
-                  className={cx('item', 'captain', { active })}
-                >
+          {CHAIN_CONFIG[chain].captain !== CAPTAIN.NONE && (
+            <LinkItem
+              to={`${chainRoot}/captain`}
+              content={
+                <div className={cx('captain')}>
                   <img className={cx('pocket')} src={pocket} alt="pocket"></img>
                   {t('be-captain')}
                 </div>
-              )
-            }}
+              }
+              history={history}
+            />
+          )}
+          <Select
+            right="0"
+            border
+            icon
+            type="lng"
+            current={i18n.language}
+            options={[
+              { key: 'en', value: 'English' },
+              { key: 'zh', value: '中文' },
+            ]}
+            setCurrent={i18n.changeLanguage.bind(i18n)}
           />
-          <Accordion
-            contentStyle={{ position: 'absolute', right: '2rem', top: '5rem' }}
-            clickAway={() => setExpandLng(false)}
-            expanded={expandLng}
-            title={
-              <div
-                className={cx('lng')}
-                onClick={() => {
-                  setExpandLng((x) => {
-                    return !x
-                  })
-                }}
-              >
-                <span style={{ whiteSpace: 'nowrap' }}>
-                  {i18n.language === 'zh' ? '中文' : 'English'}
-                </span>
-                <img
-                  alt="up"
-                  className={cx('up', { 'icon-active': !expandLng })}
-                  src={triangle}
-                ></img>
-              </div>
-            }
-            content={
-              <div className={cx('dropdown-container')}>
-                {['en', 'zh'].map((lng) => {
-                  return (
-                    <div
-                      key={lng}
-                      onClick={() => {
-                        i18n.changeLanguage(lng)
-                        setExpandLng(false)
-                      }}
-                      className={cx('lng-item', {
-                        selected: i18n.language === lng,
-                      })}
-                    >
-                      {lng === 'en' ? 'English' : '中文'}
-                    </div>
-                  )
-                })}
-              </div>
-            }
-          ></Accordion>
         </div>
       </header>
       <Suspense fallback={<Loading />}>
@@ -197,5 +147,137 @@ export default function LayoutLarge({ history }) {
         </Scrollbars>
       </Suspense>
     </>
+  )
+}
+
+function LinkItem({ to, content, alsoMatch = [] }) {
+  return (
+    <NavLink
+      to={to}
+      isActive={(_, location) => {
+        const { search, pathname } = location
+        const next = new URLSearchParams(search).get('next')
+        let match = [...alsoMatch, to].some((x) => x === pathname)
+        let matchSearch = [...alsoMatch, to].some((x) => x === next)
+        return match || matchSearch
+      }}
+      className={cx('item')}
+      activeClassName={cx('active')}
+    >
+      {content}
+    </NavLink>
+  )
+}
+
+function Select({
+  current,
+  options,
+  setCurrent,
+  title,
+  border,
+  icon,
+  right,
+  type,
+  dropdownTitle,
+  render,
+}) {
+  const [expand, setExpand] = useState(false)
+  const currentOption = options.find((x) => x.key === current)
+
+  return (
+    <Accordion
+      contentStyle={{ position: 'absolute', top: '5rem', ...{ right } }}
+      clickAway={() => setExpand(false)}
+      expanded={expand}
+      title={
+        <div
+          className={cx('select-title', 'item', { border })}
+          onClick={() => {
+            setExpand((x) => {
+              return !x
+            })
+          }}
+        >
+          <span style={{ whiteSpace: 'nowrap' }}>
+            {title ||
+              (render
+                ? render({
+                    key: (currentOption || options[0]).value,
+                    title: true,
+                  })
+                : (currentOption || options[0]).value)}
+          </span>
+          {icon && (
+            <img
+              alt="up"
+              className={cx('up', { 'icon-active': !expand })}
+              src={triangle}
+            ></img>
+          )}
+        </div>
+      }
+      content={
+        <div className={cx('dropdown-container')}>
+          {dropdownTitle ? (
+            <div className={cx('dropdown-title')}>{dropdownTitle}</div>
+          ) : null}
+          {options.map(({ key, value }, i) => {
+            const selected = key && current && key === current
+            return (
+              <div
+                key={i}
+                onClick={() => {
+                  if (setCurrent) {
+                    setCurrent(key)
+                  }
+                  setExpand(false)
+                }}
+                className={cx('dropdown-item', type, {
+                  selected,
+                })}
+              >
+                {render ? render({ key }) : value}
+                {selected && (
+                  <img
+                    className={cx('after')}
+                    alt="tick"
+                    src={type === 'lng' ? tickSrc : tickSolidSrc}
+                  ></img>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      }
+    ></Accordion>
+  )
+}
+
+function renderChainSelect({ key, title }) {
+  return (
+    <div
+      style={{
+        marginRight: '1rem',
+        fontSize: '0.875rem',
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <img
+        style={{ width: '1.25rem', height: '1.25rem', marginRight: '0.5rem' }}
+        src={icons[key]}
+        alt="icon"
+      ></img>
+      <span
+        style={{ color: title ? 'white' : '#333333', marginRight: '0.2rem' }}
+      >
+        {key.toUpperCase()}
+      </span>{' '}
+      <span
+        style={{ color: title ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }}
+      >
+        {' /Conflux'}
+      </span>
+    </div>
   )
 }

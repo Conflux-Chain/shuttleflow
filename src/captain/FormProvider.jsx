@@ -1,12 +1,10 @@
-import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router'
 import useStyle from '../component/useStyle'
 import { buildNum } from '../util/formatNum'
 import useAddress from '../data/useAddress'
 import { useBalance } from '../data/useBalance'
 
-import useTokenList from '../data/useTokenList'
 import useCaptain from '../data/captain'
 
 import formStyles from './Form.module.scss'
@@ -22,12 +20,12 @@ import CaptainForm from './Form'
 
 import success from './success.png'
 import fail from './fail.png'
+import useTokenList from '../data/useTokenList'
 
 const MAX_DECIMAL_DISPLAY = 8
 
 //0xd50931bb32fca14acbc0cade5850ba597f3ee1a6
-export default function FormProvider() {
-  const { erc20 } = useParams()
+export default function FormProvider({ pair }) {
   const [popup, setPopup] = useState('')
   const { t } = useTranslation(['captain'])
   const [cx, modalCx] = useStyle(formStyles, modalStyles)
@@ -35,16 +33,7 @@ export default function FormProvider() {
   const cethBalance = useBalance(CETH_ADDRESS)
   const txHash = useRef()
 
-  /**
-   * tokens will change on every render(no cache in useTokenList)
-   * which will into invalid all the following identity check
-   * no a big problem though
-   */
-  const { tokens } = useTokenList({ erc20 })
-  const tokenInfo = useMemo(
-    () => (tokens && tokens.length > 0 ? tokens[0] : {}),
-    [tokens]
-  )
+  const tokenInfo = useTokenList({ pair }) || {}
 
   const { decimals, sponsor } = tokenInfo
   const { pendingCount, countdown, minMortgage, cooldownMinutes } = useCaptain(
@@ -64,7 +53,7 @@ export default function FormProvider() {
   }) {
     createBeCaptain(
       address,
-      erc20
+      pair
     )({
       amount: amount && buildNum(amount, 18),
       burnFee: buildNum(burnFee, decimals),

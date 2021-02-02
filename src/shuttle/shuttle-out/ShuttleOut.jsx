@@ -21,22 +21,19 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { string, object } from 'yup'
 import { ErrorMessage } from '@hookform/error-message'
-
-import { buildSearch } from '../../component/urlSearch'
 import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
 import TokenInput from '../TokenInput'
 import ShuttleOutInput from '../Input'
 import { parseNum } from '../../util/formatNum'
-import { CONFLUXSCAN_TX, IS_DEV } from '../../config/config'
+import { CONFLUXSCAN_TX } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
-import checkAddress from '../../data/checkAddress'
 import Check from '../../component/Check/Check'
 import { big } from '../../lib/yup/BigNumberSchema'
 import burn from '../../data/burn'
-
-var WAValidator = require('wallet-address-validator')
+import CHAIN_CONFIG from '../../config/chainConfig'
+import { useParams } from 'react-router'
 
 // dec5 usdt
 export default function ShuttleOut({ tokenInfo }) {
@@ -49,6 +46,7 @@ export default function ShuttleOut({ tokenInfo }) {
   )
   const { t } = useTranslation('shuttle-out')
   const token = tokenInfo && tokenInfo.reference
+  const { chain } = useParams()
 
   const isBtc = token === 'btc'
 
@@ -90,13 +88,9 @@ export default function ShuttleOut({ tokenInfo }) {
     //outaddress maybe a better name, it will trigger Chrome autofill
     outwallet: string()
       .required('error.required')
-      .test('address-valid', 'error.invalid-address', (address) => {
-        return WAValidator.validate(
-          address,
-          isBtc ? 'bitcoin' : 'ethereum',
-          IS_DEV ? 'testnet' : 'prod'
-        )
-      }),
+      .test('address-valid', 'error.invalid-address', (address) =>
+        CHAIN_CONFIG[chain].outFormatCheck(address)
+      ),
   })
 
   const {
@@ -116,35 +110,25 @@ export default function ShuttleOut({ tokenInfo }) {
     let { outwallet, outamount } = data
     const { burn_fee, ctoken } = tokenInfo
 
-    ;(isBtc
-      ? Promise.resolve('yes')
-      : checkAddress(outwallet).then((x) => {
-          return new Promise((resolve) => {
-            if (x === 'eth') {
-              resolve('yes')
-            } else {
-              blockShuttleout(resolve, t(`confirm.${x}`))
-            }
-          })
-        })
-    ).then((result) => {
-      if (result === 'yes') {
-        burn(
-          outwallet,
-          ctoken,
-          outamount.mul('1e18') + '',
-          burn_fee.mul('1e18') + ''
-        )
-          .then((e) => {
-            tx.current = e
-            setSuccessPopup(true)
-          })
-          .catch((e) => {
-            console.log(e)
-            setErrorPopup(true)
-          })
-      }
-    })
+    CHAIN_CONFIG[chain]
+      .checkAddress(outwallet, blockShuttleout, t)
+      .then((result) => {
+        if (result === 'yes') {
+          burn(
+            outwallet,
+            ctoken,
+            outamount.mul('1e18') + '',
+            burn_fee.mul('1e18') + ''
+          )
+            .then((e) => {
+              tx.current = e
+              setSuccessPopup(true)
+            })
+            .catch((e) => {
+              setErrorPopup(true)
+            })
+        }
+      })
   }
 
   if (token && !tokenInfo) {
@@ -156,14 +140,8 @@ export default function ShuttleOut({ tokenInfo }) {
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="chrome-off">
         {/* token */}
         <TokenInput
+          dir="from"
           placeholder={t('placeholder.out')}
-          to={{
-            pathname: '/token',
-            search: buildSearch({
-              next: 'shuttle/out',
-              cToken: 1,
-            }),
-          }}
           tokenInfo={tokenInfo}
           cToken={() => setCTokenPopup(true)}
         />
@@ -174,141 +152,141 @@ export default function ShuttleOut({ tokenInfo }) {
 
         {/* conflux token */}
         <TokenInput
-          to={{
-            pathname: '/token',
-            search: buildSearch({
-              next: '/shuttle/out',
-            }),
-          }}
+          dir="to"
           tokenInfo={tokenInfo}
           placeholder={t('placeholder.in')}
         />
 
         {/* shuttle out amount */}
-        <label className={shuttleOutCx('amount-container')}>
-          <div>
-            <span className={shuttleCx('title')}>{t('amount')} </span>
-          </div>
-
-          <div className={shuttleOutCx('amount-input')}>
-            <ShuttleOutInput
-              showPlaceholder={watch('outamount')}
-              name="outamount"
-              ref={register}
-              decimals={tokenInfo && tokenInfo.decimals}
-              error={errors.outamount}
-              placeholder={
-                !tokenInfo
-                  ? t('placeholder.input-amount')
-                  : t('balance', {
-                      amount: balance,
-                      symbol: tokenInfo.symbol,
-                    })
-              }
-            />
-            <div
-              onClick={() => {
-                setValue('outamount', balance)
-              }}
-              className={shuttleOutCx('all') + ' ' + shuttleCx('small-text')}
-            >
-              {t('all')}
-            </div>
-          </div>
-        </label>
-
         {tokenInfo && (
-          <div className={shuttleCx('small-text')}>
-            <span> {t('min-amount', tokenInfo)}</span>
-            <WithQuestion onClick={() => setFeePopup(true)}>
-              <span>{t('fee', tokenInfo)}</span>
-            </WithQuestion>
-          </div>
-        )}
+          <>
+            <label className={shuttleOutCx('amount-container')}>
+              <div>
+                <span className={shuttleCx('title')}>{t('amount')} </span>
+              </div>
 
-        <div>
-          <ErrorMessage
-            errors={errors}
-            name="outamount"
-            render={({ message }) => {
-              return (
-                <span
-                  className={shuttleCx('small-text')}
-                  style={{ color: '#F3504F' }}
-                >
-                  {t(message, tokenInfo)}
-                </span>
-              )
-            }}
-          />
-        </div>
-
-        {/* shuttle out address */}
-        <div className={shuttleOutCx('address-container')}>
-          <WithQuestion
-            className={shuttleCx('title')}
-            onClick={(e) => {
-              setAddrPopup(true)
-            }}
-          >
-            <span>{t('address')}</span>
-          </WithQuestion>
-          <div className={shuttleOutCx('address-input')}>
-            <ShuttleOutInput
-              showPlaceholder={watch('outwallet')}
-              style={{ fontSize: '1.1rem', paddingRight: '5rem' }}
-              ref={register}
-              name="outwallet"
-              error={errors.outwallet}
-              placeholder={
-                <Trans
-                  values={{
-                    type: token
-                      ? isBtc
-                        ? t('btc')
-                        : t('eth')
-                      : t('btc') + '/' + t('eth'),
+              <div className={shuttleOutCx('amount-input')}>
+                <ShuttleOutInput
+                  showPlaceholder={watch('outamount')}
+                  name="outamount"
+                  ref={register}
+                  decimals={tokenInfo && tokenInfo.decimals}
+                  error={errors.outamount}
+                  placeholder={
+                    !tokenInfo
+                      ? t('placeholder.input-amount')
+                      : t('balance', {
+                          amount: balance,
+                          symbol: tokenInfo.symbol,
+                        })
+                  }
+                />
+                <div
+                  onClick={() => {
+                    setValue('outamount', balance)
                   }}
-                  i18nKey={'placeholder.address'}
-                  t={t}
-                ></Trans>
-              }
-            />
-            <img
-              style={{ display: !!getValues().outwallet ? 'block' : 'none' }}
-              onClick={() => {
-                setValue('outwallet', '')
-              }}
-              src={clear}
-              alt="clear"
-              className={commonCx('clear')}
-            ></img>
-          </div>
-        </div>
+                  className={
+                    shuttleOutCx('all') + ' ' + shuttleCx('small-text')
+                  }
+                >
+                  {t('all')}
+                </div>
+              </div>
+            </label>
 
-        <ErrorMessage
-          errors={errors}
-          name="outwallet"
-          render={({ message }) => {
-            console.log('message', message)
-            return (
-              <p
-                style={{ color: '#F3504F' }}
-                className={shuttleCx('small-text')}
+            <div className={shuttleCx('small-text')}>
+              <span> {t('min-amount', tokenInfo)}</span>
+              <WithQuestion onClick={() => setFeePopup(true)}>
+                <span>{t('fee', tokenInfo)}</span>
+              </WithQuestion>
+            </div>
+
+            <div>
+              <ErrorMessage
+                errors={errors}
+                name="outamount"
+                render={({ message }) => {
+                  return (
+                    <span
+                      className={shuttleCx('small-text')}
+                      style={{ color: '#F3504F' }}
+                    >
+                      {t(message, tokenInfo)}
+                    </span>
+                  )
+                }}
+              />
+            </div>
+
+            {/* shuttle out address */}
+            <div className={shuttleOutCx('address-container')}>
+              <WithQuestion
+                className={shuttleCx('title')}
+                onClick={(e) => {
+                  setAddrPopup(true)
+                }}
               >
-                {t(message)}
-              </p>
-            )
-          }}
-        />
+                <span>{t('address')}</span>
+              </WithQuestion>
+              <div className={shuttleOutCx('address-input')}>
+                <ShuttleOutInput
+                  showPlaceholder={watch('outwallet')}
+                  style={{ fontSize: '1.1rem', paddingRight: '5rem' }}
+                  ref={register}
+                  name="outwallet"
+                  error={errors.outwallet}
+                  placeholder={
+                    <Trans
+                      values={{
+                        type: token
+                          ? isBtc
+                            ? t('btc')
+                            : t('eth')
+                          : t('btc') + '/' + t('eth'),
+                      }}
+                      i18nKey={'placeholder.address'}
+                      t={t}
+                    ></Trans>
+                  }
+                />
+                <img
+                  style={{
+                    display: !!getValues().outwallet ? 'block' : 'none',
+                  }}
+                  onClick={() => {
+                    setValue('outwallet', '')
+                  }}
+                  src={clear}
+                  alt="clear"
+                  className={commonCx('clear')}
+                ></img>
+              </div>
+            </div>
 
-        <Button
-          disabled={!tokenInfo}
-          type="submit"
-          className={shuttleOutCx('btn')}
-        >
-          {t('shuttle-out')}
-        </Button>
+            <ErrorMessage
+              errors={errors}
+              name="outwallet"
+              render={({ message }) => {
+                return (
+                  <p
+                    style={{ color: '#F3504F' }}
+                    className={shuttleCx('small-text')}
+                  >
+                    {t(message)}
+                  </p>
+                )
+              }}
+            />
+
+            <Button
+              disabled={!tokenInfo}
+              type="submit"
+              className={shuttleOutCx('btn')}
+            >
+              {t('shuttle-out')}
+            </Button>
+          </>
+        )}
       </form>
       <ShuttleHistory type="burn" />
       <Modal
