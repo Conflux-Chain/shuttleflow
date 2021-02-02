@@ -9,7 +9,7 @@ import useIsSamll from '../component/useSmallScreen'
 import useStyle from '../component/useStyle'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer.jsx'
-import useUrlSearch from '../data/useUrlSearch.js'
+import useUrlSearch from '../lib/useUrlSearch.js'
 
 export function TokenNavigation({ history, after }) {
   const [cx] = useStyle(styles)

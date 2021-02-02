@@ -4,12 +4,27 @@ import CHAIN_CONFIG from '../config/chainConfig'
 import { getTokenList } from './tokenList'
 import useSWR from 'swr'
 import jsonrpc from './jsonrpc'
+import { CHAIN_SINGLE_PAIR } from '../config/constant'
 
 const displayFilters = {
   eth: ethDisplayFilter,
 }
-function fetcher(key, search, chain, cToken) {
-  return getTokenList(chain).then(({ tokenList }) => {
+function fetcher(key, searchOrPair, chain, cToken) {
+  console.log(key, searchOrPair, chain, cToken)
+  let search, pair
+  if (key === 'search') {
+    search = searchOrPair
+  } else if (key === 'pair') {
+    pair = searchOrPair
+  }
+  return getTokenList(chain).then(({ tokenList, tokenMap }) => {
+    if (pair) {
+      return CHAIN_CONFIG[chain].singleToken
+        ? { ...tokenList[0], singleton: true }
+        : pair === CHAIN_SINGLE_PAIR
+        ? null
+        : tokenMap[pair]
+    }
     if (!search) {
       return tokenList.filter(displayFilters[chain])
     }
@@ -18,10 +33,10 @@ function fetcher(key, search, chain, cToken) {
     )
   })
 }
-export default function useTokenListSearch(search, cToken, pair) {
+export default function useTokenList({ pair, search, cToken } = {}) {
   const { chain } = useParams()
   return useSWR(
-    pair ? ['token', pair] : ['search', search, chain, cToken],
+    pair ? ['pair', pair, chain] : ['search', search, chain, cToken],
     fetcher
   ).data
 }

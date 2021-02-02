@@ -4,7 +4,7 @@ import Modal from '../component/Modal'
 
 import { useTranslation } from 'react-i18next'
 
-import useState1 from '../data/useState1'
+import useState1 from '../lib/useState1'
 import useAddress, { login } from '../data/useAddress'
 import { useRouteMatch } from 'react-router-dom'
 import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'

@@ -10,7 +10,7 @@ import MainContainer from '../component/MainContainer/MainContainer'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import Icon from '../component/Icon/Icon'
-import useTokenListSearch from '../data/useTokenListSearch'
+import useTokenListSearch from '../data/useTokenList'
 
 const sorts = {
   name: (a, b) => {

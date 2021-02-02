@@ -9,10 +9,10 @@ import Search from './Search'
 
 import useStyle from '../component/useStyle'
 import chooseStyles from './Choose.module.scss'
-import useUrlSearch from '../data/useUrlSearch'
+import useUrlSearch from '../lib/useUrlSearch'
 import useIsSamll from '../component/useSmallScreen'
 import { useHistory, useParams } from 'react-router'
-import useState1 from '../data/useState1'
+import useState1 from '../lib/useState1'
 
 export default function ChooseToken({ captain, cToken, next }) {
   const [chooseCx] = useStyle(chooseStyles)

@@ -20,8 +20,9 @@ import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
 import Spec from '../layout/Spec'
 import useIsSamll from '../component/useSmallScreen'
-import useUrlSearch from '../data/useUrlSearch'
-import usePair from '../data/usePair'
+import useUrlSearch from '../lib/useUrlSearch'
+import useTokenList from '../data/useTokenList'
+import { CHAIN_SINGLE_PAIR } from '../config/constant'
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['nav'])
@@ -86,8 +87,9 @@ export default function Shuttle({ match: { path, url } }) {
 function RouteComponent() {
   const { type } = useParams()
   const { pair = '' } = useUrlSearch()
-  const tokenInfo = usePair(pair)
-  
+
+  const tokenInfo = useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
+
   console.log(tokenInfo)
   const Component = type === 'in' ? ShuttleIn : ShuttleOut
   return <Component tokenInfo={tokenInfo} />

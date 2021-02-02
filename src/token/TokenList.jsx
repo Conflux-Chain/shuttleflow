@@ -16,12 +16,12 @@ import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../config/config'
 import Icon from '../component/Icon/Icon'
 import { buildSearch } from '../component/urlSearch'
 import { useHistory, useParams } from 'react-router-dom'
-import useUrlSearch from '../data/useUrlSearch'
+import useUrlSearch from '../lib/useUrlSearch'
 import WithQuestion from '../component/WithQuestion'
 import Modal, { modalStyles } from '../component/Modal'
 import { useBlockWithRisk } from '../layout/Risk'
 import CHAIN_CONFIG from '../config/chainConfig'
-import useTokenListSearch from '../data/useTokenListSearch'
+import useTokenListSearch from '../data/useTokenList'
 
 const sorts = {
   name: (a, b) => {
@@ -46,8 +46,7 @@ function TokenList({
   const { chain } = useParams()
 
   const tokenList = useTokenListSearch()
-  const displayedList = useTokenListSearch(search, cToken)
-
+  const displayedList = useTokenListSearch({ search, cToken })
 
   const setToken = (selected) => {
     history.push(buildSearch({ ...searchParams, selected }))

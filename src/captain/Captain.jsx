@@ -4,7 +4,7 @@ import Choose from '../token/Choose'
 import styles from './Captain.module.scss'
 import CaptainForm from './FormProvider'
 import { useRouteMatch } from 'react-router-dom'
-import useUrlSearch from '../data/useUrlSearch'
+import useUrlSearch from '../lib/useUrlSearch'
 
 export default function Captain() {
   const [cx] = useStyle(styles)

@@ -20,7 +20,7 @@ import CaptainForm from './Form'
 
 import success from './success.png'
 import fail from './fail.png'
-import usePair from '../data/usePair'
+import useTokenList from '../data/useTokenList'
 
 const MAX_DECIMAL_DISPLAY = 8
 
@@ -33,7 +33,7 @@ export default function FormProvider({ pair }) {
   const cethBalance = useBalance(CETH_ADDRESS)
   const txHash = useRef()
 
-  const tokenInfo = usePair(pair) || {}
+  const tokenInfo = useTokenList({ pair }) || {}
 
   const { decimals, sponsor } = tokenInfo
   const { pendingCount, countdown, minMortgage, cooldownMinutes } = useCaptain(
