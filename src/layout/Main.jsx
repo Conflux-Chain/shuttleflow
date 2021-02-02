@@ -53,18 +53,19 @@ function Main() {
         <Redirect from={match.url} exact to={`${match.url}/shuttle`} />
         <Route
           render={({ location: { pathname } }) => {
+            // debugger
             if (
               !address &&
-              pathname !== '/shuttle/in' &&
-              pathname !== '/shuttle' &&
-              pathname !== '/market' &&
-              pathname !== '/'
+              pathname !== `/${chain}/shuttle/in` &&
+              pathname !== `/${chain}/shuttle` &&
+              pathname !== `/${chain}/market` &&
+              pathname !== `/${chain}`
             ) {
               //prevent the default init login
               initLoginTriggered.current = true
               return (
                 <PopupWrapper setReferer={(referer) => setState({ referer })}>
-                  <Redirect to={{ pathname: `${chain}/shuttle/in` }}></Redirect>
+                  <Redirect to={{ pathname: `/${chain}/shuttle/in` }}></Redirect>
                 </PopupWrapper>
               )
             } else {

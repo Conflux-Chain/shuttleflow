@@ -17,8 +17,12 @@ import pocket from '../component/pocket.png'
 import { useParams } from 'react-router'
 import { NavLink } from 'react-router-dom'
 
+import tickSrc from './tick.svg'
+import tickSolidSrc from './tick-solid.svg'
+
 import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
 import { useHistory } from 'react-router-dom'
+import icons from '../data/tokenIcons'
 
 const cx = classNamesBind.bind(styles)
 
@@ -42,26 +46,27 @@ export default function LayoutLarge() {
   return (
     <>
       <header ref={headerRef} className={cx('header')}>
-        <img
-          className={cx('logo')}
-          alt="home"
-          onClick={() => history.push(chainRoot)}
-          src={logo}
-        ></img>
-        <Select
-          setCurrent={(v) => history.push(`/${v}`)}
-          current={chain}
-          options={[
-            ['btc', 'BTC'],
-            ['eth', 'ETH'],
-          ].map(([key, name]) => {
-            return {
-              key,
-              value: <div key={key}>{key}</div>,
-            }
-          })}
-        />
-
+        <div className={cx('left')}>
+          <img
+            className={cx('logo')}
+            alt="home"
+            onClick={() => history.push(chainRoot)}
+            src={logo}
+          ></img>
+          <Select
+            type="chain"
+            setCurrent={(v) => history.push(`/${v}`)}
+            render={renderChainSelect}
+            current={chain}
+            dropdownTitle={t('choose-chain')}
+            options={['btc', 'eth'].map((key) => {
+              return {
+                key,
+                value: key,
+              }
+            })}
+          />
+        </div>
         <div className={cx('right')}>
           <UserAddress />
           <LinkItem
@@ -115,8 +120,10 @@ export default function LayoutLarge() {
             />
           )}
           <Select
+            right="0"
             border
             icon
+            type="lng"
             current={i18n.language}
             options={[
               { key: 'en', value: 'English' },
@@ -162,17 +169,29 @@ function LinkItem({ to, content, alsoMatch = [] }) {
   )
 }
 
-function Select({ current, options, setCurrent, title, border, icon }) {
+function Select({
+  current,
+  options,
+  setCurrent,
+  title,
+  border,
+  icon,
+  right,
+  type,
+  dropdownTitle,
+  render,
+}) {
   const [expand, setExpand] = useState(false)
   const currentOption = options.find((x) => x.key === current)
+
   return (
     <Accordion
-      contentStyle={{ position: 'absolute', top: '5rem' }}
+      contentStyle={{ position: 'absolute', top: '5rem', ...{ right } }}
       clickAway={() => setExpand(false)}
       expanded={expand}
       title={
         <div
-          className={cx('lng', { border })}
+          className={cx('select-title', 'item', { border })}
           onClick={() => {
             setExpand((x) => {
               return !x
@@ -180,7 +199,13 @@ function Select({ current, options, setCurrent, title, border, icon }) {
           }}
         >
           <span style={{ whiteSpace: 'nowrap' }}>
-            {title || (currentOption || options[0]).value}
+            {title ||
+              (render
+                ? render({
+                    key: (currentOption || options[0]).value,
+                    title: true,
+                  })
+                : (currentOption || options[0]).value)}
           </span>
           {icon && (
             <img
@@ -193,7 +218,11 @@ function Select({ current, options, setCurrent, title, border, icon }) {
       }
       content={
         <div className={cx('dropdown-container')}>
+          {dropdownTitle ? (
+            <div className={cx('dropdown-title')}>{dropdownTitle}</div>
+          ) : null}
           {options.map(({ key, value }, i) => {
+            const selected = key && current && key === current
             return (
               <div
                 key={i}
@@ -203,16 +232,52 @@ function Select({ current, options, setCurrent, title, border, icon }) {
                   }
                   setExpand(false)
                 }}
-                className={cx('lng-item', {
-                  selected: key && current && key === current,
+                className={cx('dropdown-item', type, {
+                  selected,
                 })}
               >
-                {value}
+                {render ? render({ key }) : value}
+                {selected && (
+                  <img
+                    className={cx('after')}
+                    alt="tick"
+                    src={type === 'lng' ? tickSrc : tickSolidSrc}
+                  ></img>
+                )}
               </div>
             )
           })}
         </div>
       }
     ></Accordion>
+  )
+}
+
+function renderChainSelect({ key, title }) {
+  return (
+    <div
+      style={{
+        marginRight: '1rem',
+        fontSize: '0.875rem',
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <img
+        style={{ width: '1.25rem', height: '1.25rem', marginRight: '0.5rem' }}
+        src={icons[key]}
+        alt="icon"
+      ></img>
+      <span
+        style={{ color: title ? 'white' : '#333333', marginRight: '0.2rem' }}
+      >
+        {key.toUpperCase()}
+      </span>{' '}
+      <span
+        style={{ color: title ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }}
+      >
+        {' /Conflux'}
+      </span>
+    </div>
   )
 }
