@@ -48,7 +48,17 @@ export default function App() {
       <RecoilRoot>
         <PrepareData>
           {IS_DEV && <div className={cx('banner')}>{t('banner')}</div>}
-          <SWRConfig value={{ suspense: true, revalidateOnFocus: false }}>
+          <SWRConfig
+            value={{
+              suspense: true,
+              revalidateOnFocus: false,
+              revalidateOnMount: false,
+              revalidateOnReconnect: false,
+              refreshWhenOffline: false,
+              refreshWhenHidden: false,
+              refreshInterval: 0,
+            }}
+          >
             <RouterRoot />
           </SWRConfig>
           <Risk />

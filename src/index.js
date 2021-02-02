@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './layout/Layout'
 
+import Test from './Test'
+
 
 import Big from 'big.js'
 

@@ -25,6 +25,6 @@
   "btc": "比特币",
   "eth": "以太坊",
   "all": "全部",
-  "from": "从{{value}}",
-  "to": "到{{value}}"
+  "from": "从 {{value}}",
+  "to": "到 {{value}}"
 }

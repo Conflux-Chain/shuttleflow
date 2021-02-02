@@ -25,6 +25,6 @@
   "btc": "BTC",
   "eth": "Ethereum",
   "all": "All",
-  "from": "From{{value}}",
-  "to": "To{{value}}"
+  "from": "From {{value}}",
+  "to": "To {{value}}"
 }

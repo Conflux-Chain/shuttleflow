@@ -2,6 +2,7 @@ import {
   BrowserRouter as Router,
   Redirect,
   Route,
+  Switch,
   useParams,
 } from 'react-router-dom'
 import useIsSamll from '../component/useSmallScreen'
@@ -12,7 +13,10 @@ import CHAIN_CONFIG from '../config/chainConfig'
 export default function RouterRoot() {
   return (
     <Router>
-      <Route path="/:chain" component={ChainChecker}></Route>
+      <Switch>
+        <Route path="/:chain" component={ChainChecker}></Route>
+        <Redirect from="/" exact to="/eth"></Redirect>
+      </Switch>
     </Router>
   )
 }

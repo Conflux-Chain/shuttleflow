@@ -9,13 +9,11 @@ import titleStyles from './title.module.scss'
 import Check from '../component/Check/Check'
 import { useTranslation } from 'react-i18next'
 import { formatAddress } from '../util/address'
-import useTokenList from '../data/useTokenList'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../config/config'
 import Icon from '../component/Icon/Icon'
-import { Loading } from '@cfxjs/react-ui'
 import { buildSearch } from '../component/urlSearch'
 import { useHistory, useParams } from 'react-router-dom'
 import useUrlSearch from '../data/useUrlSearch'
@@ -23,6 +21,7 @@ import WithQuestion from '../component/WithQuestion'
 import Modal, { modalStyles } from '../component/Modal'
 import { useBlockWithRisk } from '../layout/Risk'
 import CHAIN_CONFIG from '../config/chainConfig'
+import useTokenListSearch from '../data/useTokenListSearch'
 
 const sorts = {
   name: (a, b) => {
@@ -46,11 +45,9 @@ function TokenList({
   const { selected, ...searchParams } = useUrlSearch()
   const { chain } = useParams()
 
-  const { tokens: tokenList, isLoading: isListLoading } = useTokenList({})
-  const {
-    tokens: displayedList,
-    isLoading: isDisplayedLoading,
-  } = useTokenList({ search, cToken })
+  const tokenList = useTokenListSearch()
+  const displayedList = useTokenListSearch(search, cToken)
+
 
   const setToken = (selected) => {
     history.push(buildSearch({ ...searchParams, selected }))
@@ -71,14 +68,6 @@ function TokenList({
       setNotFound(displayedList.length === 0)
     }
   }, [displayedList, setNotFound])
-
-  if (isListLoading || isDisplayedLoading) {
-    return (
-      <PaddingContainer bottom={false}>
-        <Loading size="large" />
-      </PaddingContainer>
-    )
-  }
 
   return (
     <>
