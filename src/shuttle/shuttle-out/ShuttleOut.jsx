@@ -48,8 +48,6 @@ export default function ShuttleOut({ tokenInfo }) {
   const token = tokenInfo && tokenInfo.reference
   const { chain } = useParams()
 
-  const isBtc = token === 'btc'
-
   const [errorPopup, setErrorPopup] = useState(false)
   const [successPopup, setSuccessPopup] = useState(false)
   const [addrPopup, setAddrPopup] = useState(false)
@@ -83,7 +81,7 @@ export default function ShuttleOut({ tokenInfo }) {
   //to do fake a balance
   const schema = object().shape({
     outamount: big()
-      .min(tokenInfo ? tokenInfo.minimal_burn_value : 0, 'error.min')
+      .min(tokenInfo ? tokenInfo.minimal_out_value : 0, 'error.min')
       .max(balance, 'error.insufficient'),
     //outaddress maybe a better name, it will trigger Chrome autofill
     outwallet: string()
@@ -104,21 +102,24 @@ export default function ShuttleOut({ tokenInfo }) {
     resolver: yupResolver(schema),
     mode: 'onBlur',
   })
+  console.log(errors)
   //not necessarily trigger render
   const tx = useRef('')
   const onSubmit = (data) => {
+    console.log('data', data)
     let { outwallet, outamount } = data
-    const { burn_fee, ctoken } = tokenInfo
+    const { out_fee, ctoken } = tokenInfo
 
     CHAIN_CONFIG[chain]
       .checkAddress(outwallet, blockShuttleout, t)
       .then((result) => {
+        console.log('result', result)
         if (result === 'yes') {
           burn(
             outwallet,
             ctoken,
             outamount.mul('1e18') + '',
-            burn_fee.mul('1e18') + ''
+            out_fee.mul('1e18') + ''
           )
             .then((e) => {
               tx.current = e
@@ -238,11 +239,7 @@ export default function ShuttleOut({ tokenInfo }) {
                   placeholder={
                     <Trans
                       values={{
-                        type: token
-                          ? isBtc
-                            ? t('btc')
-                            : t('eth')
-                          : t('btc') + '/' + t('eth'),
+                        type: t(chain),
                       }}
                       i18nKey={'placeholder.address'}
                       t={t}

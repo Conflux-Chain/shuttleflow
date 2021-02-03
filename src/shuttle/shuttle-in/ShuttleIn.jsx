@@ -49,6 +49,8 @@ export default function ShuttleIn({ tokenInfo }) {
     }
   }, [])
 
+  console.log(tokenInfo)
+
   return (
     <div className={shuttleInCx('container')}>
       <TokenInput
