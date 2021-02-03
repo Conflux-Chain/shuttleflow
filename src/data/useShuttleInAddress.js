@@ -1,34 +1,32 @@
-import { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
 import jsonrpc from './jsonrpc'
 import useAddress from './useAddress'
+import useSWRONCE from '../lib/useSWROnce'
 
-export default function useShuttleInAddress(tokenInfo) {
+export default function useShuttleInAddress() {
   const address = useAddress()
-  const { reference } = tokenInfo || {}
-  const [result, setResult] = useState('')
-  //the endpoint will be called over and over again
-  //OK though
-  useEffect(() => {
-    let mount = true
-    if (address && reference) {
-      jsonrpc(
-        reference === 'btc'
-          ? 'getUserReceiveWalletBtc'
-          : 'getUserReceiveWalletEth',
-        {
-          url: 'node',
-          params: [address, '0x0000000000000000000000000000000000000000'],
-        }
-      ).then((e) => {
-        if (mount) {
-          setResult(e)
-        }
-      })
-    }
-    return () => {
-      mount = false
-    }
-  }, [address, reference])
+  const { chain } = useParams()
+  return useSWRONCE(['shuttleInAddress', chain, address], fetcher).data
+}
 
-  return result
+function fetcher(_key, chain, address) {
+  // return jsonrpc(
+  //   chain === 'btc' ? 'getUserReceiveWalletBtc' : 'getUserReceiveWalletEth',
+  //   {
+  //     url: 'node',
+  //     params: [address, '0x0000000000000000000000000000000000000000'],
+  //   }
+  // )
+  // console.log('fetch api')
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(), 3000)
+  }).then(() => {
+    return jsonrpc(
+      chain === 'btc' ? 'getUserReceiveWalletBtc' : 'getUserReceiveWalletEth',
+      {
+        url: 'node',
+        params: [address, '0x0000000000000000000000000000000000000000'],
+      }
+    )
+  })
 }

@@ -10,7 +10,6 @@ const displayFilters = {
   eth: ethDisplayFilter,
 }
 function fetcher(key, searchOrPair, chain, cToken) {
-  console.log(key, searchOrPair, chain, cToken)
   let search, pair
   if (key === 'search') {
     search = searchOrPair
@@ -37,7 +36,8 @@ export default function useTokenList({ pair, search, cToken } = {}) {
   const { chain } = useParams()
   return useSWR(
     pair ? ['pair', pair, chain] : ['search', search, chain, cToken],
-    fetcher
+    fetcher,
+    { suspense: true }
   ).data
 }
 

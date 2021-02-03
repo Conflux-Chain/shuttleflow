@@ -22,6 +22,8 @@ export default function ChooseToken({ captain, cToken, next }) {
   })
   const searchTimer = useRef()
 
+
+
   const { chain } = useParams()
   const [isNotAvailable, setIsNotAvailable] = useState(false)
   const [notFound, setNotFound] = useState(false)
@@ -29,6 +31,8 @@ export default function ChooseToken({ captain, cToken, next }) {
   const isSmall = useIsSamll()
   const history = useHistory()
   const { t } = useTranslation(['token'])
+
+  console.log('next(selected)',next(selected))
 
   return (
     <div className={chooseCx('container')}>
@@ -66,7 +70,7 @@ export default function ChooseToken({ captain, cToken, next }) {
               onClick={() => {
                 history.push(
                   isNotAvailable
-                    ? `${chain}/captain?pair=${selected}`
+                    ? `/${chain}/captain?pair=${selected}`
                     : typeof next === 'function'
                     ? next(selected)
                     : next

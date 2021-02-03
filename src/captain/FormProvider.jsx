@@ -95,13 +95,14 @@ export default function FormProvider({ pair }) {
     cethBalance
   ) {
     const currentMortgageBig = new Big(currentMortgage).div('1e18')
-    let minMortgageBig = new Big(minMortgage).div('1e18')
+    const minMortgageBig = new Big(minMortgage).div('1e18')
 
-    const currentMortgageBigBigger = currentMortgageBig.mul(Big('1.1'))
+    //todo 1.1 should come from contract sponsor replace ratio
+    const currentMortgagereplaceBig = currentMortgageBig.mul(Big('1.1'))
 
-    if (currentMortgageBigBigger.gt(minMortgageBig)) {
-      minMortgageBig = currentMortgageBigBigger
-    }
+    let minMortgageBigToDisplay = currentMortgagereplaceBig.gt(minMortgageBig)
+      ? currentMortgagereplaceBig
+      : minMortgageBig
 
     const cethBalanceBig = new Big(cethBalance).div('1e18')
 
@@ -110,10 +111,15 @@ export default function FormProvider({ pair }) {
       cethBalanceDisplay += '...'
     }
 
-    minMortgageBig = minMortgageBig.round(MAX_DECIMAL_DISPLAY, 3)
-    const defaultMortgageBig = sponsor
-      ? minMortgageBig.plus(`1e-${MAX_DECIMAL_DISPLAY}`)
-      : minMortgageBig
+    minMortgageBigToDisplay = minMortgageBigToDisplay.round(
+      MAX_DECIMAL_DISPLAY,
+      3
+    )
+    const defaultMortgageBig =
+      !sponsor || minMortgageBig.gt(minMortgageBigToDisplay)
+        ? minMortgageBig
+        : minMortgageBigToDisplay.plus(`1e-${MAX_DECIMAL_DISPLAY}`)
+
     const data = {
       address,
       ...tokenInfo,
@@ -124,7 +130,7 @@ export default function FormProvider({ pair }) {
 
       beCaptain,
       minMortgage,
-      minMortgageBig,
+      minMortgageBig: minMortgageBigToDisplay,
       currentMortgageBig,
       defaultMortgageBig,
       cethBalanceBig,

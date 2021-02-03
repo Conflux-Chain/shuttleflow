@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './layout/Layout'
 
-import Test from './Test'
+import Test from './TestSWRFetchOnce'
 
 
 import Big from 'big.js'

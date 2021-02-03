@@ -23,6 +23,7 @@ import TokenInput from '../TokenInput'
 
 import CTokenPopup from '../CTokenPopup'
 import WithQuestion from '../../component/WithQuestion'
+import { Loading } from '@cfxjs/react-ui'
 
 export default function ShuttleIn({ tokenInfo }) {
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
@@ -32,7 +33,7 @@ export default function ShuttleIn({ tokenInfo }) {
     modalStyles
   )
   const { t } = useTranslation('shuttle-in')
-  const shuttleInAddress = useShuttleInAddress(tokenInfo)
+  const shuttleInAddress = useShuttleInAddress()
 
   const [addressPopup, setAddressPopup] = useState(false)
   const [cTokenPopup, setCTokenPopup] = useState(false)
@@ -48,8 +49,6 @@ export default function ShuttleIn({ tokenInfo }) {
       clearTimeout(tm)
     }
   }, [])
-
-  console.log(tokenInfo)
 
   return (
     <div className={shuttleInCx('container')}>
@@ -97,7 +96,7 @@ export default function ShuttleIn({ tokenInfo }) {
                 }
                 placeholder={t('address-placeholder')}
               />
-              {shuttleInAddress && (
+              {shuttleInAddress && false ? (
                 <CopyToClipboard text={shuttleInAddress} onCopy={displayCopy}>
                   <img
                     alt="copy"
@@ -105,6 +104,10 @@ export default function ShuttleIn({ tokenInfo }) {
                     src={copy}
                   ></img>
                 </CopyToClipboard>
+              ) : (
+                <div className={shuttleInCx('copy')}>
+                  <Loading size="1rem" />
+                </div>
               )}
             </div>
           </div>

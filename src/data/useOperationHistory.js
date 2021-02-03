@@ -7,7 +7,12 @@ import formatNum from '../util/formatNum'
 import useAddress from './useAddress'
 import { useParams } from 'react-router'
 
-export default function useOperationHistory({ token, status, limit = 100, type } = {}) {
+export default function useOperationHistory({
+  token,
+  status,
+  limit = 100,
+  type,
+} = {}) {
   const address = useAddress()
   const [state, setState] = useState1({ data: [], loading: true })
   const { chain } = useParams()
@@ -94,7 +99,6 @@ function fetchHistory({
         if (!token) {
           token = 'btc'
         }
-        // console.log(tokenMap,to)
         //It can happen due to some unexpected human operation
         if (tokenMap[token]) {
           return { ...rest, ...tokenMap[token], token }
