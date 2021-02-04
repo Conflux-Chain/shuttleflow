@@ -71,7 +71,7 @@ export default function ShuttleOut({ tokenInfo }) {
     }
   }, [])
 
-  const _balance = useBalance(tokenInfo && tokenInfo.ctoken)
+  const _balance = useBalance(tokenInfo && tokenInfo.ctoken, { suspense: true })
   let balance = 0
 
   if (_balance) {
@@ -102,7 +102,6 @@ export default function ShuttleOut({ tokenInfo }) {
     resolver: yupResolver(schema),
     mode: 'onBlur',
   })
-  console.log(errors)
   //not necessarily trigger render
   const tx = useRef('')
   const onSubmit = (data) => {
