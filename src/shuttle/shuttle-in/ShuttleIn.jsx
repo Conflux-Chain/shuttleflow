@@ -18,7 +18,7 @@ import useStyle from '../../component/useStyle'
 import commonInputStyles from '../../component/input.module.scss'
 import shuttleStyle from '../Shuttle.module.scss'
 import shuttleInStyles from './ShuttleIn.module.scss'
-import useShuttleInAddress from '../../data/useShuttleInAddress'
+import useShuttleAddress from '../../data/useShuttleInAddress'
 import TokenInput from '../TokenInput'
 
 import CTokenPopup from '../CTokenPopup'
@@ -33,14 +33,11 @@ export default function ShuttleIn({ tokenInfo }) {
     modalStyles
   )
   const { t } = useTranslation('shuttle-in')
-  const shuttleInAddress = useShuttleInAddress()
-
   const [addressPopup, setAddressPopup] = useState(false)
   const [cTokenPopup, setCTokenPopup] = useState(false)
   const [minPopup, setMinPopup] = useState(false)
   const [feePopup, setFeePopup] = useState(false)
   const [copyPopup, setCopyPopup] = useState(false)
-  const [qrPopup, setQrPopup] = useState(false)
 
   const displayCopy = useCallback(() => {
     setCopyPopup(true)
@@ -68,72 +65,20 @@ export default function ShuttleIn({ tokenInfo }) {
       />
 
       {tokenInfo && (
-        <>
-          <div className={shuttleCx('small-text')}>
-            <WithQuestion onClick={() => setMinPopup(true)}>
-              <span>{t('amount', tokenInfo)}</span>
-            </WithQuestion>
-
-            <WithQuestion onClick={() => setFeePopup(true)}>
-              <span>{t('fee', tokenInfo)}</span>
-            </WithQuestion>
-          </div>
-
-          <div className={shuttleInCx('address')}>
-            <WithQuestion
-              className={shuttleCx('title')}
-              onClick={() => setAddressPopup(true)}
-            >
-              <span>{t('address')}</span>
-            </WithQuestion>
-
-            <div className={shuttleInCx('address-input')}>
-              <input
-                readOnly
-                defaultValue={shuttleInAddress}
-                className={
-                  commonCx('input-common') + ' ' + shuttleInCx('input-address')
-                }
-                placeholder={t('address-placeholder')}
-              />
-              {shuttleInAddress && false ? (
-                <CopyToClipboard text={shuttleInAddress} onCopy={displayCopy}>
-                  <img
-                    alt="copy"
-                    className={shuttleInCx('copy')}
-                    src={copy}
-                  ></img>
-                </CopyToClipboard>
-              ) : (
-                <div className={shuttleInCx('copy')}>
-                  <Loading size="1rem" />
-                </div>
-              )}
-            </div>
-          </div>
-          <div
-            style={{ alignItems: 'flex-start' }}
-            className={shuttleCx('small-text')}
-          >
-            <span>
-              <Trans
-                t={t}
-                i18nKey="latest"
-                values={{
-                  type: t(tokenInfo.reference === 'btc' ? 'btc' : 'eth'),
-                }}
-              ></Trans>
-            </span>
-
-            <span
-              className={shuttleInCx('qr-container')}
-              onClick={() => setQrPopup(true)}
-            >
-              <img className={shuttleInCx('img')} alt="qr" src={qr}></img>
-              <span>{t('qr')}</span>
-            </span>
-          </div>
-        </>
+        <TokenInfoDetails
+          {...{
+            shuttleCx,
+            setMinPopup,
+            tokenInfo,
+            setFeePopup,
+            shuttleInCx,
+            t,
+            modalCx,
+            commonCx,
+            setAddressPopup,
+            displayCopy,
+          }}
+        />
       )}
       <ShuttleHistory type="mint" />
       <Modal
@@ -188,6 +133,90 @@ export default function ShuttleIn({ tokenInfo }) {
           <div>{t('popup.copy')}</div>
         </div>
       </Modal>
+    </div>
+  )
+}
+
+function TokenInfoDetails({
+  shuttleCx,
+  commonCx,
+  modalCx,
+  shuttleInCx,
+  t,
+
+  setMinPopup,
+  setFeePopup,
+  setAddressPopup,
+  displayCopy,
+  tokenInfo,
+}) {
+  const { origin } = tokenInfo
+
+  console.log('TokenInfoDetails', origin)
+  const [qrPopup, setQrPopup] = useState(false)
+  const shuttleInAddress = useShuttleAddress({ type: 'in', origin })
+  return (
+    <>
+      <div className={shuttleCx('small-text')}>
+        <WithQuestion onClick={() => setMinPopup(true)}>
+          <span>{t('amount', tokenInfo)}</span>
+        </WithQuestion>
+
+        <WithQuestion onClick={() => setFeePopup(true)}>
+          <span>{t('fee', tokenInfo)}</span>
+        </WithQuestion>
+      </div>
+
+      <div className={shuttleInCx('address')}>
+        <WithQuestion
+          className={shuttleCx('title')}
+          onClick={() => setAddressPopup(true)}
+        >
+          <span>{t('address')}</span>
+        </WithQuestion>
+
+        <div className={shuttleInCx('address-input')}>
+          <input
+            readOnly
+            defaultValue={shuttleInAddress}
+            className={
+              commonCx('input-common') + ' ' + shuttleInCx('input-address')
+            }
+            placeholder={t('address-placeholder')}
+          />
+          {shuttleInAddress ? (
+            <CopyToClipboard text={shuttleInAddress} onCopy={displayCopy}>
+              <img alt="copy" className={shuttleInCx('copy')} src={copy}></img>
+            </CopyToClipboard>
+          ) : (
+            <div className={shuttleInCx('copy')}>
+              <Loading size="1rem" />
+            </div>
+          )}
+        </div>
+      </div>
+      <div
+        style={{ alignItems: 'flex-start' }}
+        className={shuttleCx('small-text')}
+      >
+        <span>
+          <Trans
+            t={t}
+            i18nKey="latest"
+            values={{
+              type: t(tokenInfo.reference === 'btc' ? 'btc' : 'eth'),
+            }}
+          ></Trans>
+        </span>
+
+        <span
+          className={shuttleInCx('qr-container')}
+          onClick={() => setQrPopup(true)}
+        >
+          <img className={shuttleInCx('img')} alt="qr" src={qr}></img>
+          <span>{t('qr')}</span>
+        </span>
+      </div>
 
       <Modal
         onClose={() => setQrPopup(false)}
@@ -209,6 +238,6 @@ export default function ShuttleIn({ tokenInfo }) {
           </div>
         </div>
       </Modal>
-    </div>
+    </>
   )
 }

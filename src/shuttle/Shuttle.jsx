@@ -89,9 +89,6 @@ function RouteComponent() {
   const { pair = '' } = useUrlSearch()
 
   const tokenInfo = useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
-
-  console.log(tokenInfo)
-
   const Component = type === 'in' ? ShuttleIn : ShuttleOut
   return <Component tokenInfo={tokenInfo} />
 }

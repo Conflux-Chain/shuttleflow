@@ -1,6 +1,5 @@
 import { parseNum } from '../util/formatNum'
 import Big from 'big.js'
-import md5 from '../lib/md5'
 import icons from './tokenIcons'
 
 export default function tokenListMapper(d) {
@@ -13,8 +12,8 @@ export default function tokenListMapper(d) {
     total_supply,
     decimals,
     icon,
-    ctoken,
     in_token_list,
+    id,
     origin = 'eth',
   } = d
 
@@ -48,7 +47,7 @@ export default function tokenListMapper(d) {
 
   return {
     ...d,
-    id: md5(reference + ctoken),
+    id: id + '',
     symbol: symbol || '',
     reference_name: reference_name || '',
     reference_symbol: reference_symbol || '',

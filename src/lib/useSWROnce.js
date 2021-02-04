@@ -8,10 +8,11 @@ export default function useSWRONCE(key, fetcher) {
     revalidateOnReconnect: false,
     refreshWhenOffline: false,
     refreshWhenHidden: false,
-    refreshInterval: 0,
+    // refreshInterval: 0,
   })
   const { revalidate } = swrRst
   useEffect(() => {
+    console.log('cache.get(key)', cache.get(key))
     if (!cache.get(key)) {
       revalidate()
     }

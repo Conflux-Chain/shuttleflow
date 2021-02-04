@@ -34,6 +34,7 @@ import { big } from '../../lib/yup/BigNumberSchema'
 import burn from '../../data/burn'
 import CHAIN_CONFIG from '../../config/chainConfig'
 import { useParams } from 'react-router'
+import mint from '../../data/mint'
 
 // dec5 usdt
 export default function ShuttleOut({ tokenInfo }) {
@@ -109,11 +110,14 @@ export default function ShuttleOut({ tokenInfo }) {
     let { outwallet, outamount } = data
     const { out_fee, ctoken } = tokenInfo
 
+    console.log(tokenInfo)
     CHAIN_CONFIG[chain]
       .checkAddress(outwallet, blockShuttleout, t)
       .then((result) => {
         console.log('result', result)
         if (result === 'yes') {
+          mint(outwallet, outamount.mul('1e18'), chain, ctoken)
+          return
           burn(
             outwallet,
             ctoken,

@@ -142,6 +142,7 @@ function TokenList({
               .slice(0, searching ? 5 : undefined)
               .sort(!search ? sorts[sort] : undefined)
               .map((tokenInfo, i) => {
+                console.log()
                 return (
                   <TokenRow
                     key={i}

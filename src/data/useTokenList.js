@@ -10,7 +10,6 @@ const displayFilters = {
   eth: ethDisplayFilter,
 }
 function fetcher(key, searchOrPair, chain, cToken) {
-  console.log('tokenlist fetcher',key, searchOrPair, chain, cToken)
   let search, pair
   if (key === 'search') {
     search = searchOrPair
@@ -42,8 +41,8 @@ export default function useTokenList({ pair, search, cToken } = {}) {
   ).data
 }
 
-function ethDisplayFilter({ supported, in_token_list }) {
-  return supported === 1 && in_token_list === 1
+function ethDisplayFilter({ supported, in_token_list, origin }) {
+  return origin === 'cfx' || (supported === 1 && in_token_list === 1)
 }
 
 function filterCfx(list, search) {

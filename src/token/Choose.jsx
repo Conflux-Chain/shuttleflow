@@ -32,8 +32,6 @@ export default function ChooseToken({ captain, cToken, next }) {
   const history = useHistory()
   const { t } = useTranslation(['token'])
 
-  console.log('next(selected)',next(selected))
-
   return (
     <div className={chooseCx('container')}>
       <PaddingContainer bottom={false}>
