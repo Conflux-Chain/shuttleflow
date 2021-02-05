@@ -86,22 +86,35 @@ export default function Market() {
         <PaddingContainer>
           {tokens
             .sort(sorts[sort])
-            .map(({ icon, symbol, reference_name, _total_supply }) => {
-              return (
-                <div key={symbol} className={cx('list')}>
-                  <div className={cx('left')}>
-                    <Icon src={icon} conflux style={{ marginRight: '1rem' }} />
-                    <div className={cx('txt')}>
-                      <div className={cx('large-txt')}>{symbol}</div>
-                      <div className={cx('small-txt')}>
-                        {'conflux ' + reference_name}
+            .map(
+              ({
+                icon,
+                symbol,
+                reference_name,
+                _total_supply,
+                name,
+                origin,
+              }) => {
+                return (
+                  <div key={symbol} className={cx('list')}>
+                    <div className={cx('left')}>
+                      <Icon
+                        src={icon}
+                        conflux={origin === 'eth'}
+                        style={{ marginRight: '1rem' }}
+                      />
+                      <div className={cx('txt')}>
+                        <div className={cx('large-txt')}>{symbol}</div>
+                        <div className={cx('small-txt')}>
+                          {name || 'conflux ' + reference_name}
+                        </div>
                       </div>
                     </div>
+                    <div className={cx('right')}>{_total_supply}</div>
                   </div>
-                  <div className={cx('right')}>{_total_supply}</div>
-                </div>
-              )
-            })}
+                )
+              }
+            )}
         </PaddingContainer>
       </Scrollbars>
     </MainContainer>

@@ -1,6 +1,5 @@
 import { parseNum } from '../util/formatNum'
 import Big from 'big.js'
-import md5 from '../lib/md5'
 import icons from './tokenIcons'
 
 export default function tokenListMapper(d) {
@@ -9,33 +8,61 @@ export default function tokenListMapper(d) {
     symbol,
     reference_symbol,
     reference_name,
-    sponsor_value,
+
     total_supply,
     decimals,
+    icon,
+    in_token_list,
+    id,
+    origin = 'eth',
+  } = d
+
+  let {
     minimal_burn_value,
     minimal_mint_value,
-    in_token_list,
     mint_fee,
     burn_fee,
     wallet_fee,
-    icon,
-    ctoken,
+    sponsor_value,
   } = d
-  const totalSupplyBig = total_supply && parseNum(total_supply, 18)
-  return {
-    ...d,
-    id: md5(reference + ctoken),
-    symbol: symbol || '',
-    reference_name: reference_name || '',
-    reference_symbol: reference_symbol || '',
-    total_supply: totalSupplyBig,
-    _total_supply: totalSupplyBig && formatSupply(totalSupplyBig),
-    sponsor_value: parseNum(sponsor_value, 18),
 
+  delete d.minimal_burn_value
+  delete d.minimal_mint_value
+  delete d.mint_fee
+  delete d.burn_fee
+  delete d.total_supply
+  const totalSupplyBig = total_supply && parseNum(total_supply, 18)
+  //18 is the decimal of cXXX token which is always 18 decimals
+  sponsor_value = parseNum(sponsor_value, 18)
+  const values = {
     minimal_burn_value: parseNum(minimal_burn_value, decimals),
     minimal_mint_value: parseNum(minimal_mint_value, decimals),
     mint_fee: parseNum(mint_fee, decimals),
     burn_fee: parseNum(burn_fee, decimals),
+  }
+
+  const toCFX = origin !== 'cfx'
+  const _out = toCFX ? 'burn' : 'mint'
+  const _in = toCFX ? 'mint' : 'burn'
+
+  return {
+    ...d,
+    id: id + '',
+    symbol: symbol || '',
+    reference_name: reference_name || '',
+    reference_symbol: reference_symbol || '',
+    // total_supply: totalSupplyBig,
+    _total_supply: totalSupplyBig && formatSupply(totalSupplyBig),
+    sponsor_value,
+
+    // minimal_burn_value: parseNum(minimal_burn_value, decimals),
+    // minimal_mint_value: parseNum(minimal_mint_value, decimals),
+    // mint_fee: parseNum(mint_fee, decimals),
+    // burn_fee: parseNum(burn_fee, decimals),
+    minimal_in_value: values[`minimal_${_in}_value`],
+    minimal_out_value: values[`minimal_${_out}_value`],
+    in_fee: values[`${_in}_fee`],
+    out_fee: values[`${_out}_fee`],
     wallet_fee: parseNum(wallet_fee, decimals),
     icon: icon || icons[reference],
     //btc and eth is not in gecko list,but they are trusted

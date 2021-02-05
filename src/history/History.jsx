@@ -27,7 +27,7 @@ export default function History() {
   const [statusExpanded, setStatusExpanded] = useState(false)
   const [typeExpanded, setTypeExpanded] = useState(false)
   const [filter, setFilter] = useState(0)
-  const { type = 'mint' } = useUrlSearch()
+  const { type = 'in' } = useUrlSearch()
   const history = useHistory()
 
   const { data: histories, loading } = useOperationHistory({
@@ -50,7 +50,7 @@ export default function History() {
               className={cx('filter-container')}
             >
               <div className={cx('select-item', 'filter-txt')}>
-                {t(type === 'mint' ? 'shuttle-in' : 'shuttle-out')}
+                {t(type === 'in' ? 'shuttle-in' : 'shuttle-out')}
               </div>
               <img
                 alt="open"
@@ -61,7 +61,7 @@ export default function History() {
           }
           content={
             <div className={cx('select-content')}>
-              {['mint', 'burn'].map((key) => (
+              {['in', 'out'].map((key) => (
                 <div
                   onClick={() => {
                     setTypeExpanded(false)
@@ -74,7 +74,7 @@ export default function History() {
                     active: key === type,
                   })}
                 >
-                  {t(key === 'mint' ? 'shuttle-in' : 'shuttle-out')}
+                  {t(key === 'in' ? 'shuttle-in' : 'shuttle-out')}
                 </div>
               ))}
             </div>

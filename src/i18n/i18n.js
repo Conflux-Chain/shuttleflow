@@ -1,15 +1,18 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
+import zhShuttle from './zh/shuttle.json'
 import zhShuttleIn from './zh/shuttle-in.json'
 import zhShuttleOut from './zh/shuttle-out.json'
 import zhCommon from './zh/common.json'
 import zhTokenTrans from './zh/token.json'
-//market and translation
+
+//market and history translation
 import zhMHTrans from './zh/history-market.json'
 import zhNavTrans from './zh/nav.json'
 import zhCaptainTrans from './zh/captain.json'
 
+import enShuttle from './en/shuttle.json'
 import enShuttleIn from './en/shuttle-in.json'
 import enShuttleOut from './en/shuttle-out.json'
 import enCommon from './en/common.json'
@@ -24,6 +27,7 @@ i18n
   .init({
     resources: {
       en: {
+        shuttle: enShuttle,
         'shuttle-in': enShuttleIn,
         'shuttle-out': enShuttleOut,
         common: enCommon,
@@ -34,6 +38,7 @@ i18n
         captain: enCaptainTrans,
       },
       zh: {
+        shuttle: zhShuttle,
         'shuttle-in': zhShuttleIn,
         'shuttle-out': zhShuttleOut,
         common: zhCommon,

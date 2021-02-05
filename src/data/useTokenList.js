@@ -10,7 +10,6 @@ const displayFilters = {
   eth: ethDisplayFilter,
 }
 function fetcher(key, searchOrPair, chain, cToken) {
-  console.log(key, searchOrPair, chain, cToken)
   let search, pair
   if (key === 'search') {
     search = searchOrPair
@@ -37,26 +36,30 @@ export default function useTokenList({ pair, search, cToken } = {}) {
   const { chain } = useParams()
   return useSWR(
     pair ? ['pair', pair, chain] : ['search', search, chain, cToken],
-    fetcher
+    fetcher,
+    { suspense: true }
   ).data
 }
 
-function ethDisplayFilter({ supported, in_token_list }) {
-  return supported === 1 && in_token_list === 1
+function ethDisplayFilter({ supported, in_token_list, origin }) {
+  return origin === 'cfx' || (supported === 1 && in_token_list === 1)
 }
 
 function filterCfx(list, search) {
   const lowerSearch = search.toLowerCase()
   return Promise.resolve(
-    list.filter(({ reference_name, reference_symbol, ctoken, supported }) => {
-      return (
-        //DO NOT present unsupported with ctoken
-        supported &&
-        (ctoken === search ||
-          reference_symbol.toLowerCase().indexOf(lowerSearch) > -1 ||
-          reference_name.toLowerCase().indexOf(lowerSearch) > -1)
-      )
-    })
+    list.filter(
+      ({ reference_name, reference_symbol, ctoken, symbol, supported }) => {
+        return (
+          //DO NOT present unsupported with ctoken
+          supported &&
+          (ctoken === search ||
+            reference_symbol.toLowerCase().indexOf(lowerSearch) > -1 ||
+            symbol.toLowerCase().indexOf(lowerSearch) > -1 ||
+            reference_name.toLowerCase().indexOf(lowerSearch) > -1)
+        )
+      }
+    )
   )
 }
 

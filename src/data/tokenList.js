@@ -2,11 +2,7 @@ import jsonrpc from './jsonrpc'
 import listItemMapper from './tokenListMapper'
 //todo replace with real server api
 const getListAPI = (chain) => {
-  return jsonrpc('getTokenList', { url: 'sponsor' }).then((list) => {
-    return list.filter((x) => {
-      return chain === 'btc' ? x.reference === 'btc' : x.reference !== 'btc'
-    })
-  })
+  return jsonrpc('getTokenList', { url: 'sponsor', params: [chain] })
 }
 
 const chainDataStore = {}
@@ -21,6 +17,10 @@ export const getTokenList = (chain) => {
           pre[cur.id] = { ...cur, fromId: true }
           if (cur.reference) {
             pre[cur.reference] = { ...cur, fromRef: true } //operation history data
+          }
+          if (cur.ctoken) {
+            
+            pre[cur.ctoken] = { ...cur, fromCtoken: true } //operation history data
           }
           return pre
         }, {})

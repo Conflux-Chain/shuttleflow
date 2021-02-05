@@ -1,28 +1,29 @@
-import { useEffect, useState } from 'react'
 import { ensureAddressForSdk } from '../util/address'
 import { getBalanceContract } from './contract'
 import useAddress from './useAddress'
+import useSWR from 'swr'
+import Big from 'big.js'
 
-// export default function useBalance() {
-//   const [] = useState([])
-//   useEffect(() => {}, [])
-// }
-
-export function useBalance(tokenAddr) {
-  const [balance, setBalance] = useState('')
+export function useBalance(tokenAddr, options = {}) {
   const address = useAddress()
-  useEffect(() => {
-    if (address && tokenAddr) {
-      getBalanceContract()
-        ?.tokenBalance(
-          ensureAddressForSdk(address),
-          ensureAddressForSdk(tokenAddr)
-        )
-        .call()
-        .then((x) => {
-          setBalance(x && x.toString())
-        })
-    }
-  }, [address, tokenAddr])
-  return balance
+  return useSWR(
+    address && tokenAddr ? ['useBalance', address, tokenAddr] : null,
+    fetcher,
+    { revalidateOnMount: true, ...options }
+  ).data
+}
+
+function fetcher(key, address, tokenAddr) {
+  console.log('useBalance fetcher', address, tokenAddr)
+  if (tokenAddr === 'cfx') {
+    return window.confluxJS.getBalance(address).then((x) => {
+      return x + ''
+    })
+  }
+  return getBalanceContract()
+    .tokenBalance(ensureAddressForSdk(address), ensureAddressForSdk(tokenAddr))
+    .call()
+    .then((x) => {
+      return x + ''
+    })
 }

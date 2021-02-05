@@ -1,34 +1,33 @@
-import { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
 import jsonrpc from './jsonrpc'
 import useAddress from './useAddress'
+import useSWR from 'swr'
 
-export default function useShuttleInAddress(tokenInfo) {
+export default function useShuttleAddress({ type, origin }) {
   const address = useAddress()
-  const { reference } = tokenInfo || {}
-  const [result, setResult] = useState('')
-  //the endpoint will be called over and over again
-  //OK though
-  useEffect(() => {
-    let mount = true
-    if (address && reference) {
-      jsonrpc(
-        reference === 'btc'
-          ? 'getUserReceiveWalletBtc'
-          : 'getUserReceiveWalletEth',
-        {
-          url: 'node',
-          params: [address, '0x0000000000000000000000000000000000000000'],
-        }
-      ).then((e) => {
-        if (mount) {
-          setResult(e)
-        }
-      })
-    }
-    return () => {
-      mount = false
-    }
-  }, [address, reference])
+  const { chain } = useParams()
+  return useSWR(
+    address ? ['shuttleInAddress', address, chain, origin, type] : null,
+    fetcher,
+    { revalidateOnMount: true }
+  ).data
+}
 
-  return result
+function fetcher(_key, address, chain, origin, type) {
+  console.log('fetcher', address, chain, origin, type)
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(), 0)
+  }).then(() => {
+    const isOriginCfx = origin === 'cfx'
+    return jsonrpc('getUserWallet', {
+      url: 'node',
+      params: [
+        address,
+        '0x0000000000000000000000000000000000000000',
+        origin,
+        isOriginCfx ? chain : 'cfx',
+        type,
+      ],
+    })
+  })
 }

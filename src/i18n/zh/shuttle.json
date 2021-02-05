@@ -1,0 +1,3 @@
+{
+  "popup-fee": "跨入手续费：<strong>{{mint_fee}} {{symbol}}</strong>\n地址创建费：<strong>{{wallet_fee}} {{symbol}}</strong>  <i>（仅第一次需要）</i>\n\n手续费由当前 Token Captain 制定，数值可能随时调整，请尽快完成操作。"
+}

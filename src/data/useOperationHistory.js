@@ -7,7 +7,12 @@ import formatNum from '../util/formatNum'
 import useAddress from './useAddress'
 import { useParams } from 'react-router'
 
-export default function useOperationHistory({ token, status, limit = 100, type } = {}) {
+export default function useOperationHistory({
+  token,
+  status,
+  limit = 100,
+  type,
+} = {}) {
   const address = useAddress()
   const [state, setState] = useState1({ data: [], loading: true })
   const { chain } = useParams()
@@ -73,12 +78,13 @@ function fetchHistory({
 } = {}) {
   return Promise.all([
     getTokenList(chain).then(({ tokenMap }) => tokenMap),
-    jsonrpc('getSpecificUserOperationList', {
+    jsonrpc('getUserOperationList', {
       url: 'node',
       params: [
         {
           type,
           token,
+          chain,
           status,
           address,
           defi: '0x0000000000000000000000000000000000000000',
@@ -86,18 +92,18 @@ function fetchHistory({
         0,
         limit,
       ],
-    }).then((x) => x.txs),
+    }),
   ]).then(([tokenMap, histories]) => {
     return histories
       .map(({ token, ...rest }) => {
         //todo make up for data error
-        if (!token) {
-          token = 'btc'
+        const { type: op_type } = rest
+        if (op_type.split('_')[0] === 'cfx') {
+          token = 'cfx'
         }
-        // console.log(tokenMap,to)
         //It can happen due to some unexpected human operation
         if (tokenMap[token]) {
-          return { ...rest, ...tokenMap[token], token }
+          return { ...rest, ...tokenMap[token], token, dir: type }
         } else {
           return false
         }
@@ -115,10 +121,14 @@ function historyAdapter({
   nonce_or_txid,
   amount,
   status,
+  dir,
+  symbol,
   settled_tx,
   ...rest
 }) {
   type = type.split('_')[1]
+  const isOriginCfx =
+    (dir === 'out' && type === 'mint') || (dir === 'in' && type === 'burn')
   let step
   if (status === 'confirming') {
     step = 0
@@ -135,11 +145,12 @@ function historyAdapter({
   return {
     //btc and eth do not have symbol
     ...rest,
-    symbol: reference_symbol || reference,
+    symbol: isOriginCfx ? symbol : reference_symbol || reference,
     type,
     step,
+    isOriginCfx,
     settled_tx,
     nonce_or_txid,
-    amount: (type === 'mint' ? '+' : '-') + formatNum(amount, decimals),
+    amount: (dir === 'in' ? '+' : '-') + formatNum(amount, decimals),
   }
 }

@@ -2,14 +2,13 @@
   "address": "Shuttle-In Address",
   "copy-address": "Copy Address",
   "address-placeholder": "Address",
-  "amount": "Minimum Amount {{minimal_mint_value}} {{reference_symbol}}",
-  "fee": "Fees {{mint_fee}} {{symbol}}",
+  "amount": "Minimum Amount {{minimal_in_value}} {{reference_symbol}}",
+  "fee": "Fees {{in_fee}} {{symbol}}",
   "latest": "Use <strong>{{type}}</strong> wallet to transfer, <strong>NOT</strong> Conflux wallet",
   "popup": {
     "address": "1. Please do not deposit any non-designated assets to the above address, otherwise the assets will not be recovered.\n2.The Shuttle In address may be updated, please refer to the latest address.\n3. Shuttle-In requires several blocks to confirm the transaction.\n4. ShuttleFlow is a truly decentralized product, and the user's private key is not accessible under any circumstances.\n5. The users' assets are escrowed in the smart contract, which has passed the third party security audit, and is protected by ShuttleFlow Cross-chain Multi-signature Alliance. Even if the ShuttleFlow private key is leaked, the users' assets could still be protected from hacking or moving by the platform itself or any third party. ",
     "contract": "{{symbol}} Contract Address ",
     "ctoken": "The token you received can be viewed in all Conflux Network wallets, such as ConfluxPortal. If the token cannot be found, you may need to add it by \"Add Token\".",
-    "fee": "The fee is set by the current Token Captain, and might be adjusted accordingly If the Token Captain is changed. It is recommended to complete the transaction as soon as possible to avoid transaction fee fluctuations. An address creation fee  <strong>{{wallet_fee}} {{symbol}}</strong> will be charged the first time you Shuttle-In.",
     "in-address": "Shuttle-In Address",
     "min": "If the Shuttle-In quantity is less than the minimum quantity, the user needs to accumulate the Shuttle-In amount to reach the minimum quantity requirement before continuing processing."
   },

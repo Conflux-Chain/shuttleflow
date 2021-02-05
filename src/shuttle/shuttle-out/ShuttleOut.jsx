@@ -34,6 +34,7 @@ import { big } from '../../lib/yup/BigNumberSchema'
 import burn from '../../data/burn'
 import CHAIN_CONFIG from '../../config/chainConfig'
 import { useParams } from 'react-router'
+import mint from '../../data/mint'
 
 // dec5 usdt
 export default function ShuttleOut({ tokenInfo }) {
@@ -47,8 +48,6 @@ export default function ShuttleOut({ tokenInfo }) {
   const { t } = useTranslation('shuttle-out')
   const token = tokenInfo && tokenInfo.reference
   const { chain } = useParams()
-
-  const isBtc = token === 'btc'
 
   const [errorPopup, setErrorPopup] = useState(false)
   const [successPopup, setSuccessPopup] = useState(false)
@@ -73,7 +72,7 @@ export default function ShuttleOut({ tokenInfo }) {
     }
   }, [])
 
-  const _balance = useBalance(tokenInfo && tokenInfo.ctoken)
+  const _balance = useBalance(tokenInfo && tokenInfo.ctoken, { suspense: true })
   let balance = 0
 
   if (_balance) {
@@ -83,7 +82,7 @@ export default function ShuttleOut({ tokenInfo }) {
   //to do fake a balance
   const schema = object().shape({
     outamount: big()
-      .min(tokenInfo ? tokenInfo.minimal_burn_value : 0, 'error.min')
+      .min(tokenInfo ? tokenInfo.minimal_out_value : 0, 'error.min')
       .max(balance, 'error.insufficient'),
     //outaddress maybe a better name, it will trigger Chrome autofill
     outwallet: string()
@@ -107,18 +106,24 @@ export default function ShuttleOut({ tokenInfo }) {
   //not necessarily trigger render
   const tx = useRef('')
   const onSubmit = (data) => {
+    console.log('data', data)
     let { outwallet, outamount } = data
-    const { burn_fee, ctoken } = tokenInfo
+    const { out_fee, ctoken, origin } = tokenInfo
 
+    console.log(tokenInfo)
     CHAIN_CONFIG[chain]
       .checkAddress(outwallet, blockShuttleout, t)
       .then((result) => {
+        console.log('result', result)
         if (result === 'yes') {
-          burn(
-            outwallet,
-            ctoken,
-            outamount.mul('1e18') + '',
-            burn_fee.mul('1e18') + ''
+          ;(origin === 'cfx'
+            ? mint(outwallet, outamount.mul('1e18'), chain, ctoken)
+            : burn(
+                outwallet,
+                ctoken,
+                outamount.mul('1e18') + '',
+                out_fee.mul('1e18') + ''
+              )
           )
             .then((e) => {
               tx.current = e
@@ -238,11 +243,7 @@ export default function ShuttleOut({ tokenInfo }) {
                   placeholder={
                     <Trans
                       values={{
-                        type: token
-                          ? isBtc
-                            ? t('btc')
-                            : t('eth')
-                          : t('btc') + '/' + t('eth'),
+                        type: t(chain),
                       }}
                       i18nKey={'placeholder.address'}
                       t={t}
@@ -288,7 +289,7 @@ export default function ShuttleOut({ tokenInfo }) {
           </>
         )}
       </form>
-      <ShuttleHistory type="burn" />
+      <ShuttleHistory type="out" />
       <Modal
         show={errorPopup}
         onClose={() => setErrorPopup(false)}

@@ -10,7 +10,6 @@ export default function Captain() {
   const [cx] = useStyle(styles)
   const { pair } = useUrlSearch()
   const { url } = useRouteMatch()
-
   return (
     <MainContainer
       style={{ minHeight: '100%' }}

@@ -50,7 +50,6 @@ export default function App() {
           {IS_DEV && <div className={cx('banner')}>{t('banner')}</div>}
           <SWRConfig
             value={{
-              suspense: true,
               revalidateOnFocus: false,
               revalidateOnMount: false,
               revalidateOnReconnect: false,
