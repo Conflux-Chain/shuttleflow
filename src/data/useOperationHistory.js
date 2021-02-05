@@ -98,7 +98,7 @@ function fetchHistory({
       .map(({ token, ...rest }) => {
         //todo make up for data error
         const { type: op_type } = rest
-        if (op_type.split('_')[0] === 'cfx') {
+        if (!tokenMap[token] && op_type.split('_')[0] === 'cfx') {
           token = 'cfx'
         }
         //It can happen due to some unexpected human operation
@@ -151,6 +151,7 @@ function historyAdapter({
     isOriginCfx,
     settled_tx,
     nonce_or_txid,
+    dir,
     amount: (dir === 'in' ? '+' : '-') + formatNum(amount, decimals),
   }
 }

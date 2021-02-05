@@ -9,8 +9,10 @@ import link from '../component/link-64.png'
 import { CONFLUXSCAN_TX, EHTHERSCAN_TX } from '../config/config'
 
 const STEPS = {
-  mint: ['init-in', 'main', 'shuttle', 'conflux'],
-  burn: ['init-out', 'conflux', 'shuttle', 'main'],
+  // mint: ['init-in', 'main', 'shuttle', 'conflux'],
+  // burn: ['init-out', 'conflux', 'shuttle', 'main'],
+  in: ['init-in', 'main', 'shuttle', 'conflux'],
+  out: ['init-out', 'conflux', 'shuttle', 'main'],
 }
 
 export default function HistoryItem(props) {
@@ -29,7 +31,7 @@ export default function HistoryItem(props) {
     setOpened,
     idx,
   } = props
-  const steps = STEPS[type]
+  const steps = STEPS[dir]
   const [cx] = useStyle(itemStyle)
   const { t } = useTranslation('history')
 
@@ -94,7 +96,7 @@ export default function HistoryItem(props) {
       expanded={opened}
       content={
         <div className={cx('items')}>
-          {STEPS[type].map((s, i) => {
+          {STEPS[dir].map((s, i) => {
             return (
               <div key={s} className={cx('item-container')}>
                 <div className={cx('bar-container')}>
@@ -129,13 +131,13 @@ export default function HistoryItem(props) {
                         let url
                         const _nonce_or_txid = nonce_or_txid.split('_')[0]
                         if (i <= 1) {
-                          if (type === 'mint') {
+                          if (type === 'in') {
                             url = EHTHERSCAN_TX + _nonce_or_txid
                           } else {
                             url = CONFLUXSCAN_TX + _nonce_or_txid
                           }
                         } else {
-                          if (type === 'mint') {
+                          if (type === 'in') {
                             url = CONFLUXSCAN_TX + settled_tx
                           } else {
                             url = EHTHERSCAN_TX + settled_tx
