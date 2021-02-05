@@ -32,13 +32,14 @@ export default function ShuttleIn({ tokenInfo }) {
     shuttleInStyles,
     modalStyles
   )
-  const { t } = useTranslation('shuttle-in')
+  const { t } = useTranslation(['shuttle-in','shuttle'])
   const [addressPopup, setAddressPopup] = useState(false)
   const [cTokenPopup, setCTokenPopup] = useState(false)
   const [minPopup, setMinPopup] = useState(false)
   const [feePopup, setFeePopup] = useState(false)
   const [copyPopup, setCopyPopup] = useState(false)
 
+  console.log(t('popup.fee'))
   const displayCopy = useCallback(() => {
     setCopyPopup(true)
     const tm = setTimeout(() => setCopyPopup(false), 2000)
@@ -80,7 +81,7 @@ export default function ShuttleIn({ tokenInfo }) {
           }}
         />
       )}
-      <ShuttleHistory type="mint" />
+      <ShuttleHistory type="in" />
       <Modal
         show={addressPopup}
         title
@@ -105,7 +106,11 @@ export default function ShuttleIn({ tokenInfo }) {
         clickAway={() => setFeePopup(false)}
       >
         <div className={modalCx('content')}>
-          <Trans values={tokenInfo} t={t} i18nKey="popup.fee"></Trans>
+          <Trans
+            values={tokenInfo}
+            t={t}
+            i18nKey="popup-fee"
+          ></Trans>
         </div>
         <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
           {t('popup.ok')}

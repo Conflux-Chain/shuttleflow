@@ -18,6 +18,10 @@ export const getTokenList = (chain) => {
           if (cur.reference) {
             pre[cur.reference] = { ...cur, fromRef: true } //operation history data
           }
+          if (cur.ctoken) {
+            
+            pre[cur.ctoken] = { ...cur, fromCtoken: true } //operation history data
+          }
           return pre
         }, {})
         return { tokenList, tokenMap }

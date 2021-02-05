@@ -225,7 +225,11 @@ function TokenRow({
     : `${EHTHERSCAN_TK}${reference}`
   const name = (cToken ? 'Conflux ' : '') + reference_name
   const symbolName = cToken ? symbol : reference_symbol
-  const address = cToken ? ctoken : reference.startsWith('0x') ? reference : ''
+  const address = cToken
+    ? ctoken !== 'cfx' && ctoken
+    : reference.startsWith('0x')
+    ? reference
+    : ''
   const urlChain = chain
   const displayChain = cToken ? 'cfx' : chain
 

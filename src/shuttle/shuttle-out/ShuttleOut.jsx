@@ -289,7 +289,7 @@ export default function ShuttleOut({ tokenInfo }) {
           </>
         )}
       </form>
-      <ShuttleHistory type="burn" />
+      <ShuttleHistory type="out" />
       <Modal
         show={errorPopup}
         onClose={() => setErrorPopup(false)}

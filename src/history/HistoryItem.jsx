@@ -20,7 +20,9 @@ export default function HistoryItem(props) {
     type,
     token,
     icon,
+    dir,
     symbol,
+    isOriginCfx,
     nonce_or_txid,
     settled_tx,
     opened,
@@ -30,8 +32,6 @@ export default function HistoryItem(props) {
   const steps = STEPS[type]
   const [cx] = useStyle(itemStyle)
   const { t } = useTranslation('history')
-
-  // console.log(props)
 
   return (
     <Accordion
@@ -52,7 +52,7 @@ export default function HistoryItem(props) {
             </div>
             <div className={cx('two-row', 'end')}>
               <div
-                style={{ color: type === 'mint' ? '#FFA467' : '#44D7B6' }}
+                style={{ color: dir === 'in' ? '#FFA467' : '#44D7B6' }}
                 className={cx('large-txt', 'amount')}
               >
                 {amount}
