@@ -84,6 +84,7 @@ function fetchHistory({
         {
           type,
           token,
+          chain,
           status,
           address,
           defi: '0x0000000000000000000000000000000000000000',

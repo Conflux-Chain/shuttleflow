@@ -203,6 +203,7 @@ function TokenRow({
   reference_name,
   reference,
   symbol,
+  origin,
   id,
   ctoken,
   sponsor_value,
@@ -225,7 +226,13 @@ function TokenRow({
   const name = (cToken ? 'Conflux ' : '') + reference_name
   const symbolName = cToken ? symbol : reference_symbol
   const address = cToken ? ctoken : reference.startsWith('0x') ? reference : ''
-  chain = cToken ? 'cfx' : chain
+  const urlChain = chain
+  const displayChain = cToken ? 'cfx' : chain
+
+  const a = {
+    ...(origin === urlChain && cToken && { conflux: true }),
+    ...(origin === 'cfx' && !cToken && { eth: true }),
+  }
   return (
     <PaddingContainer
       bottom={false}
@@ -265,7 +272,8 @@ function TokenRow({
         <Icon
           risk={!in_token_list}
           src={icon}
-          conflux={cToken}
+          {...a}
+          // conflux={cToken}
           style={{ marginLeft: '0.5rem', marginRight: '1rem' }}
         />
         <div className={ListCx('two-row')}>
@@ -297,7 +305,7 @@ function TokenRow({
         {address && (
           <div className={ListCx('link')}>
             <span className={ListCx('link-txt')}>
-              {formatAddress(address, { chain })}
+              {formatAddress(address, { chain: displayChain })}
             </span>
             <img
               alt="link"

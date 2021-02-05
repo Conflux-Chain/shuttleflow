@@ -22,7 +22,7 @@ export default function mint(addr, amount, chain, ctoken) {
     address = ensureAddressForSdk(address)
 
     if (ctoken === 'cfx') {
-      window.confluxJS
+      return window.confluxJS
         .sendTransaction({
           from: selectedAddress,
           to: address,
@@ -30,10 +30,10 @@ export default function mint(addr, amount, chain, ctoken) {
         })
         .then((e) => {
           console.log(e)
+          return e
         })
     } else {
-      debugger
-      getErc20Contract()
+      return getErc20Contract()
         .transfer(address, amount)
         .sendTransaction({
           from: selectedAddress,
@@ -41,6 +41,7 @@ export default function mint(addr, amount, chain, ctoken) {
         })
         .then((e) => {
           console.log(e)
+          return e
         })
     }
   })

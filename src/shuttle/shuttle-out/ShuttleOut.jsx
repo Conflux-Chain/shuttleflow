@@ -108,7 +108,7 @@ export default function ShuttleOut({ tokenInfo }) {
   const onSubmit = (data) => {
     console.log('data', data)
     let { outwallet, outamount } = data
-    const { out_fee, ctoken } = tokenInfo
+    const { out_fee, ctoken, origin } = tokenInfo
 
     console.log(tokenInfo)
     CHAIN_CONFIG[chain]
@@ -116,13 +116,14 @@ export default function ShuttleOut({ tokenInfo }) {
       .then((result) => {
         console.log('result', result)
         if (result === 'yes') {
-          mint(outwallet, outamount.mul('1e18'), chain, ctoken)
-          return
-          burn(
-            outwallet,
-            ctoken,
-            outamount.mul('1e18') + '',
-            out_fee.mul('1e18') + ''
+          ;(origin === 'cfx'
+            ? mint(outwallet, outamount.mul('1e18'), chain, ctoken)
+            : burn(
+                outwallet,
+                ctoken,
+                outamount.mul('1e18') + '',
+                out_fee.mul('1e18') + ''
+              )
           )
             .then((e) => {
               tx.current = e

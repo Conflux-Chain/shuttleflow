@@ -152,7 +152,6 @@ function TokenInfoDetails({
 }) {
   const { origin } = tokenInfo
 
-  console.log('TokenInfoDetails', origin)
   const [qrPopup, setQrPopup] = useState(false)
   const shuttleInAddress = useShuttleAddress({ type: 'in', origin })
   return (

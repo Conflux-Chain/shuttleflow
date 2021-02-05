@@ -32,7 +32,7 @@ export default function History() {
 
   const { data: histories, loading } = useOperationHistory({
     status: FILTERS[filter][1],
-    type,
+    type: type === 'mint' ? 'in' : 'out',
   })
 
   return (
