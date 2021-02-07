@@ -23,6 +23,7 @@ import useIsSamll from '../component/useSmallScreen'
 import useUrlSearch from '../lib/useUrlSearch'
 import useTokenList from '../data/useTokenList'
 import { CHAIN_SINGLE_PAIR } from '../config/constant'
+import Modal from '../component/Modal'
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['nav'])

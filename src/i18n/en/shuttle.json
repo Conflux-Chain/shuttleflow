@@ -1,4 +1,6 @@
 {
   "popup-fee": "The fee is set by the current Token Captain, and might be adjusted accordingly If the Token Captain is changed. It is recommended to complete the transaction as soon as possible to avoid transaction fee fluctuations. An address creation fee  <strong>{{wallet_fee}} {{symbol}}</strong> will be charged the first time you {{operation}}.",
-  "wallet-create-fee": "An address creation fee  <strong>{{wallet_fee}} {{symbol}}</strong> will be charged the first time you Shuttle-In.\n"
+  "wallet-create-fee": "An address creation fee  <strong>{{wallet_fee}} {{symbol}}</strong> will be charged the first time you Shuttle-In.\n",
+  "popup-token": "The token you received can be viewed in all Conflux Network wallets, such as ConfluxPortal. If the token cannot be found, you may need to add it by \"Add Token\".",
+  "popup-contract": "{{symbol}} Contract Address "
 }

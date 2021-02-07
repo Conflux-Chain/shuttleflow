@@ -7,15 +7,19 @@ import modalStyles from '../component/modal.module.scss'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import copyDark from './shuttle-in/i-copy-dark-48.png'
+import { useParams } from 'react-router'
 
 export default function CTokenPopup({
+  displayName,
+  address,
   cTokenPopup,
   setCTokenPopup,
   tokenInfo,
-  displayCopy
+  displayCopy,
 }) {
   const [cTokenCx, modalCx] = useStyle(ctokenStyles, modalStyles)
-  const { t } = useTranslation('shuttle-in')
+  const { t } = useTranslation('shuttle')
+
   return (
     <Modal
       show={cTokenPopup}
@@ -23,10 +27,10 @@ export default function CTokenPopup({
       onClose={() => setCTokenPopup(false)}
       clickAway={() => setCTokenPopup(false)}
     >
-      <div className={modalCx('content')}>{t('popup.ctoken')}</div>
+      <div className={modalCx('content')}>{t('popup-token')}</div>
       <div className={cTokenCx('ctoken')}>
         <div className={cTokenCx('contract-address')}>
-          {t('popup.contract', tokenInfo)}
+          {t('popup-contract', tokenInfo)}
         </div>
         <div className={cTokenCx('ctoken-copy')}>
           <div className={cTokenCx('popup-address')}>
@@ -36,7 +40,7 @@ export default function CTokenPopup({
           <CopyToClipboard
             text={tokenInfo && tokenInfo.ctoken}
             onCopy={() => {
-                displayCopy()
+              displayCopy()
             }}
           >
             <img
