@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import open from './open.svg'
 import link from '../component/link-64.png'
 import { CONFLUXSCAN_TX, EHTHERSCAN_TX } from '../config/config'
+import { useParams } from 'react-router'
 
 const STEPS = {
   // mint: ['init-in', 'main', 'shuttle', 'conflux'],
@@ -19,12 +20,10 @@ export default function HistoryItem(props) {
   let {
     amount,
     step: currentStep,
-    type,
     token,
     icon,
     dir,
     symbol,
-    isOriginCfx,
     nonce_or_txid,
     settled_tx,
     opened,
@@ -34,6 +33,7 @@ export default function HistoryItem(props) {
   const steps = STEPS[dir]
   const [cx] = useStyle(itemStyle)
   const { t } = useTranslation('history')
+  const { chain } = useParams()
 
   return (
     <Accordion
@@ -96,9 +96,9 @@ export default function HistoryItem(props) {
       expanded={opened}
       content={
         <div className={cx('items')}>
-          {STEPS[dir].map((s, i) => {
+          {STEPS[dir].map((step, i) => {
             return (
-              <div key={s} className={cx('item-container')}>
+              <div key={step} className={cx('item-container')}>
                 <div className={cx('bar-container')}>
                   <div
                     className={cx('bar', { complete: i <= currentStep })}
@@ -118,11 +118,11 @@ export default function HistoryItem(props) {
                   style={{ marginBottom: i === 3 ? 0 : '' }}
                   className={cx('item', { complete: i <= currentStep })}
                 >
-                  {t(s)}
+                  {t(step, { chain: t(chain) })}
                   {i > currentStep ||
                   (token === 'btc' &&
-                    ((type === 'mint' && i <= 1) ||
-                      (type === 'burn' && i > 1))) ? null : (
+                    ((dir === 'in' && i <= 1) ||
+                      (dir === 'out' && i > 1))) ? null : (
                     <img
                       className={cx('img')}
                       src={link}
@@ -130,14 +130,15 @@ export default function HistoryItem(props) {
                       onClick={() => {
                         let url
                         const _nonce_or_txid = nonce_or_txid.split('_')[0]
+
                         if (i <= 1) {
-                          if (type === 'in') {
+                          if (dir === 'in') {
                             url = EHTHERSCAN_TX + _nonce_or_txid
                           } else {
                             url = CONFLUXSCAN_TX + _nonce_or_txid
                           }
                         } else {
-                          if (type === 'in') {
+                          if (dir === 'in') {
                             url = CONFLUXSCAN_TX + settled_tx
                           } else {
                             url = EHTHERSCAN_TX + settled_tx

@@ -4,7 +4,7 @@
   "pending": "进行中",
   "init-in": "开始跨链转入",
   "init-out": "开始跨链转出",
-  "main": "ETH/BTC 主网已确认",
+  "main": "{{chain}}主网已确认",
   "shuttle": "ShuttleFlow 跨链联盟已确认",
   "conflux": "Conflux 主网已确认",
   "token": "代币",

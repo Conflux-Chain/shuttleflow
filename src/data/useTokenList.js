@@ -8,6 +8,7 @@ import { CHAIN_SINGLE_PAIR } from '../config/constant'
 
 const displayFilters = {
   eth: ethDisplayFilter,
+  btc: (x) => x,
 }
 function fetcher(key, searchOrPair, chain, cToken) {
   let search, pair

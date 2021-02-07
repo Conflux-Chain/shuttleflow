@@ -146,8 +146,8 @@ function TokenList({
                 return (
                   <TokenRow
                     key={i}
+                    tokenInfo={tokenInfo}
                     {...{
-                      ...tokenInfo,
                       token: selected,
                       chain,
                       cToken,
@@ -197,17 +197,8 @@ function TokenList({
 }
 
 function TokenRow({
-  supported,
-  in_token_list,
-  reference_symbol,
-  reference_name,
-  reference,
-  symbol,
-  origin,
-  id,
-  ctoken,
+  tokenInfo,
   sponsor_value,
-  icon,
   cToken,
   captain,
   disabled,
@@ -216,6 +207,18 @@ function TokenRow({
   checked,
   chain,
 }) {
+  const {
+    supported,
+    in_token_list,
+    reference_symbol,
+    reference_name,
+    reference,
+    symbol,
+    origin,
+    id,
+    ctoken,
+    icon,
+  } = tokenInfo
   const [ListCx] = useStyle(tokenListStyles, titleStyles)
   const { t } = useTranslation(['token'])
   const notAvailable = supported === 0
@@ -230,23 +233,18 @@ function TokenRow({
     : reference.startsWith('0x')
     ? reference
     : ''
-  const urlChain = chain
   const displayChain = cToken ? 'cfx' : chain
 
-  const a = {
-    ...(origin === urlChain && cToken && { conflux: true }),
-    ...(origin === 'cfx' && !cToken && { eth: true }),
-  }
   return (
     <PaddingContainer
       bottom={false}
       className={ListCx('row', { checked })}
       onClick={() => {
-        if (in_token_list) {
-          if (checked) {
-            setToken('')
-            setIsNotAvailable(false)
-          } else {
+        if (checked) {
+          setToken('')
+          setIsNotAvailable(false)
+        } else {
+          const callback = () => {
             if (!disabled) {
               setToken(id)
               if (notAvailable) {
@@ -254,16 +252,10 @@ function TokenRow({
               }
             }
           }
-        } else {
-          if (checked) {
-            setToken('')
+          if (in_token_list) {
+            callback()
           } else {
-            block(() => {
-              setToken(reference)
-              if (notAvailable) {
-                setIsNotAvailable(true)
-              }
-            })
+            block(callback)
           }
         }
       }}
@@ -274,10 +266,8 @@ function TokenRow({
         </div>
 
         <Icon
-          risk={!in_token_list}
-          src={icon}
-          {...a}
-          // conflux={cToken}
+          cToken={!!cToken}
+          {...tokenInfo}
           style={{ marginLeft: '0.5rem', marginRight: '1rem' }}
         />
         <div className={ListCx('two-row')}>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Switch, Route, Link, Redirect, useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import layoutBottomState from '../layout/LayoutButtomState'
@@ -85,10 +85,16 @@ export default function Shuttle({ match: { path, url } }) {
 }
 
 function RouteComponent() {
-  const { type } = useParams()
   const { pair = '' } = useUrlSearch()
-
   const tokenInfo = useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
+  const [feePopup, setFeePopup] = useState(false)
+  const { type } = useParams()
+
   const Component = type === 'in' ? ShuttleIn : ShuttleOut
-  return <Component tokenInfo={tokenInfo} />
+
+  return (
+    <>
+      <Component tokenInfo={tokenInfo} {...{ feePopup, setFeePopup }} />
+    </>
+  )
 }
