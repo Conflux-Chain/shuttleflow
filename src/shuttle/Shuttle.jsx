@@ -88,7 +88,7 @@ function RouteComponent() {
   const { pair = '' } = useUrlSearch()
   const tokenInfo = useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
   const [feePopup, setFeePopup] = useState(false)
-  const { type, chain } = useParams()
+  const { type } = useParams()
 
   const Component = type === 'in' ? ShuttleIn : ShuttleOut
 

@@ -121,8 +121,8 @@ export default function HistoryItem(props) {
                   {t(s)}
                   {i > currentStep ||
                   (token === 'btc' &&
-                    ((type === 'mint' && i <= 1) ||
-                      (type === 'burn' && i > 1))) ? null : (
+                    ((dir === 'in' && i <= 1) ||
+                      (dir === 'out' && i > 1))) ? null : (
                     <img
                       className={cx('img')}
                       src={link}
@@ -130,14 +130,15 @@ export default function HistoryItem(props) {
                       onClick={() => {
                         let url
                         const _nonce_or_txid = nonce_or_txid.split('_')[0]
+
                         if (i <= 1) {
-                          if (type === 'in') {
+                          if (dir === 'in') {
                             url = EHTHERSCAN_TX + _nonce_or_txid
                           } else {
                             url = CONFLUXSCAN_TX + _nonce_or_txid
                           }
                         } else {
-                          if (type === 'in') {
+                          if (dir === 'in') {
                             url = CONFLUXSCAN_TX + settled_tx
                           } else {
                             url = EHTHERSCAN_TX + settled_tx

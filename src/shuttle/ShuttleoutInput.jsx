@@ -44,6 +44,7 @@ function ShuttleOutInput(
         }}
         ref={ref}
         name={name}
+        style={{ paddingRight: '5rem' }}
         className={commonCx('input-common', { error })}
       />
 

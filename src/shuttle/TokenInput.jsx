@@ -18,9 +18,19 @@ export default function TokenInput({ tokenInfo, cToken, placeholder, dir }) {
   const [tkInputCx, commonCx] = useStyle(tokenInputStyles, commonInputStyles)
   const singleton = tokenInfo && tokenInfo.singleton
 
+  const origin = tokenInfo && tokenInfo.origin
+  console.log(origin, chain, cToken)
+  const a = {
+    ...(origin === chain && cToken && { conflux: true }),
+    ...(origin === 'cfx' && !cToken && { eth: true }),
+  }
+
+  console.log(a)
   return (
     <>
-      <div className={tkInputCx('txt')}>{t(dir, { value: t(cToken ? 'Conflux' : chain) })}</div>
+      <div className={tkInputCx('txt')}>
+        {t(dir, { value: t(cToken ? 'Conflux' : chain) })}
+      </div>
       <div
         onClick={
           !singleton
@@ -41,8 +51,8 @@ export default function TokenInput({ tokenInfo, cToken, placeholder, dir }) {
           {tokenInfo ? (
             <>
               <Icon
-                src={tokenInfo.icon}
-                conflux={cToken}
+                {...tokenInfo}
+                cToken={!!cToken}
                 size={isSmall ? '3rem' : '2rem'}
               />
 

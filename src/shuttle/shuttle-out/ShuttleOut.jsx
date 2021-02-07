@@ -25,7 +25,7 @@ import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
 import TokenInput from '../TokenInput'
-import ShuttleOutInput from '../Input'
+import ShuttleOutInput from '../ShuttleoutInput'
 import { parseNum } from '../../util/formatNum'
 import { CONFLUXSCAN_TX } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'

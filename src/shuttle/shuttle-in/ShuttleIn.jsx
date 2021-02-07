@@ -135,7 +135,6 @@ function TokenInfoDetails({
   displayCopy,
   tokenInfo,
 }) {
-  console.log(tokenInfo)
   const { origin } = tokenInfo
   const { chain } = useParams()
   const [feePopup, setFeePopup] = useState(false)
