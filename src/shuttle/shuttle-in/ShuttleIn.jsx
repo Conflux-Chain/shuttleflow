@@ -2,16 +2,16 @@ import React, { useCallback, useState } from 'react'
 
 import { useTranslation, Trans } from 'react-i18next'
 import QRCode from 'qrcode.react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import down from '../down.svg'
 import copy from './i-copy-48.png'
 
 import tick from './tick.svg'
 import qr from './qr.svg'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 
-import Modal from '../../component/Modal'
-import modalStyles from '../../component/modal.module.scss'
+import Modal, { modalStyles } from '../../component/Modal'
+
 import ShuttleHistory from '../../history/ShuttleHistory'
 
 import useStyle from '../../component/useStyle'
@@ -24,6 +24,7 @@ import TokenInput from '../TokenInput'
 import CTokenPopup from '../CTokenPopup'
 import WithQuestion from '../../component/WithQuestion'
 import { Loading } from '@cfxjs/react-ui'
+import { useParams } from 'react-router'
 
 export default function ShuttleIn({ tokenInfo }) {
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
@@ -32,14 +33,13 @@ export default function ShuttleIn({ tokenInfo }) {
     shuttleInStyles,
     modalStyles
   )
-  const { t } = useTranslation(['shuttle-in','shuttle'])
+  const { t } = useTranslation(['shuttle-in', 'shuttle'])
   const [addressPopup, setAddressPopup] = useState(false)
   const [cTokenPopup, setCTokenPopup] = useState(false)
   const [minPopup, setMinPopup] = useState(false)
-  const [feePopup, setFeePopup] = useState(false)
+
   const [copyPopup, setCopyPopup] = useState(false)
 
-  console.log(t('popup.fee'))
   const displayCopy = useCallback(() => {
     setCopyPopup(true)
     const tm = setTimeout(() => setCopyPopup(false), 2000)
@@ -71,7 +71,6 @@ export default function ShuttleIn({ tokenInfo }) {
             shuttleCx,
             setMinPopup,
             tokenInfo,
-            setFeePopup,
             shuttleInCx,
             t,
             modalCx,
@@ -99,23 +98,6 @@ export default function ShuttleIn({ tokenInfo }) {
         setCTokenPopup={setCTokenPopup}
         tokenInfo={tokenInfo}
       />
-      <Modal
-        show={feePopup}
-        title
-        onClose={() => setFeePopup(false)}
-        clickAway={() => setFeePopup(false)}
-      >
-        <div className={modalCx('content')}>
-          <Trans
-            values={tokenInfo}
-            t={t}
-            i18nKey="popup-fee"
-          ></Trans>
-        </div>
-        <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
-          {t('popup.ok')}
-        </div>
-      </Modal>
       <Modal
         show={minPopup}
         title
@@ -148,15 +130,15 @@ function TokenInfoDetails({
   modalCx,
   shuttleInCx,
   t,
-
   setMinPopup,
-  setFeePopup,
   setAddressPopup,
   displayCopy,
   tokenInfo,
 }) {
+  console.log(tokenInfo)
   const { origin } = tokenInfo
-
+  const { chain } = useParams()
+  const [feePopup, setFeePopup] = useState(false)
   const [qrPopup, setQrPopup] = useState(false)
   const shuttleInAddress = useShuttleAddress({ type: 'in', origin })
   return (
@@ -240,6 +222,29 @@ function TokenInfoDetails({
               </div>
             </CopyToClipboard>
           </div>
+        </div>
+      </Modal>
+      <Modal
+        show={feePopup}
+        title
+        onClose={() => setFeePopup(false)}
+        clickAway={() => setFeePopup(false)}
+      >
+        <div className={modalCx('content')}>
+          <Trans
+            values={{
+              operation: t('shuttle-in'),
+              ...tokenInfo,
+              fee: tokenInfo['in_fee'],
+              is_create:
+                origin === chain ? t('wallet-create-fee', tokenInfo) : '',
+            }}
+            t={t}
+            i18nKey="popup-fee"
+          ></Trans>
+        </div>
+        <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
+          {t('popup.ok')}
         </div>
       </Modal>
     </>

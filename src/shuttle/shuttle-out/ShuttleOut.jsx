@@ -45,7 +45,7 @@ export default function ShuttleOut({ tokenInfo }) {
     shuttleOutStyles,
     shuttleInStyle
   )
-  const { t } = useTranslation('shuttle-out')
+  const { t } = useTranslation(['shuttle-out', 'shuttle'])
   const token = tokenInfo && tokenInfo.reference
   const { chain } = useParams()
 
@@ -330,19 +330,32 @@ export default function ShuttleOut({ tokenInfo }) {
           {t('popup.ok')}
         </div>
       </Modal>
-      <Modal
-        show={feePopup}
-        title
-        onClose={() => setFeePopup(false)}
-        clickAway={() => setFeePopup(false)}
-      >
-        <div className={modalCx('content')}>
-          <Trans values={tokenInfo} i18nKey="popup.fee" t={t}></Trans>
-        </div>
-        <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
-          {t('popup.ok')}
-        </div>
-      </Modal>
+      {tokenInfo && (
+        <Modal
+          show={feePopup}
+          title
+          onClose={() => setFeePopup(false)}
+          clickAway={() => setFeePopup(false)}
+        >
+          <div className={modalCx('content')}>
+            <Trans
+              values={{
+                operation: t('shuttle-out'),
+                ...tokenInfo,
+                fee: tokenInfo['out_fee'],
+                is_create:
+                  origin !== chain ? t('wallet-create-fee', tokenInfo) : '',
+              }}
+              i18nKey="popup-fee"
+              t={t}
+            ></Trans>
+          </div>
+          <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
+            {t('popup.ok')}
+          </div>
+        </Modal>
+      )}
+
       <CTokenPopup
         cTokenPopup={ctokenPopup}
         setCTokenPopup={setCTokenPopup}
