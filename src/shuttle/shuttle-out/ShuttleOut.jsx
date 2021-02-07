@@ -148,7 +148,8 @@ export default function ShuttleOut({ tokenInfo }) {
           dir="from"
           placeholder={t('placeholder.out')}
           tokenInfo={tokenInfo}
-          cToken={() => setCTokenPopup(true)}
+          cToken
+          displayCopy={displayCopy}
         />
 
         <div className={shuttleCx('down')}>
@@ -160,6 +161,7 @@ export default function ShuttleOut({ tokenInfo }) {
           dir="to"
           tokenInfo={tokenInfo}
           placeholder={t('placeholder.in')}
+          displayCopy={displayCopy}
         />
 
         {/* shuttle out amount */}
@@ -356,12 +358,6 @@ export default function ShuttleOut({ tokenInfo }) {
         </Modal>
       )}
 
-      <CTokenPopup
-        cTokenPopup={ctokenPopup}
-        setCTokenPopup={setCTokenPopup}
-        tokenInfo={tokenInfo}
-        displayCopy={displayCopy}
-      />
       <Modal
         show={copyPopup}
         clickAway={() => {

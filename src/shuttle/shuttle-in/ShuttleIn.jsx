@@ -35,7 +35,7 @@ export default function ShuttleIn({ tokenInfo }) {
   )
   const { t } = useTranslation(['shuttle-in', 'shuttle'])
   const [addressPopup, setAddressPopup] = useState(false)
-  const [cTokenPopup, setCTokenPopup] = useState(false)
+  // const [cTokenPopup, setCTokenPopup] = useState(false)
   const [minPopup, setMinPopup] = useState(false)
 
   const [copyPopup, setCopyPopup] = useState(false)
@@ -48,12 +48,14 @@ export default function ShuttleIn({ tokenInfo }) {
     }
   }, [])
 
+  console.log(displayCopy)
   return (
     <div className={shuttleInCx('container')}>
       <TokenInput
         tokenInfo={tokenInfo}
         dir="from"
         placeholder={t('placeholder.out')}
+        displayCopy={displayCopy}
       />
       <div className={shuttleCx('down')}>
         <img alt="down" src={down}></img>
@@ -62,7 +64,8 @@ export default function ShuttleIn({ tokenInfo }) {
         dir="to"
         tokenInfo={tokenInfo}
         placeholder={t('placeholder.in')}
-        cToken={() => setCTokenPopup(true)}
+        displayCopy={displayCopy}
+        cToken
       />
 
       {tokenInfo && (
@@ -92,12 +95,6 @@ export default function ShuttleIn({ tokenInfo }) {
           {t('popup.ok')}
         </div>
       </Modal>
-      <CTokenPopup
-        displayCopy={displayCopy}
-        cTokenPopup={cTokenPopup}
-        setCTokenPopup={setCTokenPopup}
-        tokenInfo={tokenInfo}
-      />
       <Modal
         show={minPopup}
         title
