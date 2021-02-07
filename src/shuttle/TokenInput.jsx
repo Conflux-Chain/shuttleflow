@@ -8,24 +8,49 @@ import WithQuestion from '../component/WithQuestion'
 import useIsSamll from '../component/useSmallScreen'
 import { buildSearch } from '../component/urlSearch'
 import { useTranslation } from 'react-i18next'
+import CTokenPopup from './CTokenPopup'
+import { useState } from 'react'
 
-export default function TokenInput({ tokenInfo, cToken, placeholder, dir }) {
+export default function TokenInput({
+  tokenInfo,
+  cToken,
+  placeholder,
+  dir,
+  displayCopy,
+}) {
   const history = useHistory()
   const isSmall = useIsSamll()
   const { chain } = useParams()
   const match = useRouteMatch()
   const { t } = useTranslation()
-  const [tkInputCx, commonCx] = useStyle(tokenInputStyles, commonInputStyles)
-  const singleton = tokenInfo && tokenInfo.singleton
+  const [cTokenPopup, setCTokenPopup] = useState(false)
 
-  const origin = tokenInfo && tokenInfo.origin
-  console.log(origin, chain, cToken)
-  const a = {
-    ...(origin === chain && cToken && { conflux: true }),
-    ...(origin === 'cfx' && !cToken && { eth: true }),
+  const [tkInputCx, commonCx] = useStyle(tokenInputStyles, commonInputStyles)
+  const { singleton, origin, symbol, reference, reference_symbol, ctoken } =
+    tokenInfo || {}
+
+  let question
+  //display conflux, need question mark when conflux asset is not orginal
+  if (cToken) {
+    if (origin !== 'cfx') {
+      question = {
+        displaySymbol: symbol,
+        address: ctoken,
+        chain: t('cfx'),
+        chainTool: 'ConfluxPortal',
+      }
+    }
+  } else {
+    if (origin !== chain) {
+      question = {
+        displaySymbol: reference_symbol,
+        address: reference,
+        chain: t(chain),
+        chainTool: 'MetaMask',
+      }
+    }
   }
 
-  console.log(a)
   return (
     <>
       <div className={tkInputCx('txt')}>
@@ -60,12 +85,12 @@ export default function TokenInput({ tokenInfo, cToken, placeholder, dir }) {
                 {tokenInfo[cToken ? 'symbol' : 'reference_symbol']}
               </span>
 
-              {cToken && (
+              {question && (
                 <WithQuestion
                   onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
-                    cToken()
+                    setCTokenPopup(true)
                   }}
                 ></WithQuestion>
               )}
@@ -81,6 +106,13 @@ export default function TokenInput({ tokenInfo, cToken, placeholder, dir }) {
           </div>
         )}
       </div>
+      <CTokenPopup
+        displayCopy={displayCopy}
+        cTokenPopup={cTokenPopup}
+        setCTokenPopup={setCTokenPopup}
+        tokenInfo={tokenInfo}
+        {...question}
+      />
     </>
   )
 }

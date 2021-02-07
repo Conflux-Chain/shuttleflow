@@ -214,10 +214,8 @@ function TokenRow({
     reference_name,
     reference,
     symbol,
-    origin,
     id,
     ctoken,
-    icon,
   } = tokenInfo
   const [ListCx] = useStyle(tokenListStyles, titleStyles)
   const { t } = useTranslation(['token'])
@@ -247,9 +245,7 @@ function TokenRow({
           const callback = () => {
             if (!disabled) {
               setToken(id)
-              if (notAvailable) {
-                setIsNotAvailable(true)
-              }
+              setIsNotAvailable(notAvailable)
             }
           }
           if (in_token_list) {

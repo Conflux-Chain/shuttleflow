@@ -1,4 +1,6 @@
 {
   "popup-fee": "{{operation}}手续费：<strong>{{fee}} {{symbol}}</strong>\n{{is_create}}\n手续费由当前 Token Captain 制定，数值可能随时调整，请尽快完成操作。",
-  "wallet-create-fee": "地址创建费：<strong>{{wallet_fee}} {{symbol}}</strong>  <i>（仅第一次需要）</i>\n"
+  "wallet-create-fee": "地址创建费：<strong>{{wallet_fee}} {{symbol}}</strong>  <i>（仅第一次需要）</i>\n",
+  "popup-token": "代币可以在所有支持{{chain}}网络的钱包中查看，比如 {{chainTool}} 若未找到该代币，可能需要您通过“添加代币”的方式自行添加。",
+  "popup-contract": "{{symbol}} 合约地址"
 }
