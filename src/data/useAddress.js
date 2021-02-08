@@ -5,7 +5,7 @@ const updateAccount = (newAccounts) => {
   listeners.forEach((f) => f(newAccounts[0]))
 }
 window?.conflux?.on('accountsChanged', (e) => {
-  console.log('update account')
+  console.log('update account', e)
   updateAccount(e)
 })
 export default function useAddress() {

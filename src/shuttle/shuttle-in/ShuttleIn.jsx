@@ -21,7 +21,6 @@ import shuttleInStyles from './ShuttleIn.module.scss'
 import useShuttleAddress from '../../data/useShuttleInAddress'
 import TokenInput from '../TokenInput'
 
-import CTokenPopup from '../CTokenPopup'
 import WithQuestion from '../../component/WithQuestion'
 import { Loading } from '@cfxjs/react-ui'
 import { useParams } from 'react-router'
@@ -48,7 +47,6 @@ export default function ShuttleIn({ tokenInfo }) {
     }
   }, [])
 
-  console.log(displayCopy)
   return (
     <div className={shuttleInCx('container')}>
       <TokenInput

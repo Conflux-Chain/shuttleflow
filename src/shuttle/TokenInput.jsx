@@ -36,7 +36,7 @@ export default function TokenInput({
       question = {
         displaySymbol: symbol,
         address: ctoken,
-        chain: t('cfx'),
+        chain: ' Conflux ',
         chainTool: 'ConfluxPortal',
       }
     }
