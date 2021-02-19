@@ -22,8 +22,6 @@ export default function ChooseToken({ captain, cToken, next }) {
   })
   const searchTimer = useRef()
 
-
-
   const { chain } = useParams()
   const [isNotAvailable, setIsNotAvailable] = useState(false)
   const [notFound, setNotFound] = useState(false)

@@ -24,25 +24,24 @@ export default function RouterRoot() {
   )
 }
 
-function ChainChecker(props) {
-  const isSmall = useIsSamll()
+function ChainChecker() {
   const { chain } = useParams()
-  //useTokenList here to serve as a prefetch 
-  //and suspend the underlying rendering
-  //Give the underlying component need some time to load 
-  //window?.conflux?.selectedAddress correctly in order to 
-  //determine the if the user logged in 
-  useTokenList()
-
   //backwark compitable with old url where :chain do not specify
-  return CHAIN_CONFIG[chain] ? (
-    //layout depend on "chain", i.e. if captain is present
-    isSmall ? (
-      <LayoutSmall {...props} />
-    ) : (
-      <LayoutLarge {...props} />
-    )
-  ) : (
+  return !CHAIN_CONFIG[chain] ? (
     <Redirect to={`/${DEFAULT_CHAIN}`}></Redirect>
+  ) : (
+    //layout depend on "chain", i.e. if captain is present
+    <Layout />
   )
+}
+
+function Layout() {
+  const isSmall = useIsSamll()
+  //useTokenList here to serve as a prefetch
+  //and suspend the underlying rendering
+  //Give the underlying component need some time to load
+  //window?.conflux?.selectedAddress correctly in order to
+  //determine the if the user logged in
+  useTokenList()
+  return isSmall ? <LayoutSmall /> : <LayoutLarge />
 }

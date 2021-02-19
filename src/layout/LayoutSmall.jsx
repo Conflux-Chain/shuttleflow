@@ -26,7 +26,7 @@ import renderThumbVertical from '../component/renderThumbVertical'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import useAddress from '../data/useAddress'
 
-export default function LayoutSmall(props) {
+export default function LayoutSmall() {
   const [cx] = useStyle(layouyStyles)
   const history = useHistory()
   const [dropdown, setDropdown] = useState(false)
@@ -50,7 +50,6 @@ export default function LayoutSmall(props) {
           {isTokenRoute ? (
             <div className={cx('header')}>
               <TokenNavigation
-                {...props}
                 after={
                   <img
                     alt="ham"
