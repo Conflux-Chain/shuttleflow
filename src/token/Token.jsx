@@ -10,9 +10,11 @@ import useStyle from '../component/useStyle'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer.jsx'
 import useUrlSearch from '../lib/useUrlSearch.js'
+import { useHistory } from 'react-router'
 
-export function TokenNavigation({ history, after }) {
+export function TokenNavigation({ after }) {
   const [cx] = useStyle(styles)
+  const history = useHistory
   const { t } = useTranslation(['token'])
   const { next } = useUrlSearch()
   return (

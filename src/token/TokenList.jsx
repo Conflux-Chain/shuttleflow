@@ -198,7 +198,6 @@ function TokenList({
 
 function TokenRow({
   tokenInfo,
-  sponsor_value,
   cToken,
   captain,
   disabled,
@@ -213,6 +212,7 @@ function TokenRow({
     reference_symbol,
     reference_name,
     reference,
+    sponsor_value,
     symbol,
     id,
     ctoken,

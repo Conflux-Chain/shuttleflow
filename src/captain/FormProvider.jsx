@@ -68,7 +68,6 @@ export default function FormProvider({ pair }) {
       })
   }
 
-  console.log(typeof pendingCount === 'number', currentMortgage, cethBalance)
   /**
    * the form default value can be read ONLY ONCE
    * make sure the default from data available when
