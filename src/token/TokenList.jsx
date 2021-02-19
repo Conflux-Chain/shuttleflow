@@ -23,13 +23,15 @@ import { useBlockWithRisk } from '../layout/Risk'
 import CHAIN_CONFIG from '../config/chainConfig'
 import useTokenListSearch from '../data/useTokenList'
 
-const sorts = {
-  name: (a, b) => {
-    return a.symbol.localeCompare(b.symbol)
-  },
-  'name-reverse': (a, b) => {
-    return a.symbol.localeCompare(b.symbol) * -1
-  },
+const sorts = (key = 'symbol') => {
+  return {
+    name: (a, b) => {
+      return a[key].localeCompare(b.symbol)
+    },
+    'name-reverse': (a, b) => {
+      return a[key].localeCompare(b.symbol) * -1
+    },
+  }
 }
 
 function TokenList({
@@ -140,7 +142,11 @@ function TokenList({
           ) : (
             displayedList
               .slice(0, searching ? 5 : undefined)
-              .sort(!search ? sorts[sort] : undefined)
+              .sort(
+                !search
+                  ? sorts(cToken ? 'symbol' : 'reference_symbol')[sort]
+                  : undefined
+              )
               .map((tokenInfo, i) => {
                 console.log()
                 return (
