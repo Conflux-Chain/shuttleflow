@@ -14,7 +14,7 @@ import { useHistory } from 'react-router'
 
 export function TokenNavigation({ after }) {
   const [cx] = useStyle(styles)
-  const history = useHistory
+  const history = useHistory()
   const { t } = useTranslation(['token'])
   const { next } = useUrlSearch()
   return (

@@ -63,13 +63,16 @@
   line-height: 2.5rem;
   text-align: center;
 
-  // padding: 1.5rem;
 
   .up {
     width: 0.65rem;
     height: 0.56rem;
     margin-left: 0.5rem;
     transform: rotate(180deg);
+    transition: 0.2s;
+  }
+  .icon-active{
+    transform: rotate(0deg);
   }
 }
 .dropdown-container {

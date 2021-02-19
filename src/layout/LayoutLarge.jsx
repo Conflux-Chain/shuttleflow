@@ -55,6 +55,7 @@ export default function LayoutLarge() {
           ></img>
           <Select
             type="chain"
+            icon
             setCurrent={(v) => history.push(`/${v}`)}
             render={renderChainSelect}
             current={chain}
@@ -210,7 +211,7 @@ function Select({
           {icon && (
             <img
               alt="up"
-              className={cx('up', { 'icon-active': !expand })}
+              className={cx('up', { 'icon-active': expand })}
               src={triangle}
             ></img>
           )}
@@ -257,7 +258,7 @@ function renderChainSelect({ key, title }) {
   return (
     <div
       style={{
-        marginRight: '1rem',
+        marginRight: title ? '' : '1rem',
         fontSize: '0.875rem',
         display: 'flex',
         alignItems: 'center',
