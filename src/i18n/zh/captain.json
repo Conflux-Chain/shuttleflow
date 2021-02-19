@@ -21,7 +21,7 @@
   "update": "更新",
   "success": "交易已发出",
   "fail": "交易失败",
-  "what-captain": "什么是 Token 舰长 ？",
+  "what-captain": "什么是代币服务商 ？",
   "update-mortgage": "更新抵押数量",
   "mortgage-popup": "将抵押数量更新为您输入的数值，当前抵押余额将被退回",
   "popup-cool": "为了避免规则频繁波动，规则修改后有{{cooldownMinutes}}分钟的冻结时间，解冻后方可再次修改",
