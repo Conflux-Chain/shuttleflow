@@ -3,13 +3,8 @@ import CHAIN_CONFIG from '../config/chainConfig'
 
 import { getTokenList } from './tokenList'
 import useSWR from 'swr'
-import jsonrpc from './jsonrpc'
 import { CHAIN_SINGLE_PAIR } from '../config/constant'
 
-const displayFilters = {
-  eth: ethDisplayFilter,
-  btc: (x) => x,
-}
 function fetcher(key, searchOrPair, chain, cToken) {
   let search, pair
   if (key === 'search') {
@@ -17,18 +12,19 @@ function fetcher(key, searchOrPair, chain, cToken) {
   } else if (key === 'pair') {
     pair = searchOrPair
   }
+  const { singleToken, display,searchList } = CHAIN_CONFIG[chain]
   return getTokenList(chain).then(({ tokenList, tokenMap }) => {
     if (pair) {
-      return CHAIN_CONFIG[chain].singleToken
+      return singleToken
         ? { ...tokenList[0], singleton: true }
         : pair === CHAIN_SINGLE_PAIR
         ? null
         : tokenMap[pair]
     }
     if (!search) {
-      return tokenList.filter(displayFilters[chain])
+      return tokenList.filter(display)
     }
-    return (cToken ? filterCfx : filterEth)(tokenList, search).then((list) =>
+    return (cToken ? searchCfxList : searchList)(tokenList, search).then((list) =>
       sortSearchResult(list)
     )
   })
@@ -42,11 +38,8 @@ export default function useTokenList({ pair, search, cToken } = {}) {
   ).data
 }
 
-function ethDisplayFilter({ supported, in_token_list, origin }) {
-  return origin === 'cfx' || (supported === 1 && in_token_list === 1)
-}
 
-function filterCfx(list, search) {
+function searchCfxList(list, search) {
   const lowerSearch = search.toLowerCase()
   return Promise.resolve(
     list.filter(
@@ -64,38 +57,6 @@ function filterCfx(list, search) {
   )
 }
 
-function filterEth(list, search) {
-  const isEthAddress = CHAIN_CONFIG['eth'].outFormatCheck(search)
-  const lowersearch = search.toLowerCase()
-  if (isEthAddress) {
-    return Promise.resolve(
-      list.filter(({ reference }) => reference.toLowerCase() === lowersearch)
-    ).then((list) => {
-      if (list.length === 1) {
-        return list
-      } else {
-        return jsonrpc('searchToken', {
-          url: 'sponsor',
-          params: [search],
-        }).then((result) => {
-          if (result && result.is_valid_erc20) {
-            return [result]
-          } else {
-            return []
-          }
-        })
-      }
-    })
-  }
-
-  return Promise.resolve(
-    list.filter(
-      ({ reference_symbol, reference_name }) =>
-        reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
-        reference_name.toLowerCase().indexOf(lowersearch) > -1
-    )
-  )
-}
 
 function sortSearchResult(list) {
   return list

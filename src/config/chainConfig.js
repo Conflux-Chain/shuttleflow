@@ -1,5 +1,9 @@
 import { IS_DEV } from './config'
 import jsonrpc from '../data/jsonrpc'
+import WithQuestion from '../component/WithQuestion'
+import Modal, { modalStyles } from '../component/Modal'
+import { useState } from 'react'
+import useStyle from '../component/useStyle'
 var WAValidator = require('wallet-address-validator')
 
 export const CAPTAIN = {
@@ -10,11 +14,13 @@ export const CAPTAIN = {
 }
 const config = {
   btc: {
+    display() {
+      return true
+    },
     captain: CAPTAIN.NONE,
     // set the singleton one as default when no token selected
     singleToken: true,
     outFormatCheck(address) {
-      console.log('outFormatCheck', address)
       return WAValidator.validate(
         address,
         'bitcoin',
@@ -26,6 +32,43 @@ const config = {
     },
   },
   eth: {
+    display: ({ supported, in_token_list, origin }) => {
+      return origin === 'cfx' || (supported === 1 && in_token_list === 1)
+    },
+    searchList: function filterEth(list, search) {
+      const isEthAddress = config['eth'].outFormatCheck(search)
+      const lowersearch = search.toLowerCase()
+      if (isEthAddress) {
+        return Promise.resolve(
+          list.filter(
+            ({ reference }) => reference.toLowerCase() === lowersearch
+          )
+        ).then((list) => {
+          if (list.length === 1) {
+            return list
+          } else {
+            return jsonrpc('searchToken', {
+              url: 'sponsor',
+              params: [search],
+            }).then((result) => {
+              if (result && result.is_valid_erc20) {
+                return [result]
+              } else {
+                return []
+              }
+            })
+          }
+        })
+      }
+
+      return Promise.resolve(
+        list.filter(
+          ({ reference_symbol, reference_name }) =>
+            reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
+            reference_name.toLowerCase().indexOf(lowersearch) > -1
+        )
+      )
+    },
     captain: CAPTAIN.TO_CFX,
     outFormatCheck(address) {
       return WAValidator.validate(
@@ -34,6 +77,11 @@ const config = {
         IS_DEV ? 'testnet' : 'prod'
       )
     },
+//     我刚刚把链需要单独配置的地方整理了一下
+// 1. 选择那些token进行展示
+// 2. 搜索的规则是什么，主要是后端搜索，bnb可能暂时不是很需要
+// 3. 跨出地址的格式，以及检查nounce是否大于一，bnb可以暂时不检查
+
     checkAddress(address = '', blockShuttleout, t) {
       if (address.startsWith('0x1')) {
         return jsonrpc('getEthNonce', {
@@ -73,6 +121,43 @@ const config = {
       '0x6b175474e89094c44da98b954eedeac495271d0f', // dai
       '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', //usdc
     ],
+    TokenList({ t }) {
+      const [modalCx] = useStyle(modalStyles)
+      const [popup, setPopup] = useState(false)
+      return (
+        <>
+          <WithQuestion onClick={() => setPopup(true)}>
+            <span>{t('list')}</span>
+          </WithQuestion>
+          <Modal
+            show={popup}
+            title={t('list')}
+            onClose={() => setPopup(false)}
+            clickAway={() => setPopup(false)}
+          >
+            <div
+              style={{
+                textAlign: 'center',
+              }}
+              className={modalCx('content')}
+            >
+              {t('gecko')}
+            </div>
+            <div
+              onClick={() =>
+                window.open(
+                  'https://tokenlists.org/token-list?url=https://tokens.coingecko.com/uniswap/all.json',
+                  '_blank'
+                )
+              }
+              className={modalCx('btn')}
+            >
+              {t('gecko-btn')}
+            </div>
+          </Modal>
+        </>
+      )
+    },
   },
 }
 

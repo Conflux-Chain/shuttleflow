@@ -19,7 +19,6 @@ export const getTokenList = (chain) => {
             pre[cur.reference] = { ...cur, fromRef: true } //operation history data
           }
           if (cur.ctoken) {
-            
             pre[cur.ctoken] = { ...cur, fromCtoken: true } //operation history data
           }
           return pre
@@ -29,5 +28,3 @@ export const getTokenList = (chain) => {
   }
   return chainDataStore[chain]
 }
-
-// export default tokenList

@@ -17,11 +17,9 @@ import Icon from '../component/Icon/Icon'
 import { buildSearch } from '../component/urlSearch'
 import { useHistory, useParams } from 'react-router-dom'
 import useUrlSearch from '../lib/useUrlSearch'
-import WithQuestion from '../component/WithQuestion'
-import Modal, { modalStyles } from '../component/Modal'
 import { useBlockWithRisk } from '../layout/Risk'
 import CHAIN_CONFIG from '../config/chainConfig'
-import useTokenListSearch from '../data/useTokenList'
+import useTokenList from '../data/useTokenList'
 
 const sorts = (key = 'symbol') => {
   return {
@@ -47,28 +45,27 @@ function TokenList({
   const { selected, ...searchParams } = useUrlSearch()
   const { chain } = useParams()
 
-  const tokenList = useTokenListSearch()
-  const displayedList = useTokenListSearch({ search, cToken })
+  const ListSourceComponent = CHAIN_CONFIG[chain].TokenList
+
+  const displayedList = useTokenList()
+  const searchedList = useTokenList({ search, cToken })
 
   const setToken = (selected) => {
     history.push(buildSearch({ ...searchParams, selected }))
   }
 
   const { t } = useTranslation(['token'])
-  const [ListCx, titleCx, modalCx] = useStyle(
+  const [ListCx, titleCx] = useStyle(
     tokenListStyles,
     titleStyles,
-    modalStyles
   )
   const [sort, setSort] = useState('name')
 
-  const [popup, setPopup] = useState(false)
-
   useEffect(() => {
-    if (setNotFound && displayedList) {
-      setNotFound(displayedList.length === 0)
+    if (setNotFound && searchedList) {
+      setNotFound(searchedList.length === 0)
     }
-  }, [displayedList, setNotFound])
+  }, [searchedList, setNotFound])
 
   return (
     <>
@@ -79,14 +76,14 @@ function TokenList({
         style={{ flex: 1, position: 'relative' }}
       >
         <PaddingContainer bottom={false}>
-          {frequent && !search && tokenList.length && (
+          {frequent && !search && displayedList.length && (
             <>
               <div className={titleCx('title')}>{t('frequent')}</div>
               <div className={ListCx('frequent-container')}>
                 {CHAIN_CONFIG[chain].frequentTokens.map((_preset_reference) => {
                   let tokenData, active
-                  if (tokenList.length > 0) {
-                    tokenData = tokenList.find(
+                  if (displayedList.length > 0) {
+                    tokenData = displayedList.find(
                       ({ reference }) => reference === _preset_reference
                     )
                     //frequent token is hardcoded, in case the
@@ -111,9 +108,10 @@ function TokenList({
           )}
           {!search && (
             <div className={ListCx('list-title') + ' ' + titleCx('title')}>
-              <WithQuestion onClick={() => setPopup(true)}>
+              {/* <WithQuestion onClick={() => setPopup(true)}>
                 <span>{t('list')}</span>
-              </WithQuestion>
+              </WithQuestion> */}
+              <ListSourceComponent t={t} />
 
               <div className={ListCx('right')}>
                 <span className={ListCx('name')}> {t('name')}</span>
@@ -133,14 +131,14 @@ function TokenList({
           )}
         </PaddingContainer>
         <div className={ListCx('container')}>
-          {displayedList.length === 0 ? (
+          {searchedList.length === 0 ? (
             <img
               alt="not found"
               className={ListCx('not-found')}
               src={notFoundSrc}
             ></img>
           ) : (
-            displayedList
+            searchedList
               .slice(0, searching ? 5 : undefined)
               .sort(
                 !search
@@ -172,32 +170,7 @@ function TokenList({
           )}
         </div>
       </Scrollbars>
-      <Modal
-        show={popup}
-        title={t('list')}
-        onClose={() => setPopup(false)}
-        clickAway={() => setPopup(false)}
-      >
-        <div
-          style={{
-            textAlign: 'center',
-          }}
-          className={modalCx('content')}
-        >
-          {t('gecko')}
-        </div>
-        <div
-          onClick={() =>
-            window.open(
-              'https://tokenlists.org/token-list?url=https://tokens.coingecko.com/uniswap/all.json',
-              '_blank'
-            )
-          }
-          className={modalCx('btn')}
-        >
-          {t('gecko-btn')}
-        </div>
-      </Modal>
+
     </>
   )
 }
