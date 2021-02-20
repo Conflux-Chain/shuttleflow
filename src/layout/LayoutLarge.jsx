@@ -23,7 +23,6 @@ import tickSolidSrc from './tick-solid.svg'
 import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
 import { useHistory } from 'react-router-dom'
 import icons from '../data/tokenIcons'
-
 const cx = classNamesBind.bind(styles)
 
 export default function LayoutLarge() {

@@ -34,7 +34,6 @@ export default function ShuttleIn({ tokenInfo }) {
   )
   const { t } = useTranslation(['shuttle-in', 'shuttle'])
   const [addressPopup, setAddressPopup] = useState(false)
-  // const [cTokenPopup, setCTokenPopup] = useState(false)
   const [minPopup, setMinPopup] = useState(false)
 
   const [copyPopup, setCopyPopup] = useState(false)
@@ -184,7 +183,7 @@ function TokenInfoDetails({
             t={t}
             i18nKey="latest"
             values={{
-              type: t(tokenInfo.reference === 'btc' ? 'btc' : 'eth'),
+              type: t(chain),
             }}
           ></Trans>
         </span>
