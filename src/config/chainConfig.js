@@ -77,10 +77,6 @@ const config = {
         IS_DEV ? 'testnet' : 'prod'
       )
     },
-//     我刚刚把链需要单独配置的地方整理了一下
-// 1. 选择那些token进行展示
-// 2. 搜索的规则是什么，主要是后端搜索，bnb可能暂时不是很需要
-// 3. 跨出地址的格式，以及检查nounce是否大于一，bnb可以暂时不检查
 
     checkAddress(address = '', blockShuttleout, t) {
       if (address.startsWith('0x1')) {

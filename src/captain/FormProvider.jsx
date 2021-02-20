@@ -21,7 +21,6 @@ import useTokenList from '../data/useTokenList'
 
 const MAX_DECIMAL_DISPLAY = 8
 
-//0xd50931bb32fca14acbc0cade5850ba597f3ee1a6
 export default function FormProvider({ pair }) {
   const [popup, setPopup] = useState('')
   const { t } = useTranslation(['captain'])

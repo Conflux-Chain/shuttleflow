@@ -3,7 +3,6 @@ import ethSvg from './eth.svg'
 import riskSrc from './risk.svg'
 import styled from 'styled-components'
 import { useParams } from 'react-router'
-import icons from '../../data/tokenIcons'
 export default function Icon({
   icon,
   origin,
