@@ -5,6 +5,7 @@ import tickSolidSrc from './tick-solid.svg'
 import Accordion from '../component/Accordion'
 import styles from './Select.module.scss'
 import useStyle from '../component/useStyle'
+import useIsSamll from '../component/useSmallScreen'
 
 export default function Select({
   current,
@@ -21,10 +22,14 @@ export default function Select({
   const [expand, setExpand] = useState(false)
   const currentOption = options.find((x) => x.key === current)
   const [cx] = useStyle(styles)
+  const isSmall = useIsSamll()
 
   return (
     <Accordion
-      contentStyle={{ position: 'absolute', top: '5rem', ...{ right } }}
+      contentStyle={{
+        ...(!isSmall && { position: 'absolute', top: '5rem' }),
+        ...{ right },
+      }}
       clickAway={() => setExpand(false)}
       expanded={expand}
       title={

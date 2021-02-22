@@ -23,7 +23,7 @@ import useIsSamll from '../component/useSmallScreen'
 import useUrlSearch from '../lib/useUrlSearch'
 import useTokenList from '../data/useTokenList'
 import { CHAIN_SINGLE_PAIR } from '../config/constant'
-// import { ChooseChain } from '../layout/LayoutLarge'
+import ChooseChain from '../layout/ChooseChain'
 
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
@@ -99,8 +99,8 @@ function RouteComponent() {
     <>
       <Component tokenInfo={tokenInfo} {...{ feePopup, setFeePopup }} />
       {isSmall && (
-        <div>
-          {/* <ChooseChain /> */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+          <ChooseChain />
         </div>
       )}
     </>
