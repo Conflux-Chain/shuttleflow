@@ -1,52 +1,118 @@
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import useStyle from '../component/useStyle'
-import inputStyles from './TokenInput.module.scss'
+import tokenInputStyles from './TokenInput.module.scss'
 import commonInputStyles from '../component/input.module.scss'
 import arrow from './i-right-56.png'
 import Icon from '../component/Icon/Icon'
 import WithQuestion from '../component/WithQuestion'
 import useIsSamll from '../component/useSmallScreen'
+import { buildSearch } from '../component/urlSearch'
+import { useTranslation } from 'react-i18next'
+import CTokenPopup from './CTokenPopup'
+import { useState } from 'react'
 
-export default function TokenInput({ tokenInfo, cToken, to, placeholder }) {
+export default function TokenInput({
+  tokenInfo,
+  cToken,
+  placeholder,
+  dir,
+  displayCopy,
+}) {
   const history = useHistory()
   const isSmall = useIsSamll()
-  const [tkInputCx, commonCx] = useStyle(inputStyles, commonInputStyles)
+  const { chain } = useParams()
+  const match = useRouteMatch()
+  const { t } = useTranslation()
+  const [cTokenPopup, setCTokenPopup] = useState(false)
+
+  const [tkInputCx, commonCx] = useStyle(tokenInputStyles, commonInputStyles)
+  const { singleton, origin, symbol, reference, reference_symbol, ctoken } =
+    tokenInfo || {}
+
+  let question
+  //display conflux, need question mark when conflux asset is not orginal
+  if (cToken) {
+    if (origin !== 'cfx') {
+      question = {
+        displaySymbol: symbol,
+        address: ctoken,
+        chain: ' Conflux ',
+        chainTool: 'ConfluxPortal',
+      }
+    }
+  } else {
+    if (origin !== chain) {
+      question = {
+        displaySymbol: reference_symbol,
+        address: reference,
+        chain: t(chain),
+        chainTool: 'MetaMask',
+      }
+    }
+  }
+
   return (
-    <div
-      onClick={() => history.push(to)}
-      className={tkInputCx('container') + ' ' + commonCx('input-common')}
-    >
-      <div className={tkInputCx('left')}>
-        {tokenInfo ? (
-          <>
-            <Icon
-              src={tokenInfo.icon}
-              conflux={cToken}
-              size={isSmall ? '3rem' : '2rem'}
-            />
+    <>
+      <div className={tkInputCx('txt')}>
+        {t(dir, { value: t(cToken ? 'Conflux' : chain) })}
+      </div>
+      <div
+        onClick={
+          !singleton
+            ? () =>
+                history.push({
+                  pathname: `/${chain}/token`,
+                  search: buildSearch({
+                    next: match.url,
+                    ...(cToken && { cToken: 1 }),
+                  }),
+                })
+            : undefined
+        }
+        style={{ cursor: singleton ? '' : 'pointer' }}
+        className={tkInputCx('container') + ' ' + commonCx('input-common')}
+      >
+        <div className={tkInputCx('left')}>
+          {tokenInfo ? (
+            <>
+              <Icon
+                {...tokenInfo}
+                cToken={!!cToken}
+                size={isSmall ? '3rem' : '2rem'}
+              />
 
-            <span className={tkInputCx('symbol')}>
-              {tokenInfo[cToken ? 'symbol' : 'reference_symbol']}
-            </span>
+              <span className={tkInputCx('symbol')}>
+                {tokenInfo[cToken ? 'symbol' : 'reference_symbol']}
+              </span>
 
-            {cToken && (
-              <WithQuestion
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  cToken()
-                }}
-              ></WithQuestion>
-            )}
-          </>
-        ) : (
-          <span className={tkInputCx('placeholder')}>{placeholder}</span>
+              {question && (
+                <WithQuestion
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    setCTokenPopup(true)
+                  }}
+                ></WithQuestion>
+              )}
+            </>
+          ) : (
+            <span className={tkInputCx('placeholder')}>{placeholder}</span>
+          )}
+        </div>
+
+        {!singleton && (
+          <div>
+            <img alt="arrow" className={tkInputCx('arrow')} src={arrow}></img>
+          </div>
         )}
       </div>
-
-      <div>
-        <img alt="arrow" className={tkInputCx('arrow')} src={arrow}></img>
-      </div>
-    </div>
+      <CTokenPopup
+        displayCopy={displayCopy}
+        cTokenPopup={cTokenPopup}
+        setCTokenPopup={setCTokenPopup}
+        tokenInfo={tokenInfo}
+        {...question}
+      />
+    </>
   )
 }

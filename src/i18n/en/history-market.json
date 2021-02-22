@@ -5,7 +5,7 @@
   "conflux": "Confirm on Conflux mainnet",
   "init-in": "Initiate cross-chain Shuttle-In",
   "init-out": "Initiate cross-chain Shuttle-Out",
-  "main": "Confirm on mainnet ETH/BTC",
+  "main": "Confirm on mainnet {{chain}}",
   "shuttle": "Confirm on ShuttleFlow",
   "supply": "Token Supply",
   "token": "Token"

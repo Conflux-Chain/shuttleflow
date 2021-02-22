@@ -6,11 +6,11 @@ import Triangle from '../component/Triangle/Triangle.jsx'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 
 import { useTranslation } from 'react-i18next'
-import useTokenList from '../data/useTokenList'
 import MainContainer from '../component/MainContainer/MainContainer'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import Icon from '../component/Icon/Icon'
+import useTokenListSearch from '../data/useTokenList'
 
 const sorts = {
   name: (a, b) => {
@@ -28,7 +28,7 @@ const sorts = {
 }
 
 export default function Market() {
-  const { tokens } = useTokenList({})
+  const tokens = useTokenListSearch()
   const [cx] = useStyle(styles)
   const { t } = useTranslation('market')
   const [sort, setSort] = useState('name')
@@ -84,24 +84,34 @@ export default function Market() {
         style={{ flex: 1, position: 'relative' }}
       >
         <PaddingContainer>
-          {tokens
-            .sort(sorts[sort])
-            .map(({ icon, symbol, reference_name, _total_supply }) => {
-              return (
-                <div key={symbol} className={cx('list')}>
-                  <div className={cx('left')}>
-                    <Icon src={icon} conflux style={{ marginRight: '1rem' }} />
-                    <div className={cx('txt')}>
-                      <div className={cx('large-txt')}>{symbol}</div>
-                      <div className={cx('small-txt')}>
-                        {'conflux ' + reference_name}
-                      </div>
+          {tokens.sort(sorts[sort]).map((tokenInfo) => {
+            const {
+              icon,
+              symbol,
+              reference_name,
+              _total_supply,
+              name,
+              origin,
+            } = tokenInfo
+            return (
+              <div key={symbol} className={cx('list')}>
+                <div className={cx('left')}>
+                  <Icon
+                    {...tokenInfo}
+                    cToken
+                    style={{ marginRight: '1rem' }}
+                  />
+                  <div className={cx('txt')}>
+                    <div className={cx('large-txt')}>{symbol}</div>
+                    <div className={cx('small-txt')}>
+                      {name || 'conflux ' + reference_name}
                     </div>
                   </div>
-                  <div className={cx('right')}>{_total_supply}</div>
                 </div>
-              )
-            })}
+                <div className={cx('right')}>{_total_supply}</div>
+              </div>
+            )
+          })}
         </PaddingContainer>
       </Scrollbars>
     </MainContainer>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import useStyle from '../component/useStyle'
 import styles from './ShuttleHistory.module.scss'
 import rightArrow from './right-arrow.svg'
@@ -10,7 +10,7 @@ import Histories from './Histories'
 
 export default function ShuttleHistory({ type }) {
   const { t } = useTranslation('common', 'history')
-
+  const { chain } = useParams()
   const history = useHistory()
   const { data: histories, reload, loading } = useOperationHistory({
     status: ['doing'],
@@ -32,7 +32,7 @@ export default function ShuttleHistory({ type }) {
         </div>
         <div className={cx('right')}>
           <div
-            onClick={() => history.push('/history')}
+            onClick={() => history.push(`/${chain}/history`)}
             className={cx('small-txt')}
           >
             {t('more')}

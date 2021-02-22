@@ -45,6 +45,8 @@ CONFLUXSCAN_TX = CONFLUXSCAN_URL + '/transaction/'
 CONFLUXSCAN_TK = CONFLUXSCAN_URL + '/token/'
 CONFLUXSCAN_ADDR = CONFLUXSCAN_URL + '/address'
 
+export const DEFAULT_CHAIN = 'eth'
+
 export const NETWORKS = {
   1: 'test',
   1029: 'main',

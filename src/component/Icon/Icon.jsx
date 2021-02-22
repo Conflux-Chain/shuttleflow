@@ -1,19 +1,30 @@
 import confluxSvg from './conflux.svg'
+import ethSvg from './eth.svg'
 import riskSrc from './risk.svg'
 import styled from 'styled-components'
+import { useParams } from 'react-router'
 export default function Icon({
-  src,
+  icon,
+  origin,
+  in_token_list,
   risk,
-  conflux,
   size = '3rem',
   style,
+  cToken,
   ...props
 }) {
+  const { chain } = useParams()
+  const confluxIcon = origin === chain && cToken
+  const chainIcon = origin === 'cfx' && !cToken
+
   return (
     <Container {...props} style={{ ...style, width: size, height: size }}>
-      <SrcIcon alt="icon" src={src}></SrcIcon>
-      {conflux && <Conflux alt="shuttle" src={confluxSvg}></Conflux>}
-      {risk && <Risk src={riskSrc} />}
+      <SrcIcon alt="icon" src={icon}></SrcIcon>
+      {confluxIcon && (
+        <ShuttleIcon alt="shuttle" src={confluxSvg}></ShuttleIcon>
+      )}
+      {chainIcon && <ShuttleIcon alt="shuttle" src={ethSvg}></ShuttleIcon>}
+      {!in_token_list && <Risk src={riskSrc} />}
     </Container>
   )
 }
@@ -29,7 +40,7 @@ const SrcIcon = styled.img`
   border-radius: 50%;
 `
 
-const Conflux = styled.img`
+const ShuttleIcon = styled.img`
   position: absolute;
   width: 1rem;
   height: 1rem;

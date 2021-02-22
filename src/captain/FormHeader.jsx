@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import WithQuestion from '../component/WithQuestion'
 import Modal from '../component/Modal'
 import { CONFLUXSCAN_ADDR } from '../config/config'
+import icons from '../data/tokenIcons'
 
 export default function Header({
   icon,
@@ -19,14 +20,14 @@ export default function Header({
   pendingCount,
   countdown,
   cooldownMinutes,
+  in_token_list
 }) {
   const [cooldownPopup, setCooldownPopup] = useState(false)
-  console.log('cooldownMinutes', cooldownMinutes)
   return (
     <>
       <div className={formCx('first-container')}>
         <div className={formCx('left')}>
-          <Icon src={icon} style={{ marginRight: '1rem' }} />
+          <Icon icon={icon} in_token_list={in_token_list} style={{ marginRight: '1rem' }} />
           <div className={formCx('left-text')}>
             <div className={formCx('large-text')}>{reference_symbol}</div>
             <div className={formCx('small-text')}>{reference_name}</div>

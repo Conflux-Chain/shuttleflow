@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, lazy } from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect, useParams } from 'react-router-dom'
 import Modal from '../component/Modal'
 
 import { useTranslation } from 'react-i18next'
 
-import useState1 from '../data/useState1'
+import useState1 from '../lib/useState1'
 import useAddress, { login } from '../data/useAddress'
+import { useRouteMatch } from 'react-router-dom'
+import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
 const Token = lazy(() => import('../token/Token'))
 const Shuttle = lazy(() => import('../shuttle/Shuttle'))
 const Captain = lazy(() => import('../captain/Captain'))
@@ -14,6 +16,9 @@ const Market = lazy(() => import('../market/Market'))
 
 function Main() {
   const address = useAddress()
+  const match = useRouteMatch()
+
+  const { chain } = useParams()
 
   //When referer detected, display popup and then login
   const [{ popup, referer }, setState] = useState1({
@@ -45,31 +50,34 @@ function Main() {
   return (
     <>
       <Switch>
-        <Redirect from={'/'} exact to="/shuttle" />
+        <Redirect from={match.url} exact to={`${match.url}/shuttle`} />
         <Route
           render={({ location: { pathname } }) => {
+            // debugger
             if (
               !address &&
-              pathname !== '/shuttle/in' &&
-              pathname !== '/shuttle' &&
-              pathname !== '/market' &&
-              pathname !== '/'
+              pathname !== `/${chain}/shuttle/in` &&
+              pathname !== `/${chain}/shuttle` &&
+              pathname !== `/${chain}/market` &&
+              pathname !== `/${chain}`
             ) {
               //prevent the default init login
               initLoginTriggered.current = true
               return (
                 <PopupWrapper setReferer={(referer) => setState({ referer })}>
-                  <Redirect to={{ pathname: '/shuttle/in' }}></Redirect>
+                  <Redirect to={{ pathname: `/${chain}/shuttle/in` }}></Redirect>
                 </PopupWrapper>
               )
             } else {
               return (
                 <Switch>
-                  <Route path="/token" component={Token} />
-                  <Route path="/shuttle" component={Shuttle} />
-                  <Route path="/captain" component={Captain} />
-                  <Route path="/history" component={History} />
-                  <Route path="/market" component={Market} />
+                  <Route path={`${match.path}/token`} component={Token} />
+                  <Route path={`${match.path}/shuttle`} component={Shuttle} />
+                  <Route path={`${match.path}/history`} component={History} />
+                  <Route path={`${match.path}/market`} component={Market} />
+                  {CHAIN_CONFIG[chain].captain !== CAPTAIN.NONE && (
+                    <Route path={`${match.path}/captain`} component={Captain} />
+                  )}
                 </Switch>
               )
             }

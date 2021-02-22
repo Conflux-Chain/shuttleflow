@@ -9,35 +9,27 @@ import titleStyles from './title.module.scss'
 import Check from '../component/Check/Check'
 import { useTranslation } from 'react-i18next'
 import { formatAddress } from '../util/address'
-import useTokenList from '../data/useTokenList'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../config/config'
 import Icon from '../component/Icon/Icon'
-import { Loading } from '@cfxjs/react-ui'
 import { buildSearch } from '../component/urlSearch'
-import { useHistory } from 'react-router-dom'
-import useUrlSearch from '../data/useUrlSearch'
-import WithQuestion from '../component/WithQuestion'
-import Modal, { modalStyles } from '../component/Modal'
+import { useHistory, useParams } from 'react-router-dom'
+import useUrlSearch from '../lib/useUrlSearch'
 import { useBlockWithRisk } from '../layout/Risk'
+import CHAIN_CONFIG from '../config/chainConfig'
+import useTokenList from '../data/useTokenList'
 
-const FREQUENT_TOKENS = [
-  'btc',
-  'eth',
-  '0xdac17f958d2ee523a2206206994597c13d831ec7', //usdt
-  '0x6b175474e89094c44da98b954eedeac495271d0f', // dai
-  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', //usdc
-]
-
-const sorts = {
-  name: (a, b) => {
-    return a.symbol.localeCompare(b.symbol)
-  },
-  'name-reverse': (a, b) => {
-    return a.symbol.localeCompare(b.symbol) * -1
-  },
+const sorts = (key = 'symbol') => {
+  return {
+    name: (a, b) => {
+      return a[key].localeCompare(b.symbol)
+    },
+    'name-reverse': (a, b) => {
+      return a[key].localeCompare(b.symbol) * -1
+    },
+  }
 }
 
 function TokenList({
@@ -50,41 +42,30 @@ function TokenList({
   setIsNotAvailable, //if the corresponsing cToken available
 }) {
   const history = useHistory()
-  const { token, ...searchParams } = useUrlSearch()
-  const { chain } = { chain: 'eth' }
-  const { tokens: tokenList, isLoading: isListLoading } = useTokenList({})
-  const {
-    tokens: displayedList,
-    isLoading: isDisplayedLoading,
-  } = useTokenList({ search, cToken })
+  const { selected, ...searchParams } = useUrlSearch()
+  const { chain } = useParams()
 
-  const setToken = (token) => {
-    history.push(buildSearch({ ...searchParams, token }))
+  const ListSourceComponent = CHAIN_CONFIG[chain].TokenList
+
+  const displayedList = useTokenList()
+  const searchedList = useTokenList({ search, cToken })
+
+  const setToken = (selected) => {
+    history.push(buildSearch({ ...searchParams, selected }))
   }
 
   const { t } = useTranslation(['token'])
-  const [ListCx, titleCx, modalCx] = useStyle(
+  const [ListCx, titleCx] = useStyle(
     tokenListStyles,
     titleStyles,
-    modalStyles
   )
   const [sort, setSort] = useState('name')
 
-  const [popup, setPopup] = useState(false)
-
   useEffect(() => {
-    if (setNotFound && displayedList) {
-      setNotFound(displayedList.length === 0)
+    if (setNotFound && searchedList) {
+      setNotFound(searchedList.length === 0)
     }
-  }, [displayedList, setNotFound])
-
-  if (isListLoading || isDisplayedLoading) {
-    return (
-      <PaddingContainer bottom={false}>
-        <Loading size="large" />
-      </PaddingContainer>
-    )
-  }
+  }, [searchedList, setNotFound])
 
   return (
     <>
@@ -95,14 +76,14 @@ function TokenList({
         style={{ flex: 1, position: 'relative' }}
       >
         <PaddingContainer bottom={false}>
-          {frequent && !search && tokenList.length && (
+          {frequent && !search && displayedList.length && (
             <>
               <div className={titleCx('title')}>{t('frequent')}</div>
               <div className={ListCx('frequent-container')}>
-                {FREQUENT_TOKENS.map((_preset_reference) => {
+                {CHAIN_CONFIG[chain].frequentTokens.map((_preset_reference) => {
                   let tokenData, active
-                  if (tokenList.length > 0) {
-                    tokenData = tokenList.find(
+                  if (displayedList.length > 0) {
+                    tokenData = displayedList.find(
                       ({ reference }) => reference === _preset_reference
                     )
                     //frequent token is hardcoded, in case the
@@ -110,13 +91,11 @@ function TokenList({
                     if (!tokenData) {
                       return null
                     }
-                    active = tokenData.reference === token
+                    active = tokenData.id === selected
                   }
                   return (
                     <div
-                      onClick={() =>
-                        setToken(active ? '' : tokenData.reference)
-                      }
+                      onClick={() => setToken(active ? '' : tokenData.id)}
                       className={ListCx({ active }, 'frequent')}
                       key={_preset_reference}
                     >
@@ -129,9 +108,10 @@ function TokenList({
           )}
           {!search && (
             <div className={ListCx('list-title') + ' ' + titleCx('title')}>
-              <WithQuestion onClick={() => setPopup(true)}>
+              {/* <WithQuestion onClick={() => setPopup(true)}>
                 <span>{t('list')}</span>
-              </WithQuestion>
+              </WithQuestion> */}
+              <ListSourceComponent t={t} />
 
               <div className={ListCx('right')}>
                 <span className={ListCx('name')}> {t('name')}</span>
@@ -151,29 +131,34 @@ function TokenList({
           )}
         </PaddingContainer>
         <div className={ListCx('container')}>
-          {displayedList.length === 0 ? (
+          {searchedList.length === 0 ? (
             <img
               alt="not found"
               className={ListCx('not-found')}
               src={notFoundSrc}
             ></img>
           ) : (
-            displayedList
+            searchedList
               .slice(0, searching ? 5 : undefined)
-              .sort(!search ? sorts[sort] : undefined)
+              .sort(
+                !search
+                  ? sorts(cToken ? 'symbol' : 'reference_symbol')[sort]
+                  : undefined
+              )
               .map((tokenInfo, i) => {
+                console.log()
                 return (
                   <TokenRow
                     key={i}
+                    tokenInfo={tokenInfo}
                     {...{
-                      ...tokenInfo,
-                      token,
+                      token: selected,
                       chain,
                       cToken,
                       checked:
                         tokenInfo.is_admin === 1 && captain
                           ? false
-                          : token === tokenInfo.reference,
+                          : selected === tokenInfo.id,
                       disabled: tokenInfo.is_admin === 1 && captain,
                       captain,
                       setToken,
@@ -185,46 +170,13 @@ function TokenList({
           )}
         </div>
       </Scrollbars>
-      <Modal
-        show={popup}
-        title={t('list')}
-        onClose={() => setPopup(false)}
-        clickAway={() => setPopup(false)}
-      >
-        <div
-          style={{
-            textAlign: 'center',
-          }}
-          className={modalCx('content')}
-        >
-          {t('gecko')}
-        </div>
-        <div
-          onClick={() =>
-            window.open(
-              'https://tokenlists.org/token-list?url=https://tokens.coingecko.com/uniswap/all.json',
-              '_blank'
-            )
-          }
-          className={modalCx('btn')}
-        >
-          {t('gecko-btn')}
-        </div>
-      </Modal>
+
     </>
   )
 }
 
 function TokenRow({
-  supported,
-  in_token_list,
-  reference_symbol,
-  reference_name,
-  reference,
-  symbol,
-  ctoken,
-  sponsor_value,
-  icon,
+  tokenInfo,
   cToken,
   captain,
   disabled,
@@ -233,6 +185,17 @@ function TokenRow({
   checked,
   chain,
 }) {
+  const {
+    supported,
+    in_token_list,
+    reference_symbol,
+    reference_name,
+    reference,
+    sponsor_value,
+    symbol,
+    id,
+    ctoken,
+  } = tokenInfo
   const [ListCx] = useStyle(tokenListStyles, titleStyles)
   const { t } = useTranslation(['token'])
   const notAvailable = supported === 0
@@ -242,35 +205,32 @@ function TokenRow({
     : `${EHTHERSCAN_TK}${reference}`
   const name = (cToken ? 'Conflux ' : '') + reference_name
   const symbolName = cToken ? symbol : reference_symbol
-  const address = cToken ? ctoken : reference.startsWith('0x') ? reference : ''
-  chain = cToken ? 'cfx' : chain
+  const address = cToken
+    ? ctoken !== 'cfx' && ctoken
+    : reference.startsWith('0x')
+    ? reference
+    : ''
+  const displayChain = cToken ? 'cfx' : chain
+
   return (
     <PaddingContainer
       bottom={false}
       className={ListCx('row', { checked })}
       onClick={() => {
-        if (in_token_list) {
-          if (checked) {
-            setToken('')
-            setIsNotAvailable(false)
-          } else {
+        if (checked) {
+          setToken('')
+          setIsNotAvailable(false)
+        } else {
+          const callback = () => {
             if (!disabled) {
-              setToken(reference)
-              if (notAvailable) {
-                setIsNotAvailable(true)
-              }
+              setToken(id)
+              setIsNotAvailable(notAvailable)
             }
           }
-        } else {
-          if (checked) {
-            setToken('')
+          if (in_token_list) {
+            callback()
           } else {
-            block(() => {
-              setToken(reference)
-              if (notAvailable) {
-                setIsNotAvailable(true)
-              }
-            })
+            block(callback)
           }
         }
       }}
@@ -281,9 +241,8 @@ function TokenRow({
         </div>
 
         <Icon
-          risk={!in_token_list}
-          src={icon}
-          conflux={cToken}
+          cToken={!!cToken}
+          {...tokenInfo}
           style={{ marginLeft: '0.5rem', marginRight: '1rem' }}
         />
         <div className={ListCx('two-row')}>
@@ -315,7 +274,7 @@ function TokenRow({
         {address && (
           <div className={ListCx('link')}>
             <span className={ListCx('link-txt')}>
-              {formatAddress(address, { chain })}
+              {formatAddress(address, { chain: displayChain })}
             </span>
             <img
               alt="link"

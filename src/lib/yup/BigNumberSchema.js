@@ -8,6 +8,7 @@ export default class BigSchema extends BaseSchema {
     super({ type: 'bigNumber' })
     this.withMutation(() => {
       this.transform(function (value) {
+        console.log(value)
         if (typeof value === 'string') {
           try {
             value = new Big(value)

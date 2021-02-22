@@ -10,8 +10,8 @@
     "min": "数值必须大于等于 {{minimal_burn_value}} {{symbol}}"
   },
   "balance": "可用余额 {{amount}} {{symbol}}",
-  "fee": "手续费 {{burn_fee}} {{symbol}}",
-  "min-amount": "最小数量 {{minimal_burn_value}} {{symbol}}",
+  "fee": "手续费 {{out_fee}} {{symbol}}",
+  "min-amount": "最小数量 {{minimal_out_value}} {{symbol}}",
   "popup": {
     "address": "1.请输入可以接收对应代币资产的钱包地址，否则资产将不可找回。\n2.跨出需要一定数量的区块确认才能到账。\n3.ShuttleFlow 是真正的去中心化产品，在任何情况下都接触不到用户的私钥。\n4.您的资产托管在智能合约 ShuttleFlow 中，合约通过第三方安全审计，并由 ShuttleFlow 跨链资产联盟多重签名防护。即使 ShuttleFlow 自身私钥泄露，黑客也无法盗取用户资产，平台自身也无法作恶。",
     "fee": "跨出手续费：<strong>{{burn_fee}} {{symbol}}</strong>\n\n手续费由当前代币服务商制定，数值可能随时调整，请尽快完成操作。",

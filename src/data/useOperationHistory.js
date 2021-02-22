@@ -1,14 +1,21 @@
 import { useRef } from 'react'
-import useState1 from './useState1'
+import useState1 from '../lib/useState1'
 import jsonrpc from './jsonrpc'
-import { tokenMap as tokeMapPms } from './tokenList'
+import { getTokenList } from './tokenList'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import formatNum from '../util/formatNum'
 import useAddress from './useAddress'
+import { useParams } from 'react-router'
 
-export default function useHistory({ token, status, limit = 100, type } = {}) {
+export default function useOperationHistory({
+  token,
+  status,
+  limit = 100,
+  type,
+} = {}) {
   const address = useAddress()
   const [state, setState] = useState1({ data: [], loading: true })
+  const { chain } = useParams()
   const reload = useRef(null)
   useDeepCompareEffect(() => {
     let mount = true
@@ -20,6 +27,7 @@ export default function useHistory({ token, status, limit = 100, type } = {}) {
           limit,
           type,
           address,
+          chain,
         })
       const _reload = () => {
         setState({ loading: true })
@@ -66,15 +74,17 @@ function fetchHistory({
   limit,
   status = ['comfirming', 'doing', 'finished'],
   address,
+  chain,
 } = {}) {
   return Promise.all([
-    tokeMapPms,
-    jsonrpc('getSpecificUserOperationList', {
+    getTokenList(chain).then(({ tokenMap }) => tokenMap),
+    jsonrpc('getUserOperationList', {
       url: 'node',
       params: [
         {
           type,
           token,
+          chain,
           status,
           address,
           defi: '0x0000000000000000000000000000000000000000',
@@ -82,17 +92,18 @@ function fetchHistory({
         0,
         limit,
       ],
-    }).then((x) => x.txs),
+    }),
   ]).then(([tokenMap, histories]) => {
     return histories
       .map(({ token, ...rest }) => {
         //todo make up for data error
-        if (!token) {
-          token = 'btc'
+        const { type: op_type } = rest
+        if (!tokenMap[token] && op_type.split('_')[0] === 'cfx') {
+          token = 'cfx'
         }
         //It can happen due to some unexpected human operation
         if (tokenMap[token]) {
-          return { ...rest, ...tokenMap[token], token }
+          return { ...rest, ...tokenMap[token], token, dir: type }
         } else {
           return false
         }
@@ -110,10 +121,14 @@ function historyAdapter({
   nonce_or_txid,
   amount,
   status,
+  dir,
+  symbol,
   settled_tx,
   ...rest
 }) {
   type = type.split('_')[1]
+  const isOriginCfx =
+    (dir === 'out' && type === 'mint') || (dir === 'in' && type === 'burn')
   let step
   if (status === 'confirming') {
     step = 0
@@ -130,11 +145,13 @@ function historyAdapter({
   return {
     //btc and eth do not have symbol
     ...rest,
-    symbol: reference_symbol || reference,
+    symbol: isOriginCfx ? symbol : reference_symbol || reference,
     type,
     step,
+    isOriginCfx,
     settled_tx,
     nonce_or_txid,
-    amount: (type === 'mint' ? '+' : '-') + formatNum(amount, decimals),
+    dir,
+    amount: (dir === 'in' ? '+' : '-') + formatNum(amount, decimals),
   }
 }
