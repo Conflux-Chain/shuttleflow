@@ -1,6 +1,6 @@
 import { parseNum } from '../util/formatNum'
 import Big from 'big.js'
-import icons from './tokenIcons'
+import CHAIN_CONFIG from '../config/chainConfig'
 
 export default function tokenListMapper(d) {
   const {
@@ -64,7 +64,7 @@ export default function tokenListMapper(d) {
     in_fee: values[`${_in}_fee`],
     out_fee: values[`${_out}_fee`],
     wallet_fee: parseNum(wallet_fee, decimals),
-    icon: icon || icons[reference],
+    icon: icon || CHAIN_CONFIG[reference].icon,
     //btc and eth is not in gecko list,but they are trusted
     in_token_list: ['btc', 'eth'].indexOf(reference) > -1 ? 1 : in_token_list,
   }
