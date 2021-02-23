@@ -55,10 +55,7 @@ function TokenList({
   }
 
   const { t } = useTranslation(['token'])
-  const [ListCx, titleCx] = useStyle(
-    tokenListStyles,
-    titleStyles,
-  )
+  const [ListCx, titleCx] = useStyle(tokenListStyles, titleStyles)
   const [sort, setSort] = useState('name')
 
   useEffect(() => {
@@ -76,7 +73,7 @@ function TokenList({
         style={{ flex: 1, position: 'relative' }}
       >
         <PaddingContainer bottom={false}>
-          {frequent && !search && displayedList.length && (
+          {frequent && !search && displayedList.length > 0 && (
             <>
               <div className={titleCx('title')}>{t('frequent')}</div>
               <div className={ListCx('frequent-container')}>
@@ -108,10 +105,7 @@ function TokenList({
           )}
           {!search && (
             <div className={ListCx('list-title') + ' ' + titleCx('title')}>
-              {/* <WithQuestion onClick={() => setPopup(true)}>
-                <span>{t('list')}</span>
-              </WithQuestion> */}
-              <ListSourceComponent t={t} />
+              {ListSourceComponent ? <ListSourceComponent t={t} /> : <div />}
 
               <div className={ListCx('right')}>
                 <span className={ListCx('name')}> {t('name')}</span>
@@ -170,7 +164,6 @@ function TokenList({
           )}
         </div>
       </Scrollbars>
-
     </>
   )
 }

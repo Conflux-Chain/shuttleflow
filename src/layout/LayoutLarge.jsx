@@ -27,6 +27,7 @@ export default function LayoutLarge() {
   const [mainMaxHeight, setMainMaxHeight] = useState(0)
   const history = useHistory()
 
+
   useEffect(() => {
     const { bottom } = headerRef.current.getBoundingClientRect()
     let { marginBottom } = getComputedStyle(headerRef.current)
@@ -37,6 +38,7 @@ export default function LayoutLarge() {
 
   const { chain } = useParams()
   const chainRoot = `/${chain}`
+  console.log(CHAIN_CONFIG,chain)
 
   return (
     <>
