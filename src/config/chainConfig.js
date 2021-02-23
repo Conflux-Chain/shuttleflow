@@ -84,6 +84,7 @@ const config = {
     },
 
     checkAddress(address = '', blockShuttleout, t) {
+      return Promise.resolve('yes')
       if (address.startsWith('0x1')) {
         return jsonrpc('getEthNonce', {
           url: 'sponsor',
@@ -209,36 +210,7 @@ const config = {
     },
 
     checkAddress(address = '', blockShuttleout, t) {
-      if (address.startsWith('0x1')) {
-        return jsonrpc('getEthNonce', {
-          url: 'sponsor',
-          params: [address],
-        })
-          .then((x) => {
-            if (x > 0) {
-              return 'eth'
-            } else {
-              return window.confluxJS.getNextNonce(address).then((x) => {
-                if (x.toString() === '0') {
-                  return 'tbd'
-                } else {
-                  return 'conflux'
-                }
-              })
-            }
-          })
-          .then((x) => {
-            return new Promise((resolve) => {
-              if (x === 'eth') {
-                resolve('yes')
-              } else {
-                blockShuttleout(resolve, t(`confirm.${x}`))
-              }
-            })
-          })
-      } else {
-        return Promise.resolve('yes')
-      }
+      return Promise.resolve('yes')
     },
     frequentTokens: [
       'btc',
@@ -287,7 +259,7 @@ const config = {
   },
 }
 
-delete config.bsc
-export const SUPPORT_CHAINS = ['btc', 'eth']
+// delete config.bsc
+export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
 
 export default config
