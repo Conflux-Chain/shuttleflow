@@ -93,7 +93,8 @@ function fetchHistory({
         limit,
       ],
     }),
-  ]).then(([tokenMap, histories]) => {
+  ]).then(([tokenMap, histories = []]) => {
+    console.log(tokenMap, histories)
     return histories
       .map(({ token, ...rest }) => {
         //todo make up for data error
