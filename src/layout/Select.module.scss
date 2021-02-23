@@ -30,6 +30,11 @@
     line-height: 2.5rem;
     font-size: 0.875rem;
     color: #999999;
+    &.small {
+      font-size: 1.75rem;
+      line-height: 4.25rem;
+      height: 4.25rem;
+    }
   }
 
   .dropdown-item {
@@ -38,7 +43,13 @@
     line-height: 2.5rem;
     font-size: 1rem;
     z-index: 2;
+    background-color: white;
     cursor: pointer;
+
+    &.small {
+      line-height: 6.25rem;
+      height: 6.25rem;
+    }
   }
 
   .selected {
@@ -59,6 +70,11 @@
     width: 1rem;
     //flush to right
     margin-left: auto;
+
+    &.small {
+      width: 2rem;
+      height: 2rem;
+    }
   }
 }
 

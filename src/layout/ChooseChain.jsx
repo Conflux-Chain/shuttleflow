@@ -24,28 +24,39 @@ export default function ChooseChain() {
   )
 }
 
-function renderChainSelect({ key, title }) {
+function renderChainSelect({ key, title, isSmall }) {
   return (
     <div
       style={{
         marginRight: title ? '' : '1rem',
-        fontSize: '0.875rem',
+        fontSize: isSmall ? '2rem' : '0.875rem',
         display: 'flex',
         alignItems: 'center',
       }}
     >
       <img
-        style={{ width: '1.25rem', height: '1.25rem', marginRight: '0.5rem' }}
+        style={{
+          width: isSmall ? '2.5rem' : '1.25rem',
+          height: isSmall ? '2.5rem' : '1.25rem',
+          marginRight: '0.5rem',
+        }}
         src={CHAIN_CONFIG[key].icon}
         alt="icon"
       ></img>
       <span
-        style={{ color: title ? 'white' : '#333333', marginRight: '0.2rem' }}
+        style={{
+          color: title ? 'white' : '#333333',
+          marginRight: '0.2rem',
+          fontSize: isSmall ? '2rem' : '',
+        }}
       >
         {key.toUpperCase()}
       </span>{' '}
       <span
-        style={{ color: title ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' }}
+        style={{
+          color: title ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)',
+          fontSize: isSmall ? '1.75rem' : '',
+        }}
       >
         {' /Conflux'}
       </span>

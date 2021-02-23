@@ -97,12 +97,8 @@ function RouteComponent() {
 
   return (
     <>
+      {isSmall && <ChooseChain />}
       <Component tokenInfo={tokenInfo} {...{ feePopup, setFeePopup }} />
-      {isSmall && (
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
-          <ChooseChain />
-        </div>
-      )}
     </>
   )
 }

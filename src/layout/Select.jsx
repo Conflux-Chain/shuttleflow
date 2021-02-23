@@ -27,8 +27,15 @@ export default function Select({
   return (
     <Accordion
       contentStyle={{
-        ...(!isSmall && { position: 'absolute', top: '5rem' }),
         ...{ right },
+        ...(!isSmall
+          ? { position: 'absolute', top: '5rem' }
+          : {
+              position: 'absolute',
+              left: '0',
+              right: '0',
+              marginTop: '1.5rem',
+            }),
       }}
       clickAway={() => setExpand(false)}
       expanded={expand}
@@ -47,6 +54,7 @@ export default function Select({
                 ? render({
                     key: (currentOption || options[0]).value,
                     title: true,
+                    isSmall,
                   })
                 : (currentOption || options[0]).value)}
           </span>
@@ -79,7 +87,7 @@ export default function Select({
                   selected,
                 })}
               >
-                {render ? render({ key }) : value}
+                {render ? render({ key, isSmall }) : value}
                 {selected && (
                   <img
                     className={cx('after')}

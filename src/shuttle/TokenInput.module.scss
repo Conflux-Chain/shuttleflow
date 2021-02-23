@@ -2,6 +2,9 @@
   color: rgba($color: #ffffff, $alpha: 0.6);
   margin-bottom: 0.5rem;
   font-size: 1rem;
+  &.small {
+    font-size: 1.5rem;
+  }
 }
 .container {
   position: relative;
