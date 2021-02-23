@@ -4,9 +4,11 @@ import jsonrpc from './jsonrpc'
 
 export default function mint(addr, amount, chain, ctoken) {
   let selectedAddress = window.conflux.selectedAddress
+  console.log('addr before', addr)
   addr = ensureAddressForSdk(addr)
   ctoken = ensureAddressForSdk(ctoken)
   selectedAddress = ensureAddressForSdk(selectedAddress)
+  console.log('addr after', addr)
 
   return jsonrpc('getUserWallet', {
     url: 'node',

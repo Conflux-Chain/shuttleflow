@@ -54,70 +54,70 @@
   }
 }
 
-.select-title {
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 2.5rem;
-  line-height: 2.5rem;
-  text-align: center;
+// .select-title {
+//   cursor: pointer;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   height: 2.5rem;
+//   line-height: 2.5rem;
+//   text-align: center;
 
 
-  .up {
-    width: 0.65rem;
-    height: 0.56rem;
-    margin-left: 0.5rem;
-    transform: rotate(180deg);
-    transition: 0.2s;
-  }
-  .icon-active{
-    transform: rotate(0deg);
-  }
-}
-.dropdown-container {
-  color: #333333;
-  min-width: 8.75rem;
-  background-color: white;
-  border-radius: 0px 0px 0.25rem 0.25rem;
-  overflow: hidden;
-  .dropdown-title {
-    padding: 0 1rem;
-    height: 2.5rem;
-    line-height: 2.5rem;
-    font-size: 0.875rem;
-    color: #999999;
-  }
+//   .up {
+//     width: 0.65rem;
+//     height: 0.56rem;
+//     margin-left: 0.5rem;
+//     transform: rotate(180deg);
+//     transition: 0.2s;
+//   }
+//   .icon-active{
+//     transform: rotate(0deg);
+//   }
+// }
+// .dropdown-container {
+//   color: #333333;
+//   min-width: 8.75rem;
+//   background-color: white;
+//   border-radius: 0px 0px 0.25rem 0.25rem;
+//   overflow: hidden;
+//   .dropdown-title {
+//     padding: 0 1rem;
+//     height: 2.5rem;
+//     line-height: 2.5rem;
+//     font-size: 0.875rem;
+//     color: #999999;
+//   }
 
-  .dropdown-item {
-    display: flex;
-    padding: 0 1rem;
-    line-height: 2.5rem;
-    font-size: 1rem;
-    z-index: 2;
-    cursor: pointer;
-  }
+//   .dropdown-item {
+//     display: flex;
+//     padding: 0 1rem;
+//     line-height: 2.5rem;
+//     font-size: 1rem;
+//     z-index: 2;
+//     cursor: pointer;
+//   }
 
-  .selected {
-    position: relative;
-    display: flex;
-    align-items: center;
-    &.lng {
-      color: white;
-      background: #44d7b6;
-    }
-    &.chain {
-      background: #f5f5f5;
-    }
-  }
+//   .selected {
+//     position: relative;
+//     display: flex;
+//     align-items: center;
+//     &.lng {
+//       color: white;
+//       background: #44d7b6;
+//     }
+//     &.chain {
+//       background: #f5f5f5;
+//     }
+//   }
 
-  .after {
-    height: 1rem;
-    width: 1rem;
-    //flush to right
-    margin-left: auto;
-  }
-}
+//   .after {
+//     height: 1rem;
+//     width: 1rem;
+//     //flush to right
+//     margin-left: auto;
+//   }
+// }
 
 .chain-select {
   margin-right: 1rem;

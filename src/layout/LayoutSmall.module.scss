@@ -51,11 +51,10 @@ $padding: 2rem;
 }
 .exitActive {
   transform: scaleY(0.1);
-  // transform: translateY(-200px);
 }
 
 .dropdown {
-  z-index: 1;
+  z-index: 2;
   position: absolute;
   width: 100%;
   color: white;

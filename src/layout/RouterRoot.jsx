@@ -26,6 +26,7 @@ export default function RouterRoot() {
 
 function ChainChecker() {
   const { chain } = useParams()
+  console.log(!CHAIN_CONFIG[chain])
   //backwark compitable with old url where :chain do not specify
   return !CHAIN_CONFIG[chain] ? (
     <Redirect to={`/${DEFAULT_CHAIN}`}></Redirect>
