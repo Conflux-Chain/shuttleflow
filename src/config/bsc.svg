@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_dex@2x</title>
+    <g id="V1.2-0126" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1-Shuttle-In-交易对" transform="translate(-270.000000, -194.000000)">
+            <g id="icon_dex" transform="translate(270.000000, 194.000000)">
+                <circle id="椭圆形" fill="#F0B90B" cx="10" cy="10" r="10"></circle>
+                <polygon id="路径" fill="#FFFFFF" fill-rule="nonzero" points="9.99999012 4 7 5.82558246 8.10294332 6.5 9.99999012 5.34883805 11.8970652 6.5 13 5.82558246"></polygon>
+                <polygon id="路径" fill="#FFFFFF" fill-rule="nonzero" points="11.8970652 7.5 13 8.15786988 13 9.47355151 11.1029532 10.5964207 11.1029532 12.8421592 9.99999012 13.5 8.89705527 12.8421592 8.89705527 10.5964207 7 9.47355151 7 8.15786988 8.10294332 7.5 9.99999012 8.62289829"></polygon>
+                <polygon id="路径" fill="#FFFFFF" fill-rule="nonzero" points="13 10 13 11.3333333 12 12 12 10.6666667"></polygon>
+                <polygon id="路径" fill="#FFFFFF" fill-rule="nonzero" points="12 13.145415 13.8970406 11.9893692 13.8970406 9.67727755 15 9 15 12.6666467 12 14.5"></polygon>
+                <polygon id="路径" fill="#FFFFFF" fill-rule="nonzero" points="13.4999872 7.25000966 12.5 6.62500069 13.4999872 6 14.5 6.62500069 14.5 7.87500483 13.4999872 8.5"></polygon>
+                <polygon id="路径" fill="#FFFFFF" fill-rule="nonzero" points="9 14.8333333 9 13.5 9.9999872 14.1666667 11 13.5 11 14.8333333 9.9999872 15.5"></polygon>
+                <polygon id="路径" fill="#FFFFFF" fill-rule="nonzero" points="8 12 7 11.3333333 7 10 8 10.6666667"></polygon>
+                <polygon id="路径" fill="#FFFFFF" fill-rule="nonzero" points="9.9999872 7.5 9 6.74999503 9.9999872 6 11 6.74999503"></polygon>
+                <polygon id="路径" fill="#FFFFFF" fill-rule="nonzero" points="7 6.62500069 6 7.25000966 6 8.5 5 7.87500483 5 6.62500069 6 6"></polygon>
+                <polygon id="路径" fill="#FFFFFF" fill-rule="nonzero" points="5 9 6.10294458 9.67727755 6.10294458 11.9893692 8 13.145415 8 14.5 5 12.6666467"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

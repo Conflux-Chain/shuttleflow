@@ -7,7 +7,6 @@ import inputStyles from '../../component/input.module.scss'
 import shuttleStyle from '../Shuttle.module.scss'
 import shuttleOutStyles from './ShuttleOut.module.scss'
 import Modal, { modalStyles } from '../../component/Modal'
-import CTokenPopup from '../CTokenPopup'
 import tick from '../shuttle-in/tick.svg'
 
 import useStyle from '../../component/useStyle'
@@ -53,7 +52,6 @@ export default function ShuttleOut({ tokenInfo }) {
   const [successPopup, setSuccessPopup] = useState(false)
   const [addrPopup, setAddrPopup] = useState(false)
   const [feePopup, setFeePopup] = useState(false)
-  const [ctokenPopup, setCTokenPopup] = useState(false)
   const [copyPopup, setCopyPopup] = useState(false)
 
   const blockCallback = useRef(null)

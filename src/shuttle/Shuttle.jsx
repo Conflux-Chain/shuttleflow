@@ -23,7 +23,8 @@ import useIsSamll from '../component/useSmallScreen'
 import useUrlSearch from '../lib/useUrlSearch'
 import useTokenList from '../data/useTokenList'
 import { CHAIN_SINGLE_PAIR } from '../config/constant'
-import Modal from '../component/Modal'
+import ChooseChain from '../layout/ChooseChain'
+
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
   const { t } = useTranslation(['nav'])
@@ -90,11 +91,13 @@ function RouteComponent() {
   const tokenInfo = useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
   const [feePopup, setFeePopup] = useState(false)
   const { type } = useParams()
+  const isSmall = useIsSamll()
 
   const Component = type === 'in' ? ShuttleIn : ShuttleOut
 
   return (
     <>
+      {isSmall && <ChooseChain />}
       <Component tokenInfo={tokenInfo} {...{ feePopup, setFeePopup }} />
     </>
   )

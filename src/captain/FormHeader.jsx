@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import WithQuestion from '../component/WithQuestion'
 import Modal from '../component/Modal'
 import { CONFLUXSCAN_ADDR } from '../config/config'
-import icons from '../data/tokenIcons'
 
 export default function Header({
   icon,

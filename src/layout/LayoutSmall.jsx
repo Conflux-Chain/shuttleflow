@@ -1,5 +1,5 @@
 import React, { useState, useRef, useLayoutEffect, Suspense } from 'react'
-import { Link, useRouteMatch, useHistory } from 'react-router-dom'
+import { Link, useRouteMatch, useHistory, useParams } from 'react-router-dom'
 import { Loading } from '@cfxjs/react-ui'
 import '../i18n/i18n'
 
@@ -11,6 +11,7 @@ import up from './up.svg'
 import Main from './Main'
 
 import Accordion from '../component/Accordion'
+import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
 
 import { TokenNavigation } from '../token/Token'
 
@@ -20,6 +21,7 @@ import { CSSTransition } from 'react-transition-group'
 import { formatAddress } from '../util/address'
 
 import useStyle from '../component/useStyle'
+
 
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
@@ -37,6 +39,7 @@ export default function LayoutSmall() {
   const { t, i18n } = useTranslation()
   const address = useAddress()
   const [headerHeight, setHeaderHeight] = useState(0)
+  const { chain } = useParams()
   //todo: possible react bug, can not calculate dom dimention
   //correctly when Suspense present
   useLayoutEffect(() => {
@@ -64,7 +67,7 @@ export default function LayoutSmall() {
             </div>
           ) : (
             <header className={cx('header', 'top-level')}>
-              <Link to="/">
+              <Link to={`/${chain}`}>
                 <img alt="logo" className={cx('logo')} src={logo}></img>
               </Link>
               <div className={cx('right')}>
@@ -105,7 +108,7 @@ export default function LayoutSmall() {
           <div
             className={cx('item')}
             onClick={() => {
-              history.push('/history')
+              history.push(`/${chain}/history`)
               setDropdown(false)
             }}
           >
@@ -114,13 +117,24 @@ export default function LayoutSmall() {
           <div
             className={cx('item')}
             onClick={() => {
-              history.push('/market')
+              history.push(`/${chain}/market`)
               setDropdown(false)
             }}
           >
             {t('markets')}
           </div>
-          <div
+          {CHAIN_CONFIG[chain].captain !== CAPTAIN.NONE && (
+            <div
+              className={cx('item')}
+              onClick={() => {
+                history.push('/captain')
+                setDropdown(false)
+              }}
+            >
+              {t('be-captain')}
+            </div>
+          )}
+          {/* <div
             className={cx('item')}
             onClick={() => {
               history.push('/captain')
@@ -128,7 +142,7 @@ export default function LayoutSmall() {
             }}
           >
             {t('be-captain')}
-          </div>
+          </div> */}
           <Accordion
             expanded={lngOpen}
             title={
