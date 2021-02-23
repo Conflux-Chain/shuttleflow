@@ -4,7 +4,6 @@ import { getTokenContract } from './contract'
 export default function burn(addr, ctoken, amount, burnfee) {
   let selectedAddress = window.conflux.selectedAddress
 
-  addr = ensureAddressForSdk(addr)
   ctoken = ensureAddressForSdk(ctoken)
   selectedAddress = ensureAddressForSdk(selectedAddress)
 
