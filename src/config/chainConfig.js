@@ -163,6 +163,7 @@ const config = {
   },
   bsc: {
     icon: bscSrc,
+    captain: CAPTAIN.NONE,
     display: ({ supported, in_token_list, origin }) => {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
@@ -200,7 +201,6 @@ const config = {
         )
       )
     },
-    captain: CAPTAIN.TO_CFX,
     outFormatCheck(address) {
       return WAValidator.validate(
         address,
@@ -219,43 +219,43 @@ const config = {
       '0x6b175474e89094c44da98b954eedeac495271d0f', // dai
       '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', //usdc
     ],
-    TokenList({ t }) {
-      const [modalCx] = useStyle(modalStyles)
-      const [popup, setPopup] = useState(false)
-      return (
-        <>
-          <WithQuestion onClick={() => setPopup(true)}>
-            <span>{t('list')}</span>
-          </WithQuestion>
-          <Modal
-            show={popup}
-            title={t('list')}
-            onClose={() => setPopup(false)}
-            clickAway={() => setPopup(false)}
-          >
-            <div
-              style={{
-                textAlign: 'center',
-              }}
-              className={modalCx('content')}
-            >
-              {t('gecko')}
-            </div>
-            <div
-              onClick={() =>
-                window.open(
-                  'https://tokenlists.org/token-list?url=https://tokens.coingecko.com/uniswap/all.json',
-                  '_blank'
-                )
-              }
-              className={modalCx('btn')}
-            >
-              {t('gecko-btn')}
-            </div>
-          </Modal>
-        </>
-      )
-    },
+  //   TokenList({ t }) {
+  //     const [modalCx] = useStyle(modalStyles)
+  //     const [popup, setPopup] = useState(false)
+  //     return (
+  //       <>
+  //         <WithQuestion onClick={() => setPopup(true)}>
+  //           <span>{t('list')}</span>
+  //         </WithQuestion>
+  //         <Modal
+  //           show={popup}
+  //           title={t('list')}
+  //           onClose={() => setPopup(false)}
+  //           clickAway={() => setPopup(false)}
+  //         >
+  //           <div
+  //             style={{
+  //               textAlign: 'center',
+  //             }}
+  //             className={modalCx('content')}
+  //           >
+  //             {t('gecko')}
+  //           </div>
+  //           <div
+  //             onClick={() =>
+  //               window.open(
+  //                 'https://tokenlists.org/token-list?url=https://tokens.coingecko.com/uniswap/all.json',
+  //                 '_blank'
+  //               )
+  //             }
+  //             className={modalCx('btn')}
+  //           >
+  //             {t('gecko-btn')}
+  //           </div>
+  //         </Modal>
+  //       </>
+  //     )
+  //   },
   },
 }
 
