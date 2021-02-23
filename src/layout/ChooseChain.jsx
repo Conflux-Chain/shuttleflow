@@ -34,6 +34,7 @@ function renderChainSelect({ key, title, isSmall }) {
         alignItems: 'center',
       }}
     >
+      
       <img
         style={{
           width: isSmall ? '2.5rem' : '1.25rem',
