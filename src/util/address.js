@@ -24,26 +24,21 @@ export function ensureAddressForSdk(oldOrNewAddress) {
         oldOrNewAddress.startsWith('0x') ||
         oldOrNewAddress.startsWith('0X')
       ) {
-        oldOrNewAddress = oldOrNewAddress.slice(2)
+        const addr = confluxAddr.encode(
+          Buffer.from(oldOrNewAddress.slice(2), 'hex'),
+          IS_DEV ? 1 : 1029
+        )
+        return addr
       }
-
-      const addr = confluxAddr.encode(
-        Buffer.from(oldOrNewAddress, 'hex'),
-        IS_DEV ? 1 : 1029
-      )
-      return addr
-    } catch (e) {
-      return oldOrNewAddress
-    }
+    } catch (e) {}
   } else {
     try {
       const addr =
         '0x' + confluxAddr.decode(oldOrNewAddress).hexAddress.toString('hex')
       return addr
-    } catch (e) {
-      return oldOrNewAddress
-    }
+    } catch (e) {}
   }
+  return oldOrNewAddress
 }
 
 function formatEth(txt) {
