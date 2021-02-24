@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router'
 import CHAIN_CONFIG, { SUPPORT_CHAINS } from '../config/chainConfig'
 import Select from './Select'
+
 export default function ChooseChain() {
   const history = useHistory()
   const { chain } = useParams()
@@ -34,7 +35,6 @@ function renderChainSelect({ key, title, isSmall }) {
         alignItems: 'center',
       }}
     >
-      
       <img
         style={{
           width: isSmall ? '2.5rem' : '1.25rem',

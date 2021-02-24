@@ -1,8 +1,8 @@
 import confluxSvg from './conflux.svg'
-import ethSvg from './eth.svg'
 import riskSrc from './risk.svg'
 import styled from 'styled-components'
 import { useParams } from 'react-router'
+import CHAIN_CONFIG from '../../config/chainConfig'
 export default function Icon({
   icon,
   origin,
@@ -15,7 +15,8 @@ export default function Icon({
 }) {
   const { chain } = useParams()
   const confluxIcon = origin === chain && cToken
-  const chainIcon = origin === 'cfx' && !cToken
+  const chainIcon =
+    origin === 'cfx' && !cToken ? CHAIN_CONFIG[chain].subIcon : false
 
   return (
     <Container {...props} style={{ ...style, width: size, height: size }}>
@@ -23,7 +24,7 @@ export default function Icon({
       {confluxIcon && (
         <ShuttleIcon alt="shuttle" src={confluxSvg}></ShuttleIcon>
       )}
-      {chainIcon && <ShuttleIcon alt="shuttle" src={ethSvg}></ShuttleIcon>}
+      {chainIcon && <ShuttleIcon alt="shuttle" src={chainIcon}></ShuttleIcon>}
       {!in_token_list && <Risk src={riskSrc} />}
     </Container>
   )

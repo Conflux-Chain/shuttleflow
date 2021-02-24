@@ -12,7 +12,7 @@ import { formatAddress } from '../util/address'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
-import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../config/config'
+import { CONFLUXSCAN_TK } from '../config/config'
 import Icon from '../component/Icon/Icon'
 import { buildSearch } from '../component/urlSearch'
 import { useHistory, useParams } from 'react-router-dom'
@@ -55,10 +55,7 @@ function TokenList({
   }
 
   const { t } = useTranslation(['token'])
-  const [ListCx, titleCx] = useStyle(
-    tokenListStyles,
-    titleStyles,
-  )
+  const [ListCx, titleCx] = useStyle(tokenListStyles, titleStyles)
   const [sort, setSort] = useState('name')
 
   useEffect(() => {
@@ -76,7 +73,7 @@ function TokenList({
         style={{ flex: 1, position: 'relative' }}
       >
         <PaddingContainer bottom={false}>
-          {frequent && !search && displayedList.length && (
+          {frequent && !search && displayedList.length > 0 && (
             <>
               <div className={titleCx('title')}>{t('frequent')}</div>
               <div className={ListCx('frequent-container')}>
@@ -108,10 +105,7 @@ function TokenList({
           )}
           {!search && (
             <div className={ListCx('list-title') + ' ' + titleCx('title')}>
-              {/* <WithQuestion onClick={() => setPopup(true)}>
-                <span>{t('list')}</span>
-              </WithQuestion> */}
-              <ListSourceComponent t={t} />
+              {ListSourceComponent ? <ListSourceComponent t={t} /> : <div />}
 
               <div className={ListCx('right')}>
                 <span className={ListCx('name')}> {t('name')}</span>
@@ -170,7 +164,6 @@ function TokenList({
           )}
         </div>
       </Scrollbars>
-
     </>
   )
 }
@@ -192,6 +185,7 @@ function TokenRow({
     reference_name,
     reference,
     sponsor_value,
+    name,
     symbol,
     id,
     ctoken,
@@ -202,8 +196,9 @@ function TokenRow({
   const block = useBlockWithRisk()
   const link = cToken
     ? `${CONFLUXSCAN_TK}${ctoken}`
-    : `${EHTHERSCAN_TK}${reference}`
-  const name = (cToken ? 'Conflux ' : '') + reference_name
+    : `${CHAIN_CONFIG[chain]['tk_url']}${reference}`
+  const fullname = cToken ? name : reference_name
+
   const symbolName = cToken ? symbol : reference_symbol
   const address = cToken
     ? ctoken !== 'cfx' && ctoken
@@ -261,7 +256,7 @@ function TokenRow({
           </div>
 
           <span className={ListCx('name')}>
-            {name.length > 30 ? name.slice(0, 30) + '...' : name}
+            {fullname.length > 30 ? fullname.slice(0, 30) + '...' : fullname}
           </span>
         </div>
       </div>
