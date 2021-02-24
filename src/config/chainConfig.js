@@ -7,6 +7,7 @@ import useStyle from '../component/useStyle'
 import btcSrc from './bcoin.svg'
 import ethSrc from './ether.svg'
 import bscSrc from './bsc.svg'
+import ethSubSrc from './eth-sub.svg'
 
 var WAValidator = require('wallet-address-validator')
 const ETH_SCAN_URL = IS_DEV
@@ -25,7 +26,6 @@ export const CAPTAIN = {
 const config = {
   btc: {
     icon: btcSrc,
-
     display() {
       return true
     },
@@ -45,6 +45,7 @@ const config = {
   },
   eth: {
     icon: ethSrc,
+    subIcon: ethSubSrc,
     tk_url: ETH_SCAN_URL + '/token/',
     tx_url: ETH_SCAN_URL + '/tx/',
     display: ({ supported, in_token_list, origin }) => {
@@ -144,6 +145,7 @@ const config = {
   },
   bsc: {
     icon: bscSrc,
+    subIcon: bscSrc,
     tk_url: BSC_SCAN_URL + '/address/',
     tx_url: BSC_SCAN_URL + '/tx/',
     captain: CAPTAIN.NONE,
@@ -201,7 +203,6 @@ const config = {
   },
 }
 
-// delete config.bsc
-export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
+export const SUPPORT_CHAINS = ['btc', 'eth']
 
 export default config

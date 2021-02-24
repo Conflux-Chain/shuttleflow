@@ -16,7 +16,7 @@ export default function Icon({
   const { chain } = useParams()
   const confluxIcon = origin === chain && cToken
   const chainIcon =
-    origin === 'cfx' && !cToken ? CHAIN_CONFIG[chain].icon : false
+    origin === 'cfx' && !cToken ? CHAIN_CONFIG[chain].subIcon : false
 
   return (
     <Container {...props} style={{ ...style, width: size, height: size }}>
