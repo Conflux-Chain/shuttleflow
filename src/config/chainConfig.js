@@ -51,7 +51,7 @@ const config = {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
     searchList: function filterEth(list, search) {
-      console.log(list);
+      console.log(list)
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
       if (isEthAddress) {
@@ -151,7 +151,6 @@ const config = {
       return origin === 'cfx' || supported === 1
     },
     searchList: function filterEth(list, search) {
-
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
       if (isEthAddress) {
@@ -192,7 +191,9 @@ const config = {
         IS_DEV ? 'testnet' : 'prod'
       )
     },
-
+    TokenList({ t }) {
+      return <span>{t('list')}</span>
+    },
     checkAddress() {
       return Promise.resolve('yes')
     },
