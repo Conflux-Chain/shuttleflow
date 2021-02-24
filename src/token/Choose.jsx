@@ -13,6 +13,7 @@ import useUrlSearch from '../lib/useUrlSearch'
 import useIsSamll from '../component/useSmallScreen'
 import { useHistory, useParams } from 'react-router'
 import useState1 from '../lib/useState1'
+import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
 
 export default function ChooseToken({ captain, cToken, next }) {
   const [chooseCx] = useStyle(chooseStyles)
@@ -78,7 +79,7 @@ export default function ChooseToken({ captain, cToken, next }) {
                 ? t('be-captain')
                 : t(isNotAvailable ? 'add-token' : 'choose-btn')}
             </Button>,
-            !captain && (
+            !captain && CHAIN_CONFIG[chain].captain !== CAPTAIN.NONE ? (
               <div
                 key="benefit"
                 className={chooseCx('benefit')}
@@ -96,6 +97,8 @@ export default function ChooseToken({ captain, cToken, next }) {
                   alt="pocket"
                 ></img>
               </div>
+            ) : (
+              <div style={{ height: '1.5rem' }}></div>
             ),
           ][isSmall ? 'reverse' : 'slice']()}
         </PaddingContainer>
