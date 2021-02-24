@@ -185,6 +185,7 @@ function TokenRow({
     reference_name,
     reference,
     sponsor_value,
+    name,
     symbol,
     id,
     ctoken,
@@ -196,7 +197,8 @@ function TokenRow({
   const link = cToken
     ? `${CONFLUXSCAN_TK}${ctoken}`
     : `${CHAIN_CONFIG[chain]['tk_url']}${reference}`
-  const name = (cToken ? 'Conflux ' : '') + reference_name
+  const fullname = cToken ? name : reference_name
+
   const symbolName = cToken ? symbol : reference_symbol
   const address = cToken
     ? ctoken !== 'cfx' && ctoken
@@ -254,7 +256,7 @@ function TokenRow({
           </div>
 
           <span className={ListCx('name')}>
-            {name.length > 30 ? name.slice(0, 30) + '...' : name}
+            {fullname.length > 30 ? fullname.slice(0, 30) + '...' : fullname}
           </span>
         </div>
       </div>

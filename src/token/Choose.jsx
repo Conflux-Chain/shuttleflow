@@ -98,7 +98,7 @@ export default function ChooseToken({ captain, cToken, next }) {
                 ></img>
               </div>
             ) : (
-              <div style={{ height: '1.5rem' }}></div>
+              <div key='placeholder' style={{ height: '1.5rem' }}></div>
             ),
           ][isSmall ? 'reverse' : 'slice']()}
         </PaddingContainer>

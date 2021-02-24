@@ -344,7 +344,9 @@ export default function ShuttleOut({ tokenInfo }) {
                 ...tokenInfo,
                 fee: tokenInfo['out_fee'],
                 is_create:
-                  origin !== chain ? t('wallet-create-fee', tokenInfo) : '',
+                  tokenInfo.origin !== chain
+                    ? t('wallet-create-fee', tokenInfo)
+                    : '',
               }}
               i18nKey="popup-fee"
               t={t}
