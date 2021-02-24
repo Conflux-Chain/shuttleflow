@@ -15,6 +15,7 @@ export default function tokenListMapper(d) {
     in_token_list,
     id,
     origin = 'eth',
+    name,
   } = d
 
   let {
@@ -65,6 +66,7 @@ export default function tokenListMapper(d) {
     out_fee: values[`${_out}_fee`],
     wallet_fee: parseNum(wallet_fee, decimals),
     icon: icon || CHAIN_CONFIG[reference].icon,
+    name: name || 'Conflux ' + reference_name,
     //btc and eth is not in gecko list,but they are trusted
     in_token_list: ['btc', 'eth'].indexOf(reference) > -1 ? 1 : in_token_list,
   }

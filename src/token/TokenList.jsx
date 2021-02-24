@@ -197,7 +197,7 @@ function TokenRow({
   const link = cToken
     ? `${CONFLUXSCAN_TK}${ctoken}`
     : `${CHAIN_CONFIG[chain]['tk_url']}${reference}`
-  const fullname = cToken ? name || 'Conflux ' + reference_name : reference_name
+  const fullname = cToken ? name : reference_name
 
   const symbolName = cToken ? symbol : reference_symbol
   const address = cToken
