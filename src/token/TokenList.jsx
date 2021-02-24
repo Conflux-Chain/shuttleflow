@@ -12,7 +12,7 @@ import { formatAddress } from '../util/address'
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
-import { CONFLUXSCAN_TK, EHTHERSCAN_TK } from '../config/config'
+import { CONFLUXSCAN_TK } from '../config/config'
 import Icon from '../component/Icon/Icon'
 import { buildSearch } from '../component/urlSearch'
 import { useHistory, useParams } from 'react-router-dom'
@@ -195,7 +195,7 @@ function TokenRow({
   const block = useBlockWithRisk()
   const link = cToken
     ? `${CONFLUXSCAN_TK}${ctoken}`
-    : `${EHTHERSCAN_TK}${reference}`
+    : `${CHAIN_CONFIG[chain]['tk_url']}${reference}`
   const name = (cToken ? 'Conflux ' : '') + reference_name
   const symbolName = cToken ? symbol : reference_symbol
   const address = cToken

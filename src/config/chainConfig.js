@@ -7,7 +7,14 @@ import useStyle from '../component/useStyle'
 import btcSrc from './bcoin.svg'
 import ethSrc from './ether.svg'
 import bscSrc from './bsc.svg'
+
 var WAValidator = require('wallet-address-validator')
+const ETH_SCAN_URL = IS_DEV
+  ? 'https://rinkeby.etherscan.io'
+  : 'https://etherscan.io'
+const BSC_SCAN_URL = IS_DEV
+  ? 'https://testnet.bscscan.com'
+  : 'https://bscscan.com'
 
 export const CAPTAIN = {
   NONE: 0,
@@ -18,6 +25,7 @@ export const CAPTAIN = {
 const config = {
   btc: {
     icon: btcSrc,
+
     display() {
       return true
     },
@@ -37,10 +45,13 @@ const config = {
   },
   eth: {
     icon: ethSrc,
+    tk_url: ETH_SCAN_URL + '/token/',
+    tx_url: ETH_SCAN_URL + '/tx/',
     display: ({ supported, in_token_list, origin }) => {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
     searchList: function filterEth(list, search) {
+      console.log(list);
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
       if (isEthAddress) {
@@ -83,38 +94,8 @@ const config = {
       )
     },
 
-    checkAddress(address = '', blockShuttleout, t) {
+    checkAddress() {
       return Promise.resolve('yes')
-      if (address.startsWith('0x1')) {
-        return jsonrpc('getEthNonce', {
-          url: 'sponsor',
-          params: [address],
-        })
-          .then((x) => {
-            if (x > 0) {
-              return 'eth'
-            } else {
-              return window.confluxJS.getNextNonce(address).then((x) => {
-                if (x.toString() === '0') {
-                  return 'tbd'
-                } else {
-                  return 'conflux'
-                }
-              })
-            }
-          })
-          .then((x) => {
-            return new Promise((resolve) => {
-              if (x === 'eth') {
-                resolve('yes')
-              } else {
-                blockShuttleout(resolve, t(`confirm.${x}`))
-              }
-            })
-          })
-      } else {
-        return Promise.resolve('yes')
-      }
     },
     frequentTokens: [
       'btc',
@@ -163,11 +144,14 @@ const config = {
   },
   bsc: {
     icon: bscSrc,
+    tk_url: BSC_SCAN_URL + '/address/',
+    tx_url: BSC_SCAN_URL + '/tx/',
     captain: CAPTAIN.NONE,
-    display: ({ supported, in_token_list, origin }) => {
-      return origin === 'cfx' || (supported === 1 && in_token_list === 1)
+    display: ({ supported, origin }) => {
+      return origin === 'cfx' || supported === 1
     },
     searchList: function filterEth(list, search) {
+
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
       if (isEthAddress) {
@@ -209,53 +193,10 @@ const config = {
       )
     },
 
-    checkAddress(address = '', blockShuttleout, t) {
+    checkAddress() {
       return Promise.resolve('yes')
     },
-    frequentTokens: [
-      'btc',
-      'eth',
-      '0xdac17f958d2ee523a2206206994597c13d831ec7', //usdt
-      '0x6b175474e89094c44da98b954eedeac495271d0f', // dai
-      '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', //usdc
-    ],
-  //   TokenList({ t }) {
-  //     const [modalCx] = useStyle(modalStyles)
-  //     const [popup, setPopup] = useState(false)
-  //     return (
-  //       <>
-  //         <WithQuestion onClick={() => setPopup(true)}>
-  //           <span>{t('list')}</span>
-  //         </WithQuestion>
-  //         <Modal
-  //           show={popup}
-  //           title={t('list')}
-  //           onClose={() => setPopup(false)}
-  //           clickAway={() => setPopup(false)}
-  //         >
-  //           <div
-  //             style={{
-  //               textAlign: 'center',
-  //             }}
-  //             className={modalCx('content')}
-  //           >
-  //             {t('gecko')}
-  //           </div>
-  //           <div
-  //             onClick={() =>
-  //               window.open(
-  //                 'https://tokenlists.org/token-list?url=https://tokens.coingecko.com/uniswap/all.json',
-  //                 '_blank'
-  //               )
-  //             }
-  //             className={modalCx('btn')}
-  //           >
-  //             {t('gecko-btn')}
-  //           </div>
-  //         </Modal>
-  //       </>
-  //     )
-  //   },
+    frequentTokens: ['bnb'],
   },
 }
 

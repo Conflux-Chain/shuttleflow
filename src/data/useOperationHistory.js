@@ -94,7 +94,6 @@ function fetchHistory({
       ],
     }),
   ]).then(([tokenMap, histories = []]) => {
-    console.log(tokenMap, histories)
     return histories
       .map(({ token, ...rest }) => {
         //todo make up for data error
