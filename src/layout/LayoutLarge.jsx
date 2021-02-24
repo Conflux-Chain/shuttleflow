@@ -38,7 +38,6 @@ export default function LayoutLarge() {
 
   const { chain } = useParams()
   const chainRoot = `/${chain}`
-  console.log(CHAIN_CONFIG,chain)
 
   return (
     <>

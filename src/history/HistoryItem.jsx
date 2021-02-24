@@ -6,12 +6,11 @@ import { useTranslation } from 'react-i18next'
 
 import open from './open.svg'
 import link from '../component/link-64.png'
-import { CONFLUXSCAN_TX, EHTHERSCAN_TX } from '../config/config'
+import { CONFLUXSCAN_TX } from '../config/config'
+import CHAIN_CONFIG from '../config/chainConfig'
 import { useParams } from 'react-router'
 
 const STEPS = {
-  // mint: ['init-in', 'main', 'shuttle', 'conflux'],
-  // burn: ['init-out', 'conflux', 'shuttle', 'main'],
   in: ['init-in', 'main', 'shuttle', 'conflux'],
   out: ['init-out', 'conflux', 'shuttle', 'main'],
 }
@@ -133,7 +132,7 @@ export default function HistoryItem(props) {
 
                         if (i <= 1) {
                           if (dir === 'in') {
-                            url = EHTHERSCAN_TX + _nonce_or_txid
+                            url = CHAIN_CONFIG[chain]['tx_url'] + _nonce_or_txid
                           } else {
                             url = CONFLUXSCAN_TX + _nonce_or_txid
                           }
@@ -141,7 +140,7 @@ export default function HistoryItem(props) {
                           if (dir === 'in') {
                             url = CONFLUXSCAN_TX + settled_tx
                           } else {
-                            url = EHTHERSCAN_TX + settled_tx
+                            url = CHAIN_CONFIG[chain]['tx_url'] + settled_tx
                           }
                         }
                         window.open(url, '_blank')
