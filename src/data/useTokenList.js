@@ -24,6 +24,7 @@ function fetcher(key, searchOrPair, chain, cToken) {
     if (!search) {
       return tokenList.filter(display)
     }
+
     return (cToken ? searchCfxList : searchList)(tokenList, search).then((list) =>
       sortSearchResult(list)
     )
