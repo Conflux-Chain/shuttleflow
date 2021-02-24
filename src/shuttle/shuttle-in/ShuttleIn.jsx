@@ -230,7 +230,9 @@ function TokenInfoDetails({
               ...tokenInfo,
               fee: tokenInfo['in_fee'],
               is_create:
-                origin === chain ? t('wallet-create-fee', tokenInfo) : '',
+                tokenInfo.origin === chain
+                  ? t('wallet-create-fee', tokenInfo)
+                  : '',
             }}
             t={t}
             i18nKey="popup-fee"
