@@ -8,10 +8,10 @@ import btcSrc from './bcoin.svg'
 import ethSrc from './ether.svg'
 import bscSrc from './bsc.svg'
 import ethSubSrc from './eth-sub.svg'
-import tokenListMapper from '../data/tokenListMapper'
+import bscSubSrc from './bsc-sub.svg'
+
 import { updateTokenList } from '../data/tokenList'
 
-let createId
 var WAValidator = require('wallet-address-validator')
 const ETH_SCAN_URL = IS_DEV
   ? 'https://rinkeby.etherscan.io'
@@ -155,7 +155,7 @@ const config = {
   },
   bsc: {
     icon: bscSrc,
-    subIcon: bscSrc,
+    subIcon: bscSubSrc,
     tk_url: BSC_SCAN_URL + '/address/',
     tx_url: BSC_SCAN_URL + '/tx/',
     captain: CAPTAIN.NONE,
@@ -174,16 +174,7 @@ const config = {
           if (list.length === 1) {
             return list
           } else {
-            return jsonrpc('searchToken', {
-              url: 'sponsor',
-              params: [search],
-            }).then((result) => {
-              if (result && result.is_valid_erc20) {
-                return [result]
-              } else {
-                return []
-              }
-            })
+            return []
           }
         })
       }
@@ -213,6 +204,6 @@ const config = {
   },
 }
 
-export const SUPPORT_CHAINS = ['btc', 'eth']
+export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
 
 export default config
