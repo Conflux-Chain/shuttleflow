@@ -12,22 +12,30 @@ function fetcher(key, searchOrPair, chain, cToken) {
   } else if (key === 'pair') {
     pair = searchOrPair
   }
-  const { singleToken, display,searchList } = CHAIN_CONFIG[chain]
+  const { singleToken, display, searchList } = CHAIN_CONFIG[chain]
   return getTokenList(chain).then(({ tokenList, tokenMap }) => {
     if (pair) {
+      // console.log('getTokenList')
+      // console.log(
+      //   CHAIN_CONFIG[chain].searchList(tokenList, pair).then((e) => {
+      //     console.log(e)
+      //   })
+      // )
       return singleToken
         ? { ...tokenList[0], singleton: true }
         : pair === CHAIN_SINGLE_PAIR
         ? null
-        : tokenMap[pair]
+        : tokenMap[pair] ||
+          CHAIN_CONFIG[chain].searchList(tokenList, pair).then((x) => x[0])
     }
     if (!search) {
       return tokenList.filter(display)
     }
 
-    return (cToken ? searchCfxList : searchList)(tokenList, search).then((list) =>
-      sortSearchResult(list)
-    )
+    return (cToken ? searchCfxList : searchList)(
+      tokenList,
+      search
+    ).then((list) => sortSearchResult(list))
   })
 }
 export default function useTokenList({ pair, search, cToken } = {}) {
@@ -38,7 +46,6 @@ export default function useTokenList({ pair, search, cToken } = {}) {
     { suspense: true }
   ).data
 }
-
 
 function searchCfxList(list, search) {
   const lowerSearch = search.toLowerCase()
@@ -57,7 +64,6 @@ function searchCfxList(list, search) {
     )
   )
 }
-
 
 function sortSearchResult(list) {
   return list

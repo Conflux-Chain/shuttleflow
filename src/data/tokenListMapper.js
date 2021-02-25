@@ -48,7 +48,7 @@ export default function tokenListMapper(d) {
 
   return {
     ...d,
-    id: id + '',
+    id: typeof id === 'number' ? id + '' : undefined,
     symbol: symbol || '',
     reference_name: reference_name || '',
     reference_symbol: reference_symbol || '',
