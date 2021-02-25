@@ -140,7 +140,6 @@ function TokenList({
                   : undefined
               )
               .map((tokenInfo, i) => {
-                console.log()
                 return (
                   <TokenRow
                     key={i}
@@ -152,7 +151,10 @@ function TokenList({
                       checked:
                         tokenInfo.is_admin === 1 && captain
                           ? false
-                          : selected === tokenInfo.id,
+                          : selected ===
+                            (tokenInfo.id ||
+                              tokenInfo.reference ||
+                              tokenInfo.ctoken),
                       disabled: tokenInfo.is_admin === 1 && captain,
                       captain,
                       setToken,
@@ -206,7 +208,6 @@ function TokenRow({
     ? reference
     : ''
   const displayChain = cToken ? 'cfx' : chain
-
   return (
     <PaddingContainer
       bottom={false}
@@ -218,7 +219,7 @@ function TokenRow({
         } else {
           const callback = () => {
             if (!disabled) {
-              setToken(id)
+              setToken(id || reference || ctoken)
               setIsNotAvailable(notAvailable)
             }
           }

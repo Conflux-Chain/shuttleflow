@@ -7,6 +7,10 @@ import useStyle from '../component/useStyle'
 import btcSrc from './bcoin.svg'
 import ethSrc from './ether.svg'
 import bscSrc from './bsc.svg'
+import ethSubSrc from './eth-sub.svg'
+import bscSubSrc from './bsc-sub.svg'
+
+import { updateTokenList } from '../data/tokenList'
 
 var WAValidator = require('wallet-address-validator')
 const ETH_SCAN_URL = IS_DEV
@@ -25,7 +29,6 @@ export const CAPTAIN = {
 const config = {
   btc: {
     icon: btcSrc,
-
     display() {
       return true
     },
@@ -45,13 +48,15 @@ const config = {
   },
   eth: {
     icon: ethSrc,
+    subIcon: ethSubSrc,
     tk_url: ETH_SCAN_URL + '/token/',
     tx_url: ETH_SCAN_URL + '/tx/',
     display: ({ supported, in_token_list, origin }) => {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
     searchList: function filterEth(list, search) {
-      console.log(list)
+      console.log(list, search)
+      // throw
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
       if (isEthAddress) {
@@ -60,6 +65,7 @@ const config = {
             ({ reference }) => reference.toLowerCase() === lowersearch
           )
         ).then((list) => {
+          console.log('result', list)
           if (list.length === 1) {
             return list
           } else {
@@ -67,8 +73,13 @@ const config = {
               url: 'sponsor',
               params: [search],
             }).then((result) => {
+              console.log('rearch', result)
               if (result && result.is_valid_erc20) {
-                return [result]
+                const token = result
+
+                // token.id = 'create' + createId++
+                updateTokenList('eth', token)
+                return [token]
               } else {
                 return []
               }
@@ -144,6 +155,7 @@ const config = {
   },
   bsc: {
     icon: bscSrc,
+    subIcon: bscSubSrc,
     tk_url: BSC_SCAN_URL + '/address/',
     tx_url: BSC_SCAN_URL + '/tx/',
     captain: CAPTAIN.NONE,
@@ -162,16 +174,7 @@ const config = {
           if (list.length === 1) {
             return list
           } else {
-            return jsonrpc('searchToken', {
-              url: 'sponsor',
-              params: [search],
-            }).then((result) => {
-              if (result && result.is_valid_erc20) {
-                return [result]
-              } else {
-                return []
-              }
-            })
+            return []
           }
         })
       }
@@ -201,7 +204,6 @@ const config = {
   },
 }
 
-// delete config.bsc
 export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
 
 export default config

@@ -8,7 +8,7 @@ module.exports = override(
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       meta: {
-        versin: git.short(),
+        version: git.short(),
       },
     })
   )
