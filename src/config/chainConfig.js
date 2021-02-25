@@ -8,6 +8,9 @@ import btcSrc from './bcoin.svg'
 import ethSrc from './ether.svg'
 import bscSrc from './bsc.svg'
 import ethSubSrc from './eth-sub.svg'
+import bscSubSrc from './bsc-sub.svg'
+
+import { updateTokenList } from '../data/tokenList'
 
 var WAValidator = require('wallet-address-validator')
 const ETH_SCAN_URL = IS_DEV
@@ -52,7 +55,8 @@ const config = {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
     searchList: function filterEth(list, search) {
-      console.log(list)
+      console.log(list, search)
+      // throw
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
       if (isEthAddress) {
@@ -61,6 +65,7 @@ const config = {
             ({ reference }) => reference.toLowerCase() === lowersearch
           )
         ).then((list) => {
+          console.log('result', list)
           if (list.length === 1) {
             return list
           } else {
@@ -68,8 +73,13 @@ const config = {
               url: 'sponsor',
               params: [search],
             }).then((result) => {
+              console.log('rearch', result)
               if (result && result.is_valid_erc20) {
-                return [result]
+                const token = result
+
+                // token.id = 'create' + createId++
+                updateTokenList('eth', token)
+                return [token]
               } else {
                 return []
               }
@@ -145,7 +155,7 @@ const config = {
   },
   bsc: {
     icon: bscSrc,
-    subIcon: bscSrc,
+    subIcon: bscSubSrc,
     tk_url: BSC_SCAN_URL + '/address/',
     tx_url: BSC_SCAN_URL + '/tx/',
     captain: CAPTAIN.NONE,
@@ -164,16 +174,7 @@ const config = {
           if (list.length === 1) {
             return list
           } else {
-            return jsonrpc('searchToken', {
-              url: 'sponsor',
-              params: [search],
-            }).then((result) => {
-              if (result && result.is_valid_erc20) {
-                return [result]
-              } else {
-                return []
-              }
-            })
+            return []
           }
         })
       }
