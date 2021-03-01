@@ -22,15 +22,18 @@ pipeline {
           }
           agent {label 'bounty-backend-test-machine'}
           steps {
-            script {
-              sh (label: 'build', script: """
+            nodejs(nodeJSInstallationName: 'nodejs15') {
+              script {
+                sh (label: 'build', script: """
 yarn && yarn build
 """
-              )
+                )
+              }
             }
             script {
               sh (label: 'move to nginx www', script: """
-sudo rm -rf /www/shuttleflow/
+mkdir -p /www
+sudo rm -rf /www/shuttleflow/ || true
 sudo cp -r build /www/shuttleflow
 """)
             }
@@ -44,17 +47,20 @@ sudo cp -r build /www/shuttleflow
               branch 'master'
             }
           }
-          agent {label 'bounty-frontend-production-machine'}
+          agent {label 'shuttleflow-frontend-production-node'}
           steps {
-            script {
-              sh (label: 'build', script: """
+            nodejs(nodeJSInstallationName: 'nodejs15') {
+              script {
+                sh (label: 'build', script: """
 yarn && yarn build
 """
-              )
+                )
+              }
             }
             script {
               sh (label: 'move builds', script: """
-sudo rm -rf /www/shuttleflow/
+mkdir -p /www
+sudo rm -rf /www/shuttleflow/ || true
 sudo cp -r build /www/shuttleflow
 """)
             }
