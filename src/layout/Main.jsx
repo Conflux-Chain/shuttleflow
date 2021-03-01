@@ -8,11 +8,43 @@ import useState1 from '../lib/useState1'
 import useAddress, { login } from '../data/useAddress'
 import { useRouteMatch } from 'react-router-dom'
 import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
-const Token = lazy(() => import('../token/Token'))
-const Shuttle = lazy(() => import('../shuttle/Shuttle'))
-const Captain = lazy(() => import('../captain/Captain'))
-const History = lazy(() => import('../history/History'))
-const Market = lazy(() => import('../market/Market'))
+const Token = lazy(() =>
+  import(
+    /* webpackChunkName: "Token" */
+    /* webpackPrefetch: true */
+    /* webpackPreload: true */ '../token/Token'
+  )
+)
+const Shuttle = lazy(() =>
+  import(
+    /* webpackChunkName: "Shuttle" */
+    /* webpackPrefetch: true */
+    /* webpackPreload: true */ '../shuttle/Shuttle'
+  )
+)
+const Captain = lazy(() =>
+  import(
+    /* webpackChunkName: "Captain" */
+    /* webpackPrefetch: true */
+    /* webpackPreload: true */ '../captain/Captain'
+  )
+)
+const History = lazy(() =>
+  import(
+    /* webpackChunkName: "History" */
+    /* webpackPrefetch: true */
+    /* webpackPreload: true */
+    '../history/History'
+  )
+)
+const Market = lazy(() =>
+  import(
+    /* webpackChunkName: "Market" */
+    /* webpackPrefetch: true */
+    /* webpackPreload: true */
+    '../market/Market'
+  )
+)
 
 function Main() {
   const address = useAddress()
@@ -65,7 +97,9 @@ function Main() {
               initLoginTriggered.current = true
               return (
                 <PopupWrapper setReferer={(referer) => setState({ referer })}>
-                  <Redirect to={{ pathname: `/${chain}/shuttle/in` }}></Redirect>
+                  <Redirect
+                    to={{ pathname: `/${chain}/shuttle/in` }}
+                  ></Redirect>
                 </PopupWrapper>
               )
             } else {

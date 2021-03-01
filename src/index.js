@@ -8,8 +8,7 @@ Big.PE = 80
 Big.NE = -20
 //disable scroll
 window.document.body.style.overflow = 'hidden'
-import a from './global.css'
-console.log(a)
+import './global.css'
 
 ReactDOM.render(
   <React.StrictMode>

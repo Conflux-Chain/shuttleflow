@@ -24,6 +24,7 @@ const commonConfig = (isDev) =>
       },
       output: {
         publicPath: '/',
+        path: path.resolve(__dirname, 'build'),
         filename: isDev
           ? '[name].js'
           : `[name].[contenthash:5].${process.env.BROWSERSLIST_ENV}.js`,
@@ -79,8 +80,8 @@ const statusConfig = () =>
 const getConfig = (mode) => {
   const isDev = mode === 'development'
   switch (mode) {
-    case 'prod:legacy':
-      process.env.BROWSERSLIST_ENV = 'legacy'
+    case 'prod:webview':
+      process.env.BROWSERSLIST_ENV = 'webview'
       return merge(commonConfig(isDev), productionConfig())
     case 'prod:modern':
       process.env.BROWSERSLIST_ENV = 'modern'

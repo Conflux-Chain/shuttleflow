@@ -13,6 +13,7 @@
 # production
 /build
 dist
+stats.json
 
 # misc
 .DS_Store

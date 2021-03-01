@@ -1,12 +1,7 @@
-# Let's support old IE
-[legacy]
+[webview]
 ChromeAndroid 55
 ios_saf 10
 
-# Make this more specific if you want
 [modern]
-> 1% # Browser usage over 1%
-
-# > 0.01% # Browser usage over 1%
-# Last 50 versions # Or last two versions
-# IE 8 # Or IE 8
+last 2 Chrome versions
+last 2 Firefox versions

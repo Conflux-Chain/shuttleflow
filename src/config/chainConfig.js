@@ -108,13 +108,14 @@ const config = {
     checkAddress() {
       return Promise.resolve('yes')
     },
-    frequentTokens: [
-      'btc',
-      'eth',
-      '0xdac17f958d2ee523a2206206994597c13d831ec7', //usdt
-      '0x6b175474e89094c44da98b954eedeac495271d0f', // dai
-      '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', //usdc
-    ],
+    frequentTokens: IS_DEV
+      ? ['eth', '0x08130635368aa28b217a4dfb68e1bf8dc525621c']
+      : [
+          'eth',
+          '0xdac17f958d2ee523a2206206994597c13d831ec7', //usdt
+          '0x6b175474e89094c44da98b954eedeac495271d0f', // dai
+          '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', //usdc
+        ],
     TokenList({ t }) {
       const [modalCx] = useStyle(modalStyles)
       const [popup, setPopup] = useState(false)
@@ -200,10 +201,16 @@ const config = {
     checkAddress() {
       return Promise.resolve('yes')
     },
-    frequentTokens: ['bnb'],
+    frequentTokens: IS_DEV
+      ? [
+          'bnb',
+          '0xef3F743830078a9CB5ce39C212eC1Ca807E45FE1',
+          '0x85Cb01537d294090AEe3cB836AaaD7D0306f143F',
+        ]
+      : ['bnb'],
   },
 }
 
-export const SUPPORT_CHAINS = ['btc', 'eth']
+export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
 
 export default config

@@ -16,13 +16,14 @@ exports.devServer = () => ({
       port: process.env.PORT || 8080,
       host: 'localhost',
       historyFallback: true,
-      static: './dist', // Expose if output.path changes
+      static: './build', // Expose if output.path changes
       liveReload: true,
       waitForBuild: true,
       middleware: (app, builtins) => {
         app.use(
           builtins.proxy('/rpcshuttleflow', {
-            target: 'https://test.shuttleflow.confluxnetwork.org/rpcshuttleflow',
+            target:
+              'https://test.shuttleflow.confluxnetwork.org/rpcshuttleflow',
             changeOrigin: true,
             pathRewrite: {
               '/rpcshuttleflow': '',
@@ -47,9 +48,10 @@ exports.page = ({ title, isDev }) => ({
   plugins: [
     new HtmlWebpackPlugin({
       template: 'index.html',
-      filename: isDev
-        ? 'index.html'
-        : `index.${process.env.BROWSERSLIST_ENV}.html`,
+      filename:
+        isDev || process.env.BROWSERSLIST_ENV === 'modern'
+          ? 'index.html'
+          : `index.${process.env.BROWSERSLIST_ENV}.html`,
       context: { title },
     }),
   ],
@@ -136,6 +138,9 @@ exports.packages = function (isDev) {
   return {
     plugins: [
       new HtmlWebpackDeployPlugin({
+        assets: {
+          copy: [{ from: './favicon.ico', to: 'favicon.ico' }],
+        },
         packages: {
           react: {
             copy: [
@@ -171,6 +176,24 @@ exports.packages = function (isDev) {
               variableName: 'ReactDOM',
               path: 'react-dom.production.min.js',
               devPath: 'react-dom.development.js',
+            },
+          },
+          recoil: {
+            copy: [
+              !isDev
+                ? {
+                    from: 'umd/recoil.min.js',
+                    to: 'recoil.min.js',
+                  }
+                : {
+                    from: 'umd/recoil.js',
+                    to: 'recoil.js',
+                  },
+            ],
+            scripts: {
+              variableName: 'Recoil',
+              path: 'recoil.min.js',
+              devPath: 'recoil.js',
             },
           },
         },
