@@ -50,7 +50,7 @@ export default function FormProvider({ pair }) {
   }) {
     createBeCaptain(
       address,
-      pair
+      tokenInfo.reference
     )({
       amount: amount && buildNum(amount, 18),
       burnFee: buildNum(burnFee, decimals),

@@ -3,7 +3,6 @@ const HtmlWebpackDeployPlugin = require('html-webpack-deploy-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const GitRevisionPlugin = require('git-revision-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { createProxyMiddleware } = require('http-proxy-middleware')
 
 const webpack = require('webpack')
 const path = require('path')
