@@ -138,7 +138,10 @@ exports.packages = function (isDev) {
     plugins: [
       new HtmlWebpackDeployPlugin({
         assets: {
-          copy: [{ from: './favicon.ico', to: 'favicon.ico' }],
+          copy: [
+            { from: './favicon.ico', to: 'favicon.ico' },
+            { from: './img', to: 'img' },
+          ],
         },
         packages: {
           react: {
