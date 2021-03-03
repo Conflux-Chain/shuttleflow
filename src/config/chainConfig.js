@@ -51,6 +51,9 @@ const config = {
     subIcon: ethSubSrc,
     tk_url: ETH_SCAN_URL + '/token/',
     tx_url: ETH_SCAN_URL + '/tx/',
+    cAddress: IS_DEV
+      ? '0x8442bc8b5d01bf635bb12e6c63a379cb167ab5bb'
+      : '0x86d2fb177eff4be03a342951269096265b98ac46', //ceth
     display: ({ supported, in_token_list, origin }) => {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
@@ -211,6 +214,6 @@ const config = {
   },
 }
 
-export const SUPPORT_CHAINS = ['btc', 'eth']
+export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
 
 export default config
