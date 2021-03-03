@@ -30,6 +30,7 @@ function fetcher(key, reference, address, chain) {
     getCustodianContract().minimal_sponsor_amount().call(),
     getCustodianContract().default_cooldown().call(),
     getSponsorContract().sponsor_replace_ratio().call(),
+    getSponsorContract().sponsorOf(reference).call(),
     getBalanceContract()
       .tokenBalance(
         ensureAddressForSdk(address),
@@ -47,6 +48,7 @@ function fetcher(key, reference, address, chain) {
       minMortgage,
       defaultCooldown,
       replaceRatio,
+      sponsor,
       cethBalance,
       currentMortgage,
     ]) => {
@@ -64,6 +66,7 @@ function fetcher(key, reference, address, chain) {
         countdown: Math.max(0, parseInt(defaultCooldown + '') - diff),
         cethBalance,
         currentMortgage,
+        sponsor
       }
     }
   )

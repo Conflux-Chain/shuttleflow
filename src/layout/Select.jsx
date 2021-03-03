@@ -76,6 +76,7 @@ export default function Select({
             const selected = key && current && key === current
             return (
               <div
+                id={'choose-' + key}
                 key={i}
                 onClick={() => {
                   if (setCurrent) {
