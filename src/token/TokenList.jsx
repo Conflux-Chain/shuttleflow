@@ -96,7 +96,7 @@ function TokenList({
                       className={ListCx({ active }, 'frequent')}
                       key={_preset_reference}
                     >
-                      {(cToken ? 'c' : '') + tokenData.reference_symbol}
+                      {tokenData[cToken ? 'symbol' : 'reference_symbol']}
                     </div>
                   )
                 })}

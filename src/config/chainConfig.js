@@ -112,9 +112,14 @@ const config = {
       return Promise.resolve('yes')
     },
     frequentTokens: IS_DEV
-      ? ['eth', '0x08130635368aa28b217a4dfb68e1bf8dc525621c']
+      ? [
+          'eth',
+          '0x08130635368aa28b217a4dfb68e1bf8dc525621c',
+          '0x27cCd03D1ecCb2CbcED1EfbB18554BBfD526800A',
+        ]
       : [
           'eth',
+          '0xA1f82E14bc09A1b42710dF1A8a999B62f294e592', //ecfx
           '0xdac17f958d2ee523a2206206994597c13d831ec7', //usdt
           '0x6b175474e89094c44da98b954eedeac495271d0f', // dai
           '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', //usdc
