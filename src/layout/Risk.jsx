@@ -8,9 +8,12 @@ import { useRecoilState } from 'recoil'
 import displyRiskAtom from '../state/displyRisk'
 import Check from '../component/Check/Check'
 import Button from '../component/Button/Button'
+import { useParams } from 'react-router'
 
 let onComfirm
 export default function Risk() {
+  const { chain } = useParams()
+  console.log('chain', chain)
   const [riskCx, modalCx] = useStyle(riskStyles, modalStyles)
   const [checked, setChecked] = useState(false)
   const [displayFromLocalStorage, setLocalStorageDisplay] = useState(
@@ -33,7 +36,9 @@ export default function Risk() {
       {displayFromRecoil && (
         <div className={modalCx('content')}>{t('risk.not-in-gecko')}</div>
       )}
-      <div className={modalCx('content')}>{t('risk.content')}</div>
+      <div className={modalCx('content')}>
+        {t('risk.content', { chain: t(chain) })}
+      </div>
       <div className={riskCx('check')}>
         <Check
           solid
