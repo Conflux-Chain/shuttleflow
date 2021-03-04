@@ -1,4 +1,10 @@
-import React, { useState, useRef, useLayoutEffect, Suspense } from 'react'
+import React, {
+  useState,
+  useRef,
+  useLayoutEffect,
+  Suspense,
+  useEffect,
+} from 'react'
 import { Link, useRouteMatch, useHistory, useParams } from 'react-router-dom'
 import { Loading } from '@cfxjs/react-ui'
 import '../i18n/i18n'
@@ -21,7 +27,6 @@ import { CSSTransition } from 'react-transition-group'
 import { formatAddress } from '../util/address'
 
 import useStyle from '../component/useStyle'
-
 
 import { Scrollbars } from 'react-custom-scrollbars'
 import renderThumbVertical from '../component/renderThumbVertical'
@@ -46,6 +51,20 @@ export default function LayoutSmall() {
     const { top, height } = headerRef.current.getBoundingClientRect()
     setHeaderHeight(top + height)
   }, [])
+
+  useEffect(() => {
+    const listener = (e) => {
+      if (nodeRef.current) {
+        if (!nodeRef.current.contains(e.target)) {
+          setDropdown(false)
+        }
+      }
+    }
+    window.addEventListener('mousedown', listener)
+    return () => {
+      window.removeEventListener('mousedown', listener)
+    }
+  }, [nodeRef.current])
   return (
     <div className={cx('container')}>
       <div ref={headerRef}>
@@ -108,6 +127,15 @@ export default function LayoutSmall() {
           <div
             className={cx('item')}
             onClick={() => {
+              history.push(`/${chain}`)
+              setDropdown(false)
+            }}
+          >
+            {t('home')}
+          </div>
+          <div
+            className={cx('item')}
+            onClick={() => {
               history.push(`/${chain}/history`)
               setDropdown(false)
             }}
@@ -134,15 +162,6 @@ export default function LayoutSmall() {
               {t('be-captain')}
             </div>
           )}
-          {/* <div
-            className={cx('item')}
-            onClick={() => {
-              history.push('/captain')
-              setDropdown(false)
-            }}
-          >
-            {t('be-captain')}
-          </div> */}
           <Accordion
             expanded={lngOpen}
             title={
