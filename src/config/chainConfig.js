@@ -215,7 +215,7 @@ const config = {
           '0xef3F743830078a9CB5ce39C212eC1Ca807E45FE1',
           '0x85Cb01537d294090AEe3cB836AaaD7D0306f143F',
         ]
-      : ['bnb', '0x045c4324039da91c52c55df5d785385aab073dcf'],
+      : ['bnb', '0x045c4324039dA91c52C55DF5D785385Aab073DcF'],
   },
 }
 
