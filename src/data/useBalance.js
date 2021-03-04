@@ -12,12 +12,14 @@ export function useBalance(tokenAddr, options = {}) {
   ).data
 }
 
-function fetcher(key, address, tokenAddr) {
+function fetcher(key,address, tokenAddr) {
+
   if (tokenAddr === 'cfx') {
     return window.confluxJS.getBalance(address).then((x) => {
       return x + ''
     })
   }
+  console.log( address, tokenAddr)
   return getBalanceContract()
     .tokenBalance(ensureAddressForSdk(address), ensureAddressForSdk(tokenAddr))
     .call()

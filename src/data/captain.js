@@ -5,16 +5,19 @@ import { getBalanceContract } from './contract'
 import Big from 'big.js'
 import useSWR from 'swr'
 import useAddress from './useAddress'
-import { CETH_ADDRESS } from '../config/config'
+import CHAIN_CONFIG from '../config/chainConfig'
+import { useParams } from 'react-router'
 
 //txHash is used to flush data from server
 export default function useCaptain(reference, txHash) {
   const address = useAddress()
-  return useSWR(['captain', reference, address], fetcher, { suspense: true })
-    .data
+  const { chain } = useParams()
+  return useSWR(['captain', reference, address, chain], fetcher, {
+    suspense: true,
+  }).data
 }
 
-function fetcher(key, reference, address) {
+function fetcher(key, reference, address, chain) {
   console.log('')
   return Promise.all([
     jsonrpc('getPendingOperationInfo', {
@@ -27,10 +30,11 @@ function fetcher(key, reference, address) {
     getCustodianContract().minimal_sponsor_amount().call(),
     getCustodianContract().default_cooldown().call(),
     getSponsorContract().sponsor_replace_ratio().call(),
+    getSponsorContract().sponsorOf(reference).call(),
     getBalanceContract()
       .tokenBalance(
         ensureAddressForSdk(address),
-        ensureAddressForSdk(CETH_ADDRESS)
+        ensureAddressForSdk(CHAIN_CONFIG[chain].cAddress)
       )
       .call()
       .then((x) => {
@@ -44,8 +48,9 @@ function fetcher(key, reference, address) {
       minMortgage,
       defaultCooldown,
       replaceRatio,
+      sponsor,
       cethBalance,
-      currentMortgage
+      currentMortgage,
     ]) => {
       const cooldownMinutes = parseInt(defaultCooldown) / 60
       const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))
@@ -60,7 +65,8 @@ function fetcher(key, reference, address) {
           .div('100'),
         countdown: Math.max(0, parseInt(defaultCooldown + '') - diff),
         cethBalance,
-        currentMortgage
+        currentMortgage,
+        sponsor
       }
     }
   )

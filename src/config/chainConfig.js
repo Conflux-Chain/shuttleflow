@@ -51,6 +51,9 @@ const config = {
     subIcon: ethSubSrc,
     tk_url: ETH_SCAN_URL + '/token/',
     tx_url: ETH_SCAN_URL + '/tx/',
+    cAddress: IS_DEV
+      ? '0x8442bc8b5d01bf635bb12e6c63a379cb167ab5bb'
+      : '0x86d2fb177eff4be03a342951269096265b98ac46', //ceth
     display: ({ supported, in_token_list, origin }) => {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
@@ -109,9 +112,14 @@ const config = {
       return Promise.resolve('yes')
     },
     frequentTokens: IS_DEV
-      ? ['eth', '0x08130635368aa28b217a4dfb68e1bf8dc525621c']
+      ? [
+          'eth',
+          '0x08130635368aa28b217a4dfb68e1bf8dc525621c',
+          '0x27cCd03D1ecCb2CbcED1EfbB18554BBfD526800A',
+        ]
       : [
           'eth',
+          '0xA1f82E14bc09A1b42710dF1A8a999B62f294e592', //ecfx
           '0xdac17f958d2ee523a2206206994597c13d831ec7', //usdt
           '0x6b175474e89094c44da98b954eedeac495271d0f', // dai
           '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', //usdc
@@ -207,10 +215,10 @@ const config = {
           '0xef3F743830078a9CB5ce39C212eC1Ca807E45FE1',
           '0x85Cb01537d294090AEe3cB836AaaD7D0306f143F',
         ]
-      : ['bnb'],
+      : ['bnb', '0x045c4324039da91c52c55df5d785385aab073dcf'],
   },
 }
 
-export const SUPPORT_CHAINS = ['btc', 'eth']
+export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
 
 export default config

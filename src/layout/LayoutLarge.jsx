@@ -27,7 +27,6 @@ export default function LayoutLarge() {
   const [mainMaxHeight, setMainMaxHeight] = useState(0)
   const history = useHistory()
 
-
   useEffect(() => {
     const { bottom } = headerRef.current.getBoundingClientRect()
     let { marginBottom } = getComputedStyle(headerRef.current)
@@ -146,6 +145,7 @@ function LinkItem({ to, content, alsoMatch = [] }) {
         return match || matchSearch
       }}
       className={cx('item')}
+      // id={to}
       activeClassName={cx('active')}
     >
       {content}

@@ -52,7 +52,6 @@ export default function tokenListMapper(d) {
     symbol: symbol || '',
     reference_name: reference_name || '',
     reference_symbol: reference_symbol || '',
-    // total_supply: totalSupplyBig,
     _total_supply: totalSupplyBig && formatSupply(totalSupplyBig),
     sponsor_value,
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Suspense } from 'react'
 import '../i18n/i18n'
 import useIsSamll from '../component/useSmallScreen'
-import Risk from './Risk'
+
 import { RecoilRoot } from 'recoil'
 import subscribeNetwork from '../data/subscribeNetwork'
 import { IS_DEV, NETWORKS } from '../config/config'
@@ -60,7 +60,7 @@ export default function App() {
           >
             <RouterRoot />
           </SWRConfig>
-          <Risk />
+
           {!isSmall && (
             <div className={cx('footer')}>
               <Spec />
