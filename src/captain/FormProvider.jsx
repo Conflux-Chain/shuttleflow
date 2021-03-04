@@ -28,14 +28,15 @@ export default function FormProvider({ pair }) {
   const txHash = useRef('')
   const address = useAddress()
   const tokenInfo = useTokenList({ pair })
-  console.log(tokenInfo)
-  const { decimals, sponsor, reference } = tokenInfo
+  // console.log(tokenInfo)
+  const { decimals, reference } = tokenInfo
   const {
     pendingCount,
     countdown,
     minMortgage,
     cooldownMinutes,
     replaceRatio,
+    sponsor,
     cethBalance,
     currentMortgage,
   } = useCaptain(reference, txHash)
@@ -111,7 +112,7 @@ export default function FormProvider({ pair }) {
       countdown,
       cooldownMinutes,
       currentMortgage,
-
+      sponsor,
       beCaptain,
       minMortgage,
       minMortgageBig: minMortgageBigToDisplay,

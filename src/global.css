@@ -44,18 +44,6 @@ input {
   font-family: inherit;
 }
 
-
-@media (max-width: 900px) {
-  #background {
-    background-image: url(/img/mobile.png);
-  }
-}
-@media (min-width: 900px) {
-  #background {
-    background-image: url(/img/pc.png);
-  }
-}
-
 @media screen and (min-width: 900px) {
   html {
     /* disable unexpected vertical scroll */

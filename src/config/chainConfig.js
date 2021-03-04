@@ -51,6 +51,9 @@ const config = {
     subIcon: ethSubSrc,
     tk_url: ETH_SCAN_URL + '/token/',
     tx_url: ETH_SCAN_URL + '/tx/',
+    cAddress: IS_DEV
+      ? '0x8442bc8b5d01bf635bb12e6c63a379cb167ab5bb'
+      : '0x86d2fb177eff4be03a342951269096265b98ac46', //ceth
     display: ({ supported, in_token_list, origin }) => {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
@@ -207,7 +210,7 @@ const config = {
           '0xef3F743830078a9CB5ce39C212eC1Ca807E45FE1',
           '0x85Cb01537d294090AEe3cB836AaaD7D0306f143F',
         ]
-      : ['bnb'],
+      : ['bnb', '0x045c4324039da91c52c55df5d785385aab073dcf'],
   },
 }
 

@@ -12,6 +12,7 @@ import LayoutSmall from './LayoutSmall'
 import CHAIN_CONFIG from '../config/chainConfig'
 import { DEFAULT_CHAIN } from '../config/config'
 import useTokenList from '../data/useTokenList'
+import Risk from './Risk'
 
 export default function RouterRoot() {
   return (
@@ -31,7 +32,10 @@ function ChainChecker() {
     <Redirect to={`/${DEFAULT_CHAIN}`}></Redirect>
   ) : (
     //layout depend on "chain", i.e. if captain is present
-    <Layout />
+    <>
+      <Layout />
+      <Risk />
+    </>
   )
 }
 
