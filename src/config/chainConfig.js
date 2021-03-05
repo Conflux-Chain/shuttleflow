@@ -9,6 +9,8 @@ import ethSrc from './ether.svg'
 import bscSrc from './bsc.svg'
 import ethSubSrc from './eth-sub.svg'
 import bscSubSrc from './bsc-sub.svg'
+import hecoSrc from './heco.svg'
+import hecoSubSrc from './heco-sub.svg'
 
 import { updateTokenList } from '../data/tokenList'
 
@@ -19,6 +21,10 @@ const ETH_SCAN_URL = IS_DEV
 const BSC_SCAN_URL = IS_DEV
   ? 'https://testnet.bscscan.com'
   : 'https://bscscan.com'
+
+const HECO_SCAL_URL = IS_DEV
+  ? 'https://scan-testnet.hecochain.com/'
+  : 'https://scan.hecochain.com'
 
 export const CAPTAIN = {
   NONE: 0,
@@ -215,10 +221,59 @@ const config = {
           '0xef3F743830078a9CB5ce39C212eC1Ca807E45FE1',
           '0x85Cb01537d294090AEe3cB836AaaD7D0306f143F',
         ]
-      : ['bnb', '0x045c4324039da91c52c55df5d785385aab073dcf'],
+      : ['bnb', '0x045c4324039dA91c52C55DF5D785385Aab073DcF'],
+  },
+  heco: {
+    icon: hecoSrc,
+    subIcon: hecoSubSrc,
+    tk_url: HECO_SCAL_URL + '/address/',
+    tx_url: HECO_SCAL_URL + '/tx/',
+    captain: CAPTAIN.NONE,
+    display: ({ supported, origin }) => {
+      return origin === 'cfx' || supported === 1
+    },
+    searchList: function filterEth(list, search) {
+      const isEthAddress = config['eth'].outFormatCheck(search)
+      const lowersearch = search.toLowerCase()
+      if (isEthAddress) {
+        return Promise.resolve(
+          list.filter(
+            ({ reference }) => reference.toLowerCase() === lowersearch
+          )
+        ).then((list) => {
+          if (list.length === 1) {
+            return list
+          } else {
+            return []
+          }
+        })
+      }
+
+      return Promise.resolve(
+        list.filter(
+          ({ reference_symbol, reference_name }) =>
+            reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
+            reference_name.toLowerCase().indexOf(lowersearch) > -1
+        )
+      )
+    },
+    outFormatCheck(address) {
+      return WAValidator.validate(
+        address,
+        'ethereum',
+        IS_DEV ? 'testnet' : 'prod'
+      )
+    },
+    TokenList({ t }) {
+      return <span>{t('list')}</span>
+    },
+    checkAddress() {
+      return Promise.resolve('yes')
+    },
+    frequentTokens: IS_DEV ? ['ht'] : ['ht'],
   },
 }
 
-export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
+export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc', 'heco']
 
 export default config
