@@ -27,5 +27,6 @@
   "all": "All",
   "from": "From {{value}}",
   "to": "To {{value}}",
-  "bsc": "BSC"
+  "bsc": "BSC",
+  "heco": "Heco"
 }
