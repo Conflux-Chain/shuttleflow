@@ -24,7 +24,7 @@ const BSC_SCAN_URL = IS_DEV
 
 const HECO_SCAL_URL = IS_DEV
   ? 'https://testnet.hecoinfo.com'
-  : 'https://hecoinfo.com/'
+  : 'https://hecoinfo.com'
 
 export const CAPTAIN = {
   NONE: 0,

@@ -43,6 +43,7 @@ export default function CaptainForm({
   defaultMortgageBig,
   cethBalanceDisplay,
 }) {
+  console.log('currentMortgageBig',currentMortgageBig)
   const { t } = useTranslation(['captain'])
   const [inputCx, formCx] = useStyle(inputStyles, formStyles)
   const [mortgagePopup, setMortgagePopup] = useState(false)

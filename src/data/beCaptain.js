@@ -14,7 +14,7 @@ export default function createBeCaptain(userAddress, reference) {
     if (!amount) {
       return contract
         .setTokenParams(
-          ensureAddressForSdk(reference),
+          reference,
           burnFee,
           mintFee,
           walletFee,
@@ -25,7 +25,7 @@ export default function createBeCaptain(userAddress, reference) {
     } else {
       return contract
         .sponsorToken(
-          ensureAddressForSdk(reference),
+          reference,
           amount,
           burnFee,
           mintFee,

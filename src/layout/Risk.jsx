@@ -13,7 +13,6 @@ import { useParams } from 'react-router'
 let onComfirm
 export default function Risk() {
   const { chain } = useParams()
-  console.log('chain', chain)
   const [riskCx, modalCx] = useStyle(riskStyles, modalStyles)
   const [checked, setChecked] = useState(false)
   const [displayFromLocalStorage, setLocalStorageDisplay] = useState(
