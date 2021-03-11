@@ -88,6 +88,7 @@ export default function FormProvider({ pair }) {
     currentMortgage &&
     cethBalance
   ) {
+    console.log('currentMortgage', currentMortgage + '')
     const currentMortgageBig = new Big(currentMortgage).div('1e18')
     const minMortgageBig = new Big(minMortgage).div('1e18')
 
