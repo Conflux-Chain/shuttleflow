@@ -28,7 +28,7 @@ export default function FormProvider({ pair }) {
   const txHash = useRef('')
   const address = useAddress()
   const tokenInfo = useTokenList({ pair })
-  // console.log(tokenInfo)
+  console.log(tokenInfo)
   const { decimals, reference } = tokenInfo
   const {
     pendingCount,
@@ -49,6 +49,14 @@ export default function FormProvider({ pair }) {
     minimalMintValue,
     minimalBurnValue,
   }) {
+    console.log({
+      amount,
+      burnFee,
+      mintFee,
+      walletFee,
+      minimalMintValue,
+      minimalBurnValue,
+    })
     createBeCaptain(
       address,
       tokenInfo.reference

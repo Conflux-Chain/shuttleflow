@@ -9,8 +9,6 @@ const chainDataStore = {}
 
 function buildMap(tokenList) {
   const tokenMap = tokenList.reduce((pre, cur) => {
-    pre[cur.id] = { ...cur, fromId: true }
-    //the key of operation history data can be either ctoken or reference
     if (cur.reference) {
       pre[cur.reference] = { ...cur, fromRef: true } //operation history data
     }

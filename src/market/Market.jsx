@@ -20,10 +20,10 @@ const sorts = {
     return a.symbol.localeCompare(b.symbol) * -1
   },
   supply: (a, b) => {
-    return a.total_supply - b.total_supply
+    return a._total_supply - b._total_supply
   },
   'supply-reverse': (a, b) => {
-    return b.total_supply - a.total_supply
+    return b._total_supply - a._total_supply
   },
 }
 

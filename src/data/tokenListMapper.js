@@ -32,6 +32,7 @@ export default function tokenListMapper(d) {
   delete d.mint_fee
   delete d.burn_fee
   delete d.total_supply
+  delete d.id
   const totalSupplyBig = total_supply && parseNum(total_supply, 18)
   //18 is the decimal of cXXX token which is always 18 decimals
   sponsor_value = parseNum(sponsor_value, 18)
@@ -48,7 +49,7 @@ export default function tokenListMapper(d) {
 
   return {
     ...d,
-    id: typeof id === 'number' ? id + '' : undefined,
+    // id: typeof id === 'number' ? id + '' : undefined,
     symbol: symbol || '',
     reference_name: reference_name || '',
     reference_symbol: reference_symbol || '',
