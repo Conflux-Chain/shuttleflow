@@ -40,7 +40,7 @@ function fetcher(key, reference, address, chain) {
       .then((x) => {
         return x + ''
       }),
-    getSponsorContract().sponsorValueOf(ensureAddressForSdk(reference)).call(),
+    getSponsorContract().sponsorValueOf(reference).call(),
   ]).then(
     ([
       { cnt = 0 } = {},
@@ -66,7 +66,7 @@ function fetcher(key, reference, address, chain) {
         countdown: Math.max(0, parseInt(defaultCooldown + '') - diff),
         cethBalance,
         currentMortgage,
-        sponsor
+        sponsor,
       }
     }
   )
