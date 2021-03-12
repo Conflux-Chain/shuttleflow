@@ -39,34 +39,8 @@
   }
   &.large {
     height: 6rem;
-    // margin: 0 -2rem;
-    // padding: 0 2rem;
   }
-  .left {
-    display: flex;
-    .txt {
-      display: flex;
-      flex-direction: column;
-      .large-txt {
-        color: white;
-        &.small {
-          font-size: 2rem;
-        }
-        &.large {
-          font-size: 1.25rem;
-        }
-      }
-      .small-txt {
-        color: rgba($color: #ffffff, $alpha: 0.5);
-        &.small {
-          font-size: 1.5rem;
-        }
-        &.large {
-          font-size: 1rem;
-        }
-      }
-    }
-  }
+
   .right {
     color: white;
     &.small {

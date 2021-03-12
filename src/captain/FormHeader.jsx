@@ -19,14 +19,18 @@ export default function Header({
   pendingCount,
   countdown,
   cooldownMinutes,
-  in_token_list
+  in_token_list,
 }) {
   const [cooldownPopup, setCooldownPopup] = useState(false)
   return (
     <>
       <div className={formCx('first-container')}>
         <div className={formCx('left')}>
-          <Icon icon={icon} in_token_list={in_token_list} style={{ marginRight: '1rem' }} />
+          <Icon
+            icon={icon}
+            in_token_list={in_token_list}
+            style={{ marginRight: '1rem' }}
+          />
           <div className={formCx('left-text')}>
             <div className={formCx('large-text')}>{reference_symbol}</div>
             <div className={formCx('small-text')}>{reference_name}</div>

@@ -236,29 +236,11 @@ function TokenRow({
         </div>
 
         <Icon
+          txt
           cToken={!!cToken}
           {...tokenInfo}
           style={{ marginLeft: '0.5rem', marginRight: '1rem' }}
         />
-        <div className={ListCx('two-row')}>
-          <div className={ListCx('symbol-row')}>
-            <span className={ListCx('symbol')}>
-              {symbolName.length > 10
-                ? symbolName.slice(0, 10) + '...'
-                : symbolName}
-            </span>
-
-            {notAvailable && (
-              <span className={ListCx('not-available')}>
-                {t('not-available')}
-              </span>
-            )}
-          </div>
-
-          <span className={ListCx('name')}>
-            {fullname.length > 30 ? fullname.slice(0, 30) + '...' : fullname}
-          </span>
-        </div>
       </div>
 
       <div className={ListCx('two-row')} style={{ alignItems: 'flex-end' }}>
