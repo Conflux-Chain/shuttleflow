@@ -4,7 +4,7 @@ import useStyle from '../component/useStyle'
 import { buildNum } from '../util/formatNum'
 import useAddress from '../data/useAddress'
 
-import useCaptain from '../data/captain'
+import useCaptain from '../data/uswCaptainInfo'
 
 import formStyles from './Form.module.scss'
 import modalStyles from '../component/modal.module.scss'

@@ -76,7 +76,7 @@ exports.extractCSS = ({ options = {}, loaders = [], isDev } = {}) => {
               options: {
                 modules: {
                   localIdentName: isDev
-                    ? '[path][name]__[local]--[hash:base64:10]'
+                    ? '[name]__[local]'
                     : '[hash:base64:5]',
                 },
               },

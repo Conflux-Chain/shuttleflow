@@ -3,6 +3,7 @@ import useStyle from '../component/useStyle'
 import Choose from '../token/Choose'
 import styles from './Captain.module.scss'
 import CaptainForm from './FormProvider'
+import CaptainCenter from './CaptainCenter'
 import { useRouteMatch } from 'react-router-dom'
 import useUrlSearch from '../lib/useUrlSearch'
 
@@ -19,9 +20,10 @@ export default function Captain() {
       {pair ? (
         <CaptainForm pair={pair} />
       ) : (
-        <div className={cx('container')}>
-          <Choose next={(token) => `${url}?pair=${token}`} captain />
-        </div>
+        <CaptainCenter />
+        // <div className={cx('container')}>
+        //   <Choose next={(token) => `${url}?pair=${token}`} captain />
+        // </div>
       )}
     </MainContainer>
   )
