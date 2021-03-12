@@ -1,8 +1,8 @@
 const { WebpackPluginServe } = require('webpack-plugin-serve')
 const HtmlWebpackDeployPlugin = require('html-webpack-deploy-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const GitRevisionPlugin = require('git-revision-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const git = require('git-rev-sync')
 
 const webpack = require('webpack')
 const path = require('path')
@@ -47,6 +47,7 @@ exports.page = ({ title, isDev }) => ({
   plugins: [
     new HtmlWebpackPlugin({
       template: 'index.html',
+      meta: { version: git.short() },
       filename:
         isDev || process.env.BROWSERSLIST_ENV === 'modern'
           ? 'index.html'
@@ -115,13 +116,6 @@ exports.loadJavaScript = () => ({
       // { test: /\.json$/, include: APP_SOURCE, use: 'json-loader' },
     ],
   },
-})
-exports.attachRevision = () => ({
-  plugins: [
-    new webpack.BannerPlugin({
-      banner: `git version: ${new GitRevisionPlugin().version()}`,
-    }),
-  ],
 })
 
 exports.setFreeVariable = (key, value) => {
