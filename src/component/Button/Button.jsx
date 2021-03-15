@@ -4,13 +4,13 @@ import { device } from '../../config/size'
 
 export default function Button({ children, loading, ...props }) {
   return (
-    <StyledButton {...props}>
+    <BaseButton {...props}>
       {loading ? <Loading color="white" size="1.5rem" /> : children}
-    </StyledButton>
+    </BaseButton>
   )
 }
 
-const StyledButton = styled.button`
+export const BaseButton = styled.button`
   background: #44d7b6;
   color: white;
   box-shadow: 0px 0px 0px transparent;

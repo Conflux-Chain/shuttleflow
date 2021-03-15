@@ -3,50 +3,112 @@ import useMyCaptain from '../data/useMyCaptain'
 import CHAIN_CONFIG from '../config/chainConfig'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import plusSrc from './plus.svg'
+import configSrc from './config.svg'
+import { BaseButton } from '../component/Button/Button'
+
+import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
+import { Loading } from '@cfxjs/react-ui'
+import { useHistory, useRouteMatch } from 'react-router'
 export default function CaptainCenter() {
   const { data } = useMyCaptain()
   const { t } = useTranslation(['captain'])
   console.log(data)
+  const history = useHistory()
 
   return (
-    <div>
+    <PaddingContainer top>
+      <Title>
+        <span>{t('supported')}</span>
+        <Flex
+          onClick={() => {
+            history.push({ search: 'choose=1' })
+          }}
+          style={{ cursor: 'pointer' }}
+        >
+          <img src={plusSrc}></img>
+          <span>{t('support')}</span>
+        </Flex>
+      </Title>
       {data.map((tokenInfo, i) => (
         <CaptainItem key={i} t={t} tokenInfo={tokenInfo} />
       ))}
-    </div>
+    </PaddingContainer>
   )
 }
 
 function CaptainItem({ tokenInfo, t }) {
   console.log(tokenInfo)
-  const { origin, to_chain, sponsor_value } = tokenInfo
+  const { origin, to_chain, sponsor_value, status, reference } = tokenInfo
   const nonCfxChain = [origin, to_chain].filter((x) => x !== 'cfx')[0]
   const nonCfxChainConfig = CHAIN_CONFIG[nonCfxChain]
   const nonCfxChainIcon = nonCfxChainConfig.icon
   const nonCfxChainToken = nonCfxChainConfig.token
-  console.log(nonCfxChainIcon)
+  const history = useHistory()
+
   return (
-    <Container>
-      <Icon {...tokenInfo} txt />
-      <Right>
-        <Row>
-          <ChainIcon src={nonCfxChainIcon} alt="chain" />
-          <Name>
-            <ChainName>{String(nonCfxChain).toUpperCase()}</ChainName>
-            <CfxName>/Conflux</CfxName>
-          </Name>
-        </Row>
-        <Row>
-          {t('mortgage-amount') + sponsor_value + '' + nonCfxChainToken}
-        </Row>
-      </Right>
-    </Container>
+    <div>
+      <Line>
+        <Icon {...tokenInfo} txt />
+        <Right>
+          <Row>
+            <ChainIcon src={nonCfxChainIcon} alt="chain" />
+            <Name>
+              <ChainName>{String(nonCfxChain).toUpperCase()}</ChainName>
+              <CfxName>/Conflux</CfxName>
+            </Name>
+          </Row>
+          <Mortgage>
+            {t('mortgage-amount') +
+              ': ' +
+              sponsor_value +
+              '' +
+              nonCfxChainToken}
+          </Mortgage>
+        </Right>
+      </Line>
+      {status !== 'done' && (
+        <Status>
+          <LoadingContainer>
+            <Loading size="10px"></Loading>
+          </LoadingContainer>
+          <span>{status}</span>
+        </Status>
+      )}
+
+      {status === 'done' ? (
+        <Button
+          onClick={() => {
+            history.push({ search: `pair=${reference}` })
+          }}
+        >
+          <IconContainer>
+            <ImgIcon src={configSrc} alt="config"></ImgIcon>
+          </IconContainer>
+          <span>{t('config')}</span>
+        </Button>
+      ) : (
+        <Button disabled>{t('configuring')}</Button>
+      )}
+    </div>
   )
 }
 
-const Container = styled.div`
+const Flex = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const Line = styled.div`
   display: flex;
   justify-content: space-between;
+`
+const Title = styled(Line)`
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+  color: #999999;
+  margin-bottom: 32px;
 `
 
 const Right = styled.div``
@@ -59,8 +121,15 @@ const ChainIcon = styled.img`
 const Row = styled.div`
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
 `
+
+const Mortgage = styled(Row)`
+  font-size: 14px;
+  color: white;
+  margin-bottom: 32px;
+`
+
 const Name = styled.span``
 const ChainName = styled.span`
   font-size: 16px;
@@ -71,4 +140,46 @@ const ChainName = styled.span`
 const CfxName = styled.span`
   font-size: 14px;
   color: rgba(255, 255, 255, 0.6);
+`
+
+const Status = styled.div`
+  font-size: 14px;
+  color: white;
+  display: flex;
+  margin-top: -16px;
+  margin-bottom: 16px;
+`
+
+const LoadingContainer = styled.span`
+  width: 10px;
+  margin-right: 4px;
+  position: relative;
+`
+
+const Button = styled(BaseButton)`
+  padding: 0 12px;
+  margin-bottom: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 82px;
+  height: 40px;
+  line-height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+`
+
+const ImgIcon = styled.img`
+  width: 14px;
+  height: 14px;
+`
+const IconContainer = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `

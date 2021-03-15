@@ -9,17 +9,6 @@ export default function useMyCaptain() {
   const address = useAddress()
   const { chain } = useParams()
   console.log('useMyCaptain', chain)
-  // const [data, setData] = useState([])
-  // useEffect(() => {
-  //   getTokenList(chain)
-  //     .then(({ tokenMap }) => {
-  //       return ['0x08130635368aa28b217a4dfb68e1bf8dc525621c'].map(
-  //         (address) => tokenMap[address]
-  //       )
-  //     })
-  //     .then((data) => setData[data])
-  // }, [chain])
-
   return useSWR(['useMyCaptain', chain], fetcher, {
     revalidateOnMount: true,
     initialData: [],
@@ -27,12 +16,29 @@ export default function useMyCaptain() {
 }
 
 function fetcher(key, chain) {
-  return getTokenList(chain).then(({ tokenMap }) => {
-    return ['0x08130635368aa28b217a4dfb68e1bf8dc525621c'].map(
-      (address) => tokenMap[address]
-    )
+  return Promise.all([
+    getTokenList(chain),
+    Promise.resolve([
+      {
+        reference: '0x08130635368aa28b217a4dfb68e1bf8dc525621c',
+        status: 'done',
+      },
+      {
+        reference: '0xd28cfec79db8d0a225767d06140aee280718ab7e',
+        status: 'registering',
+      },
+    ]),
+  ]).then(([{ tokenMap }, tokens]) => {
+    return tokens
+      .map(({ reference, status }) => {
+        return { ...tokenMap[reference], status }
+      })
+      .sort(({ status }) => {
+        if (status === 'done') {
+          return 1
+        } else {
+          return -1
+        }
+      })
   })
-  // .then((data) => setData[data])
-
-  // Promise.resolve(['0x08130635368aa28b217a4dfb68e1bf8dc525621c'])
 }
