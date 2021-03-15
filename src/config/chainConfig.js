@@ -55,6 +55,7 @@ const config = {
   eth: {
     icon: ethSrc,
     subIcon: ethSubSrc,
+    token:'cETH',
     tk_url: ETH_SCAN_URL + '/token/',
     tx_url: ETH_SCAN_URL + '/tx/',
     cAddress: IS_DEV
@@ -171,6 +172,7 @@ const config = {
   bsc: {
     icon: bscSrc,
     subIcon: bscSubSrc,
+    token:'cBNB',
     tk_url: BSC_SCAN_URL + '/address/',
     tx_url: BSC_SCAN_URL + '/tx/',
     captain: CAPTAIN.NONE,

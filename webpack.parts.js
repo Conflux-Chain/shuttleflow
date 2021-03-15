@@ -16,7 +16,7 @@ exports.devServer = () => ({
       host: 'localhost',
       historyFallback: true,
       static: './build', // Expose if output.path changes
-      liveReload: true,
+      hmr: true,
       waitForBuild: true,
       middleware: (app, builtins) => {
         app.use(

@@ -23,7 +23,6 @@ export default function Icon({
   txt,
   ...props
 }) {
-  console.log(arguments)
   const { chain } = useParams()
   const confluxIcon = origin === chain && cToken
   const chainIcon =

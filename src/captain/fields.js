@@ -67,7 +67,7 @@ export default function getFields({
       readOnly: countdown !== 0,
     },
     {
-      label: 'morgage-amount',
+      label: 'mortgage-amount',
       name: 'mortgage_amount',
       unit: 'cETH',
       defaultValue: defaultMortgageBig + '',

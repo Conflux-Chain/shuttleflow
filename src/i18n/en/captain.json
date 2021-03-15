@@ -7,7 +7,7 @@
   "shuttle-in-amount": "Minimum Shuttle-In Amount",
   "shuttle-out-amount": "Minimum Shuttle-Out Amount",
   "create-fee": "New Address Creation Fee",
-  "morgage-amount": "Collateral Amount",
+  "mortgage-amount": "Collateral Amount",
   "error": {
     "below-in-amount": "The value must be smaller than the minimum Shuttle-In amount",
     "below-out-amount": "The value must be smaller than the minimum Shuttle-Out amount",
