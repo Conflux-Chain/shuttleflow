@@ -3,7 +3,6 @@ import { useParams } from 'react-router'
 import useSWR from 'swr'
 import { getTokenList } from './tokenList'
 import useAddress from './useAddress'
-import useTokenList from './useTokenList'
 
 export default function useMyCaptain() {
   const address = useAddress()

@@ -23,7 +23,7 @@ import { ErrorMessage } from '@hookform/error-message'
 import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
-import TokenInput from '../TokenInput'
+import TokenInput from '../../component/TokenInput/TokenInput'
 import ShuttleOutInput from '../ShuttleoutInput'
 import { parseNum } from '../../util/formatNum'
 import { CONFLUXSCAN_TX } from '../../config/config'
