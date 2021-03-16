@@ -100,7 +100,7 @@ exports.loadImages = ({ limit } = {}) => ({
   module: {
     rules: [
       {
-        test: /\.(png|jpg|svg)$/,
+        test: /\.(png|jpg|svg|pdf)$/,
         type: 'asset',
         parser: { dataUrlCondition: { maxSize: limit } },
       },

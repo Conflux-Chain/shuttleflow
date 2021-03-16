@@ -9,6 +9,9 @@ import useIsSamll from '../component/useSmallScreen'
 import LayoutLarge from './LayoutLarge'
 import LayoutSmall from './LayoutSmall'
 
+
+import Footer from './Footer'
+
 import CHAIN_CONFIG from '../config/chainConfig'
 import { DEFAULT_CHAIN } from '../config/config'
 import useTokenList from '../data/useTokenList'
@@ -47,5 +50,11 @@ function Layout() {
   //window?.conflux?.selectedAddress correctly in order to
   //determine the if the user logged in
   useTokenList()
-  return isSmall ? <LayoutSmall /> : <LayoutLarge />
+  return (
+    <>
+      {isSmall ? <LayoutSmall /> : <LayoutLarge />}
+
+      <Footer />
+    </>
+  )
 }

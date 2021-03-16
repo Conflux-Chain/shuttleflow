@@ -18,7 +18,6 @@ import MenuLink from '../component/MenuLink'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
-import Spec from '../layout/Spec'
 import useIsSamll from '../component/useSmallScreen'
 import useUrlSearch from '../lib/useUrlSearch'
 import useTokenList from '../data/useTokenList'
@@ -40,11 +39,6 @@ export default function Shuttle({ match: { path, url } }) {
   return (
     <MainContainer>
       <div className={cx('footer')}>
-        {isSmall && (
-          <div className={cx('spec')}>
-            <Spec />
-          </div>
-        )}
 
         <nav className={cx('nav')}>
           <MenuLink
