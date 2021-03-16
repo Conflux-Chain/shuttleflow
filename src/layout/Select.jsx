@@ -10,6 +10,7 @@ import useIsSamll from '../component/useSmallScreen'
 export default function Select({
   current,
   options,
+  disabled,
   setCurrent,
   title,
   border,
@@ -42,10 +43,13 @@ export default function Select({
       title={
         <div
           className={cx('select-title', 'item', { border })}
+          style={{ ...(disabled && { cursor: 'not-allowed' }) }}
           onClick={() => {
-            setExpand((x) => {
-              return !x
-            })
+            if (!disabled) {
+              setExpand((x) => {
+                return !x
+              })
+            }
           }}
         >
           <span style={{ whiteSpace: 'nowrap' }}>
@@ -79,10 +83,12 @@ export default function Select({
                 id={'choose-' + key}
                 key={i}
                 onClick={() => {
-                  if (setCurrent) {
-                    setCurrent(key)
+                  if (!disabled) {
+                    if (setCurrent) {
+                      setCurrent(key)
+                    }
+                    setExpand(false)
                   }
-                  setExpand(false)
                 }}
                 className={cx('dropdown-item', type, {
                   selected,
