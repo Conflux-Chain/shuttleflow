@@ -122,6 +122,7 @@ function Main() {
       <Modal show={popup}>
         <div style={{ whiteSpace: 'nowrap' }}>{t('login')}</div>
       </Modal>
+
     </>
   )
 }

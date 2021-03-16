@@ -32,7 +32,7 @@ export default function LayoutLarge() {
     let { marginBottom } = getComputedStyle(headerRef.current)
     marginBottom = parseFloat(marginBottom.replace('px', ''))
     const { innerHeight } = window
-    setMainMaxHeight(innerHeight - bottom - marginBottom - 40)
+    setMainMaxHeight(innerHeight - bottom - marginBottom - 80)
   }, [])
 
   const { chain } = useParams()
