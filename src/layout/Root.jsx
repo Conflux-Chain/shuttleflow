@@ -10,7 +10,6 @@ import useStyle from '../component/useStyle'
 import styles from './Layout.module.scss'
 import Modal from '../component/Modal'
 import notAllow from './not-allow.png'
-import Spec from './Spec'
 import { Loading } from '@cfxjs/react-ui'
 import RouterRoot from './RouterRoot'
 import PrepareData from './PrepareData'
@@ -61,11 +60,6 @@ export default function App() {
             <RouterRoot />
           </SWRConfig>
 
-          {!isSmall && (
-            <div className={cx('footer')}>
-              <Spec />
-            </div>
-          )}
           <Modal show={block}>
             <div className={cx('not-allow')}>
               <img src={notAllow} alt={notAllow}></img>

@@ -16,11 +16,7 @@ const commonConfig = (isDev) =>
             process.env.BROWSERSLIST_ENV === 'legacy' ? 'whatwg-fetch' : false,
             path.join(__dirname, 'src', 'index.js'),
           ].filter((x) => x),
-          // dependOn: "vendor",
         },
-        // vendor: [
-        //   process.env.BROWSERSLIST_ENV === "legacy" ? "whatwg-fetch" : false,
-        // ].filter((x) => x),
       },
       output: {
         publicPath: '/',
@@ -53,7 +49,6 @@ const commonConfig = (isDev) =>
     parts.packages(isDev),
     parts.setFreeVariable('HELLO', 'hello from config'),
 
-    // parts.attachRevision(),
   ])
 
 const productionConfig = () =>

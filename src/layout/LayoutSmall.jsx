@@ -105,10 +105,7 @@ export default function LayoutSmall() {
         </PaddingContainer>
       </div>
 
-      {/* todo: an absolutely position without a top do not work
-      as static anymore? caused by my misunderstanding or updated 
-      spec??
-      */}
+
       <CSSTransition
         nodeRef={nodeRef}
         style={{ top: headerHeight }}
