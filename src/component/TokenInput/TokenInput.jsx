@@ -17,13 +17,15 @@ export default function TokenInput({
   placeholder,
   dir,
   displayCopy,
+  chain,
 }) {
   const history = useHistory()
   const isSmall = useIsSamll()
-  const { chain } = useParams()
+  const { chain: urlChain } = useParams()
   const match = useRouteMatch()
   const { t } = useTranslation()
   const [cTokenPopup, setCTokenPopup] = useState(false)
+  chain = chain || urlChain
 
   const [tkInputCx, commonCx] = useStyle(tokenInputStyles, commonInputStyles)
   const { singleton, origin, symbol, reference, reference_symbol, ctoken } =

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import styled from 'styled-components'
@@ -6,18 +6,36 @@ import TokenInput from '../component/TokenInput/TokenInput'
 import Select from '../layout/Select'
 
 export default function Choose() {
-  const [choosen, setChoosen] = useState()
+  const [fromChain, setFromChain] = useState()
+  const [toChain, setToChain] = useState()
   const { t } = useTranslation()
   const { chain } = useParams()
+
+  console.log(fromChain, toChain)
   const options = [
     { value: 'Conflux', key: 'Conflux' },
     { value: t(chain), key: chain },
+    { value: t('bsc'), key: 'bsc' },
   ]
+
+  useEffect(() => {
+    //when switching fromChain the same as toChain
+    //reset toChain
+    if (fromChain === toChain) {
+      setToChain('')
+    } else if (fromChain !== 'Conflux') {
+      setToChain('Conflux')
+    }
+  }, [fromChain])
+
   return (
     <div>
       <Row>
         <SelectContainer>
-          <SelectChain options={options} {...{ choosen, setChoosen }} />
+          <SelectChain
+            options={options}
+            {...{ choosen: fromChain, setChoosen: setFromChain }}
+          />
         </SelectContainer>
         <InputContainer>
           <TokenInput />
@@ -27,10 +45,10 @@ export default function Choose() {
         <SelectContainer>
           <SelectChain
             options={options.filter(({ key }) => {
-              return key !== choosen
+              return key !== fromChain
             })}
-            disabled={!choosen}
-            {...{ choosen, setChoosen }}
+            disabled={!fromChain}
+            {...{ choosen: toChain, setChoosen: setToChain }}
           />
         </SelectContainer>
         <InputContainer>
@@ -42,25 +60,19 @@ export default function Choose() {
 }
 
 function SelectChain({ choosen, setChoosen, disabled, options }) {
-  const { chain } = useParams()
   const { t } = useTranslation()
-  const [current, setCurrent] = useState()
 
   function render({ title, key }) {
     return <div style={{ color: title ? 'white' : '#333333' }}>{t(key)}</div>
-  }
-  const setCurrentAndChoosen = (value) => {
-    setCurrent(value)
-    setChoosen(value)
   }
   return (
     <Select
       disabled={disabled}
       render={render}
       dropdownTitle="cc"
-      current={current}
-      title={current ? false : 'Choose'}
-      setCurrent={setCurrentAndChoosen}
+      current={choosen}
+      title={choosen ? false : 'Choose'}
+      setCurrent={setChoosen}
       icon
       options={options}
     />

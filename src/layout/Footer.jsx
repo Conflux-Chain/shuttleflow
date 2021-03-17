@@ -24,11 +24,11 @@ export default function Footer() {
           >
             {t('footer.whitepaper')}
           </RightItem>
-          <RightItem>{t('footer.doc')}</RightItem>
+          {/* <RightItem>{t('footer.doc')}</RightItem> */}
           <RightItem onClick={() => setDisplayPopup(true)}>
             {t('footer.spec')}
           </RightItem>
-          <RightItem>{t('footer.faq')}</RightItem>
+          {/* <RightItem>{t('footer.faq')}</RightItem> */}
         </Right>
       </Container>
       <Modal
@@ -74,7 +74,7 @@ const RightItem = styled.a`
   margin-left: 10px;
   font-size: 14px;
   cursor: pointer;
-  &::visited {
-    color: #ffffff;
+  &:visited {
+    color: #ffffff !important;
   }
 `

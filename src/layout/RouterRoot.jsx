@@ -9,7 +9,6 @@ import useIsSamll from '../component/useSmallScreen'
 import LayoutLarge from './LayoutLarge'
 import LayoutSmall from './LayoutSmall'
 
-
 import Footer from './Footer'
 
 import CHAIN_CONFIG from '../config/chainConfig'
@@ -53,8 +52,7 @@ function Layout() {
   return (
     <>
       {isSmall ? <LayoutSmall /> : <LayoutLarge />}
-
-      <Footer />
+      {!isSmall && <Footer />}
     </>
   )
 }
