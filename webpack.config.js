@@ -7,6 +7,7 @@ const Dotenv = require('dotenv-webpack')
 const path = require('path')
 const webpack = require('webpack')
 
+let isDev
 const commonConfig = (isDev) =>
   merge([
     {
@@ -15,6 +16,7 @@ const commonConfig = (isDev) =>
           import: [
             process.env.BROWSERSLIST_ENV === 'legacy' ? 'whatwg-fetch' : false,
             path.join(__dirname, 'src', 'index.js'),
+            isDev ? 'webpack-plugin-serve/client' : false,
           ].filter((x) => x),
         },
       },
@@ -48,7 +50,6 @@ const commonConfig = (isDev) =>
     parts.loadJavaScript(),
     parts.packages(isDev),
     parts.setFreeVariable('HELLO', 'hello from config'),
-
   ])
 
 const productionConfig = () =>
@@ -73,7 +74,7 @@ const statusConfig = () =>
     plugins: [new BundleAnalyzerPlugin()],
   })
 const getConfig = (mode) => {
-  const isDev = mode === 'development'
+  isDev = mode === 'development'
   switch (mode) {
     case 'prod:webview':
       process.env.BROWSERSLIST_ENV = 'webview'

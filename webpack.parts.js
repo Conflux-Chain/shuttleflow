@@ -14,9 +14,9 @@ exports.devServer = () => ({
     new WebpackPluginServe({
       port: process.env.PORT || 8080,
       host: 'localhost',
-      historyFallback: true,
       static: './build', // Expose if output.path changes
-      hmr: true,
+      historyFallback: true,
+      liveReload: true,
       waitForBuild: true,
       middleware: (app, builtins) => {
         app.use(
@@ -75,9 +75,7 @@ exports.extractCSS = ({ options = {}, loaders = [], isDev } = {}) => {
               loader: 'css-loader',
               options: {
                 modules: {
-                  localIdentName: isDev
-                    ? '[name]__[local]'
-                    : '[hash:base64:5]',
+                  localIdentName: isDev ? '[name]__[local]' : '[hash:base64:5]',
                 },
               },
             },

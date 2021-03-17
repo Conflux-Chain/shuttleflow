@@ -11,11 +11,14 @@ export default function Choose() {
   const { t } = useTranslation()
   const { chain } = useParams()
 
+  //token can be choosen when both chains are specified
+  const bothChain = fromChain && toChain
+
   console.log(fromChain, toChain)
   const options = [
     { value: 'Conflux', key: 'Conflux' },
     { value: t(chain), key: chain },
-    { value: t('bsc'), key: 'bsc' },
+    // { value: t('bsc'), key: 'bsc' },
   ]
 
   useEffect(() => {
@@ -38,7 +41,11 @@ export default function Choose() {
           />
         </SelectContainer>
         <InputContainer>
-          <TokenInput />
+          <TokenInput
+            disabled={bothChain}
+            cToken={fromChain === 'Conflux'}
+            placeholder={t('placeholder.out')}
+          />
         </InputContainer>
       </Row>
       <Row>
@@ -52,7 +59,11 @@ export default function Choose() {
           />
         </SelectContainer>
         <InputContainer>
-          <TokenInput />
+          <TokenInput
+            cToken={toChain === 'Conflux'}
+            disabled={bothChain}
+            placeholder={t('placeholder.out')}
+          />
         </InputContainer>
       </Row>
     </div>
@@ -65,6 +76,13 @@ function SelectChain({ choosen, setChoosen, disabled, options }) {
   function render({ title, key }) {
     return <div style={{ color: title ? 'white' : '#333333' }}>{t(key)}</div>
   }
+
+  useEffect(() => {
+    if (options.length === 1) {
+      setChoosen(options[0].key)
+    }
+  }, [options.length, choosen])
+
   return (
     <Select
       disabled={disabled}
@@ -73,7 +91,7 @@ function SelectChain({ choosen, setChoosen, disabled, options }) {
       current={choosen}
       title={choosen ? false : 'Choose'}
       setCurrent={setChoosen}
-      icon
+      icon={!disabled}
       options={options}
     />
   )

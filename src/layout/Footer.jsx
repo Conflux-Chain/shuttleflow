@@ -6,8 +6,6 @@ import Modal, { modalStyles } from '../component/Modal'
 import styles from './Spec.module.scss'
 import useStyle from '../component/useStyle'
 import { useState } from 'react'
-
-console.log(whitePaperEN)
 export default function Footer() {
   const { t, i18n } = useTranslation()
   const [displayPopup, setDisplayPopup] = useState(false)
