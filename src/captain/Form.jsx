@@ -16,7 +16,6 @@ import Modal from '../component/Modal'
 import close from './close.svg'
 
 import Button from '../component/Button/Button'
-import { ensureAddressForSdk } from '../util/address'
 
 export default function CaptainForm({
   pendingCount,
@@ -41,6 +40,7 @@ export default function CaptainForm({
   minMortgageBig,
   currentMortgageBig,
   cethBalanceDisplay,
+  safeSponsorAmount,
 }) {
   const { t } = useTranslation(['captain'])
   const [inputCx, formCx] = useStyle(inputStyles, formStyles)
@@ -50,7 +50,9 @@ export default function CaptainForm({
   function clickLabel() {
     setMortgagePopup(true)
   }
-  const isMe = address === ensureAddressForSdk(sponsor)
+  const isMe = address === sponsor
+  const isMortgageLow = safeSponsorAmount.gt(currentMortgageBig)
+  console.log('===', safeSponsorAmount, currentMortgageBig, isMortgageLow)
   const [showMortgage, setShowMortgage] = useState(!isMe)
 
   const onSubmit = (data) => {
@@ -66,6 +68,7 @@ export default function CaptainForm({
     })
   }
   const fields = getFields({
+    t,
     reference_symbol,
     symbol,
     out_fee,
@@ -77,7 +80,9 @@ export default function CaptainForm({
     wallet_fee,
     showMortgage,
     cethBalanceBig,
-    // defaultMortgageBig,
+    minMortgageBig,
+    isMe,
+    isMortgageLow,
   })
 
   const { defaultValues, schema } = fields.reduce(

@@ -8,7 +8,6 @@ export default class BigSchema extends BaseSchema {
     super({ type: 'bigNumber' })
     this.withMutation(() => {
       this.transform(function (value) {
-        console.log(value)
         if (typeof value === 'string') {
           try {
             value = new Big(value)
@@ -35,11 +34,13 @@ export default class BigSchema extends BaseSchema {
   }
 
   greaterThan(key, message) {
+    console.log('greaterThan register')
     return this.test({
       message,
-      name: 'greater',
+      name: 'greaterThan',
       exclusive: true,
       test(params) {
+        console.log('trigger test')
         const {
           parent: { [key]: value },
         } = this
@@ -47,6 +48,7 @@ export default class BigSchema extends BaseSchema {
         //values in parent can not be typechecked properly
         //TODO: read source code and provide PR?
         if (params && value && params instanceof Big && value instanceof Big) {
+          console.log('====', params + '', value + '')
           return params.gte(value)
         } else {
           return true
@@ -61,6 +63,16 @@ export default class BigSchema extends BaseSchema {
       exclusive: true,
       test(params) {
         return params.lte(value)
+      },
+    })
+  }
+  lessThan(value, message) {
+    return this.test({
+      message,
+      name: 'lessThan',
+      exclusive: true,
+      test(params) {
+        return params.lt(value)
       },
     })
   }

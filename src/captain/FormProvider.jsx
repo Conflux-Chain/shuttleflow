@@ -35,7 +35,6 @@ export default function FormProvider({ pair }) {
     countdown,
     minMortgage,
     cooldownMinutes,
-    replaceRatio,
     sponsor,
     cethBalance,
     currentMortgage,
@@ -108,6 +107,7 @@ export default function FormProvider({ pair }) {
       currentMortgageBig,
       cethBalanceBig,
       cethBalanceDisplay,
+      safeSponsorAmount
     }
     return (
       <>
