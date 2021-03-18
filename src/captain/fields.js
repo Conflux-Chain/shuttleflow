@@ -17,7 +17,7 @@ export default function getFields({
   wallet_fee,
   showMortgage,
   cethBalanceBig,
-  defaultMortgageBig,
+  // defaultMortgageBig,
 }) {
   symbol = symbol || 'c' + reference_symbol.toUpperCase()
   return [
@@ -70,11 +70,11 @@ export default function getFields({
       label: 'morgage-amount',
       name: 'mortgage_amount',
       unit: 'cETH',
-      defaultValue: defaultMortgageBig + '',
+      // defaultValue: defaultMortgageBig + '',
       validate: showMortgage
         ? basicValidate()
             .max(cethBalanceBig, 'error.insufficient')
-            .min(defaultMortgageBig, 'error.above-current')
+            // .min(defaultMortgageBig, 'error.above-current')
         : false,
       decimals: 18,
       readOnly: false,

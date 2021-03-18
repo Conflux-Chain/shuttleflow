@@ -29,7 +29,6 @@ function fetcher(key, reference, address, chain) {
       .call(),
     getCustodianContract().minimal_sponsor_amount().call(),
     getCustodianContract().default_cooldown().call(),
-    getSponsorContract().sponsor_replace_ratio().call(),
     getSponsorContract().sponsorOf(reference).call(),
     getBalanceContract()
       .tokenBalance(
@@ -41,16 +40,17 @@ function fetcher(key, reference, address, chain) {
         return x + ''
       }),
     getSponsorContract().sponsorValueOf(reference).call(),
+    getCustodianContract().safe_sponsor_amount().call(),
   ]).then(
     ([
       { cnt = 0 } = {},
       cooldown,
       minMortgage,
       defaultCooldown,
-      replaceRatio,
       sponsor,
       cethBalance,
       currentMortgage,
+      safeSponsorAmount,
     ]) => {
       const cooldownMinutes = parseInt(defaultCooldown) / 60
       const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))
@@ -58,15 +58,11 @@ function fetcher(key, reference, address, chain) {
         cooldownMinutes,
         pendingCount: cnt,
         minMortgage: minMortgage + '',
-        // A percent ratio when a user want to replace the sponsor of a token t,
-        // he/she must mortgage more than token_sponsor_value[t]*(100+sponsor_replace_ratio)/100 cETH.
-        replaceRatio: Big(replaceRatio + '')
-          .add('100')
-          .div('100'),
         countdown: Math.max(0, parseInt(defaultCooldown + '') - diff),
         cethBalance,
         currentMortgage,
         sponsor,
+        safeSponsorAmount: Big(safeSponsorAmount + '').div('1e18'),
       }
     }
   )

@@ -40,10 +40,8 @@ export default function CaptainForm({
   decimals,
   minMortgageBig,
   currentMortgageBig,
-  defaultMortgageBig,
   cethBalanceDisplay,
 }) {
-  console.log('currentMortgageBig',currentMortgageBig)
   const { t } = useTranslation(['captain'])
   const [inputCx, formCx] = useStyle(inputStyles, formStyles)
   const [mortgagePopup, setMortgagePopup] = useState(false)
@@ -79,7 +77,7 @@ export default function CaptainForm({
     wallet_fee,
     showMortgage,
     cethBalanceBig,
-    defaultMortgageBig,
+    // defaultMortgageBig,
   })
 
   const { defaultValues, schema } = fields.reduce(

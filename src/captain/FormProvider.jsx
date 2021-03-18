@@ -39,6 +39,7 @@ export default function FormProvider({ pair }) {
     sponsor,
     cethBalance,
     currentMortgage,
+    safeSponsorAmount,
   } = useCaptain(reference, txHash)
 
   const beCaptain = function ({
@@ -49,14 +50,7 @@ export default function FormProvider({ pair }) {
     minimalMintValue,
     minimalBurnValue,
   }) {
-    console.log({
-      amount,
-      burnFee,
-      mintFee,
-      walletFee,
-      minimalMintValue,
-      minimalBurnValue,
-    })
+
     createBeCaptain(
       address,
       tokenInfo.reference
@@ -89,30 +83,17 @@ export default function FormProvider({ pair }) {
     cethBalance
   ) {
     console.log('currentMortgage', currentMortgage + '')
+    console.log('safeSponsorAmount', safeSponsorAmount + '')
     const currentMortgageBig = new Big(currentMortgage).div('1e18')
     const minMortgageBig = new Big(minMortgage).div('1e18')
-
-    const currentMortgagereplaceBig = currentMortgageBig.mul(replaceRatio)
-
-    let minMortgageBigToDisplay = currentMortgagereplaceBig.gt(minMortgageBig)
-      ? currentMortgagereplaceBig
-      : minMortgageBig
 
     const cethBalanceBig = new Big(cethBalance).div('1e18')
 
     let cethBalanceDisplay = cethBalanceBig.round(MAX_DECIMAL_DISPLAY, 0)
+    console.log(cethBalanceBig + '', cethBalanceDisplay + '')
     if (!cethBalanceDisplay.eq(cethBalanceBig)) {
       cethBalanceDisplay += '...'
     }
-
-    minMortgageBigToDisplay = minMortgageBigToDisplay.round(
-      MAX_DECIMAL_DISPLAY,
-      3
-    )
-    const defaultMortgageBig =
-      !sponsor || minMortgageBig.gt(minMortgageBigToDisplay)
-        ? minMortgageBig
-        : minMortgageBigToDisplay.plus(`1e-${MAX_DECIMAL_DISPLAY}`)
 
     const data = {
       address,
@@ -123,10 +104,8 @@ export default function FormProvider({ pair }) {
       currentMortgage,
       sponsor,
       beCaptain,
-      minMortgage,
-      minMortgageBig: minMortgageBigToDisplay,
+      minMortgageBig,
       currentMortgageBig,
-      defaultMortgageBig,
       cethBalanceBig,
       cethBalanceDisplay,
     }
