@@ -48,7 +48,7 @@ export default function tokenListMapper(d) {
 
   return {
     ...d,
-    name: name || 'conflux ' + reference_name,
+    name: name || 'Conflux ' + reference_name,
     symbol: symbol || 'c' + reference_symbol,
     //Todo: name and symbol is chain related if the origin is conflux
     reference_name: reference_name || '',
@@ -62,7 +62,7 @@ export default function tokenListMapper(d) {
     out_fee: values[`${_out}_fee`],
     wallet_fee: parseNum(wallet_fee, decimals),
     icon: icon || CHAIN_CONFIG[reference].icon,
-    name: name || 'Conflux ' + reference_name,
+
     //btc and eth is not in gecko list,but they are trusted
     in_token_list: ['btc', 'eth'].indexOf(reference) > -1 ? 1 : in_token_list,
   }

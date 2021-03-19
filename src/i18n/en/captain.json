@@ -27,5 +27,6 @@
   "mortgage-popup": "Update the collaterals amount to the value you entered. The current collaterals balance will be refunded",
   "popup-cool": "In order to avoid frequent fluctuations in the rules, there will be a {{cooldownMinutes}}-minute freeze time after the rules are modified, and they can be modified again after thawing",
   "me": "You are token captain",
-  "locked": "The rules are frozen and cannot be modified temporarily"
+  "locked": "The rules are frozen and cannot be modified temporarily",
+  "be-captain-txt": "您要竞选该服务商，需要给出更优的价格"
 }

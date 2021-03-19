@@ -39,7 +39,12 @@ export default function FormProvider({ pair }) {
     cethBalance,
     currentMortgage,
     safeSponsorAmount,
-  } = useCaptain(reference, txHash)
+    out_fee,
+    in_fee,
+    wallet_fee,
+    minimal_in_value,
+    minimal_out_value,
+  } = useCaptain({ reference, decimals })
 
   const beCaptain = function ({
     amount,
@@ -49,7 +54,6 @@ export default function FormProvider({ pair }) {
     minimalMintValue,
     minimalBurnValue,
   }) {
-
     createBeCaptain(
       address,
       tokenInfo.reference
@@ -81,8 +85,6 @@ export default function FormProvider({ pair }) {
     currentMortgage &&
     cethBalance
   ) {
-    console.log('currentMortgage', currentMortgage + '')
-    console.log('safeSponsorAmount', safeSponsorAmount + '')
     const currentMortgageBig = new Big(currentMortgage).div('1e18')
     const minMortgageBig = new Big(minMortgage).div('1e18')
 
@@ -107,7 +109,12 @@ export default function FormProvider({ pair }) {
       currentMortgageBig,
       cethBalanceBig,
       cethBalanceDisplay,
-      safeSponsorAmount
+      safeSponsorAmount,
+      out_fee,
+      in_fee,
+      wallet_fee,
+      minimal_in_value,
+      minimal_out_value,
     }
     return (
       <>
