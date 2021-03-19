@@ -58,17 +58,10 @@ export default function CaptainForm({
   const isMe = address === sponsor
   const isMortgageLow = safeSponsorAmount.gt(currentMortgageBig)
   const isLoacking = countdown > 0
-  console.log(
-    '=== isMortgageLow',
-    safeSponsorAmount,
-    currentMortgageBig,
-    isMortgageLow
-  )
+
   const [showMortgage, setShowMortgage] = useState(!isMe)
 
   const onSubmit = (data) => {
-    // return
-    console.log(data)
     beCaptain({
       amount: data.mortgage_amount,
       burnFee: data.burn_fee,

@@ -235,7 +235,7 @@ function TokenInfoDetails({
                   : '',
             }}
             t={t}
-            i18nKey="popup-fee"
+            i18nKey={chain === 'btc' ? 'miner-fee-content' : 'popup-fee'}
           ></Trans>
         </div>
         <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>

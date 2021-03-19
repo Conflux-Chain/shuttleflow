@@ -350,7 +350,7 @@ export default function ShuttleOut({ tokenInfo }) {
                     ? t('wallet-create-fee', tokenInfo)
                     : '',
               }}
-              i18nKey="popup-fee"
+              i18nKey={chain === 'btc' ? 'miner-fee-content' : 'popup-fee'}
               t={t}
             ></Trans>
           </div>
