@@ -29,5 +29,6 @@
   "me": "您是此代币服务商",
   "locked": "规则冻结期内，暂时无法修改",
   "be-captain-txt": "您要竞选该服务商，需要给出更优的价格",
-  "need-zero": "需要为 0"
+  "need-zero": "需要为 0",
+  "compete-captain": "竞选服务商"
 }

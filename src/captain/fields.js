@@ -24,7 +24,7 @@ export default function getFields({
   function createField({ name, label, unit, currentValue, greaterThan }) {
     let validate = basicValidate()
     let errOrPlaceholder
-    if ((!isMe && !isMortgageLow) || (isMe && isLoacking)) {
+    if (!isMortgageLow || (isMe && isLoacking)) {
       if (currentValue === 0) {
         errOrPlaceholder = t('is-zero', { value: currentValue })
         validate = validate.isZero(errOrPlaceholder)

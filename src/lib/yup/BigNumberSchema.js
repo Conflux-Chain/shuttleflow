@@ -45,13 +45,11 @@ export default class BigSchema extends BaseSchema {
   }
 
   greaterThan(key, message) {
-    console.log('greaterThan register')
     return this.test({
       message,
       name: 'greaterThan',
       exclusive: true,
       test(params) {
-        console.log('trigger test')
         const {
           parent: { [key]: value },
         } = this
@@ -59,7 +57,6 @@ export default class BigSchema extends BaseSchema {
         //values in parent can not be typechecked properly
         //TODO: read source code and provide PR?
         if (params && value && params instanceof Big && value instanceof Big) {
-          console.log('====', params + '', value + '')
           return params.gte(value)
         } else {
           return true

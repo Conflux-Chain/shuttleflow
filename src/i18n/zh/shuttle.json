@@ -3,5 +3,6 @@
   "wallet-create-fee": "地址创建费：<strong>{{wallet_fee}} {{symbol}}</strong>  <i>（仅第一次需要）</i>\n",
   "popup-token": "代币可以在所有支持{{chain}}网络的钱包中查看，比如 {{chainTool}} 若未找到该代币，可能需要您通过“添加代币”的方式自行添加。",
   "popup-contract": "{{symbol}} 合约地址",
-  "miner-fee": "需要支付矿工费用"
+  "miner-fee": "需要支付矿工费用",
+  "miner-fee-content": "{{operation}}手续费：<strong>{{fee}} {{symbol}}</strong>\n\n需要支付比特币网络的矿工费"
 }
