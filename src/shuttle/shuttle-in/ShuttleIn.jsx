@@ -142,7 +142,7 @@ function TokenInfoDetails({
         </WithQuestion>
 
         <WithQuestion onClick={() => setFeePopup(true)}>
-          <span>{t('fee', tokenInfo)}</span>
+          <span>{chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}</span>
         </WithQuestion>
       </div>
 

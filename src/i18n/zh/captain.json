@@ -13,7 +13,8 @@
     "below-out-amount": "数值必须小于最小跨出数量",
     "above-in-fee": "数值必须大于等于跨入手续费",
     "above-out-fee": "数值必须大于等于跨出手续费",
-    "above-current": "数值必须大于最小抵押量"
+    "above-current": "数值必须大于最小抵押量",
+    "less-than": "需要小于 {{value}}"
   },
   "min-mortgage": "最小抵押数量 {{minMortgage}} cETH",
   "ceth-balance": "钱包余额 {{amount}} cETH",
@@ -26,5 +27,7 @@
   "mortgage-popup": "将抵押数量更新为您输入的数值，当前抵押余额将被退回",
   "popup-cool": "为了避免规则频繁波动，规则修改后有{{cooldownMinutes}}分钟的冻结时间，解冻后方可再次修改",
   "me": "您是此代币服务商",
-  "locked": "规则冻结期内，暂时无法修改"
+  "locked": "规则冻结期内，暂时无法修改",
+  "be-captain-txt": "您要竞选该服务商，需要给出更优的价格",
+  "need-zero": "需要为 0"
 }

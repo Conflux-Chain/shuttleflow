@@ -15,17 +15,12 @@ function fetcher(key, searchOrPair, chain, cToken) {
   const { singleToken, display, searchList } = CHAIN_CONFIG[chain]
   return getTokenList(chain).then(({ tokenList, tokenMap }) => {
     if (pair) {
-      // console.log('getTokenList')
-      // console.log(
-      //   CHAIN_CONFIG[chain].searchList(tokenList, pair).then((e) => {
-      //     console.log(e)
-      //   })
-      // )
       return singleToken
         ? { ...tokenList[0], singleton: true }
         : pair === CHAIN_SINGLE_PAIR
         ? null
         : tokenMap[pair] ||
+          //pair is not present in tokenlist but searchable
           CHAIN_CONFIG[chain].searchList(tokenList, pair).then((x) => x[0])
     }
     if (!search) {

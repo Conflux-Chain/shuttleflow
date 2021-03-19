@@ -18,17 +18,15 @@ export default function Footer() {
       <Container>
         <CopyRight>© 2021 ShuttleFlow. All Rights Reserved.</CopyRight>
         <Right>
+          <RightItem onClick={() => setDisplayPopup(true)}>
+            {t('footer.spec')}
+          </RightItem>
           <RightItem
             href={language === 'zh' ? whitePaperZH : whitePaperEN}
             target="_blank"
           >
             {t('footer.whitepaper')}
           </RightItem>
-          {/* <RightItem>{t('footer.doc')}</RightItem> */}
-          <RightItem onClick={() => setDisplayPopup(true)}>
-            {t('footer.spec')}
-          </RightItem>
-          {/* <RightItem>{t('footer.faq')}</RightItem> */}
         </Right>
       </Container>
       <Modal

@@ -9,16 +9,19 @@ import CHAIN_CONFIG from '../config/chainConfig'
 import { useParams } from 'react-router'
 
 //txHash is used to flush data from server
-export default function useCaptain(reference, txHash) {
+export default function useCaptain({ reference, decimals }) {
   const address = useAddress()
   const { chain } = useParams()
-  return useSWR(['captain', reference, address, chain], fetcher, {
+  return useSWR(['captain', reference, address, chain, decimals], fetcher, {
     suspense: true,
   }).data
 }
 
-function fetcher(key, reference, address, chain) {
-  console.log('')
+//todo: Shuttle in/out page still read from API rather than the contract
+//some level of inconsistancy, tend to be fixed when reverse captain roll out
+//The meaning of mint/burn and in/out is a mess currectly
+//expect to be sorted out in the future
+function fetcher(key, reference, address, chain, decimals) {
   return Promise.all([
     jsonrpc('getPendingOperationInfo', {
       url: 'node',
@@ -29,7 +32,6 @@ function fetcher(key, reference, address, chain) {
       .call(),
     getCustodianContract().minimal_sponsor_amount().call(),
     getCustodianContract().default_cooldown().call(),
-    getSponsorContract().sponsor_replace_ratio().call(),
     getSponsorContract().sponsorOf(reference).call(),
     getBalanceContract()
       .tokenBalance(
@@ -41,32 +43,45 @@ function fetcher(key, reference, address, chain) {
         return x + ''
       }),
     getSponsorContract().sponsorValueOf(reference).call(),
+    getCustodianContract().safe_sponsor_amount().call(),
+    getCustodianContract().burn_fee(reference).call(),
+    getCustodianContract().mint_fee(reference).call(),
+    getCustodianContract().wallet_fee(reference).call(),
+    getCustodianContract().minimal_mint_value(reference).call(),
+    getCustodianContract().minimal_burn_value(reference).call(),
   ]).then(
     ([
       { cnt = 0 } = {},
       cooldown,
       minMortgage,
       defaultCooldown,
-      replaceRatio,
       sponsor,
       cethBalance,
       currentMortgage,
+      safeSponsorAmount,
+      burn_fee,
+      mint_fee,
+      wallet_fee,
+      minimal_mint_value,
+      minimal_burn_value,
     ]) => {
+      console.log('burn_fee', burn_fee + 'decimals', decimals)
       const cooldownMinutes = parseInt(defaultCooldown) / 60
       const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))
       return {
         cooldownMinutes,
         pendingCount: cnt,
         minMortgage: minMortgage + '',
-        // A percent ratio when a user want to replace the sponsor of a token t,
-        // he/she must mortgage more than token_sponsor_value[t]*(100+sponsor_replace_ratio)/100 cETH.
-        replaceRatio: Big(replaceRatio + '')
-          .add('100')
-          .div('100'),
         countdown: Math.max(0, parseInt(defaultCooldown + '') - diff),
         cethBalance,
         currentMortgage,
         sponsor,
+        safeSponsorAmount: Big(safeSponsorAmount + '').div('1e18'),
+        out_fee: Big(burn_fee + '').div(`1e${decimals}`),
+        in_fee: Big(mint_fee + '').div(`1e${decimals}`),
+        wallet_fee: Big(wallet_fee + '').div(`1e${decimals}`),
+        minimal_in_value: Big(minimal_mint_value + '').div(`1e${decimals}`),
+        minimal_out_value: Big(minimal_burn_value + '').div(`1e${decimals}`),
       }
     }
   )

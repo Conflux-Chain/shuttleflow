@@ -13,7 +13,6 @@ export default function tokenListMapper(d) {
     decimals,
     icon,
     in_token_list,
-    id,
     origin = 'eth',
     name,
   } = d
@@ -49,24 +48,21 @@ export default function tokenListMapper(d) {
 
   return {
     ...d,
-    // id: typeof id === 'number' ? id + '' : undefined,
-    symbol: symbol || '',
+    name: name || 'Conflux ' + reference_name,
+    symbol: symbol || 'c' + reference_symbol,
+    //Todo: name and symbol is chain related if the origin is conflux
     reference_name: reference_name || '',
     reference_symbol: reference_symbol || '',
     _total_supply: totalSupplyBig && formatSupply(totalSupplyBig),
     sponsor_value,
 
-    // minimal_burn_value: parseNum(minimal_burn_value, decimals),
-    // minimal_mint_value: parseNum(minimal_mint_value, decimals),
-    // mint_fee: parseNum(mint_fee, decimals),
-    // burn_fee: parseNum(burn_fee, decimals),
     minimal_in_value: values[`minimal_${_in}_value`],
     minimal_out_value: values[`minimal_${_out}_value`],
     in_fee: values[`${_in}_fee`],
     out_fee: values[`${_out}_fee`],
     wallet_fee: parseNum(wallet_fee, decimals),
     icon: icon || CHAIN_CONFIG[reference].icon,
-    name: name || 'Conflux ' + reference_name,
+
     //btc and eth is not in gecko list,but they are trusted
     in_token_list: ['btc', 'eth'].indexOf(reference) > -1 ? 1 : in_token_list,
   }
