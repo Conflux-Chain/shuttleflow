@@ -33,6 +33,17 @@ export default class BigSchema extends BaseSchema {
     })
   }
 
+  isZero(message) {
+    return this.test({
+      message,
+      name: 'is-zero',
+      exclusive: true,
+      test(value) {
+        return value instanceof Big ? value.eq('0') : true
+      },
+    })
+  }
+
   greaterThan(key, message) {
     console.log('greaterThan register')
     return this.test({

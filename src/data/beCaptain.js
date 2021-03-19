@@ -22,15 +22,6 @@ export default function createBeCaptain(userAddress, reference) {
         )
         .sendTransaction({ from: userAddress })
     } else {
-      console.log(
-        reference,
-        amount,
-        burnFee,
-        mintFee,
-        walletFee,
-        minimalMintValue,
-        minimalBurnValue
-      )
       return contract
         .sponsorToken(
           reference,

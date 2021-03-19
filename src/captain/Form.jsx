@@ -53,7 +53,13 @@ export default function CaptainForm({
   }
   const isMe = address === sponsor
   const isMortgageLow = safeSponsorAmount.gt(currentMortgageBig)
-  console.log('===', safeSponsorAmount, currentMortgageBig, isMortgageLow)
+  const isLoacking = countdown > 0
+  console.log(
+    '=== isMortgageLow',
+    safeSponsorAmount,
+    currentMortgageBig,
+    isMortgageLow
+  )
   const [showMortgage, setShowMortgage] = useState(!isMe)
 
   const onSubmit = (data) => {
@@ -76,7 +82,7 @@ export default function CaptainForm({
     in_fee,
     minimal_out_value,
     minimal_in_value,
-    countdown,
+    isLoacking,
     decimals,
     wallet_fee,
     showMortgage,
@@ -125,7 +131,7 @@ export default function CaptainForm({
             cooldownMinutes,
           }}
         />
-        {!isMe && <Text>{t('be-captain-txt')}</Text>}
+        {!isMe && !isMortgageLow ? <Text>{t('be-captain-txt')}</Text> : null}
         <form onSubmit={handleSubmit(onSubmit)}>
           {fields.slice(0, 5).map((props) =>
             createInput({
@@ -173,7 +179,7 @@ export default function CaptainForm({
 
           <Button
             type="submit"
-            disabled={!showMortgage && countdown !== 0}
+            // disabled={!showMortgage && countdown !== 0}
             className={formCx('btn')}
           >
             {isMe ? t('update') : t('be-captain')}

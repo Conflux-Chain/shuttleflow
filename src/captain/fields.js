@@ -19,12 +19,20 @@ export default function getFields({
   t,
   isMe,
   isMortgageLow,
+  isLoacking,
 }) {
   function createField({ name, label, unit, currentValue, greaterThan }) {
-    let validate = basicValidate().lessThan(
-      currentValue,
-      t('error.less-than', { value: currentValue })
-    )
+    let validate = basicValidate()
+    let errOrPlaceholder
+    if ((!isMe && !isMortgageLow) || (isMe && isLoacking)) {
+      if (currentValue === 0) {
+        errOrPlaceholder = t('is-zero', { value: currentValue })
+        validate = validate.isZero(errOrPlaceholder)
+      } else if (currentValue > 0) {
+        errOrPlaceholder = t('error.less-than', { value: currentValue })
+        validate = validate.lessThan(currentValue, errOrPlaceholder)
+      }
+    }
     if (greaterThan) {
       const { ref, msg } = greaterThan
       validate = validate.greaterThan(ref, msg)
@@ -35,9 +43,7 @@ export default function getFields({
       unit,
       decimals,
       defaultValue: isMe ? currentValue : undefined,
-      placeholder: isMortgageLow
-        ? t('enter')
-        : t('error.less-than', { value: currentValue }),
+      placeholder: isMortgageLow ? t('enter') : errOrPlaceholder,
       validate,
     }
   }
@@ -88,6 +94,6 @@ export default function getFields({
             .max(cethBalanceBig, 'error.insufficient')
         : false,
       decimals: 18,
-      readOnly: false,
+      placeholder: t('enter'),
     })
 }
