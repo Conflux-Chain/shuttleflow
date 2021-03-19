@@ -28,7 +28,6 @@ export default function FormProvider({ pair }) {
   const txHash = useRef('')
   const address = useAddress()
   const tokenInfo = useTokenList({ pair })
-  console.log(tokenInfo)
   const { decimals, reference } = tokenInfo
   const {
     pendingCount,
@@ -91,7 +90,6 @@ export default function FormProvider({ pair }) {
     const cethBalanceBig = new Big(cethBalance).div('1e18')
 
     let cethBalanceDisplay = cethBalanceBig.round(MAX_DECIMAL_DISPLAY, 0)
-    console.log(cethBalanceBig + '', cethBalanceDisplay + '')
     if (!cethBalanceDisplay.eq(cethBalanceBig)) {
       cethBalanceDisplay += '...'
     }

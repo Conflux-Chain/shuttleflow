@@ -64,7 +64,6 @@ const config = {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
     searchList: function filterEth(list, search) {
-      console.log(list, search)
       // throw
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
@@ -82,13 +81,12 @@ const config = {
               url: 'sponsor',
               params: [search],
             }).then((result) => {
-              console.log('rearch', result)
               if (result && result.is_valid_erc20) {
                 const token = result
-
-                // token.id = 'create' + createId++
-                updateTokenList('eth', token)
-                return [token]
+                const data = updateTokenList('eth', token)
+                return data.then(({ tokenMap }) => {
+                  return [tokenMap[search]]
+                })
               } else {
                 return []
               }

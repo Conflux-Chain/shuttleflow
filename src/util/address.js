@@ -74,3 +74,7 @@ export function formatAddress(addr, { chain } = { chain: 'eth' }) {
     isNewCfxAddress(addr) ? formatCfx(addr) : formatEth(addr)
   }
 }
+
+export function isZeroAddress(addr) {
+  return confluxAddr.decode(addr).type === 'null'
+}

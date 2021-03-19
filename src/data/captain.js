@@ -65,7 +65,9 @@ function fetcher(key, reference, address, chain, decimals) {
       minimal_mint_value,
       minimal_burn_value,
     ]) => {
-      console.log('burn_fee', burn_fee + 'decimals', decimals)
+      console.log('minMortgage', minMortgage + '')
+      console.log('currentMortgage', currentMortgage + '')
+
       const cooldownMinutes = parseInt(defaultCooldown) / 60
       const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))
       return {
