@@ -65,7 +65,6 @@ function TokenList({
     }
   }, [searchedList, setNotFound])
 
-  console.log('searchedList',searchedList)
 
   return (
     <>
@@ -143,7 +142,6 @@ function TokenList({
                   : undefined
               )
               .map((tokenInfo, i) => {
-                console.log('tokenInfo', tokenInfo)
                 return (
                   <TokenRow
                     key={i}
