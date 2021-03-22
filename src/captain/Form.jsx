@@ -14,6 +14,7 @@ import createInput from './createInput'
 import getFields from './fields'
 import Modal from '../component/Modal'
 import close from './close.svg'
+import warning from './warning.svg'
 
 import Button from '../component/Button/Button'
 import styled from 'styled-components'
@@ -128,7 +129,12 @@ export default function CaptainForm({
             cooldownMinutes,
           }}
         />
-        {!isMe && !isMortgageLow ? <Text>{t('be-captain-txt')}</Text> : null}
+        {!isMe && !isMortgageLow ? (
+          <Text>
+            <img src={warning}></img>
+            {t('be-captain-txt')}
+          </Text>
+        ) : null}
         <form onSubmit={handleSubmit(onSubmit)}>
           {fields.slice(0, 5).map((props) =>
             createInput({
@@ -198,6 +204,11 @@ export default function CaptainForm({
 const Text = styled.div`
   margin-top: 1rem;
   color: white;
-  text-align: center;
   font-size: 14px;
+  display: flex;
+  img {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+  }
 `
