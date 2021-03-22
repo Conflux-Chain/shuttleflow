@@ -32,7 +32,7 @@ export default function getFields({
             errOrPlaceholder = t('is-zero', { value: currentValue })
             validate = validate.isZero(errOrPlaceholder)
           } else if (currentValue > 0) {
-            errOrPlaceholder = t('error.less-than', { value: currentValue })
+            errOrPlaceholder = t('error.less-than-eq', { value: currentValue })
             validate = validate.lessThanEq(currentValue, errOrPlaceholder)
           }
         } else {
