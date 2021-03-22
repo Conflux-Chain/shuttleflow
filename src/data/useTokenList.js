@@ -20,6 +20,7 @@ function fetcher(key, searchOrPair, chain, cToken) {
         : pair === CHAIN_SINGLE_PAIR
         ? null
         : tokenMap[pair] ||
+          //pair is not present in tokenlist but searchable
           CHAIN_CONFIG[chain].searchList(tokenList, pair).then((x) => x[0])
     }
     if (!search) {
@@ -37,7 +38,7 @@ export default function useTokenList({ pair, search, cToken } = {}) {
   return useSWR(
     pair ? ['pair', pair, chain] : ['search', search, chain, cToken],
     fetcher,
-    { suspense: true }
+    { suspense: true, revalidateOnMount: true }
   ).data
 }
 

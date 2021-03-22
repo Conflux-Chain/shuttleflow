@@ -13,7 +13,9 @@
     "below-out-amount": "The value must be smaller than the minimum Shuttle-Out amount",
     "above-in-fee": "The value must be greater than or equal to the Shuttle-In fee",
     "above-out-fee": "The value must be greater than or equal to the Shuttle-Out fee",
-    "above-current": "The value must be greater than the minimum collateral amount"
+    "above-current": "The value must be greater than the minimum collateral amount",
+    "less-than": "需要小于 {{value}}",
+    "less-than-eq": "需要小于等于 {{value}}"
   },
   "min-mortgage": "Minimum Collateral Amount {{minMortgage}} cETH",
   "ceth-balance": "Balance {{amount}} cETH",
@@ -30,5 +32,8 @@
   "supported": "已支持的代币",
   "support": "支持代币",
   "config": "设置",
-  "configuring": "配置中"
+  "configuring": "配置中",
+  "be-captain-txt": "您要竞选该服务商，需要给出更优的价格",
+  "need-zero": "需要为 0",
+  "compete-captain": "竞选服务商"
 }

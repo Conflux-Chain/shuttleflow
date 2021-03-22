@@ -202,7 +202,9 @@ export default function ShuttleOut({ tokenInfo }) {
             <div className={shuttleCx('small-text')}>
               <span> {t('min-amount', tokenInfo)}</span>
               <WithQuestion onClick={() => setFeePopup(true)}>
-                <span>{t('fee', tokenInfo)}</span>
+                <span>
+                  {chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}
+                </span>
               </WithQuestion>
             </div>
 
@@ -348,7 +350,7 @@ export default function ShuttleOut({ tokenInfo }) {
                     ? t('wallet-create-fee', tokenInfo)
                     : '',
               }}
-              i18nKey="popup-fee"
+              i18nKey={chain === 'btc' ? 'miner-fee-content' : 'popup-fee'}
               t={t}
             ></Trans>
           </div>

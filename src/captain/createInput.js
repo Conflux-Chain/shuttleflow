@@ -8,6 +8,7 @@ export default function createInput({
   name,
   readOnly,
   onReadonly,
+  placeholder,
   unit,
   decimals,
   errors,
@@ -42,7 +43,7 @@ export default function createInput({
           readOnly={readOnly}
           data-lpignore="true"
           className={inputCx('input-common') + ' ' + formCx('input')}
-          placeholder={t('enter')}
+          placeholder={placeholder}
           onKeyDown={(e) => {
             oldValue = e.target.value
           }}

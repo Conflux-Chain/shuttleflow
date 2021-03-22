@@ -79,22 +79,27 @@ export default function Header({
             {supported ? pendingCount : '--'}
           </span>
         </div>
-        <div className={formCx('second-item')}>
-          <div className={formCx('small-text')}>
-            <WithQuestion onClick={() => setCooldownPopup(true)}>
-              {t('countdown')}
-            </WithQuestion>
+        {isMe && (
+          <div className={formCx('second-item')}>
+            <div className={formCx('small-text')}>
+              <WithQuestion onClick={() => setCooldownPopup(true)}>
+                {t('countdown')}
+              </WithQuestion>
+            </div>
+            <div
+              className={formCx('large-text')}
+              style={{ marginLeft: '1rem' }}
+            >
+              {!supported ? (
+                '--'
+              ) : countdown && countdown !== 0 ? (
+                <Countdown initValue={countdown} />
+              ) : (
+                formatSec(0)
+              )}
+            </div>
           </div>
-          <div className={formCx('large-text')} style={{ marginLeft: '1rem' }}>
-            {!supported ? (
-              '--'
-            ) : countdown && countdown !== 0 ? (
-              <Countdown initValue={countdown} />
-            ) : (
-              formatSec(0)
-            )}
-          </div>
-        </div>
+        )}
       </div>
       <Modal
         show={cooldownPopup}

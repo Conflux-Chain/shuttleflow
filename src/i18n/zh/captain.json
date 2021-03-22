@@ -13,7 +13,9 @@
     "below-out-amount": "数值必须小于最小跨出数量",
     "above-in-fee": "数值必须大于等于跨入手续费",
     "above-out-fee": "数值必须大于等于跨出手续费",
-    "above-current": "数值必须大于最小抵押量"
+    "above-current": "数值必须大于最小抵押量",
+    "less-than": "需要小于 {{value}}",
+    "less-than-eq": "需要小于等于 {{value}}"
   },
   "min-mortgage": "最小抵押数量 {{minMortgage}} cETH",
   "ceth-balance": "钱包余额 {{amount}} cETH",
@@ -30,5 +32,8 @@
   "supported": "已支持的代币",
   "support": "支持代币",
   "config": "设置",
-  "configuring": "配置中"
+  "configuring": "配置中",
+  "be-captain-txt": "您要竞选该服务商，需要给出更优的价格",
+  "need-zero": "需要为 0",
+  "compete-captain": "竞选服务商"
 }

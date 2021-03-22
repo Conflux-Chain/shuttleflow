@@ -16,8 +16,8 @@ import Modal from '../component/Modal'
 import close from './close.svg'
 
 import Button from '../component/Button/Button'
-import { ensureAddressForSdk } from '../util/address'
-
+import styled from 'styled-components'
+import { isZeroAddress } from '../util/address'
 export default function CaptainForm({
   pendingCount,
   countdown,
@@ -40,9 +40,13 @@ export default function CaptainForm({
   decimals,
   minMortgageBig,
   currentMortgageBig,
-  defaultMortgageBig,
   cethBalanceDisplay,
+  safeSponsorAmount,
 }) {
+  //the data from tokenList is not accurate
+  //tell based on the contract
+  supported = supported || !isZeroAddress(sponsor)
+
   const { t } = useTranslation(['captain'])
   const [inputCx, formCx] = useStyle(inputStyles, formStyles)
   const [mortgagePopup, setMortgagePopup] = useState(false)
@@ -51,12 +55,13 @@ export default function CaptainForm({
   function clickLabel() {
     setMortgagePopup(true)
   }
-  const isMe = address === ensureAddressForSdk(sponsor)
+  const isMe = address === sponsor
+  const isMortgageLow = safeSponsorAmount.gt(currentMortgageBig)
+  const isLoacking = countdown > 0
+
   const [showMortgage, setShowMortgage] = useState(!isMe)
 
   const onSubmit = (data) => {
-    // return
-    console.log(data)
     beCaptain({
       amount: data.mortgage_amount,
       burnFee: data.burn_fee,
@@ -67,18 +72,21 @@ export default function CaptainForm({
     })
   }
   const fields = getFields({
+    t,
     reference_symbol,
     symbol,
     out_fee,
     in_fee,
     minimal_out_value,
     minimal_in_value,
-    countdown,
+    isLoacking,
     decimals,
     wallet_fee,
     showMortgage,
     cethBalanceBig,
-    defaultMortgageBig,
+    minMortgageBig,
+    isMe,
+    isMortgageLow,
   })
 
   const { defaultValues, schema } = fields.reduce(
@@ -120,6 +128,7 @@ export default function CaptainForm({
             cooldownMinutes,
           }}
         />
+        {!isMe && !isMortgageLow ? <Text>{t('be-captain-txt')}</Text> : null}
         <form onSubmit={handleSubmit(onSubmit)}>
           {fields.slice(0, 5).map((props) =>
             createInput({
@@ -165,12 +174,8 @@ export default function CaptainForm({
             </>
           )}
 
-          <Button
-            type="submit"
-            disabled={!showMortgage && countdown !== 0}
-            className={formCx('btn')}
-          >
-            {isMe ? t('update') : t('be-captain')}
+          <Button type="submit" className={formCx('btn')}>
+            {isMe ? t('update') : t('compete-captain')}
           </Button>
         </form>
       </PaddingContainer>
@@ -189,3 +194,10 @@ export default function CaptainForm({
     </>
   )
 }
+
+const Text = styled.div`
+  margin-top: 1rem;
+  color: white;
+  text-align: center;
+  font-size: 14px;
+`

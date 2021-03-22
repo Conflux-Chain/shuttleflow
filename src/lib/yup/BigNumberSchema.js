@@ -8,7 +8,6 @@ export default class BigSchema extends BaseSchema {
     super({ type: 'bigNumber' })
     this.withMutation(() => {
       this.transform(function (value) {
-        console.log(value)
         if (typeof value === 'string') {
           try {
             value = new Big(value)
@@ -34,10 +33,21 @@ export default class BigSchema extends BaseSchema {
     })
   }
 
+  isZero(message) {
+    return this.test({
+      message,
+      name: 'is-zero',
+      exclusive: true,
+      test(value) {
+        return value instanceof Big ? value.eq('0') : true
+      },
+    })
+  }
+
   greaterThan(key, message) {
     return this.test({
       message,
-      name: 'greater',
+      name: 'greaterThan',
       exclusive: true,
       test(params) {
         const {
@@ -58,6 +68,26 @@ export default class BigSchema extends BaseSchema {
     return this.test({
       message,
       name: 'max',
+      exclusive: true,
+      test(params) {
+        return params.lte(value)
+      },
+    })
+  }
+  lessThan(value, message) {
+    return this.test({
+      message,
+      name: 'lessThan',
+      exclusive: true,
+      test(params) {
+        return params.lt(value)
+      },
+    })
+  }
+  lessThanEq(value, message) {
+    return this.test({
+      message,
+      name: 'lessThanEq',
       exclusive: true,
       test(params) {
         return params.lte(value)
