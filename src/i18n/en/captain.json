@@ -14,7 +14,8 @@
     "above-in-fee": "The value must be greater than or equal to the Shuttle-In fee",
     "above-out-fee": "The value must be greater than or equal to the Shuttle-Out fee",
     "above-current": "The value must be greater than the minimum collateral amount",
-    "less-than": "需要小于 {{value}}"
+    "less-than": "需要小于 {{value}}",
+    "less-than-eq": "需要小于等于 {{value}}"
   },
   "min-mortgage": "Minimum Collateral Amount {{minMortgage}} cETH",
   "ceth-balance": "Balance {{amount}} cETH",
