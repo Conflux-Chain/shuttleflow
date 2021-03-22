@@ -24,24 +24,25 @@ export default function getFields({
   function createField({ name, label, unit, currentValue, greaterThan }) {
     let validate = basicValidate()
     let errOrPlaceholder
+
+    console.log('currentValue', currentValue > 0)
     if (isMortgageLow) {
     } else {
       if (isMe) {
         if (isLocking) {
-          if (currentValue === 0) {
-            errOrPlaceholder = t('is-zero', { value: currentValue })
+          if (currentValue.eq('0')) {
+            errOrPlaceholder = t('need-zero', { value: currentValue })
             validate = validate.isZero(errOrPlaceholder)
-          } else if (currentValue > 0) {
+          } else {
             errOrPlaceholder = t('error.less-than-eq', { value: currentValue })
             validate = validate.lessThanEq(currentValue, errOrPlaceholder)
           }
-        } else {
         }
       } else {
-        if (currentValue === 0) {
-          errOrPlaceholder = t('is-zero', { value: currentValue })
+        if (currentValue.eq('0')) {
+          errOrPlaceholder = t('need-zero', { value: currentValue })
           validate = validate.isZero(errOrPlaceholder)
-        } else if (currentValue > 0) {
+        } else {
           errOrPlaceholder = t('error.less-than', { value: currentValue })
           validate = validate.lessThan(currentValue, errOrPlaceholder)
         }
