@@ -19,20 +19,44 @@ export default function getFields({
   t,
   isMe,
   isMortgageLow,
-  isLoacking,
+  isLoacking: isLocking,
 }) {
   function createField({ name, label, unit, currentValue, greaterThan }) {
     let validate = basicValidate()
     let errOrPlaceholder
-    if (!isMortgageLow || (isMe && isLoacking)) {
-      if (currentValue === 0) {
-        errOrPlaceholder = t('is-zero', { value: currentValue })
-        validate = validate.isZero(errOrPlaceholder)
-      } else if (currentValue > 0) {
-        errOrPlaceholder = t('error.less-than', { value: currentValue })
-        validate = validate.lessThan(currentValue, errOrPlaceholder)
+    if (isMortgageLow) {
+    } else {
+      if (isMe) {
+        if (isLocking) {
+          if (currentValue === 0) {
+            errOrPlaceholder = t('is-zero', { value: currentValue })
+            validate = validate.isZero(errOrPlaceholder)
+          } else if (currentValue > 0) {
+            errOrPlaceholder = t('error.less-than', { value: currentValue })
+            validate = validate.lessThanEq(currentValue, errOrPlaceholder)
+          }
+        } else {
+        }
+      } else {
+        if (currentValue === 0) {
+          errOrPlaceholder = t('is-zero', { value: currentValue })
+          validate = validate.isZero(errOrPlaceholder)
+        } else if (currentValue > 0) {
+          errOrPlaceholder = t('error.less-than', { value: currentValue })
+          validate = validate.lessThan(currentValue, errOrPlaceholder)
+        }
       }
     }
+
+    // if (!isMortgageLow || (isMe && isLocking)) {
+    //   if (currentValue === 0) {
+    //     errOrPlaceholder = t('is-zero', { value: currentValue })
+    //     validate = validate.isZero(errOrPlaceholder)
+    //   } else if (currentValue > 0) {
+    //     errOrPlaceholder = t('error.less-than', { value: currentValue })
+    //     validate = validate.lessThan(currentValue, errOrPlaceholder)
+    //   }
+    // }
     if (greaterThan) {
       const { ref, msg } = greaterThan
       validate = validate.greaterThan(ref, msg)

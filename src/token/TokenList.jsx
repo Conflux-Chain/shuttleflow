@@ -65,6 +65,7 @@ function TokenList({
     }
   }, [searchedList, setNotFound])
 
+
   return (
     <>
       {/* we should combine frequent token and tokenlist in one component 

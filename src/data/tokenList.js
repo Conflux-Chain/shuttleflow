@@ -10,7 +10,7 @@ const chainDataStore = {}
 function buildMap(tokenList) {
   const tokenMap = tokenList.reduce((pre, cur) => {
     if (cur.reference) {
-      pre[cur.reference] = { ...cur, fromRef: true } //operation history data
+      pre[cur.reference.toLowerCase()] = { ...cur, fromRef: true } //operation history data
     }
     if (cur.ctoken) {
       pre[cur.ctoken] = { ...cur, fromCtoken: true } //operation history data
@@ -32,7 +32,9 @@ export const getTokenList = (chain) => {
 
 //It can be updated dynamicallt when searched token come through
 export function updateTokenList(chain, data) {
-  return chainDataStore[chain] = chainDataStore[chain].then(({ tokenList }) => {
-    return buildMap([...tokenList, listItemMapper(data)])
-  })
+  return (chainDataStore[chain] = chainDataStore[chain].then(
+    ({ tokenList }) => {
+      return buildMap([...tokenList, listItemMapper(data)])
+    }
+  ))
 }

@@ -84,6 +84,16 @@ export default class BigSchema extends BaseSchema {
       },
     })
   }
+  lessThanEq(value, message) {
+    return this.test({
+      message,
+      name: 'lessThanEq',
+      exclusive: true,
+      test(params) {
+        return params.lte(value)
+      },
+    })
+  }
   min(value, message) {
     return this.test({
       message,

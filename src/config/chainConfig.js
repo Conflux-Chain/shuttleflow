@@ -64,9 +64,11 @@ const config = {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
     searchList: function filterEth(list, search) {
-      // throw
+      console.log(list, search)
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
+
+      console.log('isEthAddress', isEthAddress)
       if (isEthAddress) {
         return Promise.resolve(
           list.filter(
@@ -83,9 +85,10 @@ const config = {
             }).then((result) => {
               if (result && result.is_valid_erc20) {
                 const token = result
+
                 const data = updateTokenList('eth', token)
                 return data.then(({ tokenMap }) => {
-                  return [tokenMap[search]]
+                  return [tokenMap[lowersearch]]
                 })
               } else {
                 return []
@@ -272,6 +275,6 @@ const config = {
   },
 }
 
-export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
+export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc', 'heco']
 
 export default config
