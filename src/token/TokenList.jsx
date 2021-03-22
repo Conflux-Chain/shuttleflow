@@ -65,6 +65,8 @@ function TokenList({
     }
   }, [searchedList, setNotFound])
 
+  console.log('searchedList',searchedList)
+
   return (
     <>
       {/* we should combine frequent token and tokenlist in one component 
@@ -141,6 +143,7 @@ function TokenList({
                   : undefined
               )
               .map((tokenInfo, i) => {
+                console.log('tokenInfo', tokenInfo)
                 return (
                   <TokenRow
                     key={i}
