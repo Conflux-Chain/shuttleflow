@@ -55,7 +55,7 @@ const config = {
   eth: {
     icon: ethSrc,
     subIcon: ethSubSrc,
-    token:'cETH',
+    token: 'cETH',
     tk_url: ETH_SCAN_URL + '/token/',
     tx_url: ETH_SCAN_URL + '/tx/',
     cAddress: IS_DEV
@@ -65,18 +65,15 @@ const config = {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
     searchList: function filterEth(list, search) {
-      console.log(list, search)
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
 
-      console.log('isEthAddress', isEthAddress)
       if (isEthAddress) {
         return Promise.resolve(
           list.filter(
             ({ reference }) => reference.toLowerCase() === lowersearch
           )
         ).then((list) => {
-          console.log('result', list)
           if (list.length === 1) {
             return list
           } else {
@@ -87,7 +84,7 @@ const config = {
               if (result && result.is_valid_erc20) {
                 const token = result
 
-                const data = updateTokenList('eth', token)
+                const data = updateTokenList('eth', { ...token, origin: 'eth' })
                 return data.then(({ tokenMap }) => {
                   return [tokenMap[lowersearch]]
                 })
@@ -173,7 +170,7 @@ const config = {
   bsc: {
     icon: bscSrc,
     subIcon: bscSubSrc,
-    token:'cBNB',
+    token: 'cBNB',
     tk_url: BSC_SCAN_URL + '/address/',
     tx_url: BSC_SCAN_URL + '/tx/',
     captain: CAPTAIN.NONE,

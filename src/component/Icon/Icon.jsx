@@ -3,10 +3,8 @@ import riskSrc from './risk.svg'
 import styled from 'styled-components'
 import { useParams } from 'react-router'
 import CHAIN_CONFIG from '../../config/chainConfig'
+import { useTranslation } from 'react-i18next'
 
-function ListCx() {
-  return ''
-}
 export default function Icon({
   icon,
   origin,
@@ -30,6 +28,7 @@ export default function Icon({
   const symbolName = cToken ? symbol : reference_symbol
   const fullname = cToken ? name : reference_name
   const notAvailable = supported === 0
+  const { t } = useTranslation(['token'])
 
   return (
     <Container {...props} style={{ ...style }}>
@@ -50,11 +49,7 @@ export default function Icon({
                 : symbolName}
             </Symbol>
 
-            {notAvailable && (
-              <span className={ListCx('not-available')}>
-                {t('not-available')}
-              </span>
-            )}
+            {notAvailable && <NotAvailable>{t('not-available')}</NotAvailable>}
           </SymbolRow>
 
           <Name>
@@ -120,4 +115,15 @@ const Symbol = styled.div`
 const Name = styled.span`
   color: rgba(255, 255, 255, 0.4);
   font-size: 14px;
+`
+const NotAvailable = styled.span`
+  margin-left: 8px;
+  padding: 0 6px;
+  font-size: 12px;
+  height: 20px;
+  line-height: 20px;
+  color: black;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.3);
+  vertical-align: middle;
 `

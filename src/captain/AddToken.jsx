@@ -16,6 +16,7 @@ export default function AddToken() {
   const { pair } = useUrlSearch()
   const tokenInfo = useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
 
+  console.log('tokenInfo', tokenInfo)
   const [fromChain, setFromChain] = useState(tokenInfo ? tokenInfo.origin : '')
   const [toChain, setToChain] = useState(tokenInfo ? tokenInfo.to_chain : '')
 
