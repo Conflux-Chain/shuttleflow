@@ -18,8 +18,9 @@ export default function TokenInput({
   displayCopy,
   chain,
   disabled,
-  next,
+  captain,
 }) {
+
   const history = useHistory()
   const isSmall = useIsSamll()
   const { chain: urlChain } = useParams()
@@ -66,8 +67,9 @@ export default function TokenInput({
                   history.push({
                     pathname: `/${chain}/token`,
                     search: buildSearch({
-                      next: next || match.url,
+                      next: match.url,
                       ...(cToken && { cToken: 1 }),
+                      ...(captain && { captain: 1 }),
                     }),
                   })
                 }

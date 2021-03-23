@@ -63,6 +63,7 @@ export default function ChooseToken({ captain, cToken, next }) {
           {[
             <Button
               key="btn"
+              fullWidth
               className={chooseCx('btn')}
               onClick={() => {
                 history.push(

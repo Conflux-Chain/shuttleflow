@@ -65,7 +65,6 @@ function TokenList({
     }
   }, [searchedList, setNotFound])
 
-
   return (
     <>
       {/* we should combine frequent token and tokenlist in one component 
@@ -183,24 +182,17 @@ function TokenRow({
   const {
     supported,
     in_token_list,
-    reference_symbol,
-    reference_name,
     reference,
     sponsor_value,
-    name,
-    symbol,
-    id,
     ctoken,
   } = tokenInfo
   const [ListCx] = useStyle(tokenListStyles, titleStyles)
-  const { t } = useTranslation(['token'])
   const notAvailable = supported === 0
   const block = useBlockWithRisk()
   const link = cToken
     ? `${CONFLUXSCAN_TK}${ctoken}`
     : `${CHAIN_CONFIG[chain]['tk_url']}${reference}`
-  const fullname = cToken ? name : reference_name
-  const symbolName = cToken ? symbol : reference_symbol
+
 
   const address = cToken
     ? ctoken !== 'cfx' && ctoken

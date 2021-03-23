@@ -29,7 +29,6 @@ export default function Shuttle({ match: { path, url } }) {
   const { t } = useTranslation(['nav'])
   const inUrl = `${url}/in`
   const outUrl = `${url}/out`
-  const isSmall = useIsSamll()
   const [, setLayoutBottom] = useRecoilState(layoutBottomState)
   useEffect(() => {
     setLayoutBottom('8.5rem')

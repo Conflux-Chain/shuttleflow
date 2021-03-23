@@ -20,6 +20,7 @@ export const BaseButton = styled.button`
   margin: auto;
   font-weight: 500;
   white-space: nowrap;
+  width: ${(props) => (props.fullWidth ? '100%' : 'fit-content')};
   cursor: pointer;
   @media ${device.laptop} {
     font-size: 1.25rem;

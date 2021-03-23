@@ -1,25 +1,30 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams, useRouteMatch } from 'react-router'
+import { useHistory, useParams, useRouteMatch } from 'react-router'
 import styled from 'styled-components'
+import Button from '../component/Button/Button'
 import TokenInput from '../component/TokenInput/TokenInput'
+import { CHAIN_SINGLE_PAIR } from '../config/constant'
+import useTokenList from '../data/useTokenList'
 import Select from '../layout/Select'
+import useUrlSearch from '../lib/useUrlSearch'
 
-export default function Choose() {
-  const [fromChain, setFromChain] = useState()
-  const [toChain, setToChain] = useState()
-  const { t } = useTranslation()
+export default function AddToken() {
+  const { t } = useTranslation([])
   const { chain } = useParams()
-  const match = useRouteMatch()
+  const history = useHistory()
+  const { pair } = useUrlSearch()
+  const tokenInfo = useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
+
+  const [fromChain, setFromChain] = useState(tokenInfo ? tokenInfo.origin : '')
+  const [toChain, setToChain] = useState(tokenInfo ? tokenInfo.to_chain : '')
 
   //token can be choosen when both chains are specified
   const bothChain = fromChain && toChain
 
-  console.log(fromChain, toChain)
   const options = [
-    { value: 'Conflux', key: 'Conflux' },
+    { value: t('cfx'), key: 'cfx' },
     { value: t(chain), key: chain },
-    // { value: t('bsc'), key: 'bsc' },
   ]
 
   useEffect(() => {
@@ -27,8 +32,8 @@ export default function Choose() {
     //reset toChain
     if (fromChain === toChain) {
       setToChain('')
-    } else if (fromChain !== 'Conflux') {
-      setToChain('Conflux')
+    } else if (fromChain !== 'cfx') {
+      setToChain('cfx')
     }
   }, [fromChain])
 
@@ -43,9 +48,10 @@ export default function Choose() {
         </SelectContainer>
         <InputContainer>
           <TokenInput
-            next={`${match.url}/add`}
-            disabled={bothChain}
-            cToken={fromChain === 'Conflux'}
+            captain
+            tokenInfo={tokenInfo}
+            disabled={!bothChain}
+            cToken={fromChain === 'cfx'}
             placeholder={t('placeholder.out')}
           />
         </InputContainer>
@@ -62,12 +68,23 @@ export default function Choose() {
         </SelectContainer>
         <InputContainer>
           <TokenInput
-            cToken={toChain === 'Conflux'}
-            disabled={bothChain}
+            captain
+            tokenInfo={tokenInfo}
+            cToken={toChain === 'cfx'}
+            disabled={!bothChain}
             placeholder={t('placeholder.out')}
           />
         </InputContainer>
       </Row>
+      <Button
+        fullWidth
+        disabled={!pair}
+        onClick={() => {
+          history.push(`/${chain}/captain?pair=${pair}`)
+        }}
+      >
+        Next
+      </Button>
     </div>
   )
 }

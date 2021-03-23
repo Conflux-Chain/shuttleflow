@@ -1,12 +1,11 @@
 import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
-// import Choose from '../token/Choose'
 import styles from './Captain.module.scss'
 import CaptainForm from './FormProvider'
 import CaptainCenter from './CaptainCenter'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
 import useUrlSearch from '../lib/useUrlSearch'
-import Choose from './Choose'
+import AddToken from './AddToken'
 
 export default function Captain() {
   const [cx] = useStyle(styles)
@@ -20,7 +19,7 @@ export default function Captain() {
     >
       {/* {pair?} */}
       <Switch>
-        <Route path={`${match.path}/add`} component={Choose}></Route>
+        <Route path={`${match.path}/add`} component={AddToken}></Route>
         {/* <Route path={`${match.path}/:pair`} component={Choose}>
           <CaptainForm pair={pair} />
         </Route> */}
