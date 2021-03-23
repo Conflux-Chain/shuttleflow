@@ -181,7 +181,11 @@ export default function CaptainForm({
           )}
 
           <Button type="submit" className={formCx('btn')}>
-            {isMe ? t('update') : t('compete-captain')}
+            {isMe
+              ? t('update')
+              : isMortgageLow
+              ? t('be-captain')
+              : t('compete-captain')}
           </Button>
         </form>
       </PaddingContainer>
@@ -206,6 +210,7 @@ const Text = styled.div`
   color: white;
   font-size: 14px;
   display: flex;
+  align-items: center;
   img {
     width: 16px;
     height: 16px;
