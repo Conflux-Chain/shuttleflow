@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router'
+import { useParams, useRouteMatch } from 'react-router'
 import styled from 'styled-components'
 import TokenInput from '../component/TokenInput/TokenInput'
 import Select from '../layout/Select'
@@ -10,6 +10,7 @@ export default function Choose() {
   const [toChain, setToChain] = useState()
   const { t } = useTranslation()
   const { chain } = useParams()
+  const match = useRouteMatch()
 
   //token can be choosen when both chains are specified
   const bothChain = fromChain && toChain
@@ -42,6 +43,7 @@ export default function Choose() {
         </SelectContainer>
         <InputContainer>
           <TokenInput
+            next={`${match.url}/add`}
             disabled={bothChain}
             cToken={fromChain === 'Conflux'}
             placeholder={t('placeholder.out')}

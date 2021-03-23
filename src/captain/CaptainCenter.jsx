@@ -15,14 +15,14 @@ export default function CaptainCenter() {
   const { t } = useTranslation(['captain'])
   console.log(data)
   const history = useHistory()
-
+  const match = useRouteMatch()
   return (
     <PaddingContainer top>
       <Title>
         <span>{t('supported')}</span>
         <Flex
           onClick={() => {
-            history.push({ search: 'choose=1' })
+            history.push(`${match.url}/add`)
           }}
           style={{ cursor: 'pointer' }}
         >

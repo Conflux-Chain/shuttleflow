@@ -18,7 +18,7 @@ export default function TokenInput({
   displayCopy,
   chain,
   disabled,
-  next
+  next,
 }) {
   const history = useHistory()
   const isSmall = useIsSamll()
@@ -66,7 +66,7 @@ export default function TokenInput({
                   history.push({
                     pathname: `/${chain}/token`,
                     search: buildSearch({
-                      next: match.url,
+                      next: next || match.url,
                       ...(cToken && { cToken: 1 }),
                     }),
                   })
