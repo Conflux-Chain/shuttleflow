@@ -1,4 +1,3 @@
-import { ensureAddressForSdk } from '../util/address'
 import { getCustodianContract } from './contract'
 
 export default function createBeCaptain(userAddress, reference) {

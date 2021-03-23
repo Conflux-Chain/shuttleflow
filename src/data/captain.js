@@ -24,9 +24,7 @@ function fetcher(key, reference, address, chain) {
       url: 'node',
       params: [reference],
     }),
-    getCustodianContract()
-      .token_cooldown(ensureAddressForSdk(reference))
-      .call(),
+    getCustodianContract().token_cooldown(reference).call(),
     getCustodianContract().minimal_sponsor_amount().call(),
     getCustodianContract().default_cooldown().call(),
     getSponsorContract().sponsor_replace_ratio().call(),
