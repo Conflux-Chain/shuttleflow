@@ -30,8 +30,8 @@
   "choose-chain": "Choose Chain Pair",
   "footer": {
     "whitepaper": "LightPaper",
-    "doc": "使用文档",
+    "doc": "Documentation",
     "spec": "Description",
-    "faq": "常见问题"
+    "faq": "FAQS"
   }
 }

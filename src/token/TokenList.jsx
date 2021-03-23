@@ -200,8 +200,8 @@ function TokenRow({
     ? `${CONFLUXSCAN_TK}${ctoken}`
     : `${CHAIN_CONFIG[chain]['tk_url']}${reference}`
   const fullname = cToken ? name : reference_name
-
   const symbolName = cToken ? symbol : reference_symbol
+
   const address = cToken
     ? ctoken !== 'cfx' && ctoken
     : reference.startsWith('0x')
