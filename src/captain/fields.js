@@ -25,7 +25,6 @@ export default function getFields({
     let validate = basicValidate()
     let errOrPlaceholder
 
-    console.log('currentValue', currentValue > 0)
     if (isMortgageLow) {
     } else {
       if (isMe) {
@@ -49,15 +48,6 @@ export default function getFields({
       }
     }
 
-    // if (!isMortgageLow || (isMe && isLocking)) {
-    //   if (currentValue === 0) {
-    //     errOrPlaceholder = t('is-zero', { value: currentValue })
-    //     validate = validate.isZero(errOrPlaceholder)
-    //   } else if (currentValue > 0) {
-    //     errOrPlaceholder = t('error.less-than', { value: currentValue })
-    //     validate = validate.lessThan(currentValue, errOrPlaceholder)
-    //   }
-    // }
     if (greaterThan) {
       const { ref, msg } = greaterThan
       validate = validate.greaterThan(ref, msg)
@@ -110,7 +100,7 @@ export default function getFields({
   ]
     .map(createField)
     .concat({
-      label: 'morgage-amount',
+      label: 'mortgage-amount',
       name: 'mortgage_amount',
       unit: 'cETH',
       validate: showMortgage

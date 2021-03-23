@@ -7,7 +7,7 @@
   "shuttle-in-amount": "最小跨入数量",
   "shuttle-out-amount": "最小跨出数量",
   "create-fee": "创建新地址手续费",
-  "morgage-amount": "抵押数量",
+  "mortgage-amount": "抵押余额",
   "error": {
     "below-in-amount": "数值必须小于最小跨入数量",
     "below-out-amount": "数值必须小于最小跨出数量",
@@ -29,6 +29,10 @@
   "popup-cool": "为了避免规则频繁波动，规则修改后有{{cooldownMinutes}}分钟的冻结时间，解冻后方可再次修改",
   "me": "您是此代币服务商",
   "locked": "规则冻结期内，暂时无法修改",
+  "supported": "已支持的代币",
+  "support": "支持代币",
+  "config": "设置",
+  "configuring": "配置中",
   "be-captain-txt": "您要竞选该服务商，需要给出更优的价格",
   "need-zero": "需要为 0",
   "compete-captain": "竞选服务商"
