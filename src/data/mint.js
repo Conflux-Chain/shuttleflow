@@ -4,7 +4,7 @@ import jsonrpc from './jsonrpc'
 
 export default function mint(addr, amount, chain, ctoken) {
   let selectedAddress = window.conflux.selectedAddress
-  addr = ensureAddressForSdk(addr)
+  addr = addr
   ctoken = ensureAddressForSdk(ctoken)
   selectedAddress = ensureAddressForSdk(selectedAddress)
 
