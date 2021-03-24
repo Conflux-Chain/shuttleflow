@@ -50,6 +50,7 @@ export default function AddToken() {
         <InputContainer>
           <TokenInput
             captain
+            chainFilter={fromChain}
             tokenInfo={tokenInfo}
             disabled={!bothChain}
             cToken={fromChain === 'cfx'}
@@ -70,6 +71,7 @@ export default function AddToken() {
         <InputContainer>
           <TokenInput
             captain
+            chainFilter={toChain}
             tokenInfo={tokenInfo}
             cToken={toChain === 'cfx'}
             disabled={!bothChain}

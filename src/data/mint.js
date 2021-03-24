@@ -18,6 +18,7 @@ export default function mint(addr, amount, chain, ctoken) {
       'out',
     ],
   }).then((address) => {
+    
     if (ctoken === 'cfx') {
       return window.confluxJS
         .sendTransaction({
