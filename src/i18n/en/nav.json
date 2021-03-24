@@ -33,5 +33,10 @@
     "doc": "Documentation",
     "spec": "Description",
     "faq": "FAQS"
+  },
+  "error": {
+    "block-portal-title": "Please update wallet ",
+    "block-portal-content": "Wallet version is too low. ",
+    "block-portal-update": "Update"
   }
 }

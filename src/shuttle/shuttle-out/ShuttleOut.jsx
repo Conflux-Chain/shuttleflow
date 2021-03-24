@@ -104,11 +104,9 @@ export default function ShuttleOut({ tokenInfo }) {
   //not necessarily trigger render
   const tx = useRef('')
   const onSubmit = (data) => {
-    console.log('data', data)
     let { outwallet, outamount } = data
     const { out_fee, ctoken, origin } = tokenInfo
 
-    console.log(tokenInfo)
     CHAIN_CONFIG[chain]
       .checkAddress(outwallet, blockShuttleout, t)
       .then((result) => {

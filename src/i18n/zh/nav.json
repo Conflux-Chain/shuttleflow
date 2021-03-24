@@ -33,5 +33,10 @@
     "doc": "使用文档",
     "spec": "汇率与费用",
     "faq": "常见问题"
+  },
+  "error": {
+    "block-portal-title": "请更新钱包 ",
+    "block-portal-content": "钱包版本过低。",
+    "block-portal-update": "去更新"
   }
 }
