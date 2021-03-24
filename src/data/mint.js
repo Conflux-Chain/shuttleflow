@@ -1,12 +1,11 @@
-import { ensureAddressForSdk } from '../util/address'
 import { getErc20Contract } from './contract'
 import jsonrpc from './jsonrpc'
 
 export default function mint(addr, amount, chain, ctoken) {
   let selectedAddress = window.conflux.selectedAddress
-  addr = ensureAddressForSdk(addr)
-  ctoken = ensureAddressForSdk(ctoken)
-  selectedAddress = ensureAddressForSdk(selectedAddress)
+  addr = addr
+  ctoken = ctoken
+  selectedAddress = selectedAddress
 
   return jsonrpc('getUserWallet', {
     url: 'node',
@@ -18,7 +17,6 @@ export default function mint(addr, amount, chain, ctoken) {
       'out',
     ],
   }).then((address) => {
-    address = ensureAddressForSdk(address)
     if (ctoken === 'cfx') {
       return window.confluxJS
         .sendTransaction({
