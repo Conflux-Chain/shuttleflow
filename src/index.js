@@ -10,9 +10,13 @@ Big.NE = -20
 window.document.body.style.overflow = 'hidden'
 import './global.css'
 
+const isNew = window.ConfluxJSSDK
+  ? window.ConfluxJSSDK?.format?.hexAddress
+  : true
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {isNew ? <App /> : <h1>Update conflux portal to latest</h1>}
   </React.StrictMode>,
   document.getElementById('root')
 )
