@@ -1,83 +1,114 @@
 import { big } from '../lib/yup/BigNumberSchema'
 
 const basicValidate = () => {
-  return big().typeError('error.number').aboveZero('error.above-zero')
+  return big()
 }
 
 export default function getFields({
   reference_symbol,
   symbol,
-
   out_fee,
   in_fee,
   minimal_out_value,
   minimal_in_value,
-  countdown,
   decimals,
   wallet_fee,
   showMortgage,
   cethBalanceBig,
-  defaultMortgageBig,
+  minMortgageBig,
+  t,
+  isMe,
+  isMortgageLow,
+  isLoacking: isLocking,
 }) {
-  symbol = symbol || 'c' + reference_symbol.toUpperCase()
+  function createField({ name, label, unit, currentValue, greaterThan }) {
+    let validate = basicValidate()
+    let errOrPlaceholder
+
+    if (isMortgageLow) {
+    } else {
+      if (isMe) {
+        if (isLocking) {
+          if (currentValue.eq('0')) {
+            errOrPlaceholder = t('need-zero', { value: currentValue })
+            validate = validate.isZero(errOrPlaceholder)
+          } else {
+            errOrPlaceholder = t('error.less-than-eq', { value: currentValue })
+            validate = validate.lessThanEq(currentValue, errOrPlaceholder)
+          }
+        }
+      } else {
+        if (currentValue.eq('0')) {
+          errOrPlaceholder = t('need-zero', { value: currentValue })
+          validate = validate.isZero(errOrPlaceholder)
+        } else {
+          errOrPlaceholder = t('error.less-than', { value: currentValue })
+          validate = validate.lessThan(currentValue, errOrPlaceholder)
+        }
+      }
+    }
+
+    if (greaterThan) {
+      const { ref, msg } = greaterThan
+      validate = validate.greaterThan(ref, msg)
+    }
+    return {
+      name,
+      label,
+      unit,
+      decimals,
+      defaultValue: isMe ? currentValue : undefined,
+      placeholder: isMortgageLow ? t('enter') : errOrPlaceholder,
+      validate,
+    }
+  }
+
   return [
     {
       name: 'mint_fee',
       label: 'shuttle-in-fee',
       unit: symbol,
-      decimals,
-      validate: basicValidate(),
-      defaultValue: in_fee,
-      readOnly: countdown !== 0,
+      currentValue: in_fee,
     },
     {
       label: 'shuttle-in-amount',
-      unit: reference_symbol,
       name: 'minimal_mint_value',
-      defaultValue: minimal_in_value,
-      validate: basicValidate().greaterThan('mint_fee', 'error.above-in-fee'),
-      decimals,
-      readOnly: countdown !== 0,
+      unit: reference_symbol,
+      currentValue: minimal_in_value,
+      greaterThan: { ref: 'mint_fee', msg: 'error.above-in-fee' },
     },
     {
+      name: 'burn_fee',
       label: 'shuttle-out-fee',
       unit: symbol,
-      name: 'burn_fee',
-      defaultValue: out_fee,
-      validate: basicValidate(),
-      decimals,
-      readOnly: countdown !== 0,
+      currentValue: out_fee,
     },
     {
+      name: 'minimal_burn_value',
       label: 'shuttle-out-amount',
       unit: symbol,
-      name: 'minimal_burn_value',
-      defaultValue: minimal_out_value,
-      validate: basicValidate().greaterThan('burn_fee', 'error.above-out-fee'),
-      decimals,
-      readOnly: countdown !== 0,
+      currentValue: minimal_out_value,
+      greaterThan: { ref: 'burn_fee', msg: 'error.above-out-fee' },
     },
+
     {
-      label: 'create-fee',
       name: 'wallet_fee',
+      label: 'create-fee',
       unit: symbol,
-      defaultValue: wallet_fee,
-      validate: basicValidate(),
-      decimals,
-      readOnly: countdown !== 0,
-    },
-    {
-      label: 'morgage-amount',
-      name: 'mortgage_amount',
-      unit: 'cETH',
-      defaultValue: defaultMortgageBig + '',
-      validate: showMortgage
-        ? basicValidate()
-            .max(cethBalanceBig, 'error.insufficient')
-            .min(defaultMortgageBig, 'error.above-current')
-        : false,
-      decimals: 18,
-      readOnly: false,
+      currentValue: wallet_fee,
     },
   ]
+    .map(createField)
+    .concat({
+      label: 'mortgage-amount',
+      name: 'mortgage_amount',
+      unit: 'cETH',
+      validate: showMortgage
+        ? basicValidate()
+            .min(minMortgageBig, 'error.above-current')
+            .max(cethBalanceBig, 'error.insufficient')
+        : false,
+      decimals: 18,
+      placeholder: t('enter'),
+    })
 }

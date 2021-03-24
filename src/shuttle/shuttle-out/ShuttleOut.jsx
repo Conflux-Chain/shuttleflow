@@ -104,11 +104,9 @@ export default function ShuttleOut({ tokenInfo }) {
   //not necessarily trigger render
   const tx = useRef('')
   const onSubmit = (data) => {
-    console.log('data', data)
     let { outwallet, outamount } = data
     const { out_fee, ctoken, origin } = tokenInfo
 
-    console.log(tokenInfo)
     CHAIN_CONFIG[chain]
       .checkAddress(outwallet, blockShuttleout, t)
       .then((result) => {
@@ -202,7 +200,9 @@ export default function ShuttleOut({ tokenInfo }) {
             <div className={shuttleCx('small-text')}>
               <span> {t('min-amount', tokenInfo)}</span>
               <WithQuestion onClick={() => setFeePopup(true)}>
-                <span>{t('fee', tokenInfo)}</span>
+                <span>
+                  {chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}
+                </span>
               </WithQuestion>
             </div>
 
@@ -348,7 +348,7 @@ export default function ShuttleOut({ tokenInfo }) {
                     ? t('wallet-create-fee', tokenInfo)
                     : '',
               }}
-              i18nKey="popup-fee"
+              i18nKey={chain === 'btc' ? 'miner-fee-content' : 'popup-fee'}
               t={t}
             ></Trans>
           </div>

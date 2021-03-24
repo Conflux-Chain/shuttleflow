@@ -65,9 +65,10 @@ const config = {
     },
     searchList: function filterEth(list, search) {
       console.log(list, search)
-      // throw
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
+
+      console.log('isEthAddress', isEthAddress)
       if (isEthAddress) {
         return Promise.resolve(
           list.filter(
@@ -82,13 +83,13 @@ const config = {
               url: 'sponsor',
               params: [search],
             }).then((result) => {
-              console.log('rearch', result)
               if (result && result.is_valid_erc20) {
                 const token = result
 
-                // token.id = 'create' + createId++
-                updateTokenList('eth', token)
-                return [token]
+                const data = updateTokenList('eth', token)
+                return data.then(({ tokenMap }) => {
+                  return [tokenMap[lowersearch]]
+                })
               } else {
                 return []
               }

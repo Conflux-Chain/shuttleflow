@@ -1,12 +1,11 @@
-import { ensureAddressForSdk } from '../util/address'
 import { getErc20Contract } from './contract'
 import jsonrpc from './jsonrpc'
 
 export default function mint(addr, amount, chain, ctoken) {
   let selectedAddress = window.conflux.selectedAddress
   addr = addr
-  ctoken = ensureAddressForSdk(ctoken)
-  selectedAddress = ensureAddressForSdk(selectedAddress)
+  ctoken = ctoken
+  selectedAddress = selectedAddress
 
   return jsonrpc('getUserWallet', {
     url: 'node',

@@ -7,13 +7,15 @@
   "shuttle-in-amount": "Minimum Shuttle-In Amount",
   "shuttle-out-amount": "Minimum Shuttle-Out Amount",
   "create-fee": "New Address Creation Fee",
-  "morgage-amount": "Collateral Amount",
+  "mortgage-amount": "Collateral Amount",
   "error": {
     "below-in-amount": "The value must be smaller than the minimum Shuttle-In amount",
     "below-out-amount": "The value must be smaller than the minimum Shuttle-Out amount",
     "above-in-fee": "The value must be greater than or equal to the Shuttle-In fee",
     "above-out-fee": "The value must be greater than or equal to the Shuttle-Out fee",
-    "above-current": "The value must be greater than the minimum collateral amount"
+    "above-current": "The value must be greater than the minimum collateral amount",
+    "less-than": "less than {{value}}",
+    "less-than-eq": "less than or equal to {{value}}"
   },
   "min-mortgage": "Minimum Collateral Amount {{minMortgage}} cETH",
   "ceth-balance": "Balance {{amount}} cETH",
@@ -26,5 +28,12 @@
   "mortgage-popup": "Update the collaterals amount to the value you entered. The current collaterals balance will be refunded",
   "popup-cool": "In order to avoid frequent fluctuations in the rules, there will be a {{cooldownMinutes}}-minute freeze time after the rules are modified, and they can be modified again after thawing",
   "me": "You are token captain",
-  "locked": "The rules are frozen and cannot be modified temporarily"
+  "locked": "The rules are frozen and cannot be modified temporarily",
+  "supported": "Sponsored",
+  "support": "Sponsor",
+  "config": "Config",
+  "configuring": "Configuring",
+  "be-captain-txt": "You want to compete with the captain, you need to pay a better price",
+  "need-zero": "Fill in 0",
+  "compete-captain": "Compete to be Captain"
 }

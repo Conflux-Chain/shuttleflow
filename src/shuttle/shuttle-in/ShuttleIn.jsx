@@ -142,7 +142,7 @@ function TokenInfoDetails({
         </WithQuestion>
 
         <WithQuestion onClick={() => setFeePopup(true)}>
-          <span>{t('fee', tokenInfo)}</span>
+          <span>{chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}</span>
         </WithQuestion>
       </div>
 
@@ -235,7 +235,7 @@ function TokenInfoDetails({
                   : '',
             }}
             t={t}
-            i18nKey="popup-fee"
+            i18nKey={chain === 'btc' ? 'miner-fee-content' : 'popup-fee'}
           ></Trans>
         </div>
         <div className={modalCx('btn')} onClick={() => setFeePopup(false)}>
