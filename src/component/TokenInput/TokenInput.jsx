@@ -19,8 +19,8 @@ export default function TokenInput({
   chain,
   disabled,
   captain,
+  chainFilter,
 }) {
-
   const history = useHistory()
   const isSmall = useIsSamll()
   const { chain: urlChain } = useParams()
@@ -28,6 +28,7 @@ export default function TokenInput({
   const { t } = useTranslation()
   const [cTokenPopup, setCTokenPopup] = useState(false)
   chain = chain || urlChain
+
 
   const { singleton, origin, symbol, reference, reference_symbol, ctoken } =
     tokenInfo || {}
@@ -70,6 +71,7 @@ export default function TokenInput({
                       next: match.url,
                       ...(cToken && { cToken: 1 }),
                       ...(captain && { captain: 1 }),
+                      ...(chainFilter && { chainFilter }),
                     }),
                   })
                 }

@@ -36,6 +36,7 @@ const sorts = (key = 'symbol') => {
 function TokenList({
   search = '',
   searching,
+  chainFilter,
   cToken,
   frequent,
   captain,
@@ -48,8 +49,16 @@ function TokenList({
 
   const ListSourceComponent = CHAIN_CONFIG[chain].TokenList
 
-  const displayedList = useTokenList()
-  const searchedList = useTokenList({ search, cToken })
+  let displayedList = useTokenList()
+  let searchedList = useTokenList({ search, cToken })
+
+  searchedList = searchedList
+    .slice()
+    .filter(({ origin }) => origin === chainFilter)
+
+  displayedList = displayedList
+    .slice()
+    .filter(({ origin }) => (chainFilter ? origin === chainFilter : true))
 
   const setToken = (selected) => {
     history.push(buildSearch({ ...searchParams, selected }))
@@ -192,7 +201,6 @@ function TokenRow({
   const link = cToken
     ? `${CONFLUXSCAN_TK}${ctoken}`
     : `${CHAIN_CONFIG[chain]['tk_url']}${reference}`
-
 
   const address = cToken
     ? ctoken !== 'cfx' && ctoken

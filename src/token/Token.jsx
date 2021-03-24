@@ -38,8 +38,7 @@ export function TokenNavigation({ after }) {
 function Token(props) {
   const [cx] = useStyle(styles)
   const isSmall = useIsSamll()
-  const { next, cToken, captain } = useUrlSearch()
-  console.log({ next, cToken, captain })
+  const { next, cToken, captain, chainFilter } = useUrlSearch()
   return (
     <MainContainer className={cx('container')}>
       {/* promote the navigation to top level is samll screen */}
@@ -48,6 +47,7 @@ function Token(props) {
         next={(token) => `${next}?pair=${token}`}
         captain={captain}
         cToken={cToken}
+        chainFilter={chainFilter}
       />
     </MainContainer>
   )

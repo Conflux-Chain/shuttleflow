@@ -84,7 +84,11 @@ const config = {
               if (result && result.is_valid_erc20) {
                 const token = result
 
-                const data = updateTokenList('eth', { ...token, origin: 'eth' })
+                const data = updateTokenList('eth', {
+                  ...token,
+                  origin: 'eth',
+                  to_chain: 'cfx',
+                })
                 return data.then(({ tokenMap }) => {
                   return [tokenMap[lowersearch]]
                 })
