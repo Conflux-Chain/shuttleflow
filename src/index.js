@@ -10,6 +10,7 @@ Big.NE = -20
 window.document.body.style.overflow = 'hidden'
 import './global.css'
 
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

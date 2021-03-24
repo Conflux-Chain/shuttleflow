@@ -17,11 +17,16 @@ import { SWRConfig } from 'swr'
 
 const root = document.getElementById('root')
 
+//Make sure the user have a old portal
+//Can not draw the conclusion when ConfluxJSSDK not present
+const portalBlock = window.ConfluxJSSDK
+  ? !window.ConfluxJSSDK?.format?.hexAddress
+  : false
 export default function App() {
   const isSmall = useIsSamll()
   const [cx] = useStyle(styles)
   const { t } = useTranslation()
-  const [block, setBlock] = useState(false)
+  const [networkBlock, setNetworkBlock] = useState(false)
 
   useEffect(() => {
     if (isSmall) {
@@ -36,7 +41,7 @@ export default function App() {
   useEffect(() => {
     return subscribeNetwork((chainId) => {
       const network = NETWORKS[parseInt(chainId)]
-      setBlock(
+      setNetworkBlock(
         (network === 'test' && !IS_DEV) || (network === 'main' && IS_DEV)
       )
     })
@@ -60,11 +65,35 @@ export default function App() {
             <RouterRoot />
           </SWRConfig>
 
-          <Modal show={block}>
+          <Modal show={networkBlock || portalBlock}>
             <div className={cx('not-allow')}>
               <img src={notAllow} alt={notAllow}></img>
-              <div className={cx('title')}>{t('error.block')}</div>
-              <div>{t(`error.switch-${!IS_DEV ? 'main' : 'test'}`)}</div>
+              <div className={cx('title')}>
+                {t(portalBlock ? 'error.block-portal-title' : 'error.block')}
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  // whiteSpace: 'nowrap',
+                }}
+              >
+                {portalBlock ? (
+                  <>
+                    {t('error.block-portal-content')}
+                    <a
+                      style={{ color: '#00d2af', textDecoration: 'underline' }}
+                      href="https://portal.conflux-chain.org/"
+                      target="_blank"
+                    >
+                      {t('error.block-portal-update')}
+                    </a>
+                  </>
+                ) : (
+                  t(`error.switch-${!IS_DEV ? 'main' : 'test'}`)
+                )}
+              </div>
             </div>
           </Modal>
         </PrepareData>

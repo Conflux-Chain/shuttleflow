@@ -1,6 +1,5 @@
 import jsonrpc from './jsonrpc'
 import { getCustodianContract, getSponsorContract } from './contract'
-import { ensureAddressForSdk } from '../util/address'
 import { getBalanceContract } from './contract'
 import Big from 'big.js'
 import useSWR from 'swr'
@@ -32,10 +31,7 @@ function fetcher(key, reference, address, chain, decimals) {
     getCustodianContract().default_cooldown().call(),
     getSponsorContract().sponsorOf(reference).call(),
     getBalanceContract()
-      .tokenBalance(
-        ensureAddressForSdk(address),
-        ensureAddressForSdk(CHAIN_CONFIG[chain].cAddress)
-      )
+      .tokenBalance(address, CHAIN_CONFIG[chain].cAddress)
       .call()
       .then((x) => {
         return x + ''

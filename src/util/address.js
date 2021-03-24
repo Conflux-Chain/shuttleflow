@@ -16,31 +16,6 @@ export function isAddress(value = '') {
   return /^0x[0-9a-fA-F]{40}$/.test(value) || isNewCfxAddress(value)
 }
 
-export function ensureAddressForSdk(oldOrNewAddress) {
-  const isNew = window.ConfluxJSSDK?.format?.hexAddress
-  if (isNew) {
-    try {
-      if (
-        oldOrNewAddress.startsWith('0x') ||
-        oldOrNewAddress.startsWith('0X')
-      ) {
-        const addr = confluxAddr.encode(
-          Buffer.from(oldOrNewAddress.slice(2), 'hex'),
-          IS_DEV ? 1 : 1029
-        )
-        return addr
-      }
-    } catch (e) {}
-  } else {
-    try {
-      const addr =
-        '0x' + confluxAddr.decode(oldOrNewAddress).hexAddress.toString('hex')
-      return addr
-    } catch (e) {}
-  }
-  return oldOrNewAddress
-}
-
 function formatEth(txt) {
   const first6 = txt.slice(0, 6)
   const last4 = txt.slice(txt.length - 4)

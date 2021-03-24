@@ -1,4 +1,3 @@
-import { ensureAddressForSdk } from '../util/address'
 import { getBalanceContract } from './contract'
 import useAddress from './useAddress'
 import useSWR from 'swr'
@@ -12,16 +11,15 @@ export function useBalance(tokenAddr, options = {}) {
   ).data
 }
 
-function fetcher(key,address, tokenAddr) {
-
+function fetcher(key, address, tokenAddr) {
   if (tokenAddr === 'cfx') {
     return window.confluxJS.getBalance(address).then((x) => {
       return x + ''
     })
   }
-  console.log( address, tokenAddr)
+  console.log(address, tokenAddr)
   return getBalanceContract()
-    .tokenBalance(ensureAddressForSdk(address), ensureAddressForSdk(tokenAddr))
+    .tokenBalance(address, tokenAddr)
     .call()
     .then((x) => {
       return x + ''
