@@ -275,6 +275,6 @@ const config = {
   },
 }
 
-export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc', 'heco']
+export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
 
 export default config
