@@ -48,7 +48,6 @@ const commonConfig = (isDev) =>
     parts.loadJavaScript(),
     parts.packages(isDev),
     parts.setFreeVariable('HELLO', 'hello from config'),
-
   ])
 
 const productionConfig = () =>
