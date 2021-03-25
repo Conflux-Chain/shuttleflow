@@ -181,7 +181,9 @@ function TokenInfoDetails({
         <span>
           <Trans
             t={t}
-            i18nKey="latest"
+            i18nKey={
+              chain === 'btc' ? 'correct-wallet-btc' : 'correct-wallet-evm'
+            }
             values={{
               type: t(chain),
             }}

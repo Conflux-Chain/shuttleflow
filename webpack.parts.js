@@ -1,10 +1,8 @@
-const { WebpackPluginServe } = require('webpack-plugin-serve')
 const HtmlWebpackDeployPlugin = require('html-webpack-deploy-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const git = require('git-rev-sync')
 
-const webpack = require('webpack')
 const path = require('path')
 const APP_SOURCE = path.join(__dirname, 'src')
 

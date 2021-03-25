@@ -5,10 +5,14 @@ import Big from 'big.js'
 
 export function useBalance(tokenInfo, options = {}) {
   const address = useAddress()
-  const { ctoken, decimals, origin } = tokenInfo
   return useSWR(
-    address && ctoken
-      ? ['useBalance', address, ctoken, origin === 'cfx' ? decimals : 18]
+    tokenInfo
+      ? [
+          'useBalance',
+          address,
+          tokenInfo.ctoken,
+          tokenInfo.origin === 'cfx' ? tokenInfo.decimals : 18,
+        ]
       : null,
     fetcher,
     { revalidateOnMount: true, ...options }

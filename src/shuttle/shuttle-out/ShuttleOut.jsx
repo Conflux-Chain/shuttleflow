@@ -25,7 +25,6 @@ import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 import ShuttleHistory from '../../history/ShuttleHistory'
 import TokenInput from '../TokenInput'
 import ShuttleOutInput from '../ShuttleoutInput'
-import { parseNum } from '../../util/formatNum'
 import { CONFLUXSCAN_TX } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
 import Check from '../../component/Check/Check'
@@ -240,7 +239,9 @@ export default function ShuttleOut({ tokenInfo }) {
                       values={{
                         type: t(chain),
                       }}
-                      i18nKey={'placeholder.address'}
+                      i18nKey={`placeholder.address-${
+                        chain === 'btc' ? 'btc' : 'evm'
+                      }`}
                       t={t}
                     ></Trans>
                   }

@@ -2,8 +2,9 @@
   "amount": "跨出数量",
   "address": "跨出钱包地址",
   "placeholder": {
-    "address": "输入<strong>{{type}}</strong>钱包地址，而<strong>非</strong>Conflux地址",
-    "input-amount": "输入跨出数量"
+    "input-amount": "输入跨出数量",
+    "address-btc": "输入<strong>{{type}}</strong>钱包地址，而<strong>非</strong>Conflux地址",
+    "address-evm": "<strong>不要</strong>使用合约地址，使用<strong>{{ type }}</strong>钱包地址"
   },
   "error": {
     "invalid-address": "钱包地址不正确",

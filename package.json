@@ -26,6 +26,7 @@
     "swr": "^0.4.2",
     "use-deep-compare-effect": "^1.4.0",
     "wallet-address-validator": "^0.2.4",
+    "webpack-nano": "^1.1.1",
     "whatwg-fetch": "^3.6.1",
     "yup": "^0.32.9"
   },
