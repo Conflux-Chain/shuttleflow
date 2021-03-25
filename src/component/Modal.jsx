@@ -5,7 +5,7 @@ import styles from './modal.module.scss'
 import useStyle from './useStyle'
 import close from './i-close-48.png'
 
-import { Scrollbars } from 'react-custom-scrollbars'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 import { renderThumbVerticalDark } from '../component/renderThumbVertical'
 
 export const modalStyles = styles

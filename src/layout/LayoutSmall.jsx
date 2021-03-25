@@ -28,7 +28,7 @@ import { formatAddress } from '../util/address'
 
 import useStyle from '../component/useStyle'
 
-import { Scrollbars } from 'react-custom-scrollbars'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 import renderThumbVertical from '../component/renderThumbVertical'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import useAddress from '../data/useAddress'

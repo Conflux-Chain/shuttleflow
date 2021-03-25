@@ -14,7 +14,7 @@
     "qrcode.react": "^1.0.0",
     "react": "^17.0.1",
     "react-copy-to-clipboard": "^5.0.3",
-    "react-custom-scrollbars": "^4.2.1",
+    "react-custom-scrollbars-2": "^4.2.4",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.15.2",
     "react-i18next": "^11.8.7",
@@ -26,8 +26,8 @@
     "swr": "^0.4.2",
     "use-deep-compare-effect": "^1.4.0",
     "wallet-address-validator": "^0.2.4",
-    "yup": "^0.32.9",
-    "whatwg-fetch": "^3.6.1"
+    "whatwg-fetch": "^3.6.1",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "dev": "rimraf build && wp --mode development",

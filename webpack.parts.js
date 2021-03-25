@@ -119,11 +119,11 @@ exports.loadJavaScript = () => ({
 })
 
 exports.setFreeVariable = (key, value) => {
-  const env = {}
-  env[key] = JSON.stringify(value)
+  // const env = {}
+  // env[key] = JSON.stringify(value)
 
   return {
-    plugins: [new webpack.DefinePlugin(env)],
+    // plugins: [new webpack.DefinePlugin(env)],
   }
 }
 

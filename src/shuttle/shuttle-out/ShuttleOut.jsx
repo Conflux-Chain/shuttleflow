@@ -70,12 +70,7 @@ export default function ShuttleOut({ tokenInfo }) {
     }
   }, [])
 
-  const _balance = useBalance(tokenInfo && tokenInfo.ctoken, { suspense: true })
-  let balance = 0
-
-  if (_balance) {
-    balance = parseNum(_balance, 18)
-  }
+  const balance = useBalance(tokenInfo, { suspense: true })
 
   //to do fake a balance
   const schema = object().shape({

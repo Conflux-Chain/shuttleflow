@@ -1,27 +1,25 @@
 import { getBalanceContract } from './contract'
 import useAddress from './useAddress'
 import useSWR from 'swr'
+import Big from 'big.js'
 
-export function useBalance(tokenAddr, options = {}) {
+export function useBalance(tokenInfo, options = {}) {
   const address = useAddress()
+  const { ctoken, decimals, origin } = tokenInfo
   return useSWR(
-    address && tokenAddr ? ['useBalance', address, tokenAddr] : null,
+    address && ctoken
+      ? ['useBalance', address, ctoken, origin === 'cfx' ? decimals : 18]
+      : null,
     fetcher,
     { revalidateOnMount: true, ...options }
   ).data
 }
 
-function fetcher(key, address, tokenAddr) {
-  if (tokenAddr === 'cfx') {
-    return window.confluxJS.getBalance(address).then((x) => {
-      return x + ''
-    })
-  }
-  console.log(address, tokenAddr)
-  return getBalanceContract()
-    .tokenBalance(address, tokenAddr)
-    .call()
-    .then((x) => {
-      return x + ''
-    })
+function fetcher(key, address, tokenAddr, decimals) {
+  return (tokenAddr === 'cfx'
+    ? window.confluxJS.getBalance(address)
+    : getBalanceContract().tokenBalance(address, tokenAddr).call()
+  ).then((x) => {
+    return Big(x + '').div(`1e${decimals}`)
+  })
 }
