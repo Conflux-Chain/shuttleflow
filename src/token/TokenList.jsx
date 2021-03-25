@@ -54,7 +54,7 @@ function TokenList({
 
   searchedList = searchedList
     .slice()
-    .filter(({ origin }) => origin === chainFilter)
+    .filter(({ origin }) => (chainFilter ? origin === chainFilter : true))
 
   displayedList = displayedList
     .slice()

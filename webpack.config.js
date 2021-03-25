@@ -14,9 +14,9 @@ const commonConfig = (isDev) =>
       entry: {
         app: {
           import: [
+            isDev ? 'webpack-plugin-serve/client' : false,
             process.env.BROWSERSLIST_ENV === 'legacy' ? 'whatwg-fetch' : false,
             path.join(__dirname, 'src', 'index.js'),
-            isDev ? 'webpack-plugin-serve/client' : false,
           ].filter((x) => x),
         },
       },
@@ -38,7 +38,10 @@ const commonConfig = (isDev) =>
       ],
       resolve: {
         extensions: ['.js', '.jsx'],
-        fallback: { assert: require.resolve('assert/') },
+        fallback: {
+          assert: require.resolve('assert/'),
+          buffer: require.resolve('buffer/'),
+        },
       },
       optimization: {
         runtimeChunk: { name: 'runtime' },

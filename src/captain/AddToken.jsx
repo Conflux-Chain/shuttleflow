@@ -27,7 +27,6 @@ export default function AddToken() {
     tokenInfo ? tokenInfo.to_chain : ''
   )
 
-  console.log({ fromChain, toChain })
 
   //token can be choosen when both chains are specified
   const bothChain = fromChain && toChain
@@ -105,7 +104,6 @@ export default function AddToken() {
 }
 
 function SelectChain({ choosen, setChoosen, disabled, options }) {
-  console.log('SelectChain', options)
   const { t } = useTranslation()
 
   function render({ title, key }) {

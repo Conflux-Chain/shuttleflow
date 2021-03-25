@@ -10,10 +10,15 @@ const APP_SOURCE = path.join(__dirname, 'src')
 
 exports.devServer = () => ({
   watch: true,
+  devtool: 'inline-cheap-source-map',
+  devServer: {
+    transportMode: 'ws',
+    injectClient: false,
+  },
   plugins: [
     new WebpackPluginServe({
       port: process.env.PORT || 8080,
-      host: 'localhost',
+      host: '127.0.0.1',
       static: './build', // Expose if output.path changes
       historyFallback: true,
       liveReload: true,
