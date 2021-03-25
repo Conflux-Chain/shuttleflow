@@ -25,7 +25,7 @@ import WithQuestion from '../../component/WithQuestion'
 import { Loading } from '@cfxjs/react-ui'
 import { useParams } from 'react-router'
 
-export default function ShuttleIn({ tokenInfo, notEnoughGas }) {
+export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
     commonInputStyles,
     shuttleStyle,
@@ -77,6 +77,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas }) {
             commonCx,
             setAddressPopup,
             displayCopy,
+            gasLow,
           }}
         />
       ) : null}
@@ -119,6 +120,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas }) {
 }
 
 function TokenInfoDetails({
+  gasLow,
   shuttleCx,
   commonCx,
   modalCx,
@@ -137,13 +139,21 @@ function TokenInfoDetails({
   return (
     <>
       <div className={shuttleCx('small-text')}>
-        <WithQuestion onClick={() => setMinPopup(true)}>
-          <span>{t('amount', tokenInfo)}</span>
-        </WithQuestion>
+        <div>
+          <WithQuestion onClick={() => setMinPopup(true)}>
+            <span>{t('amount', tokenInfo)}</span>
+          </WithQuestion>
+          {gasLow}
+        </div>
 
-        <WithQuestion onClick={() => setFeePopup(true)}>
-          <span>{chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}</span>
-        </WithQuestion>
+        <div>
+          <WithQuestion onClick={() => setFeePopup(true)}>
+            <span>
+              {chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}
+            </span>
+          </WithQuestion>
+          {gasLow ? <div style={{ visibility: 'hidden' }}>a</div> : null}
+        </div>
       </div>
 
       <div className={shuttleInCx('address')}>

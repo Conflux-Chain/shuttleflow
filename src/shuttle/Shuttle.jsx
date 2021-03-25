@@ -107,16 +107,19 @@ function RouteComponent() {
   const { t } = useTranslation(['shuttle'])
 
   let notEnoughGas = false
+  let gasLow = null
   if (moreInfo) {
     const { currentMortgage, safeSponsorAmount } = moreInfo
     notEnoughGas = currentMortgage.lt(safeSponsorAmount)
+    gasLow = currentMortgage.lt(safeSponsorAmount.mul('2')) ? (
+      <div style={{ color: 'rgb(243, 80, 79)' }}>{t('gas-low')}</div>
+    ) : null
   }
-  // console.log(moreInfo)
-  // notEnoughGas = true
   return (
     <>
       {isSmall && <ChooseChain />}
       <Component
+        gasLow={gasLow}
         notEnoughGas={notEnoughGas}
         tokenInfo={tokenInfo}
         {...{ feePopup, setFeePopup }}

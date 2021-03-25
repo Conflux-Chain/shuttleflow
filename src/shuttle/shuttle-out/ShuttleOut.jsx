@@ -35,7 +35,7 @@ import { useParams } from 'react-router'
 import mint from '../../data/mint'
 
 // dec5 usdt
-export default function ShuttleOut({ tokenInfo, notEnoughGas }) {
+export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
   const [commonCx, modalCx, shuttleCx, shuttleOutCx, shuttleInCx] = useStyle(
     inputStyles,
     modalStyles,
@@ -192,12 +192,19 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas }) {
             </label>
 
             <div className={shuttleCx('small-text')}>
-              <span> {t('min-amount', tokenInfo)}</span>
-              <WithQuestion onClick={() => setFeePopup(true)}>
-                <span>
-                  {chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}
-                </span>
-              </WithQuestion>
+              <div>
+                <span> {t('min-amount', tokenInfo)}</span>
+                {gasLow}
+              </div>
+
+              <div>
+                <WithQuestion onClick={() => setFeePopup(true)}>
+                  <span>
+                    {chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}
+                  </span>
+                </WithQuestion>
+                {gasLow ? <div style={{ visibility: 'hidden' }}>a</div> : ''}
+              </div>
             </div>
 
             <div>

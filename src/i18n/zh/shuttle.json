@@ -5,5 +5,6 @@
   "popup-contract": "{{symbol}} 合约地址",
   "miner-fee": "需要支付矿工费用",
   "miner-fee-content": "{{operation}}手续费：<strong>{{fee}} {{symbol}}</strong>\n\n需要支付比特币网络的矿工费",
-  "not-enough-gas": "服务商抵押不足，暂时停止跨链 "
+  "not-enough-gas": "服务商抵押不足，暂时停止跨链 ",
+  "gas-low": "当前服务商可能被更换，费用将会调整，请尽快操作"
 }
