@@ -1,45 +1,69 @@
-const { WebpackPluginServe } = require('webpack-plugin-serve')
 const HtmlWebpackDeployPlugin = require('html-webpack-deploy-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const git = require('git-rev-sync')
 
-const webpack = require('webpack')
 const path = require('path')
 const APP_SOURCE = path.join(__dirname, 'src')
 
 exports.devServer = () => ({
-  watch: true,
-  plugins: [
-    new WebpackPluginServe({
-      port: process.env.PORT || 8080,
-      host: 'localhost',
-      historyFallback: true,
-      static: './build', // Expose if output.path changes
-      liveReload: true,
-      waitForBuild: true,
-      middleware: (app, builtins) => {
-        app.use(
-          builtins.proxy('/rpcshuttleflow', {
-            target:
-              'https://test.shuttleflow.confluxnetwork.org/rpcshuttleflow',
-            changeOrigin: true,
-            pathRewrite: {
-              '/rpcshuttleflow': '',
-            },
-          })
-        )
-        app.use(
-          builtins.proxy('/rpcsponsor', {
-            changeOrigin: true,
-            target: 'https://test.shuttleflow.confluxnetwork.org/rpcsponsor',
-            pathRewrite: {
-              '/rpcsponsor': '',
-            },
-          })
-        )
+  devServer: {
+    historyApiFallback: true,
+    transportMode: 'ws',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers':
+        'Origin, X-Requested-With, Content-Type, Accept',
+    },
+    liveReload: false,
+    host: 'localhost',
+    proxy: {
+      '/rpcshuttleflow': {
+        target: 'https://test.shuttleflow.confluxnetwork.org/rpcshuttleflow',
+        changeOrigin: true,
+        pathRewrite: {
+          '/rpcshuttleflow': '',
+        },
       },
-    }),
+      '/rpcsponsor': {
+        target: 'https://test.shuttleflow.confluxnetwork.org/rpcsponsor',
+        changeOrigin: true,
+        pathRewrite: {
+          '/rpcsponsor': '',
+        },
+      },
+    },
+  },
+  plugins: [
+    // new WebpackPluginServe({
+    //   port: process.env.PORT || 8080,
+    //   host: 'localhost',
+    //   historyFallback: true,
+    //   static: './build', // Expose if output.path changes
+    //   liveReload: true,
+    //   waitForBuild: true,
+    //   middleware: (app, builtins) => {
+    //     app.use(
+    //       builtins.proxy('/rpcshuttleflow', {
+    //         target:
+    //           'https://test.shuttleflow.confluxnetwork.org/rpcshuttleflow',
+    //         changeOrigin: true,
+    //         pathRewrite: {
+    //           '/rpcshuttleflow': '',
+    //         },
+    //       })
+    //     )
+    //     app.use(
+    //       builtins.proxy('/rpcsponsor', {
+    //         changeOrigin: true,
+    //         target: 'https://test.shuttleflow.confluxnetwork.org/rpcsponsor',
+    //         pathRewrite: {
+    //           '/rpcsponsor': '',
+    //         },
+    //       })
+    //     )
+    //   },
+    // }),
   ],
 })
 
@@ -119,11 +143,11 @@ exports.loadJavaScript = () => ({
 })
 
 exports.setFreeVariable = (key, value) => {
-  const env = {}
-  env[key] = JSON.stringify(value)
+  // const env = {}
+  // env[key] = JSON.stringify(value)
 
   return {
-    plugins: [new webpack.DefinePlugin(env)],
+    // plugins: [new webpack.DefinePlugin(env)],
   }
 }
 

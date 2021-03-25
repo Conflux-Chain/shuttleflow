@@ -82,7 +82,11 @@ export default function App() {
                 {portalBlock ? (
                   <>
                     {t('error.block-portal-content')}
-                    <a href="https://portal.conflux-chain.org/" target="_blank">
+                    <a
+                      style={{ color: '#00d2af', textDecoration: 'underline' }}
+                      href="https://portal.conflux-chain.org/"
+                      target="_blank"
+                    >
                       {t('error.block-portal-update')}
                     </a>
                   </>

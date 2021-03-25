@@ -1,8 +1,10 @@
 {
-  "popup-fee": "The fee is set by the current Token Captain, and might be adjusted accordingly If the Token Captain is changed. It is recommended to complete the transaction as soon as possible to avoid transaction fee fluctuations. An address creation fee  <strong>{{wallet_fee}} {{symbol}}</strong> will be charged the first time you {{operation}}.",
-  "wallet-create-fee": "An address creation fee  <strong>{{wallet_fee}} {{symbol}}</strong> will be charged the first time you Shuttle-In.\n",
+  "popup-fee": "{{operation}}手续费：<strong>{{fee}} {{symbol}}</strong>\n{{is_create}} \n\nThe fee is set by the Token Captain, and the value may be subject to change at any time. Please operate as soon as possible.",
+  "wallet-create-fee": "An address creation fee  <strong>{{wallet_fee}} {{symbol}}</strong> <i> (Only needed for the first time).</i> \n",
   "popup-token": "The token you received can be viewed in all {{chain}} Network wallets, such as {{chainTool}}. If the token cannot be found, you may need to add it by \"Add Token\".",
   "popup-contract": "{{symbol}} Contract Address ",
   "miner-fee": "Need to pay miner fees",
-  "miner-fee-content": "{{operation}} fee：<strong>{{fee}} {{symbol}}</strong>\n\nNeed to pay the Bitcoin network's miner fees"
+  "miner-fee-content": "{{operation}} fee：<strong>{{fee}} {{symbol}}</strong>\n\nNeed to pay the Bitcoin network's miner fees",
+  "not-enough-gas": "Insufficient collateral of Token Captain, temporarily suspend cross-chain",
+  "gas-low": "The Token Captain may be changed, the fee will be adjusted, please do it as soon as possible"
 }

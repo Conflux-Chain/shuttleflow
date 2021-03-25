@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Switch, Route, Link, Redirect, useParams } from 'react-router-dom'
+import {
+  Switch,
+  Route,
+  Link,
+  Redirect,
+  useParams,
+  useHistory,
+} from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import layoutBottomState from '../layout/LayoutButtomState'
 
@@ -23,6 +30,10 @@ import useUrlSearch from '../lib/useUrlSearch'
 import useTokenList from '../data/useTokenList'
 import { CHAIN_SINGLE_PAIR } from '../config/constant'
 import ChooseChain from '../layout/ChooseChain'
+import useCaptain from '../data/captain'
+import Button from '../component/Button/Button'
+import styled from 'styled-components'
+import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
 
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles)
@@ -39,7 +50,6 @@ export default function Shuttle({ match: { path, url } }) {
   return (
     <MainContainer>
       <div className={cx('footer')}>
-
         <nav className={cx('nav')}>
           <MenuLink
             to={inUrl}
@@ -86,17 +96,66 @@ export default function Shuttle({ match: { path, url } }) {
 
 function RouteComponent() {
   const { pair = '' } = useUrlSearch()
+  const { chain } = useParams()
   const tokenInfo = useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
   const [feePopup, setFeePopup] = useState(false)
   const { type } = useParams()
   const isSmall = useIsSamll()
-
+  const history = useHistory()
   const Component = type === 'in' ? ShuttleIn : ShuttleOut
+  const moreInfo = useCaptain(tokenInfo)
+  const { t } = useTranslation(['shuttle'])
 
+  let notEnoughGas = false
+  let gasLow = null
+  if (moreInfo) {
+    const { currentMortgage, safeSponsorAmount } = moreInfo
+    notEnoughGas = currentMortgage.lt(safeSponsorAmount)
+    gasLow = currentMortgage.lt(safeSponsorAmount.mul('2')) ? (
+      <div style={{ color: 'rgb(243, 80, 79)' }}>{t('gas-low')}</div>
+    ) : null
+  }
   return (
     <>
       {isSmall && <ChooseChain />}
-      <Component tokenInfo={tokenInfo} {...{ feePopup, setFeePopup }} />
+      <Component
+        gasLow={gasLow}
+        notEnoughGas={notEnoughGas}
+        tokenInfo={tokenInfo}
+        {...{ feePopup, setFeePopup }}
+      />
+      {notEnoughGas && (
+        <div>
+          <Text>{t('not-enough-gas')}</Text>
+          {CHAIN_CONFIG[chain].captain !== CAPTAIN.NONE && (
+            <BeCaptain
+              onClick={() => {
+                history.push(`/${chain}/captain?pair=${pair}`)
+              }}
+            >
+              {t('be-captain')}
+            </BeCaptain>
+          )}
+        </div>
+      )}
     </>
   )
 }
+
+const Text = styled.div`
+  font-size: 16px;
+  line-height: 26px;
+  color: white;
+  margin-top: 32px;
+  margin-bottom: 16px;
+`
+
+const BeCaptain = styled(Button)`
+  border: 1px solid #44d7b6;
+  color: #6fcf97;
+  background: transparent;
+  border-radius: 4px;
+  display: inline-block;
+  margin: unset;
+  height: 40px;
+`

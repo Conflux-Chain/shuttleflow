@@ -25,7 +25,7 @@ import WithQuestion from '../../component/WithQuestion'
 import { Loading } from '@cfxjs/react-ui'
 import { useParams } from 'react-router'
 
-export default function ShuttleIn({ tokenInfo }) {
+export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
     commonInputStyles,
     shuttleStyle,
@@ -65,7 +65,7 @@ export default function ShuttleIn({ tokenInfo }) {
         cToken
       />
 
-      {tokenInfo && (
+      {tokenInfo && !notEnoughGas ? (
         <TokenInfoDetails
           {...{
             shuttleCx,
@@ -77,9 +77,10 @@ export default function ShuttleIn({ tokenInfo }) {
             commonCx,
             setAddressPopup,
             displayCopy,
+            gasLow,
           }}
         />
-      )}
+      ) : null}
       <ShuttleHistory type="in" />
       <Modal
         show={addressPopup}
@@ -119,6 +120,7 @@ export default function ShuttleIn({ tokenInfo }) {
 }
 
 function TokenInfoDetails({
+  gasLow,
   shuttleCx,
   commonCx,
   modalCx,
@@ -137,13 +139,21 @@ function TokenInfoDetails({
   return (
     <>
       <div className={shuttleCx('small-text')}>
-        <WithQuestion onClick={() => setMinPopup(true)}>
-          <span>{t('amount', tokenInfo)}</span>
-        </WithQuestion>
+        <div>
+          <WithQuestion onClick={() => setMinPopup(true)}>
+            <span>{t('amount', tokenInfo)}</span>
+          </WithQuestion>
+          {gasLow}
+        </div>
 
-        <WithQuestion onClick={() => setFeePopup(true)}>
-          <span>{chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}</span>
-        </WithQuestion>
+        <div>
+          <WithQuestion onClick={() => setFeePopup(true)}>
+            <span>
+              {chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}
+            </span>
+          </WithQuestion>
+          {gasLow ? <div style={{ visibility: 'hidden' }}>a</div> : null}
+        </div>
       </div>
 
       <div className={shuttleInCx('address')}>
@@ -181,7 +191,9 @@ function TokenInfoDetails({
         <span>
           <Trans
             t={t}
-            i18nKey="latest"
+            i18nKey={
+              chain === 'btc' ? 'correct-wallet-btc' : 'correct-wallet-evm'
+            }
             values={{
               type: t(chain),
             }}

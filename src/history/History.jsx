@@ -12,7 +12,7 @@ import { Loading } from '@cfxjs/react-ui'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
 import useUrlSearch from '../lib/useUrlSearch'
-import { Scrollbars } from 'react-custom-scrollbars'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 import renderThumbVertical from '../component/renderThumbVertical'
 
 const FILTERS = [

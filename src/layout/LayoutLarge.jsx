@@ -8,7 +8,7 @@ import styles from './LayoutLarge.module.scss'
 import { useTranslation } from 'react-i18next'
 
 import UserAddress from './UserAddress'
-import { Scrollbars } from 'react-custom-scrollbars'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 import renderThumbVertical from '../component/renderThumbVertical'
 import { Loading } from '@cfxjs/react-ui'
 import pocket from '../component/pocket.png'
