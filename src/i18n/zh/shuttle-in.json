@@ -11,5 +11,5 @@
     "in-address": "跨入地址"
   },
   "correct-wallet-btc": "使用<strong>{{type}}</strong>钱包转账，而<strong>非</strong>Conflux钱包",
-  "correct-wallet-evm": "<strong>不要</strong>使用合约转账，使用<strong>{{ type }}<strong>钱包转账"
+  "correct-wallet-evm": "<strong>不要</strong>使用合约账户转账，使用<strong>{{ type }}</strong>外部账户"
 }

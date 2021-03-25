@@ -139,23 +139,15 @@ function TokenInfoDetails({
   return (
     <>
       <div className={shuttleCx('small-text')}>
-        <div>
-          <WithQuestion onClick={() => setMinPopup(true)}>
-            <span>{t('amount', tokenInfo)}</span>
-          </WithQuestion>
-          {gasLow}
-        </div>
+        <WithQuestion onClick={() => setMinPopup(true)}>
+          <span>{t('amount', tokenInfo)}</span>
+        </WithQuestion>
 
-        <div>
-          <WithQuestion onClick={() => setFeePopup(true)}>
-            <span>
-              {chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}
-            </span>
-          </WithQuestion>
-          {gasLow ? <div style={{ visibility: 'hidden' }}>a</div> : null}
-        </div>
+        <WithQuestion onClick={() => setFeePopup(true)}>
+          <span>{chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}</span>
+        </WithQuestion>
       </div>
-
+      {gasLow}
       <div className={shuttleInCx('address')}>
         <WithQuestion
           className={shuttleCx('title')}

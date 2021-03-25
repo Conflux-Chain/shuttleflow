@@ -12,7 +12,8 @@ export default function useCaptain(tokenInfo) {
   const address = useAddress()
   const { chain } = useParams()
   return useSWR(
-    tokenInfo
+    //todo hard code eth
+    tokenInfo && chain === 'eth'
       ? ['captain', tokenInfo.reference, address, chain, tokenInfo.decimals]
       : null,
     fetcher,

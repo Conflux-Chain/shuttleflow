@@ -11,5 +11,5 @@
   },
   "qr": "View QR Code",
   "correct-wallet-btc": "Use <strong>{{type}}</strong> wallet to transfer, <strong>NOT</strong> Conflux wallet",
-  "correct-wallet-evm": "<strong>Don't</strong> use contract transfer, use <strong>{{ type }}</strong> wallet to transfer"
+  "correct-wallet-evm": "<strong>Don't</strong> use contract account, use <strong>{{ type }}</strong> externally owned account"
 }
