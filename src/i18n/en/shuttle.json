@@ -4,5 +4,6 @@
   "popup-token": "The token you received can be viewed in all {{chain}} Network wallets, such as {{chainTool}}. If the token cannot be found, you may need to add it by \"Add Token\".",
   "popup-contract": "{{symbol}} Contract Address ",
   "miner-fee": "Need to pay miner fees",
-  "miner-fee-content": "{{operation}} fee：<strong>{{fee}} {{symbol}}</strong>\n\nNeed to pay the Bitcoin network's miner fees"
+  "miner-fee-content": "{{operation}} fee：<strong>{{fee}} {{symbol}}</strong>\n\nNeed to pay the Bitcoin network's miner fees",
+  "not-enough-gas": "Insufficient collateral of Token Captain, temporarily suspend cross-chain"
 }

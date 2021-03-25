@@ -35,7 +35,7 @@ import { useParams } from 'react-router'
 import mint from '../../data/mint'
 
 // dec5 usdt
-export default function ShuttleOut({ tokenInfo }) {
+export default function ShuttleOut({ tokenInfo, notEnoughGas }) {
   const [commonCx, modalCx, shuttleCx, shuttleOutCx, shuttleInCx] = useStyle(
     inputStyles,
     modalStyles,
@@ -155,7 +155,7 @@ export default function ShuttleOut({ tokenInfo }) {
         />
 
         {/* shuttle out amount */}
-        {tokenInfo && (
+        {tokenInfo && !notEnoughGas && (
           <>
             <label className={shuttleOutCx('amount-container')}>
               <div>

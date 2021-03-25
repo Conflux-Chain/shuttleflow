@@ -25,7 +25,7 @@ import WithQuestion from '../../component/WithQuestion'
 import { Loading } from '@cfxjs/react-ui'
 import { useParams } from 'react-router'
 
-export default function ShuttleIn({ tokenInfo }) {
+export default function ShuttleIn({ tokenInfo, notEnoughGas }) {
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
     commonInputStyles,
     shuttleStyle,
@@ -65,7 +65,7 @@ export default function ShuttleIn({ tokenInfo }) {
         cToken
       />
 
-      {tokenInfo && (
+      {tokenInfo && !notEnoughGas ? (
         <TokenInfoDetails
           {...{
             shuttleCx,
@@ -79,7 +79,7 @@ export default function ShuttleIn({ tokenInfo }) {
             displayCopy,
           }}
         />
-      )}
+      ) : null}
       <ShuttleHistory type="in" />
       <Modal
         show={addressPopup}

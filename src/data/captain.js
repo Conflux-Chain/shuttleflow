@@ -8,12 +8,18 @@ import CHAIN_CONFIG from '../config/chainConfig'
 import { useParams } from 'react-router'
 
 //txHash is used to flush data from server
-export default function useCaptain({ reference, decimals }) {
+export default function useCaptain(tokenInfo) {
   const address = useAddress()
   const { chain } = useParams()
-  return useSWR(['captain', reference, address, chain, decimals], fetcher, {
-    suspense: true,
-  }).data
+  return useSWR(
+    tokenInfo
+      ? ['captain', tokenInfo.reference, address, chain, tokenInfo.decimals]
+      : null,
+    fetcher,
+    {
+      suspense: true,
+    }
+  ).data
 }
 
 //todo: Shuttle in/out page still read from API rather than the contract
@@ -70,8 +76,8 @@ function fetcher(key, reference, address, chain, decimals) {
         minMortgage: minMortgage + '',
         countdown: Math.max(0, parseInt(defaultCooldown + '') - diff),
         cethBalance,
-        currentMortgage,
         sponsor,
+        currentMortgage: Big(currentMortgage + '').div('1e18'),
         safeSponsorAmount: Big(safeSponsorAmount + '').div('1e18'),
         out_fee: Big(burn_fee + '').div(`1e${decimals}`),
         in_fee: Big(mint_fee + '').div(`1e${decimals}`),

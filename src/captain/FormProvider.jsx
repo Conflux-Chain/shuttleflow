@@ -43,7 +43,7 @@ export default function FormProvider({ pair }) {
     wallet_fee,
     minimal_in_value,
     minimal_out_value,
-  } = useCaptain({ reference, decimals })
+  } = useCaptain(tokenInfo)
 
   const beCaptain = function ({
     amount,
@@ -84,7 +84,7 @@ export default function FormProvider({ pair }) {
     currentMortgage &&
     cethBalance
   ) {
-    const currentMortgageBig = new Big(currentMortgage).div('1e18')
+    const currentMortgageBig = currentMortgage
     const minMortgageBig = new Big(minMortgage).div('1e18')
 
     const cethBalanceBig = new Big(cethBalance).div('1e18')
