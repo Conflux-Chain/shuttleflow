@@ -85,7 +85,6 @@ const config = {
             }).then((result) => {
               if (result && result.is_valid_erc20) {
                 const token = result
-
                 const data = updateTokenList('eth', token)
                 return data.then(({ tokenMap }) => {
                   return [tokenMap[lowersearch]]

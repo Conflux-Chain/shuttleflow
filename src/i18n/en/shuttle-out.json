@@ -6,16 +6,17 @@
   "min-amount": "Minimum Amount {{minimal_out_value}} {{symbol}}",
   "error": {
     "invalid-address": "Address is invalid",
-    "min": "The value must be greater than or equal to {{minimal_burn_value}} {{symbol}}"
+    "min": "The value must be greater than or equal to {{minimal_out_value}} {{symbol}}"
   },
   "placeholder": {
-    "address": "Enter <strong>{{type}}</strong> address, <strong>NOT</strong> Conflux address",
-    "input-amount": "Shuttle-Out Amount"
+    "input-amount": "Shuttle-Out Amount",
+    "address-btc": "Enter <strong>{{type}}</strong> address, <strong>NOT</strong> Conflux address",
+    "address-evm": "<strong>Don't</strong> use contract account, enter <strong>{{ type }}</strong> externally owned account"
   },
   "popup": {
     "address": "1. Please do not transfer any non-designated assets to the above address, otherwise the assets will not be recovered.\n2. Shuttle-Out requires several blocks to confirm the transaction.\n3. ShuttleFlow is a truly decentralized product, and the user's private key is not accessible under any circumstances.\n4. The users' assets are escrowed in the smart contract, which has passed the third party security audit, and is protected by ShuttleFlow Cross-chain Multi-signature Alliance. Even if the ShuttleFlow private key is leaked, the users' assets could still be protected from hacking or moving by the platform itself or any third party. ",
     "ctoken": "The token you received can be viewed in all Conflux Network wallets, such as ConfluxPortal. If the token cannot be found, you may need to add it by \"Add Token\".",
-    "fee": "The fee is set by the current Token Captain, and might be adjusted accordingly If the Token Captain is changed.It is recommended to complete the transaction as soon as possible to avoid transaction fee fluctuations."
+    "fee": "Shuttle-out fee: <strong>{{burn_fee}} {{symbol}}</strong> \n\nThe fee is set by the Token Captain, and the value may be subject to change at any time. Please operate as soon as possible."
   },
   "confirm": {
     "conflux": "It is detected that the address is a CONFLUX address，please make sure to enter the ETH address correctly",
