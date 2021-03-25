@@ -14,7 +14,6 @@ const commonConfig = (isDev) =>
       entry: {
         app: {
           import: [
-            isDev ? 'webpack-plugin-serve/client' : false,
             process.env.BROWSERSLIST_ENV === 'legacy' ? 'whatwg-fetch' : false,
             path.join(__dirname, 'src', 'index.js'),
           ].filter((x) => x),

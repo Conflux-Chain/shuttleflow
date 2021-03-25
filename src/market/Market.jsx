@@ -7,7 +7,7 @@ import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 
 import { useTranslation } from 'react-i18next'
 import MainContainer from '../component/MainContainer/MainContainer'
-import { Scrollbars } from 'react-custom-scrollbars'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 import renderThumbVertical from '../component/renderThumbVertical'
 import Icon from '../component/Icon/Icon'
 import useTokenListSearch from '../data/useTokenList'

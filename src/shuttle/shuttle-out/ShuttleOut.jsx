@@ -25,7 +25,6 @@ import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 import ShuttleHistory from '../../history/ShuttleHistory'
 import TokenInput from '../../component/TokenInput/TokenInput'
 import ShuttleOutInput from '../ShuttleoutInput'
-import { parseNum } from '../../util/formatNum'
 import { CONFLUXSCAN_TX } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
 import Check from '../../component/Check/Check'
@@ -36,7 +35,7 @@ import { useParams } from 'react-router'
 import mint from '../../data/mint'
 
 // dec5 usdt
-export default function ShuttleOut({ tokenInfo }) {
+export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
   const [commonCx, modalCx, shuttleCx, shuttleOutCx, shuttleInCx] = useStyle(
     inputStyles,
     modalStyles,
@@ -70,12 +69,7 @@ export default function ShuttleOut({ tokenInfo }) {
     }
   }, [])
 
-  const _balance = useBalance(tokenInfo && tokenInfo.ctoken, { suspense: true })
-  let balance = 0
-
-  if (_balance) {
-    balance = parseNum(_balance, 18)
-  }
+  const balance = useBalance(tokenInfo, { suspense: true })
 
   //to do fake a balance
   const schema = object().shape({
@@ -161,7 +155,7 @@ export default function ShuttleOut({ tokenInfo }) {
         />
 
         {/* shuttle out amount */}
-        {tokenInfo && (
+        {tokenInfo && !notEnoughGas && (
           <>
             <label className={shuttleOutCx('amount-container')}>
               <div>
@@ -199,6 +193,7 @@ export default function ShuttleOut({ tokenInfo }) {
 
             <div className={shuttleCx('small-text')}>
               <span> {t('min-amount', tokenInfo)}</span>
+
               <WithQuestion onClick={() => setFeePopup(true)}>
                 <span>
                   {chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}
@@ -222,7 +217,7 @@ export default function ShuttleOut({ tokenInfo }) {
                 }}
               />
             </div>
-
+            {gasLow}
             {/* shuttle out address */}
             <div className={shuttleOutCx('address-container')}>
               <WithQuestion
@@ -245,7 +240,9 @@ export default function ShuttleOut({ tokenInfo }) {
                       values={{
                         type: t(chain),
                       }}
-                      i18nKey={'placeholder.address'}
+                      i18nKey={`placeholder.address-${
+                        chain === 'btc' ? 'btc' : 'evm'
+                      }`}
                       t={t}
                     ></Trans>
                   }

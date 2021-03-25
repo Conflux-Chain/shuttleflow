@@ -7,7 +7,7 @@ import {
   SPONSOR_CONTRACT_ADDR,
   CUSTODIAN_CONTRACT_ADDR,
 } from '../../config/config'
-import { createPortal } from 'react-dom'
+
 
 function createGetContract(abi, address) {
   let contract
