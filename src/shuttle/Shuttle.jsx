@@ -112,10 +112,9 @@ function RouteComponent() {
     const { currentMortgage, safeSponsorAmount } = moreInfo
     notEnoughGas = currentMortgage.lt(safeSponsorAmount)
     gasLow = currentMortgage.lt(safeSponsorAmount.mul('2')) ? (
-      <div style={{ color: 'rgb(243, 80, 79)' }}>{t('gas-low')}</div>
+      <div style={{ color: 'white' }}>{t('gas-low')}</div>
     ) : null
-  }
-  return (
+  }  return (
     <>
       {isSmall && <ChooseChain />}
       <Component
@@ -158,4 +157,6 @@ const BeCaptain = styled(Button)`
   display: inline-block;
   margin: unset;
   height: 40px;
+  font-weight: 400;
+  font-size: 16px;
 `

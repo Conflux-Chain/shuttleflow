@@ -192,19 +192,13 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
             </label>
 
             <div className={shuttleCx('small-text')}>
-              <div>
-                <span> {t('min-amount', tokenInfo)}</span>
-                {gasLow}
-              </div>
+              <span> {t('min-amount', tokenInfo)}</span>
 
-              <div>
-                <WithQuestion onClick={() => setFeePopup(true)}>
-                  <span>
-                    {chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}
-                  </span>
-                </WithQuestion>
-                {gasLow ? <div style={{ visibility: 'hidden' }}>a</div> : ''}
-              </div>
+              <WithQuestion onClick={() => setFeePopup(true)}>
+                <span>
+                  {chain === 'btc' ? t('miner-fee') : t('fee', tokenInfo)}
+                </span>
+              </WithQuestion>
             </div>
 
             <div>
@@ -223,7 +217,7 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
                 }}
               />
             </div>
-
+            {gasLow}
             {/* shuttle out address */}
             <div className={shuttleOutCx('address-container')}>
               <WithQuestion
