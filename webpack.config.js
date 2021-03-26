@@ -64,10 +64,6 @@ const productionConfig = () =>
 
 const developmentConfig = () =>
   merge([
-    {
-      // entry: ["webpack-plugin-serve/client"],
-      // devtool: false,
-    },
     parts.devServer(),
   ])
 

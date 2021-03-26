@@ -1,3 +1,4 @@
+import { getId } from '../util/id'
 import jsonrpc from './jsonrpc'
 import listItemMapper from './tokenListMapper'
 //todo replace with real server api
@@ -9,12 +10,7 @@ const chainDataStore = {}
 
 function buildMap(tokenList) {
   const tokenMap = tokenList.reduce((pre, cur) => {
-    if (cur.reference) {
-      pre[cur.reference.toLowerCase()] = { ...cur, fromRef: true } //operation history data
-    }
-    if (cur.ctoken) {
-      pre[cur.ctoken] = { ...cur, fromCtoken: true } //operation history data
-    }
+    pre[getId(cur)] = cur
     return pre
   }, {})
   return { tokenList, tokenMap }

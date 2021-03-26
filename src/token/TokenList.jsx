@@ -20,7 +20,7 @@ import useUrlSearch from '../lib/useUrlSearch'
 import { useBlockWithRisk } from '../layout/Risk'
 import CHAIN_CONFIG from '../config/chainConfig'
 import useTokenList from '../data/useTokenList'
-import { getId, matchId } from '../util/id'
+import { getId } from '../util/id'
 
 const sorts = (key = 'symbol') => {
   return {
@@ -98,7 +98,7 @@ function TokenList({
                     if (!tokenData) {
                       return null
                     }
-                    active = matchId(tokenData, selected)
+                    active = getId(tokenData) === selected
                   }
                   return (
                     <div
@@ -161,8 +161,7 @@ function TokenList({
                       checked:
                         tokenInfo.is_admin === 1 && captain
                           ? false
-                          : selected ===
-                            (tokenInfo.reference || tokenInfo.ctoken),
+                          : selected === getId(tokenInfo),
                       disabled: tokenInfo.is_admin === 1 && captain,
                       captain,
                       setToken,

@@ -7,6 +7,7 @@ const path = require('path')
 const APP_SOURCE = path.join(__dirname, 'src')
 
 exports.devServer = () => ({
+  devtool: 'eval',
   devServer: {
     historyApiFallback: true,
     transportMode: 'ws',
@@ -19,14 +20,16 @@ exports.devServer = () => ({
     host: 'localhost',
     proxy: {
       '/rpcshuttleflow': {
-        target: 'https://test.shuttleflow.confluxnetwork.org/rpcshuttleflow',
+        // target: 'https://test.shuttleflow.confluxnetwork.org/rpcshuttleflow',
+        target: 'https://shuttleflow.io/rpcshuttleflow',
         changeOrigin: true,
         pathRewrite: {
           '/rpcshuttleflow': '',
         },
       },
       '/rpcsponsor': {
-        target: 'https://test.shuttleflow.confluxnetwork.org/rpcsponsor',
+        // target: 'https://test.shuttleflow.confluxnetwork.org/rpcsponsor',
+        target: 'https://shuttleflow.io/rpcsponsor',
         changeOrigin: true,
         pathRewrite: {
           '/rpcsponsor': '',
@@ -34,37 +37,6 @@ exports.devServer = () => ({
       },
     },
   },
-  plugins: [
-    // new WebpackPluginServe({
-    //   port: process.env.PORT || 8080,
-    //   host: 'localhost',
-    //   historyFallback: true,
-    //   static: './build', // Expose if output.path changes
-    //   liveReload: true,
-    //   waitForBuild: true,
-    //   middleware: (app, builtins) => {
-    //     app.use(
-    //       builtins.proxy('/rpcshuttleflow', {
-    //         target:
-    //           'https://test.shuttleflow.confluxnetwork.org/rpcshuttleflow',
-    //         changeOrigin: true,
-    //         pathRewrite: {
-    //           '/rpcshuttleflow': '',
-    //         },
-    //       })
-    //     )
-    //     app.use(
-    //       builtins.proxy('/rpcsponsor', {
-    //         changeOrigin: true,
-    //         target: 'https://test.shuttleflow.confluxnetwork.org/rpcsponsor',
-    //         pathRewrite: {
-    //           '/rpcsponsor': '',
-    //         },
-    //       })
-    //     )
-    //   },
-    // }),
-  ],
 })
 
 exports.page = ({ title, isDev }) => ({

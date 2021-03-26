@@ -102,7 +102,7 @@ function fetchHistory({
           token = 'cfx'
         }
         //It can happen due to some unexpected human operation
-        if (tokenMap[token]) {
+        if (tokenMap[`${chain}-token`]) {
           return { ...rest, ...tokenMap[token], token, dir: type }
         } else {
           return false
