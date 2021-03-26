@@ -6,9 +6,13 @@ import Modal, { modalStyles } from '../component/Modal'
 import styles from './Spec.module.scss'
 import useStyle from '../component/useStyle'
 import { useState } from 'react'
+import { useParams } from 'react-router'
+
+console.log(whitePaperEN)
 export default function Footer() {
   const { t, i18n } = useTranslation()
   const [displayPopup, setDisplayPopup] = useState(false)
+  const { chain } = useParams()
   const { language } = i18n
   const [cx, modalCx] = useStyle(styles, modalStyles)
   return (
@@ -34,7 +38,11 @@ export default function Footer() {
         title={t('spec.title')}
       >
         <div className={modalCx('content')}>
-          <Trans i18nKey="spec.content" t={t}></Trans>
+          <Trans
+            i18nKey="spec.content"
+            values={{ chain: t(chain) }}
+            t={t}
+          ></Trans>
         </div>
         <div onClick={() => setDisplayPopup(false)} className={modalCx('btn')}>
           {t('popup.ok')}
