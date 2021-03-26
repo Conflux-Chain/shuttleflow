@@ -1,4 +1,4 @@
-import { getErc20Contract } from './contract'
+import { getTokenContract } from './contract'
 import jsonrpc from './jsonrpc'
 
 export default function mint(addr, amount, chain, ctoken) {
@@ -17,7 +17,6 @@ export default function mint(addr, amount, chain, ctoken) {
       'out',
     ],
   }).then((address) => {
-    
     if (ctoken === 'cfx') {
       return window.confluxJS
         .sendTransaction({
@@ -30,7 +29,7 @@ export default function mint(addr, amount, chain, ctoken) {
           return e
         })
     } else {
-      return getErc20Contract()
+      return getTokenContract()
         .transfer(address, amount)
         .sendTransaction({
           from: selectedAddress,

@@ -2,7 +2,7 @@ import sponsorAbi from './TokenSponsor.json'
 import custodianAbi from './CustodianImpl.json'
 import balanceAbi from './Balance.json'
 import tokenAbi from './TokenBase.json'
-import erc20Abi from './ERC20Baisc.json'
+// import erc20Abi from './ERC20Baisc.json'
 import {
   SPONSOR_CONTRACT_ADDR,
   CUSTODIAN_CONTRACT_ADDR,
@@ -38,4 +38,4 @@ export const getBalanceContract = createGetContract(
 )
 
 export const getTokenContract = createGetContract(tokenAbi)
-export const getErc20Contract = createGetContract(erc20Abi)
+// export const getErc20Contract = createGetContract(erc20Abi)

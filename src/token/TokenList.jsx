@@ -98,11 +98,11 @@ function TokenList({
                     if (!tokenData) {
                       return null
                     }
-                    active = getId(tokenData) === selected
+                    active = getIdFromToken(tokenData) === selected
                   }
                   return (
                     <div
-                      onClick={() => setToken(active ? '' : getId(tokenData))}
+                      onClick={() => setToken(active ? '' : getIdFromToken(tokenData))}
                       className={ListCx({ active }, 'frequent')}
                       key={_preset_reference}
                     >
@@ -161,7 +161,7 @@ function TokenList({
                       checked:
                         tokenInfo.is_admin === 1 && captain
                           ? false
-                          : selected === getId(tokenInfo),
+                          : selected === getIdFromToken(tokenInfo),
                       disabled: tokenInfo.is_admin === 1 && captain,
                       captain,
                       setToken,
@@ -218,7 +218,7 @@ function TokenRow({
         } else {
           const callback = () => {
             if (!disabled) {
-              setToken(getId(tokenInfo))
+              setToken(getIdFromToken(tokenInfo))
               setIsNotAvailable(notAvailable)
             }
           }
