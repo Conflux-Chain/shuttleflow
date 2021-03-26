@@ -13,7 +13,7 @@ export default function useCaptain(tokenInfo) {
   const { chain } = useParams()
   return useSWR(
     //todo hard code eth
-    tokenInfo && chain === 'eth'
+    tokenInfo && chain === 'eth' && tokenInfo.origin !== 'cfx'
       ? ['captain', tokenInfo.reference, address, chain, tokenInfo.decimals]
       : null,
     fetcher,
@@ -43,8 +43,10 @@ function fetcher(key, reference, address, chain, decimals) {
       .then((x) => {
         return x + ''
       }),
+
     getSponsorContract().sponsorValueOf(reference).call(),
     getCustodianContract().safe_sponsor_amount().call(),
+
     getCustodianContract().burn_fee(reference).call(),
     getCustodianContract().mint_fee(reference).call(),
     getCustodianContract().wallet_fee(reference).call(),
@@ -66,8 +68,8 @@ function fetcher(key, reference, address, chain, decimals) {
       minimal_mint_value,
       minimal_burn_value,
     ]) => {
-      console.log('minMortgage', minMortgage + '')
       console.log('currentMortgage', currentMortgage + '')
+      console.log('safeSponsorAmount', safeSponsorAmount + '')
 
       const cooldownMinutes = parseInt(defaultCooldown) / 60
       const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))
