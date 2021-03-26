@@ -15,6 +15,7 @@ function fetcher(key, searchOrPair, chain, cToken) {
   const { singleToken, display, searchList } = CHAIN_CONFIG[chain]
   return getTokenList(chain).then(({ tokenList, tokenMap }) => {
     if (pair) {
+      console.log('us')
       return singleToken
         ? { ...tokenList[0], singleton: true }
         : pair === CHAIN_SINGLE_PAIR

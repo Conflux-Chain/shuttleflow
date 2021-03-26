@@ -27,6 +27,7 @@ export default function FormProvider({ pair }) {
   const [cx, modalCx] = useStyle(formStyles, modalStyles)
   const txHash = useRef('')
   const address = useAddress()
+  console.log('====== pair', pair)
   const tokenInfo = useTokenList({ pair })
   const { decimals, reference } = tokenInfo
   const {

@@ -8,3 +8,6 @@ export function getIdFromToken(tokenInfo) {
 export function getIdfromOperationHistory(token, chain) {
   return `${chain}-${token}`
 }
+
+//Data format is compatible, Just in case change in future
+export const getIdFromSponsorInfo = getIdFromToken

@@ -13,11 +13,10 @@ import { useHistory, useRouteMatch } from 'react-router'
 export default function CaptainCenter() {
   const { data } = useMyCaptain()
   const { t } = useTranslation(['captain'])
-  console.log(data)
   const history = useHistory()
   const match = useRouteMatch()
   return (
-    <PaddingContainer top>
+    <PaddingContainer top style={{ backgroundColor: '#1b1b1b' }}>
       <Title>
         <span>{t('supported')}</span>
         <Flex
@@ -38,10 +37,8 @@ export default function CaptainCenter() {
 }
 
 function CaptainItem({ tokenInfo, t }) {
-  console.log(tokenInfo)
   const { origin, to_chain, sponsor_value, status, reference } = tokenInfo
   const nonCfxChain = [origin, to_chain].filter((x) => x !== 'cfx')[0]
-  console.log('nonCfxChain', nonCfxChain)
   const nonCfxChainConfig = CHAIN_CONFIG[nonCfxChain]
   const nonCfxChainIcon = nonCfxChainConfig.icon
   const nonCfxChainToken = nonCfxChainConfig.token
