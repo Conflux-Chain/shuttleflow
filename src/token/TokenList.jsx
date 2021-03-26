@@ -20,7 +20,7 @@ import useUrlSearch from '../lib/useUrlSearch'
 import { useBlockWithRisk } from '../layout/Risk'
 import CHAIN_CONFIG from '../config/chainConfig'
 import useTokenList from '../data/useTokenList'
-import { getId } from '../util/id'
+import { getIdFromToken } from '../util/id'
 
 const sorts = (key = 'symbol') => {
   return {

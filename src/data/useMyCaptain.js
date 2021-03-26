@@ -17,6 +17,7 @@ export default function useMyCaptain() {
 function fetcher(key, chain) {
   return Promise.all([
     getTokenList(chain),
+    
     Promise.resolve([
       {
         reference: '0x08130635368aa28b217a4dfb68e1bf8dc525621c',

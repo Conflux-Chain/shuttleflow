@@ -7,7 +7,7 @@ const path = require('path')
 const APP_SOURCE = path.join(__dirname, 'src')
 
 exports.devServer = () => ({
-  devtool: 'eval',
+  devtool: 'eval-source-map',
   devServer: {
     historyApiFallback: true,
     transportMode: 'ws',
@@ -20,16 +20,16 @@ exports.devServer = () => ({
     host: 'localhost',
     proxy: {
       '/rpcshuttleflow': {
-        // target: 'https://test.shuttleflow.confluxnetwork.org/rpcshuttleflow',
-        target: 'https://shuttleflow.io/rpcshuttleflow',
+        target: 'https://test.shuttleflow.confluxnetwork.org/rpcshuttleflow',
+        // target: 'https://shuttleflow.io/rpcshuttleflow',
         changeOrigin: true,
         pathRewrite: {
           '/rpcshuttleflow': '',
         },
       },
       '/rpcsponsor': {
-        // target: 'https://test.shuttleflow.confluxnetwork.org/rpcsponsor',
-        target: 'https://shuttleflow.io/rpcsponsor',
+        target: 'https://test.shuttleflow.confluxnetwork.org/rpcsponsor',
+        // target: 'https://shuttleflow.io/rpcsponsor',
         changeOrigin: true,
         pathRewrite: {
           '/rpcsponsor': '',
