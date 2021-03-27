@@ -29,6 +29,7 @@ export default function FormProvider({ pair }) {
   const address = useAddress()
   console.log('====== pair', pair)
   const tokenInfo = useTokenList({ pair })
+  console.log(tokenInfo)
   const { decimals, reference } = tokenInfo
   const {
     pendingCount,
@@ -88,7 +89,7 @@ export default function FormProvider({ pair }) {
     const currentMortgageBig = currentMortgage
     const minMortgageBig = new Big(minMortgage).div('1e18')
 
-    const cethBalanceBig = new Big(cethBalance).div('1e18')
+    const cethBalanceBig = cethBalance
 
     let cethBalanceDisplay = cethBalanceBig.round(MAX_DECIMAL_DISPLAY, 0)
     if (!cethBalanceDisplay.eq(cethBalanceBig)) {

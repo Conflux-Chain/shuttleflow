@@ -52,6 +52,7 @@ function TokenList({
   let displayedList = useTokenList()
   let searchedList = useTokenList({ search, cToken })
 
+  console.log(searchedList)
   searchedList = searchedList
     .slice()
     .filter(({ origin }) => (chainFilter ? origin === chainFilter : true))

@@ -95,8 +95,6 @@ function fetchHistory({
       ],
     }),
   ]).then(([tokenMap, histories = []]) => {
-    console.log(tokenMap, histories)
-
     return histories
       .map(({ token, ...rest }) => {
         //It can happen due to some unexpected human operation

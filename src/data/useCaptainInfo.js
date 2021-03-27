@@ -13,8 +13,15 @@ export default function useCaptain(tokenInfo) {
   const { chain } = useParams()
   return useSWR(
     //todo hard code eth
-    tokenInfo && chain === 'eth' && tokenInfo.origin !== 'cfx'
-      ? ['captain', tokenInfo.reference, address, chain, tokenInfo.decimals]
+    tokenInfo && chain === 'eth'
+      ? [
+          'captain',
+          tokenInfo.reference,
+          address,
+          chain,
+          tokenInfo.decimals,
+          tokenInfo.origin,
+        ]
       : null,
     fetcher,
     {
@@ -27,7 +34,7 @@ export default function useCaptain(tokenInfo) {
 //some level of inconsistancy, tend to be fixed when reverse captain roll out
 //The meaning of mint/burn and in/out is a mess currectly
 //expect to be sorted out in the future
-function fetcher(key, reference, address, chain, decimals) {
+function fetcher(key, reference, address, chain, decimals, origin) {
   return Promise.all([
     jsonrpc('getPendingOperationInfo', {
       url: 'node',
@@ -39,10 +46,7 @@ function fetcher(key, reference, address, chain, decimals) {
     getSponsorContract().sponsorOf(reference).call(),
     getBalanceContract()
       .tokenBalance(address, CHAIN_CONFIG[chain].cAddress)
-      .call()
-      .then((x) => {
-        return x + ''
-      }),
+      .call(),
 
     getSponsorContract().sponsorValueOf(reference).call(),
     getCustodianContract().safe_sponsor_amount().call(),
@@ -78,7 +82,7 @@ function fetcher(key, reference, address, chain, decimals) {
         pendingCount: cnt,
         minMortgage: minMortgage + '',
         countdown: Math.max(0, parseInt(defaultCooldown + '') - diff),
-        cethBalance,
+        cethBalance: Big(cethBalance + '').div('1e18'),
         sponsor,
         currentMortgage: Big(currentMortgage + '').div('1e18'),
         safeSponsorAmount: Big(safeSponsorAmount + '').div('1e18'),

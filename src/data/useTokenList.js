@@ -4,6 +4,7 @@ import CHAIN_CONFIG from '../config/chainConfig'
 import { getTokenList } from './tokenList'
 import useSWR from 'swr'
 import { CHAIN_SINGLE_PAIR } from '../config/constant'
+import { parseId } from '../util/id'
 
 function fetcher(key, searchOrPair, chain, cToken) {
   let search, pair
@@ -15,7 +16,23 @@ function fetcher(key, searchOrPair, chain, cToken) {
   const { singleToken, display, searchList } = CHAIN_CONFIG[chain]
   return getTokenList(chain).then(({ tokenList, tokenMap }) => {
     if (pair) {
-      console.log('us')
+      console.log('us', pair, tokenMap[pair])
+      if (singleToken) {
+        return { ...tokenList[0], singleton: true }
+      } else {
+        if (pair === CHAIN_SINGLE_PAIR) {
+          return null
+        } else {
+          if (tokenMap[pair]) {
+            return tokenMap[pair]
+          } else {
+            const { origin, originAddr } = parseId(pair)
+            if (origin === chain) {
+              return CHAIN_CONFIG[chain].searchTokenFromServer(originAddr)
+            }
+          }
+        }
+      }
       return singleToken
         ? { ...tokenList[0], singleton: true }
         : pair === CHAIN_SINGLE_PAIR

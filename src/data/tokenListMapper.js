@@ -23,6 +23,7 @@ export default function tokenListMapper(d) {
     burn_fee,
     wallet_fee,
     sponsor_value,
+    origin,
   } = d
 
   delete d.minimal_burn_value
