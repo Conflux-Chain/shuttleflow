@@ -1,4 +1,4 @@
-import { getTokenContract } from './contract'
+import { getContract } from './contract'
 import jsonrpc from './jsonrpc'
 
 export default function mint(addr, amount, chain, ctoken) {
@@ -29,16 +29,17 @@ export default function mint(addr, amount, chain, ctoken) {
           return e
         })
     } else {
-      return getTokenContract()
-        .transfer(address, amount)
-        .sendTransaction({
-          from: selectedAddress,
-          to: ctoken,
-        })
-        .then((e) => {
-          console.log(e)
-          return e
-        })
+      return getContract('erc777').then((c) => {
+        c.transfer(address, amount)
+          .sendTransaction({
+            from: selectedAddress,
+            to: ctoken,
+          })
+          .then((e) => {
+            console.log(e)
+            return e
+          })
+      })
     }
   })
 }

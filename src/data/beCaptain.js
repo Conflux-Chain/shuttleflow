@@ -1,6 +1,18 @@
-import { getCustodianContract } from './contract'
+import { getContract } from './contract'
 
-export default function createBeCaptain(userAddress, reference) {
+export default function createBeCaptain(userAddress, tokenInfo) {
+  const { reference, origin, ctoken, to_chain } = tokenInfo
+  let toCfxOrFromCfx, referenceOrCtoken, notCfxChain
+
+  if (origin === 'cfx') {
+    toCfxOrFromCfx = 'fromCfx'
+    referenceOrCtoken = ctoken
+    notCfxChain = to_chain
+  } else {
+    toCfxOrFromCfx = 'toCfx'
+    referenceOrCtoken = reference
+    notCfxChain = origin
+  }
   return function beCaptain({
     amount,
     burnFee,
@@ -9,30 +21,43 @@ export default function createBeCaptain(userAddress, reference) {
     minimalMintValue,
     minimalBurnValue,
   }) {
-    const contract = getCustodianContract()
-    if (!amount) {
-      return contract
-        .setTokenParams(
-          reference,
-          burnFee,
-          mintFee,
-          walletFee,
-          minimalMintValue,
-          minimalBurnValue
-        )
-        .sendTransaction({ from: userAddress })
-    } else {
-      return contract
-        .sponsorToken(
-          reference,
-          amount,
-          burnFee,
-          mintFee,
-          walletFee,
-          minimalMintValue,
-          minimalBurnValue
-        )
-        .sendTransaction({ from: userAddress })
-    }
+    return getContract(`custodian.${toCfxOrFromCfx}.${notCfxChain}`).then(
+      (c) => {
+        const contract = c
+        if (!amount) {
+          return contract
+            .setTokenParams(
+              referenceOrCtoken,
+              burnFee,
+              mintFee,
+              walletFee,
+              minimalMintValue,
+              minimalBurnValue
+            )
+            .sendTransaction({ from: userAddress })
+        } else {
+          console.log(
+            referenceOrCtoken,
+            amount,
+            burnFee,
+            mintFee,
+            walletFee,
+            minimalMintValue,
+            minimalBurnValue
+          )
+          return contract
+            .sponsorToken(
+              referenceOrCtoken,
+              amount,
+              burnFee,
+              mintFee,
+              walletFee,
+              minimalMintValue,
+              minimalBurnValue
+            )
+            .sendTransaction({ from: userAddress })
+        }
+      }
+    )
   }
 }

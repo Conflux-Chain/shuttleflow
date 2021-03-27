@@ -1,4 +1,4 @@
-import { getBalanceContract } from './contract'
+import { getBalanceContract, getContract } from './contract'
 import useAddress from './useAddress'
 import useSWR from 'swr'
 import Big from 'big.js'
@@ -22,7 +22,9 @@ export function useBalance(tokenInfo, options = {}) {
 function fetcher(key, address, tokenAddr, decimals) {
   return (tokenAddr === 'cfx'
     ? window.confluxJS.getBalance(address)
-    : getBalanceContract().tokenBalance(address, tokenAddr).call()
+    : getContract('balance').then((c) => {
+        return c.tokenBalance(address, tokenAddr).call()
+      })
   ).then((x) => {
     return Big(x + '').div(`1e${decimals}`)
   })

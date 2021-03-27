@@ -36,13 +36,17 @@ export default function useCaptain(tokenInfo) {
 //expect to be sorted out in the future
 function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
   console.log('origin', origin)
-  let toCfxOrFromCfx, referenceOrCtoken
+  let toCfxOrFromCfx, referenceOrCtoken, _in, _out
   if (origin === 'cfx') {
     toCfxOrFromCfx = 'fromCfx'
     referenceOrCtoken = ctoken
+    _in = 'burn'
+    _out = 'mint'
   } else {
     toCfxOrFromCfx = 'toCfx'
     referenceOrCtoken = reference
+    _in = 'mint'
+    _out = 'burn'
   }
 
   return Promise.all([
@@ -92,6 +96,14 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
       safe_sponsor_amount,
     ] = custodianData.map((x) => Big(x + ''))
 
+    const values = {
+      burn_fee,
+      mint_fee,
+      wallet_fee,
+      minimal_mint_value,
+      minimal_burn_value,
+    }
+
     const sponsor = sponsorData[0]
     const sponsorValue = Big(sponsorData[1] + '')
 
@@ -102,7 +114,7 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
       out_fee: burn_fee.div(`1e${decimals}`),
       in_fee: mint_fee.div(`1e${decimals}`),
       wallet_fee: wallet_fee.div(`1e${decimals}`),
-      minimal_in_value: minimal_mint_value.div(`1e${decimals}`),
+      minimal_in_value: values[`minimal_${_in}_value`].div(`1e${decimals}`),
       minimal_out_value: minimal_burn_value.div(`1e${decimals}`),
       minMortgage: minimal_sponsor_amount,
 

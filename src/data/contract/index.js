@@ -1,8 +1,3 @@
-import {
-  SPONSOR_CONTRACT_ADDR,
-  CUSTODIAN_CONTRACT_ADDR,
-} from '../../config/config'
-
 const config = {
   custodian: {
     toCfx: {
@@ -37,44 +32,6 @@ const config = {
   },
 }
 
-function createGetContract(abiFileName, address) {
-  let contract
-  return function getContract() {
-    if (!contract) {
-      contract = import(
-        /* webpackChunkName: "Abi" */
-        /* webpackPrefetch: true */
-        /* webpackPreload: true */
-        `./${abiFileName}.json`
-      )
-        .then((x) => x.default)
-        .then((abi) => {
-          const args = { abi }
-          if (address) {
-            args.address = address
-          }
-          return window.confluxJS.Contract(args)
-        })
-    }
-    return contract
-  }
-}
-
-export const getSponsorContract = createGetContract(
-  'TokenSponsor',
-  SPONSOR_CONTRACT_ADDR
-)
-export const getCustodianContract = createGetContract(
-  'CustodianImpl',
-  CUSTODIAN_CONTRACT_ADDR
-)
-
-export const getBalanceContract = createGetContract(
-  'Balance',
-  '0x8f35930629fce5b5cf4cd762e71006045bfeb24d'
-)
-
-export const getTokenContract = createGetContract('TokenBase')
 
 function find(path, key) {
   const parts = path.split('.')
@@ -91,6 +48,7 @@ const contractCache = {}
 export function getContract(path) {
   if (!contractCache[path]) {
     const [address, ABI] = ['address', 'abi'].map((key) => find(path, key))
+
     contractCache[path] = import(
       /* webpackChunkName: "Abi" */
       /* webpackPrefetch: true */
