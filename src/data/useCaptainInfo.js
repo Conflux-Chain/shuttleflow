@@ -40,58 +40,79 @@ function fetcher(key, reference, address, chain, decimals, origin) {
       url: 'node',
       params: [reference],
     }),
-    getCustodianContract().token_cooldown(reference).call(),
-    getCustodianContract().minimal_sponsor_amount().call(),
-    getCustodianContract().default_cooldown().call(),
-    getSponsorContract().sponsorOf(reference).call(),
-    getBalanceContract()
-      .tokenBalance(address, CHAIN_CONFIG[chain].cAddress)
-      .call(),
+    getCustodianContract().then((c) => {
+      return Promise.all(
+        [
+          c.burn_fee(reference),
+          c.mint_fee(reference),
+          c.wallet_fee(reference),
+          c.minimal_mint_value(reference),
+          c.minimal_burn_value(reference),
+          c.token_cooldown(reference),
+          c.minimal_sponsor_amount(),
+          c.default_cooldown(),
+          c.safe_sponsor_amount(),
+        ].map((fn) => fn.call())
+      )
+    }),
+    getSponsorContract().then((c) => {
+      return Promise.all(
+        [c.sponsorOf(reference), c.sponsorValueOf(reference)].map((fn) =>
+          fn.call()
+        )
+      )
+    }),
 
-    getSponsorContract().sponsorValueOf(reference).call(),
-    getCustodianContract().safe_sponsor_amount().call(),
-
-    getCustodianContract().burn_fee(reference).call(),
-    getCustodianContract().mint_fee(reference).call(),
-    getCustodianContract().wallet_fee(reference).call(),
-    getCustodianContract().minimal_mint_value(reference).call(),
-    getCustodianContract().minimal_burn_value(reference).call(),
-  ]).then(
-    ([
-      { cnt = 0 } = {},
-      cooldown,
-      minMortgage,
-      defaultCooldown,
-      sponsor,
-      cethBalance,
-      currentMortgage,
-      safeSponsorAmount,
+    getBalanceContract().then((c) => {
+      return c.tokenBalance(address, CHAIN_CONFIG[chain].cAddress).call()
+    }),
+  ]).then(([pendingInfo, custodianData, sponsorData, myBaclance]) => {
+    console.log(pendingInfo, custodianData, sponsorData, myBaclance)
+    const { cnt } = pendingInfo
+    const [
       burn_fee,
       mint_fee,
       wallet_fee,
       minimal_mint_value,
       minimal_burn_value,
-    ]) => {
-      console.log('currentMortgage', currentMortgage + '')
-      console.log('safeSponsorAmount', safeSponsorAmount + '')
+      token_cooldown,
+      minimal_sponsor_amount,
+      default_cooldown,
+      safe_sponsor_amount,
+    ] = custodianData.map((x) => Big(x + ''))
 
-      const cooldownMinutes = parseInt(defaultCooldown) / 60
-      const diff = parseInt(Date.now() / 1000 - parseInt(cooldown))
-      return {
-        cooldownMinutes,
-        pendingCount: cnt,
-        minMortgage: minMortgage + '',
-        countdown: Math.max(0, parseInt(defaultCooldown + '') - diff),
-        cethBalance: Big(cethBalance + '').div('1e18'),
-        sponsor,
-        currentMortgage: Big(currentMortgage + '').div('1e18'),
-        safeSponsorAmount: Big(safeSponsorAmount + '').div('1e18'),
-        out_fee: Big(burn_fee + '').div(`1e${decimals}`),
-        in_fee: Big(mint_fee + '').div(`1e${decimals}`),
-        wallet_fee: Big(wallet_fee + '').div(`1e${decimals}`),
-        minimal_in_value: Big(minimal_mint_value + '').div(`1e${decimals}`),
-        minimal_out_value: Big(minimal_burn_value + '').div(`1e${decimals}`),
-      }
+    const sponsor = sponsorData[0]
+    const sponsorValue = Big(sponsorData[1] + '')
+
+    console.log(
+      [
+        burn_fee,
+        mint_fee,
+        wallet_fee,
+        minimal_mint_value,
+        minimal_burn_value,
+        token_cooldown,
+        minimal_sponsor_amount,
+        default_cooldown,
+        safe_sponsor_amount,
+      ].map((x) => x + '')
+    )
+    const diff = parseInt(Date.now() / 1000 - parseInt(token_cooldown))
+    return {
+      pendingCount: cnt,
+
+      out_fee: burn_fee.div(`1e${decimals}`),
+      in_fee: mint_fee.div(`1e${decimals}`),
+      wallet_fee: wallet_fee.div(`1e${decimals}`),
+      minimal_in_value: minimal_mint_value.div(`1e${decimals}`),
+      minimal_out_value: minimal_burn_value.div(`1e${decimals}`),
+      minMortgage: minimal_sponsor_amount,
+
+      countdown: Math.max(0, parseInt(default_cooldown + '') - diff),
+      cethBalance: Big(myBaclance + '').div('1e18'),
+      sponsor,
+      currentMortgage: sponsorValue.div('1e18'),
+      safeSponsorAmount: safe_sponsor_amount.div('1e18'),
     }
-  )
+  })
 }

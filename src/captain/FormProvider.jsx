@@ -27,15 +27,12 @@ export default function FormProvider({ pair }) {
   const [cx, modalCx] = useStyle(formStyles, modalStyles)
   const txHash = useRef('')
   const address = useAddress()
-  console.log('====== pair', pair)
   const tokenInfo = useTokenList({ pair })
-  console.log(tokenInfo)
   const { decimals, reference } = tokenInfo
   const {
     pendingCount,
     countdown,
     minMortgage,
-    cooldownMinutes,
     sponsor,
     cethBalance,
     currentMortgage,
@@ -101,7 +98,6 @@ export default function FormProvider({ pair }) {
       ...tokenInfo,
       pendingCount,
       countdown,
-      cooldownMinutes,
       currentMortgage,
       sponsor,
       beCaptain,
