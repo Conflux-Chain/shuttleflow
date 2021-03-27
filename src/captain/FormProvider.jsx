@@ -28,6 +28,8 @@ export default function FormProvider({ pair }) {
   const txHash = useRef('')
   const address = useAddress()
   const tokenInfo = useTokenList({ pair })
+
+  console.log(tokenInfo)
   const { decimals, reference } = tokenInfo
   const {
     pendingCount,

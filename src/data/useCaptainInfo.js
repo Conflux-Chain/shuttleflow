@@ -1,6 +1,5 @@
 import jsonrpc from './jsonrpc'
-import { getCustodianContract, getSponsorContract } from './contract'
-import { getBalanceContract } from './contract'
+import { getContract } from './contract'
 import Big from 'big.js'
 import useSWR from 'swr'
 import useAddress from './useAddress'
@@ -17,6 +16,7 @@ export default function useCaptain(tokenInfo) {
       ? [
           'captain',
           tokenInfo.reference,
+          tokenInfo.ctoken,
           address,
           chain,
           tokenInfo.decimals,
@@ -34,41 +34,52 @@ export default function useCaptain(tokenInfo) {
 //some level of inconsistancy, tend to be fixed when reverse captain roll out
 //The meaning of mint/burn and in/out is a mess currectly
 //expect to be sorted out in the future
-function fetcher(key, reference, address, chain, decimals, origin) {
+function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
+  console.log('origin', origin)
+  let toCfxOrFromCfx, referenceOrCtoken
+  if (origin === 'cfx') {
+    toCfxOrFromCfx = 'fromCfx'
+    referenceOrCtoken = ctoken
+  } else {
+    toCfxOrFromCfx = 'toCfx'
+    referenceOrCtoken = reference
+  }
+
   return Promise.all([
     jsonrpc('getPendingOperationInfo', {
       url: 'node',
-      params: [reference],
+      params: [referenceOrCtoken],
     }),
-    getCustodianContract().then((c) => {
+    getContract(`custodian.${toCfxOrFromCfx}.${chain}`).then((c) => {
       return Promise.all(
         [
-          c.burn_fee(reference),
-          c.mint_fee(reference),
-          c.wallet_fee(reference),
-          c.minimal_mint_value(reference),
-          c.minimal_burn_value(reference),
-          c.token_cooldown(reference),
+          c.burn_fee(referenceOrCtoken),
+          c.mint_fee(referenceOrCtoken),
+          c.wallet_fee(referenceOrCtoken),
+          c.minimal_mint_value(referenceOrCtoken),
+          c.minimal_burn_value(referenceOrCtoken),
+          c.token_cooldown(referenceOrCtoken),
           c.minimal_sponsor_amount(),
           c.default_cooldown(),
           c.safe_sponsor_amount(),
         ].map((fn) => fn.call())
       )
     }),
-    getSponsorContract().then((c) => {
+    getContract(`sponsor.${toCfxOrFromCfx}.${chain}`).then((c) => {
       return Promise.all(
-        [c.sponsorOf(reference), c.sponsorValueOf(reference)].map((fn) =>
-          fn.call()
-        )
+        [
+          c.sponsorOf(referenceOrCtoken),
+          c.sponsorValueOf(referenceOrCtoken),
+        ].map((fn) => fn.call())
       )
     }),
 
-    getBalanceContract().then((c) => {
+    getContract('balance').then((c) => {
       return c.tokenBalance(address, CHAIN_CONFIG[chain].cAddress).call()
     }),
   ]).then(([pendingInfo, custodianData, sponsorData, myBaclance]) => {
     console.log(pendingInfo, custodianData, sponsorData, myBaclance)
-    const { cnt } = pendingInfo
+    const { cnt } = pendingInfo || { cnt: 0 }
     const [
       burn_fee,
       mint_fee,
@@ -84,19 +95,6 @@ function fetcher(key, reference, address, chain, decimals, origin) {
     const sponsor = sponsorData[0]
     const sponsorValue = Big(sponsorData[1] + '')
 
-    console.log(
-      [
-        burn_fee,
-        mint_fee,
-        wallet_fee,
-        minimal_mint_value,
-        minimal_burn_value,
-        token_cooldown,
-        minimal_sponsor_amount,
-        default_cooldown,
-        safe_sponsor_amount,
-      ].map((x) => x + '')
-    )
     const diff = parseInt(Date.now() / 1000 - parseInt(token_cooldown))
     return {
       pendingCount: cnt,
