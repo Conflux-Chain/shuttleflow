@@ -8,8 +8,11 @@ import { getIdFromToken, parseId } from '../util/id'
 import jsonrpc from './jsonrpc'
 
 import { updateTokenList } from './tokenList'
+import { isCfxAddress } from '../util/address'
 
 function fetcher(key, searchOrPair, chain, cToken) {
+  console.log(key, searchOrPair, chain, cToken)
+
   let search, pair
   if (key === 'search') {
     search = searchOrPair
@@ -37,49 +40,86 @@ function fetcher(key, searchOrPair, chain, cToken) {
           }
         }
       }
-      // return singleToken
-      //   ? { ...tokenList[0], singleton: true }
-      //   : pair === CHAIN_SINGLE_PAIR
-      //   ? null
-      //   : tokenMap[pair] ||
-      //     //pair is not present in tokenlist but searchable
-      //     CHAIN_CONFIG[chain].searchList(tokenList, pair).then((x) => x[0])
     }
     if (!search) {
       return tokenList.filter(display)
     }
 
-    return (cToken ? searchCfxList : searchList)(
-      tokenList,
-      search
-    ).then((list) => sortSearchResult(list))
+    return (cToken ? searchCfxList : searchList)(tokenList, search, chain).then(
+      (e) => {
+        console.log(e)
+        return e
+      }
+    )
+    // .then((list) => sortSearchResult(list))
   })
 }
+
+let counter = 0
 export default function useTokenList({ pair, search, cToken } = {}) {
   const { chain } = useParams()
+
+  console.log('useTokenList', pair, search, cToken)
+  if (++counter > 100) {
+    debugger
+  }
   return useSWR(
     pair ? ['pair', pair, chain] : ['search', search, chain, cToken],
     fetcher,
-    { suspense: true, revalidateOnMount: true }
+    { suspense: true, revalidateOnMount: false }
   ).data
 }
 
-function searchCfxList(list, search) {
+export function useTokenPair({ search, cToken } = {}) {
+  const { chain } = useParams()
+
+  console.log('useTokenPair', search, cToken)
+  if (++counter > 100) {
+    debugger
+  }
+  return useSWR(['search', search, chain, cToken], fetcher1, {
+    suspense: true,
+    // revalidateOnMount: false,
+    initialData: [],
+  }).data
+}
+
+function fetcher1(params) {
+  return Promise.resolve([])
+}
+
+function searchCfxList(list, search, chain) {
   const lowerSearch = search.toLowerCase()
-  return Promise.resolve(
-    list.filter(
-      ({ reference_name, reference_symbol, ctoken, symbol, supported }) => {
-        return (
-          //DO NOT present unsupported with ctoken
-          supported &&
-          (ctoken === search ||
-            reference_symbol.toLowerCase().indexOf(lowerSearch) > -1 ||
-            symbol.toLowerCase().indexOf(lowerSearch) > -1 ||
-            reference_name.toLowerCase().indexOf(lowerSearch) > -1)
-        )
+  const isAddressCfx = isCfxAddress(search)
+
+  if (isAddressCfx) {
+    return Promise.resolve(
+      list.filter(({ ctoken }) => ctoken.toLowerCase() === lowerSearch)
+    ).then((list) => {
+      if (list.length === 1) {
+        return list
+      } else {
+        return searchCfxFromServer(search, chain).then((result) => {
+          return result ? [result] : []
+        })
       }
+    })
+  } else {
+    return Promise.resolve(
+      list.filter(
+        ({ reference_name, reference_symbol, ctoken, symbol, supported }) => {
+          return (
+            //DO NOT present unsupported with ctoken
+            supported &&
+            (ctoken === search ||
+              reference_symbol.toLowerCase().indexOf(lowerSearch) > -1 ||
+              symbol.toLowerCase().indexOf(lowerSearch) > -1 ||
+              reference_name.toLowerCase().indexOf(lowerSearch) > -1)
+          )
+        }
+      )
     )
-  )
+  }
 }
 
 function sortSearchResult(list) {
@@ -96,6 +136,7 @@ function sortSearchResult(list) {
 }
 
 function searchCfxFromServer(addr, chain) {
+  console.log('searchCfxFromServer', chain)
   return jsonrpc('searchToken', {
     url: 'sponsor',
     params: ['cfx', chain, addr],

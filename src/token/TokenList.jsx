@@ -19,7 +19,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import useUrlSearch from '../lib/useUrlSearch'
 import { useBlockWithRisk } from '../layout/Risk'
 import CHAIN_CONFIG from '../config/chainConfig'
-import useTokenList from '../data/useTokenList'
+import useTokenList, { useTokenPair } from '../data/useTokenList'
 import { getIdFromToken } from '../util/id'
 
 const sorts = (key = 'symbol') => {
@@ -32,6 +32,7 @@ const sorts = (key = 'symbol') => {
     },
   }
 }
+
 
 function TokenList({
   search = '',
@@ -49,10 +50,13 @@ function TokenList({
 
   const ListSourceComponent = CHAIN_CONFIG[chain].TokenList
 
-  let displayedList = useTokenList()
+  // let displayedList = useTokenList()
   let searchedList = useTokenList({ search, cToken })
+  console.log('render TokenList')
+  let displayedList = searchedList
 
-  console.log(searchedList)
+  console.log(displayedList)
+  // console.log(searchedList)
   searchedList = searchedList
     .slice()
     .filter(({ origin }) => (chainFilter ? origin === chainFilter : true))
@@ -103,7 +107,9 @@ function TokenList({
                   }
                   return (
                     <div
-                      onClick={() => setToken(active ? '' : getIdFromToken(tokenData))}
+                      onClick={() =>
+                        setToken(active ? '' : getIdFromToken(tokenData))
+                      }
                       className={ListCx({ active }, 'frequent')}
                       key={_preset_reference}
                     >

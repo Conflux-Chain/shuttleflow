@@ -252,7 +252,7 @@ function Approve({ chain }) {
             .call({ from: selectedAddress, to: ctoken })
         })
         .then((isOperatorFor) => {
-          setIsOperatorFor(setIsOperatorFor)
+          setIsOperatorFor(isOperatorFor)
           // console.log('isOperatorFor', isOperatorFor)
         })
     }

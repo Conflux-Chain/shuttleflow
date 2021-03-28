@@ -83,10 +83,12 @@ const config = {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
     searchList: function filterEth(list, search) {
+      // if (search === 'guic') {
+      //   debugger
+      // }
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
 
-      // debugger
       if (isEthAddress) {
         console.log('search', search)
         return Promise.resolve(
@@ -107,6 +109,13 @@ const config = {
         })
       }
 
+      console.log(
+        list.filter(
+          ({ reference_symbol, reference_name }) =>
+            reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
+            reference_name.toLowerCase().indexOf(lowersearch) > -1
+        )
+      )
       return Promise.resolve(
         list.filter(
           ({ reference_symbol, reference_name }) =>
