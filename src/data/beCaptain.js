@@ -1,4 +1,4 @@
-import { getContract } from './contract'
+import { getContract } from './contract/contract'
 
 export default function createBeCaptain(userAddress, tokenInfo) {
   const { reference, origin, ctoken, to_chain } = tokenInfo

@@ -1,5 +1,5 @@
 import jsonrpc from './jsonrpc'
-import { getContract } from './contract'
+import { getContract } from './contract/contract'
 import Big from 'big.js'
 import useSWR from 'swr'
 import useAddress from './useAddress'
@@ -35,11 +35,13 @@ export default function useCaptain(tokenInfo) {
 //The meaning of mint/burn and in/out is a mess currectly
 //expect to be sorted out in the future
 function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
-  console.log('origin', origin)
   let toCfxOrFromCfx, referenceOrCtoken, _in, _out
   if (origin === 'cfx') {
     toCfxOrFromCfx = 'fromCfx'
     referenceOrCtoken = ctoken
+    if (referenceOrCtoken === 'cfx') {
+      referenceOrCtoken = 'cfx:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0sfbnjm2'
+    }
     _in = 'burn'
     _out = 'mint'
   } else {
@@ -49,15 +51,12 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
     _out = 'burn'
   }
 
-  console.log(`custodian.${toCfxOrFromCfx}.${chain}`, referenceOrCtoken)
-
   return Promise.all([
     jsonrpc('getPendingOperationInfo', {
       url: 'node',
       params: [referenceOrCtoken],
     }),
     getContract(`custodian.${toCfxOrFromCfx}.${chain}`).then((c) => {
-      console.log(c)
       return Promise.all(
         [
           c.burn_fee(referenceOrCtoken),
@@ -85,7 +84,6 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
       return c.tokenBalance(address, CHAIN_CONFIG[chain].cAddress).call()
     }),
   ]).then(([pendingInfo, custodianData, sponsorData, myBaclance]) => {
-    console.log(pendingInfo, custodianData, sponsorData, myBaclance)
     const { cnt } = pendingInfo || { cnt: 0 }
     const [
       burn_fee,

@@ -12,7 +12,7 @@ import bscSubSrc from './bsc-sub.svg'
 import hecoSrc from './heco.svg'
 import hecoSubSrc from './heco-sub.svg'
 
-import { updateTokenList } from '../data/tokenList'
+import { getTokenList, updateTokenList } from '../data/tokenList'
 import { getIdFromToken } from '../util/id'
 
 var WAValidator = require('wallet-address-validator')
@@ -59,6 +59,7 @@ const config = {
     token: 'cETH',
     tk_url: ETH_SCAN_URL + '/token/',
     tx_url: ETH_SCAN_URL + '/tx/',
+    mainPair: 'eth-eth',
     cAddress: IS_DEV
       ? '0x8442bc8b5d01bf635bb12e6c63a379cb167ab5bb'
       : '0x86d2fb177eff4be03a342951269096265b98ac46', //ceth

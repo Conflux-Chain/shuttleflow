@@ -1,4 +1,4 @@
-const config = {
+export const CONTRACT_CONFIG = {
   custodian: {
     toCfx: {
       abi: 'CustodianImpl',
@@ -34,7 +34,7 @@ const config = {
 
 function find(path, key) {
   const parts = path.split('.')
-  let _config = config
+  let _config = CONTRACT_CONFIG
 
   // console.log(path, key)
   // if (path === 'erc777') {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useStyle from '../component/useStyle'
 import inputStyles from '../component/input.module.scss'
 import formStyles from './Form.module.scss'
@@ -19,7 +19,12 @@ import warning from './warning.svg'
 import Button from '../component/Button/Button'
 import styled from 'styled-components'
 import { isZeroAddress } from '../util/address'
+import { CONTRACT_CONFIG, getContract } from '../data/contract/contract'
+import CHAIN_CONFIG from '../config/chainConfig'
+import { useParams } from 'react-router'
+import useTokenList from '../data/useTokenList'
 export default function CaptainForm({
+  origin,
   pendingCount,
   countdown,
   address,
@@ -42,16 +47,20 @@ export default function CaptainForm({
   currentMortgageBig,
   cethBalanceDisplay,
   safeSponsorAmount,
-  default_cooldown_minutes
+  default_cooldown_minutes,
 }) {
-  //the data from tokenList is not accurate
-  //tell based on the contract
+  //the data from tokenList is not accurate due to the delay
+  //we can tell based on the contract instead
   supported = supported || !isZeroAddress(sponsor)
+  const { chain } = useParams()
+
+  const shouldDisplayApprove = origin === 'cfx'
 
   const { t } = useTranslation(['captain'])
   const [inputCx, formCx] = useStyle(inputStyles, formStyles)
   const [mortgagePopup, setMortgagePopup] = useState(false)
   const [readonlyPopup, setReadonlyPopup] = useState(false)
+  const [transactionPending, setTranscationPending] = useState(false)
 
   function clickLabel() {
     setMortgagePopup(true)
@@ -63,6 +72,7 @@ export default function CaptainForm({
   const [showMortgage, setShowMortgage] = useState(!isMe)
 
   const onSubmit = (data) => {
+    setTranscationPending(true)
     beCaptain({
       amount: data.mortgage_amount,
       burnFee: data.burn_fee,
@@ -70,6 +80,9 @@ export default function CaptainForm({
       walletFee: data.wallet_fee,
       minimalMintValue: data.minimal_mint_value,
       minimalBurnValue: data.minimal_burn_value,
+      cb: () => {
+        setTranscationPending(false)
+      },
     })
   }
   const fields = getFields({
@@ -180,7 +193,13 @@ export default function CaptainForm({
             </>
           )}
 
-          <Button type="submit" className={formCx('btn')}>
+          {shouldDisplayApprove && <Approve chain={chain} />}
+          <Button
+            fullWidth
+            type="submit"
+            loading={transactionPending}
+            className={formCx('btn')}
+          >
             {isMe
               ? t('update')
               : isMortgageLow
@@ -217,3 +236,48 @@ const Text = styled.div`
     margin-right: 4px;
   }
 `
+
+function Approve({ chain }) {
+  const selectedAddress = window.conflux.selectedAddress
+  const { ctoken } = useTokenList({ pair: CHAIN_CONFIG[chain].mainPair })
+  const operator = CONTRACT_CONFIG.custodian.fromCfx[chain].address
+  const [isOperatorFor, setIsOperatorFor] = useState(null)
+  useEffect(() => {
+    if (ctoken && selectedAddress) {
+      getContract('erc777')
+        .then((c) => {
+          console.log(ctoken, selectedAddress, c.isOperatorFor)
+          return c
+            .isOperatorFor(operator, selectedAddress)
+            .call({ from: selectedAddress, to: ctoken })
+        })
+        .then((isOperatorFor) => {
+          setIsOperatorFor(setIsOperatorFor)
+          // console.log('isOperatorFor', isOperatorFor)
+        })
+    }
+  }, [ctoken, selectedAddress])
+  return (
+    <div
+      style={{ cursor: 'pointer' }}
+      onClick={() => {
+        getContract('erc777').then((c) => {
+          return c
+            .authorizeOperator(operator)
+            .sendTransaction({
+              from: selectedAddress,
+              to: ctoken,
+            })
+            .then((e) => {
+              console.log(e)
+            })
+            .catch((e) => {
+              console.log(e)
+            })
+        })
+      }}
+    >
+      Approve
+    </div>
+  )
+}

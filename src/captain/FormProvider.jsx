@@ -54,6 +54,7 @@ export default function FormProvider({ pair }) {
     walletFee,
     minimalMintValue,
     minimalBurnValue,
+    cb
   }) {
     createBeCaptain(
       address,
@@ -72,6 +73,11 @@ export default function FormProvider({ pair }) {
       })
       .catch(() => {
         setPopup('fail')
+      })
+      .finally(() => {
+        if (cb) {
+          cb()
+        }
       })
   }
 
@@ -114,7 +120,7 @@ export default function FormProvider({ pair }) {
       wallet_fee,
       minimal_in_value,
       minimal_out_value,
-      default_cooldown_minutes
+      default_cooldown_minutes,
     }
     return (
       <>

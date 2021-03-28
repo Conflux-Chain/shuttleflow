@@ -1,4 +1,4 @@
-import { getContract } from './contract'
+import { getContract } from './contract/contract'
 import jsonrpc from './jsonrpc'
 export default function shuttleout(tokenInfo, amount, externalAddress, chain) {
   const selectedAddress = window.conflux.selectedAddress

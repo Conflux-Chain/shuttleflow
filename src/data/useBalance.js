@@ -1,4 +1,4 @@
-import { getBalanceContract, getContract } from './contract'
+import { getContract } from './contract/contract'
 import useAddress from './useAddress'
 import useSWR from 'swr'
 import Big from 'big.js'

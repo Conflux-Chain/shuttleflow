@@ -29,10 +29,8 @@ import { CONFLUXSCAN_TX } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
 import Check from '../../component/Check/Check'
 import { big } from '../../lib/yup/BigNumberSchema'
-import burn from '../../data/burn'
 import CHAIN_CONFIG from '../../config/chainConfig'
 import { useParams } from 'react-router'
-import mint from '../../data/mint'
 import shuttleout from '../../data/shuttleOut'
 
 // dec5 usdt

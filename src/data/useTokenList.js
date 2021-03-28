@@ -4,7 +4,10 @@ import CHAIN_CONFIG from '../config/chainConfig'
 import { getTokenList } from './tokenList'
 import useSWR from 'swr'
 import { CHAIN_SINGLE_PAIR } from '../config/constant'
-import { parseId } from '../util/id'
+import { getIdFromToken, parseId } from '../util/id'
+import jsonrpc from './jsonrpc'
+
+import { updateTokenList } from './tokenList'
 
 function fetcher(key, searchOrPair, chain, cToken) {
   let search, pair
@@ -28,17 +31,19 @@ function fetcher(key, searchOrPair, chain, cToken) {
             const { origin, originAddr } = parseId(pair)
             if (origin === chain) {
               return CHAIN_CONFIG[chain].searchTokenFromServer(originAddr)
+            } else if (origin === 'cfx') {
+              return searchCfxFromServer(originAddr, chain)
             }
           }
         }
       }
-      return singleToken
-        ? { ...tokenList[0], singleton: true }
-        : pair === CHAIN_SINGLE_PAIR
-        ? null
-        : tokenMap[pair] ||
-          //pair is not present in tokenlist but searchable
-          CHAIN_CONFIG[chain].searchList(tokenList, pair).then((x) => x[0])
+      // return singleToken
+      //   ? { ...tokenList[0], singleton: true }
+      //   : pair === CHAIN_SINGLE_PAIR
+      //   ? null
+      //   : tokenMap[pair] ||
+      //     //pair is not present in tokenlist but searchable
+      //     CHAIN_CONFIG[chain].searchList(tokenList, pair).then((x) => x[0])
     }
     if (!search) {
       return tokenList.filter(display)
@@ -88,4 +93,21 @@ function sortSearchResult(list) {
         return supported1 - supported0 || in_token_list1 - in_token_list0
       }
     )
+}
+
+function searchCfxFromServer(addr, chain) {
+  return jsonrpc('searchToken', {
+    url: 'sponsor',
+    params: ['cfx', chain, addr],
+  }).then((result) => {
+    if (result && result.is_valid_erc20) {
+      console.log(result)
+      const token = { ...result, origin: 'cfx', to_chain: chain }
+
+      const updatedList = updateTokenList('eth', token)
+      return updatedList.then(({ tokenMap }) => {
+        return tokenMap[getIdFromToken(token)]
+      })
+    }
+  })
 }
