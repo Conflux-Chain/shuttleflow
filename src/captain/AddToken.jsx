@@ -8,14 +8,12 @@ import { CHAIN_SINGLE_PAIR } from '../config/constant'
 import useTokenList from '../data/useTokenList'
 import Select from '../layout/Select'
 import useUrlSearch from '../lib/useUrlSearch'
-// import { useFallbackLocalStorage } from '../lib/useLocalstorage'
 
 export default function AddToken() {
   const { t } = useTranslation([])
   const { chain } = useParams()
   const history = useHistory()
   const { pair } = useUrlSearch()
-  const [localPair] = useLocalStorageForPair('addToken-pair', pair, 'value')
   const tokenInfo = useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
 
   const [fromChain, setFromChain] = useLocalStorageForChain(
@@ -26,7 +24,6 @@ export default function AddToken() {
     'addtoken-toChain',
     tokenInfo ? tokenInfo.to_chain : ''
   )
-
 
   //token can be choosen when both chains are specified
   const bothChain = fromChain && toChain
@@ -174,52 +171,4 @@ function useLocalStorageForChain(localKey, chainFromToken) {
   }
 
   return [storedValue, setChainExternal]
-}
-
-export function useLocalStorageForPair(localKey, pair) {
-  const history = useHistory()
-  // State to store our value
-  // Pass initial state function to useState so logic is only executed once
-  const [localPair, setStoredValue] = useState(() => {
-    // if (pair) {
-    //   return pair
-    // }
-    try {
-      // Get from local storage by key
-      const item = window.localStorage.getItem(localKey)
-      // Parse stored json or if none return initialValue
-      return item ? JSON.parse(item) : pair
-    } catch (error) {
-      // If error also return initialValue
-      console.log(error)
-      return pair
-    }
-  })
-
-
-  useEffect(() => {
-    if (pair) {
-      setValue(pair)
-    } else {
-      if (localPair) {
-        history.push({ search: `?pair=${localPair}` })
-      }
-    }
-  }, [localPair, pair])
-
-  const setValue = (value) => {
-    try {
-      // Allow value to be a function so we have same API as useState
-      const valueToStore = value instanceof Function ? value(localPair) : value
-      // Save state
-      setStoredValue(valueToStore)
-      // Save to local storage
-      window.localStorage.setItem(localKey, JSON.stringify(valueToStore))
-    } catch (error) {
-      // A more advanced implementation would handle the error case
-      console.log(error)
-    }
-  }
-
-  return [localPair]
 }

@@ -36,10 +36,6 @@ function find(path, key) {
   const parts = path.split('.')
   let _config = CONTRACT_CONFIG
 
-  // console.log(path, key)
-  // if (path === 'erc777') {
-  //   debugger
-  // }
   for (let i = 0; i < path.length; i++) {
     _config = _config[parts[i]]
     if (!_config) {

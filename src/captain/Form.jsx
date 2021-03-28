@@ -16,6 +16,8 @@ import Modal from '../component/Modal'
 import close from './close.svg'
 import warning from './warning.svg'
 
+import ApproveIcon from './ApproveIcon'
+
 import Button from '../component/Button/Button'
 import styled from 'styled-components'
 import { isZeroAddress } from '../util/address'
@@ -23,6 +25,7 @@ import { CONTRACT_CONFIG, getContract } from '../data/contract/contract'
 import CHAIN_CONFIG from '../config/chainConfig'
 import { useParams } from 'react-router'
 import useTokenList from '../data/useTokenList'
+
 export default function CaptainForm({
   origin,
   pendingCount,
@@ -242,6 +245,10 @@ function Approve({ chain }) {
   const { ctoken } = useTokenList({ pair: CHAIN_CONFIG[chain].mainPair })
   const operator = CONTRACT_CONFIG.custodian.fromCfx[chain].address
   const [isOperatorFor, setIsOperatorFor] = useState(null)
+  const [isApproving, setIsApproveing] = useState(false)
+
+  console.log('ctoken', ctoken)
+
   useEffect(() => {
     if (ctoken && selectedAddress) {
       getContract('erc777')
@@ -253,31 +260,42 @@ function Approve({ chain }) {
         })
         .then((isOperatorFor) => {
           setIsOperatorFor(isOperatorFor)
-          // console.log('isOperatorFor', isOperatorFor)
         })
     }
   }, [ctoken, selectedAddress])
   return (
     <div
-      style={{ cursor: 'pointer' }}
       onClick={() => {
-        getContract('erc777').then((c) => {
-          return c
-            .authorizeOperator(operator)
-            .sendTransaction({
-              from: selectedAddress,
-              to: ctoken,
-            })
-            .then((e) => {
-              console.log(e)
-            })
-            .catch((e) => {
-              console.log(e)
-            })
-        })
+        if (!isOperatorFor) {
+          setIsApproveing(true)
+          getContract('erc777').then((c) => {
+            return (
+              c
+                .authorizeOperator(operator)
+                // .revokeOperator(operator)
+                .sendTransaction({
+                  from: selectedAddress,
+                  to: ctoken,
+                })
+                .then((e) => {
+                  console.log(e)
+                })
+                .catch((e) => {
+                  console.log(e)
+                })
+                .finally(() => {
+                  setIsApproveing(false)
+                })
+            )
+          })
+        }
       }}
     >
-      Approve
+      <ApproveIcon
+        status={
+          isOperatorFor ? 'approved' : isApproving ? 'approving' : 'toApprove'
+        }
+      />
     </div>
   )
 }

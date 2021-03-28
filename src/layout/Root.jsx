@@ -59,7 +59,7 @@ export default function App() {
               revalidateOnReconnect: false,
               refreshWhenOffline: false,
               refreshWhenHidden: false,
-              refreshInterval: 0,
+              refreshInterval: 10000000000,
             }}
           >
             <RouterRoot />

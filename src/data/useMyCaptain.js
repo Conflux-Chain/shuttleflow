@@ -12,7 +12,7 @@ export default function useMyCaptain() {
   console.log('useMyCaptain', chain)
   return useSWR(['useMyCaptain', chain, address], fetcher, {
     revalidateOnMount: true,
-    initialData: [],
+    suspense: true,
   })
 }
 

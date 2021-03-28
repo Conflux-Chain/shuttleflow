@@ -59,10 +59,6 @@ let counter = 0
 export default function useTokenList({ pair, search, cToken } = {}) {
   const { chain } = useParams()
 
-  console.log('useTokenList', pair, search, cToken)
-  if (++counter > 100) {
-    debugger
-  }
   return useSWR(
     pair ? ['pair', pair, chain] : ['search', search, chain, cToken],
     fetcher,
@@ -70,23 +66,7 @@ export default function useTokenList({ pair, search, cToken } = {}) {
   ).data
 }
 
-export function useTokenPair({ search, cToken } = {}) {
-  const { chain } = useParams()
 
-  console.log('useTokenPair', search, cToken)
-  if (++counter > 100) {
-    debugger
-  }
-  return useSWR(['search', search, chain, cToken], fetcher1, {
-    suspense: true,
-    // revalidateOnMount: false,
-    initialData: [],
-  }).data
-}
-
-function fetcher1(params) {
-  return Promise.resolve([])
-}
 
 function searchCfxList(list, search, chain) {
   const lowerSearch = search.toLowerCase()
@@ -136,13 +116,11 @@ function sortSearchResult(list) {
 }
 
 function searchCfxFromServer(addr, chain) {
-  console.log('searchCfxFromServer', chain)
   return jsonrpc('searchToken', {
     url: 'sponsor',
     params: ['cfx', chain, addr],
   }).then((result) => {
     if (result && result.is_valid_erc20) {
-      console.log(result)
       const token = { ...result, origin: 'cfx', to_chain: chain }
 
       const updatedList = updateTokenList('eth', token)

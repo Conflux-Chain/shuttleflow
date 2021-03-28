@@ -83,9 +83,6 @@ const config = {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
     searchList: function filterEth(list, search) {
-      // if (search === 'guic') {
-      //   debugger
-      // }
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
 

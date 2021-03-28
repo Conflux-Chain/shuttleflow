@@ -9,7 +9,7 @@ import AddToken from './AddToken'
 
 export default function Captain() {
   const [cx] = useStyle(styles)
-  const { pair, choose } = useUrlSearch()
+  const { pair } = useUrlSearch()
   const match = useRouteMatch()
 
   return (
@@ -17,31 +17,17 @@ export default function Captain() {
       style={{ minHeight: '100%' }}
       className={!pair ? cx('container') : ''}
     >
-      {/* {pair?} */}
       <Switch>
         <Route path={`${match.path}/add`} component={AddToken}></Route>
-        {/* <Route path={`${match.path}/:pair`} component={Choose}>
-          <CaptainForm pair={pair} />
-        </Route> */}
         <Route path={`${match.path}`}>
           <CenterWrapper />
         </Route>
       </Switch>
-      {/* {choose ? (
-        <Choose />
-      ) : pair ? (
-        <CaptainForm pair={pair} />
-      ) : (
-        <CaptainCenter />
-        // <div className={cx('container')}>
-        //   <Choose next={(token) => `${url}?pair=${token}`} captain />
-        // </div>
-      )} */}
     </MainContainer>
   )
 }
 
 function CenterWrapper() {
-  const { pair, choose } = useUrlSearch()
+  const { pair } = useUrlSearch()
   return pair ? <CaptainForm pair={pair} /> : <CaptainCenter />
 }

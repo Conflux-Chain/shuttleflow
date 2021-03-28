@@ -10,6 +10,7 @@ import { BaseButton } from '../component/Button/Button'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import { Loading } from '@cfxjs/react-ui'
 import { useHistory, useRouteMatch } from 'react-router'
+import { getIdFromToken } from '../util/id'
 export default function CaptainCenter() {
   const { data } = useMyCaptain()
   const { t } = useTranslation(['captain'])
@@ -77,7 +78,7 @@ function CaptainItem({ tokenInfo, t }) {
       {status === 'done' ? (
         <Button
           onClick={() => {
-            history.push({ search: `pair=${reference}` })
+            history.push({ search: `pair=${getIdFromToken(tokenInfo)}` })
           }}
         >
           <IconContainer>

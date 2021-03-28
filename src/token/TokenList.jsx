@@ -33,7 +33,6 @@ const sorts = (key = 'symbol') => {
   }
 }
 
-
 function TokenList({
   search = '',
   searching,
@@ -50,18 +49,7 @@ function TokenList({
 
   const ListSourceComponent = CHAIN_CONFIG[chain].TokenList
 
-  // let displayedList = useTokenList()
-  let searchedList = useTokenList({ search, cToken })
-  console.log('render TokenList')
-  let displayedList = searchedList
-
-  console.log(displayedList)
-  // console.log(searchedList)
-  searchedList = searchedList
-    .slice()
-    .filter(({ origin }) => (chainFilter ? origin === chainFilter : true))
-
-  displayedList = displayedList
+  const tokenList = useTokenList({ search, cToken })
     .slice()
     .filter(({ origin }) => (chainFilter ? origin === chainFilter : true))
 
@@ -74,10 +62,10 @@ function TokenList({
   const [sort, setSort] = useState('name')
 
   useEffect(() => {
-    if (setNotFound && searchedList) {
-      setNotFound(searchedList.length === 0)
+    if (setNotFound && tokenList) {
+      setNotFound(tokenList.length === 0)
     }
-  }, [searchedList, setNotFound])
+  }, [tokenList, setNotFound])
 
   return (
     <>
@@ -88,14 +76,14 @@ function TokenList({
         style={{ flex: 1, position: 'relative' }}
       >
         <PaddingContainer bottom={false}>
-          {frequent && !search && displayedList.length > 0 && (
+          {frequent && !search && tokenList.length > 0 && (
             <>
               <div className={titleCx('title')}>{t('frequent')}</div>
               <div className={ListCx('frequent-container')}>
                 {CHAIN_CONFIG[chain].frequentTokens.map((_preset_reference) => {
                   let tokenData, active
-                  if (displayedList.length > 0) {
-                    tokenData = displayedList.find(
+                  if (tokenList.length > 0) {
+                    tokenData = tokenList.find(
                       ({ reference }) => reference === _preset_reference
                     )
                     //frequent token is hardcoded, in case the
@@ -142,14 +130,14 @@ function TokenList({
           )}
         </PaddingContainer>
         <div className={ListCx('container')}>
-          {searchedList.length === 0 ? (
+          {tokenList.length === 0 ? (
             <img
               alt="not found"
               className={ListCx('not-found')}
               src={notFoundSrc}
             ></img>
           ) : (
-            searchedList
+            tokenList
               .slice(0, searching ? 5 : undefined)
               .sort(
                 !search
