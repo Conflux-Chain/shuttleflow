@@ -49,12 +49,15 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
     _out = 'burn'
   }
 
+  console.log(`custodian.${toCfxOrFromCfx}.${chain}`, referenceOrCtoken)
+
   return Promise.all([
     jsonrpc('getPendingOperationInfo', {
       url: 'node',
       params: [referenceOrCtoken],
     }),
     getContract(`custodian.${toCfxOrFromCfx}.${chain}`).then((c) => {
+      console.log(c)
       return Promise.all(
         [
           c.burn_fee(referenceOrCtoken),
@@ -106,6 +109,8 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
 
     const sponsor = sponsorData[0]
     const sponsorValue = Big(sponsorData[1] + '')
+    // displayed in popup
+    const default_cooldown_minutes = parseInt(default_cooldown) / 60
 
     const diff = parseInt(Date.now() / 1000 - parseInt(token_cooldown))
     return {
@@ -117,7 +122,7 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
       minimal_in_value: values[`minimal_${_in}_value`].div(`1e${decimals}`),
       minimal_out_value: minimal_burn_value.div(`1e${decimals}`),
       minMortgage: minimal_sponsor_amount,
-
+      default_cooldown_minutes,
       countdown: Math.max(0, parseInt(default_cooldown + '') - diff),
       cethBalance: Big(myBaclance + '').div('1e18'),
       sponsor,

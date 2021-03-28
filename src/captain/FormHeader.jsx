@@ -19,7 +19,10 @@ export default function Header({
   pendingCount,
   countdown,
   in_token_list,
+  default_cooldown_minutes,
 }) {
+  const [cooldownPopup, setCooldownPopup] = useState(false)
+
   return (
     <>
       <div className={formCx('first-container')}>
@@ -99,6 +102,14 @@ export default function Header({
           </div>
         )}
       </div>
+      <Modal
+        show={cooldownPopup}
+        clickAway
+        onClose={() => setCooldownPopup(false)}
+        title
+        ok
+        content={t('popup-cool', { cooldownMinutes: default_cooldown_minutes })}
+      ></Modal>
     </>
   )
 }

@@ -44,6 +44,7 @@ export default function FormProvider({ pair }) {
     wallet_fee,
     minimal_in_value,
     minimal_out_value,
+    default_cooldown_minutes,
   } = useCaptain(tokenInfo)
 
   const beCaptain = function ({
@@ -113,6 +114,7 @@ export default function FormProvider({ pair }) {
       wallet_fee,
       minimal_in_value,
       minimal_out_value,
+      default_cooldown_minutes
     }
     return (
       <>

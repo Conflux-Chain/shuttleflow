@@ -30,7 +30,8 @@ export default function mint(addr, amount, chain, ctoken) {
         })
     } else {
       return getContract('erc777').then((c) => {
-        c.transfer(address, amount)
+        return c
+          .transfer(address, amount)
           .sendTransaction({
             from: selectedAddress,
             to: ctoken,

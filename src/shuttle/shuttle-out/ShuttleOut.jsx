@@ -33,6 +33,7 @@ import burn from '../../data/burn'
 import CHAIN_CONFIG from '../../config/chainConfig'
 import { useParams } from 'react-router'
 import mint from '../../data/mint'
+import shuttleout from '../../data/shuttleOut'
 
 // dec5 usdt
 export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
@@ -99,22 +100,23 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
   const tx = useRef('')
   const onSubmit = (data) => {
     let { outwallet, outamount } = data
-    const { out_fee, ctoken, origin } = tokenInfo
+    const { out_fee, ctoken, origin, decimals } = tokenInfo
 
     CHAIN_CONFIG[chain]
       .checkAddress(outwallet, blockShuttleout, t)
       .then((result) => {
         console.log('result', result)
         if (result === 'yes') {
-          ;(origin === 'cfx'
-            ? mint(outwallet, outamount.mul('1e18'), chain, ctoken)
-            : burn(
-                outwallet,
-                ctoken,
-                outamount.mul('1e18') + '',
-                out_fee.mul('1e18') + ''
-              )
-          )
+          shuttleout(tokenInfo, outamount, outwallet, chain)
+            // ;(origin === 'cfx'
+            //   ? mint(outwallet, outamount.mul(`1e${decimals}`), chain, ctoken)
+            //   : burn(
+            //       outwallet,
+            //       ctoken,
+            //       outamount.mul('1e18') + '',
+            //       out_fee.mul('1e18') + ''
+            //     )
+            // )
             .then((e) => {
               tx.current = e
               setSuccessPopup(true)

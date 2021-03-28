@@ -42,6 +42,7 @@ export default function CaptainForm({
   currentMortgageBig,
   cethBalanceDisplay,
   safeSponsorAmount,
+  default_cooldown_minutes
 }) {
   //the data from tokenList is not accurate
   //tell based on the contract
@@ -117,6 +118,7 @@ export default function CaptainForm({
             icon,
             formCx,
             t,
+            default_cooldown_minutes,
             reference_symbol,
             reference_name,
             supported,
