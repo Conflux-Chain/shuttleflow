@@ -33,6 +33,7 @@ import burn from '../../data/burn'
 import CHAIN_CONFIG from '../../config/chainConfig'
 import { useParams } from 'react-router'
 import mint from '../../data/mint'
+import styled from 'styled-components'
 
 // dec5 usdt
 export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
@@ -275,6 +276,9 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
                 )
               }}
             />
+            {tokenInfo.origin === 'cfx' && (
+              <Warning>{t('no-contract')}</Warning>
+            )}
 
             <Button
               disabled={!tokenInfo}
@@ -415,3 +419,10 @@ function ComfirmPopup({
     </Modal>
   )
 }
+
+const Warning = styled.div`
+  margin-top: 8px;
+  color: #f3504f;
+  font-size: 18px;
+  font-weight: bold;
+`

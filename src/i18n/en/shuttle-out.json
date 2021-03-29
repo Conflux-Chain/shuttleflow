@@ -24,5 +24,6 @@
     "btn": "Confirm",
     "check": "I have confirmed it is correct",
     "title": "Confirm"
-  }
+  },
+  "no-contract": "Please do not use the exchange deposit address，the exchange cannot receive"
 }
