@@ -20,7 +20,8 @@ import useUrlSearch from '../lib/useUrlSearch'
 import { useBlockWithRisk } from '../layout/Risk'
 import CHAIN_CONFIG from '../config/chainConfig'
 import useTokenList from '../data/useTokenList'
-import { getId, matchId } from '../util/id'
+import { getIdFromToken } from '../util/id'
+import useMairPair from '../data/useMainPair'
 
 const sorts = (key = 'symbol') => {
   return {
@@ -36,6 +37,7 @@ const sorts = (key = 'symbol') => {
 function TokenList({
   search = '',
   searching,
+  chainFilter,
   cToken,
   frequent,
   captain,
@@ -48,9 +50,12 @@ function TokenList({
 
   const ListSourceComponent = CHAIN_CONFIG[chain].TokenList
 
-  const displayedList = useTokenList()
-  const searchedList = useTokenList({ search, cToken })
+  const tokenList = useTokenList({ search, cToken })
+    .slice()
+    .filter(({ origin }) => (chainFilter ? origin === chainFilter : true))
 
+  const mainPair = useMairPair().data
+  const mainPairSymbol = mainPair.symbol
   const setToken = (selected) => {
     history.push(buildSearch({ ...searchParams, selected }))
   }
@@ -60,29 +65,29 @@ function TokenList({
   const [sort, setSort] = useState('name')
 
   useEffect(() => {
-    if (setNotFound && searchedList) {
-      setNotFound(searchedList.length === 0)
+    if (setNotFound && tokenList) {
+      setNotFound(tokenList.length === 0)
     }
-  }, [searchedList, setNotFound])
-
+  }, [tokenList, setNotFound])
 
   return (
     <>
       {/* we should combine frequent token and tokenlist in one component 
       cause they share the same container of fixed height */}
       <Scrollbars
+        renderThumbHorizontal={() => <div></div>}
         renderThumbVertical={renderThumbVertical}
         style={{ flex: 1, position: 'relative' }}
       >
         <PaddingContainer bottom={false}>
-          {frequent && !search && displayedList.length > 0 && (
+          {frequent && !search && tokenList.length > 0 && (
             <>
               <div className={titleCx('title')}>{t('frequent')}</div>
               <div className={ListCx('frequent-container')}>
                 {CHAIN_CONFIG[chain].frequentTokens.map((_preset_reference) => {
                   let tokenData, active
-                  if (displayedList.length > 0) {
-                    tokenData = displayedList.find(
+                  if (tokenList.length > 0) {
+                    tokenData = tokenList.find(
                       ({ reference }) => reference === _preset_reference
                     )
                     //frequent token is hardcoded, in case the
@@ -90,11 +95,13 @@ function TokenList({
                     if (!tokenData) {
                       return null
                     }
-                    active = matchId(tokenData, selected)
+                    active = getIdFromToken(tokenData) === selected
                   }
                   return (
                     <div
-                      onClick={() => setToken(active ? '' : getId(tokenData))}
+                      onClick={() =>
+                        setToken(active ? '' : getIdFromToken(tokenData))
+                      }
                       className={ListCx({ active }, 'frequent')}
                       key={_preset_reference}
                     >
@@ -127,14 +134,14 @@ function TokenList({
           )}
         </PaddingContainer>
         <div className={ListCx('container')}>
-          {searchedList.length === 0 ? (
+          {tokenList.length === 0 ? (
             <img
               alt="not found"
               className={ListCx('not-found')}
               src={notFoundSrc}
             ></img>
           ) : (
-            searchedList
+            tokenList
               .slice(0, searching ? 5 : undefined)
               .sort(
                 !search
@@ -145,6 +152,7 @@ function TokenList({
                 return (
                   <TokenRow
                     key={i}
+                    mainPairSymbol={mainPairSymbol}
                     tokenInfo={tokenInfo}
                     {...{
                       token: selected,
@@ -153,8 +161,7 @@ function TokenList({
                       checked:
                         tokenInfo.is_admin === 1 && captain
                           ? false
-                          : selected ===
-                            (tokenInfo.reference || tokenInfo.ctoken),
+                          : selected === getIdFromToken(tokenInfo),
                       disabled: tokenInfo.is_admin === 1 && captain,
                       captain,
                       setToken,
@@ -179,28 +186,21 @@ function TokenRow({
   setIsNotAvailable,
   checked,
   chain,
+  mainPairSymbol,
 }) {
   const {
     supported,
     in_token_list,
-    reference_symbol,
-    reference_name,
     reference,
     sponsor_value,
-    name,
-    symbol,
-    id,
     ctoken,
   } = tokenInfo
   const [ListCx] = useStyle(tokenListStyles, titleStyles)
-  const { t } = useTranslation(['token'])
   const notAvailable = supported === 0
   const block = useBlockWithRisk()
   const link = cToken
     ? `${CONFLUXSCAN_TK}${ctoken}`
     : `${CHAIN_CONFIG[chain]['tk_url']}${reference}`
-  const fullname = cToken ? name : reference_name
-  const symbolName = cToken ? symbol : reference_symbol
 
   const address = cToken
     ? ctoken !== 'cfx' && ctoken
@@ -219,7 +219,7 @@ function TokenRow({
         } else {
           const callback = () => {
             if (!disabled) {
-              setToken(getId(tokenInfo))
+              setToken(getIdFromToken(tokenInfo))
               setIsNotAvailable(notAvailable)
             }
           }
@@ -237,34 +237,18 @@ function TokenRow({
         </div>
 
         <Icon
+          txt
           cToken={!!cToken}
           {...tokenInfo}
           style={{ marginLeft: '0.5rem', marginRight: '1rem' }}
         />
-        <div className={ListCx('two-row')}>
-          <div className={ListCx('symbol-row')}>
-            <span className={ListCx('symbol')}>
-              {symbolName.length > 10
-                ? symbolName.slice(0, 10) + '...'
-                : symbolName}
-            </span>
-
-            {notAvailable && (
-              <span className={ListCx('not-available')}>
-                {t('not-available')}
-              </span>
-            )}
-          </div>
-
-          <span className={ListCx('name')}>
-            {fullname.length > 30 ? fullname.slice(0, 30) + '...' : fullname}
-          </span>
-        </div>
       </div>
 
       <div className={ListCx('two-row')} style={{ alignItems: 'flex-end' }}>
         {captain && sponsor_value && (
-          <span className={ListCx('mortgage')}>{sponsor_value + ' cETH'}</span>
+          <span className={ListCx('mortgage')}>
+            {sponsor_value + ' ' + mainPairSymbol}
+          </span>
         )}
 
         {address && (

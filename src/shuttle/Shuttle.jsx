@@ -30,7 +30,7 @@ import useUrlSearch from '../lib/useUrlSearch'
 import useTokenList from '../data/useTokenList'
 import { CHAIN_SINGLE_PAIR } from '../config/constant'
 import ChooseChain from '../layout/ChooseChain'
-import useCaptain from '../data/captain'
+import useCaptain from '../data/useCaptainInfo'
 import Button from '../component/Button/Button'
 import styled from 'styled-components'
 import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
@@ -40,7 +40,6 @@ export default function Shuttle({ match: { path, url } }) {
   const { t } = useTranslation(['nav'])
   const inUrl = `${url}/in`
   const outUrl = `${url}/out`
-  const isSmall = useIsSamll()
   const [, setLayoutBottom] = useRecoilState(layoutBottomState)
   useEffect(() => {
     setLayoutBottom('8.5rem')
@@ -114,7 +113,8 @@ function RouteComponent() {
     gasLow = currentMortgage.lt(safeSponsorAmount.mul('2')) ? (
       <div style={{ color: 'white' }}>{t('gas-low')}</div>
     ) : null
-  }  return (
+  }
+  return (
     <>
       {isSmall && <ChooseChain />}
       <Component

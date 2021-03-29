@@ -37,29 +37,6 @@
       justify-content: flex-start;
       align-items: center;
     }
-
-    .symbol {
-      color: white;
-      font-weight: 500;
-
-      &.small {
-        font-size: 2rem;
-      }
-      &.large {
-        font-size: 1.25rem;
-      }
-    }
-
-    .name {
-      color: rgba($color: #ffffff, $alpha: 0.3);
-      &.small {
-        font-size: 1.5rem;
-      }
-      &.large {
-        font-size: 1rem;
-      }
-    }
-
     .link {
       display: flex;
       justify-content: flex-end;
@@ -124,10 +101,10 @@
     }
   }
 
-  .two-row {
-    display: flex;
-    flex-direction: column;
-  }
+  // .two-row {
+  //   display: flex;
+  //   flex-direction: column;
+  // }
 }
 
 .frequent-container {

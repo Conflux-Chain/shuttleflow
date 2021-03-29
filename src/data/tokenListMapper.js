@@ -8,12 +8,11 @@ export default function tokenListMapper(d) {
     symbol,
     reference_symbol,
     reference_name,
-
+    ctoken,
     total_supply,
     decimals,
     icon,
     in_token_list,
-    origin = 'eth',
     name,
   } = d
 
@@ -24,6 +23,8 @@ export default function tokenListMapper(d) {
     burn_fee,
     wallet_fee,
     sponsor_value,
+    origin,
+    to_chain,
   } = d
 
   delete d.minimal_burn_value
@@ -45,14 +46,16 @@ export default function tokenListMapper(d) {
   const toCFX = origin !== 'cfx'
   const _out = toCFX ? 'burn' : 'mint'
   const _in = toCFX ? 'mint' : 'burn'
+  const nonCfxChain = toCFX ? origin : to_chain
 
   return {
     ...d,
     name: name || 'Conflux ' + reference_name,
     symbol: symbol || 'c' + reference_symbol,
     //Todo: name and symbol is chain related if the origin is conflux
-    reference_name: reference_name || '',
-    reference_symbol: reference_symbol || '',
+    reference_name: reference_name || nonCfxChain + ' ' + name,
+    reference_symbol:
+      reference_symbol || nonCfxChain.slice(0, 1) + ' ' + symbol,
     _total_supply: totalSupplyBig && formatSupply(totalSupplyBig),
     sponsor_value,
 
@@ -62,6 +65,8 @@ export default function tokenListMapper(d) {
     out_fee: values[`${_out}_fee`],
     wallet_fee: parseNum(wallet_fee, decimals),
     icon: icon || CHAIN_CONFIG[reference].icon,
+    reference: reference || 'null',
+    ctoken: ctoken || 'null',
 
     //btc and eth is not in gecko list,but they are trusted
     in_token_list: ['btc', 'eth'].indexOf(reference) > -1 ? 1 : in_token_list,

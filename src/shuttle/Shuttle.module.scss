@@ -1,4 +1,4 @@
-$small-nav-height: 8.5rem;
+$small-nav-height: 72px;
 
 //navigtion root
 .footer {
@@ -43,19 +43,21 @@ $small-nav-height: 8.5rem;
     &.large {
       justify-content: space-around;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding-top: 1rem;
-      height: 5.25rem;
+      padding-top: 24px;
+      height: 72px;
+
       margin-bottom: 2.125rem;
       .item {
         display: flex;
         align-items: center;
+        padding-bottom: 24px;
       }
 
       .item a {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 1.25rem;
+        font-size: 18px;
         img {
           margin-right: 1rem;
           width: 2rem;

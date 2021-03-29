@@ -13,8 +13,6 @@ import useStyle from '../../component/useStyle'
 import Button from '../../component/Button/Button'
 import clear from '../../component/clear.svg'
 import down from '../down.svg'
-import fail from './fail.svg'
-import sent from './sent.svg'
 
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -23,19 +21,17 @@ import { ErrorMessage } from '@hookform/error-message'
 import shuttleInStyle from '../shuttle-in/ShuttleIn.module.scss'
 
 import ShuttleHistory from '../../history/ShuttleHistory'
-import TokenInput from '../TokenInput'
+import TokenInput from '../../component/TokenInput/TokenInput'
 import ShuttleOutInput from '../ShuttleoutInput'
-import { CONFLUXSCAN_TX } from '../../config/config'
 import WithQuestion from '../../component/WithQuestion'
 import Check from '../../component/Check/Check'
 import { big } from '../../lib/yup/BigNumberSchema'
-import burn from '../../data/burn'
 import CHAIN_CONFIG from '../../config/chainConfig'
 import { useParams } from 'react-router'
-import mint from '../../data/mint'
+import shuttleout from '../../data/shuttleOut'
+import { giveTransactionResult } from '../../globalPopup/TranscationResult'
 import styled from 'styled-components'
 
-// dec5 usdt
 export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
   const [commonCx, modalCx, shuttleCx, shuttleOutCx, shuttleInCx] = useStyle(
     inputStyles,
@@ -48,11 +44,11 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
   const token = tokenInfo && tokenInfo.reference
   const { chain } = useParams()
 
-  const [errorPopup, setErrorPopup] = useState(false)
-  const [successPopup, setSuccessPopup] = useState(false)
   const [addrPopup, setAddrPopup] = useState(false)
   const [feePopup, setFeePopup] = useState(false)
   const [copyPopup, setCopyPopup] = useState(false)
+
+  const [operationPending, setOperationPending] = useState(false)
 
   const blockCallback = useRef(null)
   const [comfirmTxt, setComfirmTxt] = useState('')
@@ -96,37 +92,22 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
     resolver: yupResolver(schema),
     mode: 'onBlur',
   })
-  //not necessarily trigger render
-  const tx = useRef('')
   const onSubmit = (data) => {
-    let { outwallet, outamount } = data
-    const { out_fee, ctoken, origin } = tokenInfo
+    const { outwallet, outamount } = data
+    setOperationPending(true)
 
     if (origin === 'cfx') {
       blockShuttleout(() => {
-        mint(outwallet, outamount.mul('1e18'), chain, ctoken)
-          .then((e) => {
-            tx.current = e
-            setSuccessPopup(true)
-          })
-          .catch((e) => {
-            setErrorPopup(true)
-          })
+        giveTransactionResult(
+          shuttleout(tokenInfo, outamount, outwallet, chain),
+          { done: () => setOperationPending(false) }
+        )
       }, t('no-contract'))
     } else {
-      burn(
-        outwallet,
-        ctoken,
-        outamount.mul('1e18') + '',
-        out_fee.mul('1e18') + ''
+      giveTransactionResult(
+        shuttleout(tokenInfo, outamount, outwallet, chain),
+        { done: () => setOperationPending(false) }
       )
-        .then((e) => {
-          tx.current = e
-          setSuccessPopup(true)
-        })
-        .catch((e) => {
-          setErrorPopup(true)
-        })
     }
   }
 
@@ -284,6 +265,7 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
             )}
 
             <Button
+              loading={operationPending}
               disabled={!tokenInfo}
               type="submit"
               className={shuttleOutCx('btn')}
@@ -294,35 +276,6 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
         )}
       </form>
       <ShuttleHistory type="out" />
-      <Modal
-        show={errorPopup}
-        onClose={() => setErrorPopup(false)}
-        clickAway={() => setErrorPopup(false)}
-      >
-        <img alt="img" className={shuttleOutCx('img')} src={fail}></img>
-        <div className={modalCx('strong')}>{t('popup.fail')}</div>
-        <div className={modalCx('btn')} onClick={() => setErrorPopup(false)}>
-          {t('popup.ok')}
-        </div>
-      </Modal>
-      <Modal
-        show={successPopup}
-        onClose={() => setSuccessPopup(false)}
-        clickAway={() => setSuccessPopup(false)}
-      >
-        <img alt="img" className={shuttleOutCx('img')} src={sent}></img>
-        <div className={modalCx('strong')}>{t('popup.sent')}</div>
-        <div
-          className={modalCx('btn')}
-          onClick={() => {
-            setSuccessPopup(false)
-            setValue('outamount', 0)
-            window.open(CONFLUXSCAN_TX + tx.current, '_blank')
-          }}
-        >
-          {t('popup.details')}
-        </div>
-      </Modal>
       <Modal
         title
         show={addrPopup}

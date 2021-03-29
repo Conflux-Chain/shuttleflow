@@ -17,8 +17,8 @@
     "less-than": "less than {{value}}",
     "less-than-eq": "less than or equal to {{value}}"
   },
-  "min-mortgage": "Minimum Collateral Amount {{minMortgage}} cETH",
-  "ceth-balance": "Balance {{amount}} cETH",
+  "mainPair-min-mortgage": "Minimum Collateral Amount {{minMortgage}} {{mainPair}}",
+  "mainPair-balance": "Balance {{amount}} {{mainPair}}",
   "for-not-update": "Indicates not to update the Shuttle-In amount",
   "update": "update",
   "success": "Transaction Submitted",
@@ -35,5 +35,16 @@
   "configuring": "Configuring",
   "be-captain-txt": "You want to compete with the captain, you need to pay a better price",
   "need-zero": "Fill in 0",
-  "compete-captain": "Compete to be Captain"
+  "compete-captain": "Compete to be Captain",
+  "approve": "Approve",
+  "need-mortgage": "需抵押",
+  "add-token-title": "选择链和代币 ",
+  "status": {
+    "confirming": "confirming",
+    "deploying": "deploying",
+    "registering": "registering",
+    "configuring": "configuring"
+  },
+  "captain-create": "若成为此服务商，需要另外支付100w的 Gas 用于部署代币合约",
+  "no-supported-token": "你还没有支持任何代币\n快去添加代币吧～"
 }

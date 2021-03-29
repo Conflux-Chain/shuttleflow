@@ -127,6 +127,7 @@ export default function History() {
         </div>
       ) : (
         <Scrollbars
+          renderThumbHorizontal={() => <div></div>}
           renderThumbVertical={renderThumbVertical}
           style={{ flex: 1 }}
         >

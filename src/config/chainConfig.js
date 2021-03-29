@@ -12,7 +12,8 @@ import bscSubSrc from './bsc-sub.svg'
 import hecoSrc from './heco.svg'
 import hecoSubSrc from './heco-sub.svg'
 
-import { updateTokenList } from '../data/tokenList'
+import { getTokenList, updateTokenList } from '../data/tokenList'
+import { getIdFromToken } from '../util/id'
 
 var WAValidator = require('wallet-address-validator')
 const ETH_SCAN_URL = IS_DEV
@@ -55,44 +56,33 @@ const config = {
   eth: {
     icon: ethSrc,
     subIcon: ethSubSrc,
+    token: 'cETH',
+    mainPair: 'eth-eth',
     tk_url: ETH_SCAN_URL + '/token/',
     tx_url: ETH_SCAN_URL + '/tx/',
-    cAddress: IS_DEV
-      ? '0x8442bc8b5d01bf635bb12e6c63a379cb167ab5bb'
-      : '0x86d2fb177eff4be03a342951269096265b98ac46', //ceth
+    searchTokenFromServer: createSearchTokenFromServer('eth'),
     display: ({ supported, in_token_list, origin }) => {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
     searchList: function filterEth(list, search) {
-      console.log(list, search)
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
 
-      console.log('isEthAddress', isEthAddress)
       if (isEthAddress) {
         return Promise.resolve(
           list.filter(
             ({ reference }) => reference.toLowerCase() === lowersearch
           )
         ).then((list) => {
-          console.log('result', list)
           if (list.length === 1) {
+            console.log('list', list)
             return list
           } else {
-            return jsonrpc('searchToken', {
-              url: 'sponsor',
-              params: [search],
-            }).then((result) => {
-              if (result && result.is_valid_erc20) {
-                const token = result
-                const data = updateTokenList('eth', token)
-                return data.then(({ tokenMap }) => {
-                  return [tokenMap[lowersearch]]
-                })
-              } else {
-                return []
-              }
-            })
+            return config['eth']
+              .searchTokenFromServer(search)
+              .then((result) => {
+                return result ? [result] : []
+              })
           }
         })
       }
@@ -105,7 +95,7 @@ const config = {
         )
       )
     },
-    captain: CAPTAIN.TO_CFX,
+    captain: CAPTAIN.BOTH,
     outFormatCheck(address) {
       return WAValidator.validate(
         address,
@@ -171,12 +161,15 @@ const config = {
   bsc: {
     icon: bscSrc,
     subIcon: bscSubSrc,
+    token: 'cBNB',
+    mainPair: 'bsc-bnb',
     tk_url: BSC_SCAN_URL + '/address/',
     tx_url: BSC_SCAN_URL + '/tx/',
-    captain: CAPTAIN.NONE,
+    captain: CAPTAIN.BOTH,
     display: ({ supported, origin }) => {
       return origin === 'cfx' || supported === 1
     },
+    searchTokenFromServer: createSearchTokenFromServer('bsc'),
     searchList: function filterEth(list, search) {
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
@@ -189,7 +182,11 @@ const config = {
           if (list.length === 1) {
             return list
           } else {
-            return []
+            return config['bsc']
+              .searchTokenFromServer(search)
+              .then((result) => {
+                return result ? [result] : []
+              })
           }
         })
       }
@@ -223,57 +220,26 @@ const config = {
         ]
       : ['bnb', '0x045c4324039dA91c52C55DF5D785385Aab073DcF'],
   },
-  heco: {
-    icon: hecoSrc,
-    subIcon: hecoSubSrc,
-    tk_url: HECO_SCAL_URL + '/address/',
-    tx_url: HECO_SCAL_URL + '/tx/',
-    captain: CAPTAIN.NONE,
-    display: ({ supported, origin }) => {
-      return origin === 'cfx' || supported === 1
-    },
-    searchList: function filterEth(list, search) {
-      const isEthAddress = config['eth'].outFormatCheck(search)
-      const lowersearch = search.toLowerCase()
-      if (isEthAddress) {
-        return Promise.resolve(
-          list.filter(
-            ({ reference }) => reference.toLowerCase() === lowersearch
-          )
-        ).then((list) => {
-          if (list.length === 1) {
-            return list
-          } else {
-            return []
-          }
-        })
-      }
-
-      return Promise.resolve(
-        list.filter(
-          ({ reference_symbol, reference_name }) =>
-            reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
-            reference_name.toLowerCase().indexOf(lowersearch) > -1
-        )
-      )
-    },
-    outFormatCheck(address) {
-      return WAValidator.validate(
-        address,
-        'ethereum',
-        IS_DEV ? 'testnet' : 'prod'
-      )
-    },
-    TokenList({ t }) {
-      return <span>{t('list')}</span>
-    },
-    checkAddress() {
-      return Promise.resolve('yes')
-    },
-    frequentTokens: IS_DEV ? ['ht'] : ['ht'],
-  },
 }
 
 export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
 
 export default config
+
+function createSearchTokenFromServer(chain) {
+  return function searchTokenFromServer(address) {
+    return jsonrpc('searchToken', {
+      url: 'sponsor',
+      params: [chain, 'cfx', address],
+    }).then((result) => {
+      if (result && result.is_valid_erc20) {
+        const token = { ...result, origin: chain, to_chain: 'cfx' }
+
+        const updatedList = updateTokenList(chain, token)
+        return updatedList.then(({ tokenMap }) => {
+          return tokenMap[getIdFromToken(token)]
+        })
+      }
+    })
+  }
+}

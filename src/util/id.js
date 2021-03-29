@@ -1,7 +1,19 @@
-export function matchId(tokenInfo, id) {
-  return [tokenInfo.ctoken, tokenInfo.reference].indexOf(id) > -1
+import { isCfxAddress } from '../util/address'
+export function getIdFromToken(tokenInfo) {
+  const { origin, to_chain, ctoken, reference } = tokenInfo
+  const notCfxChain = origin === 'cfx' ? to_chain : origin
+  const originAddr = origin === 'cfx' ? ctoken : reference
+  return `${notCfxChain}-${originAddr}`
 }
 
-export function getId(tokenInfo) {
-  return tokenInfo.ctoken, tokenInfo.reference
+export function parseId(id) {
+  const [notCfxChain, originAddr] = id.split('-')
+  const origin = isCfxAddress(originAddr) ? 'cfx' : notCfxChain
+  return { origin, originAddr }
 }
+
+export function getIdfromOperationHistory(token, chain) {
+  return `${chain}-${token}`
+}
+//Data format is compatible, Just in case change in future
+export const getIdFromSponsorInfo = getIdFromToken

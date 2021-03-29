@@ -19,7 +19,7 @@ import commonInputStyles from '../../component/input.module.scss'
 import shuttleStyle from '../Shuttle.module.scss'
 import shuttleInStyles from './ShuttleIn.module.scss'
 import useShuttleAddress from '../../data/useShuttleInAddress'
-import TokenInput from '../TokenInput'
+import TokenInput from '../../component/TokenInput/TokenInput'
 
 import WithQuestion from '../../component/WithQuestion'
 import { Loading } from '@cfxjs/react-ui'

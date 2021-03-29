@@ -1,3 +1,4 @@
+import { getIdFromToken } from '../util/id'
 import jsonrpc from './jsonrpc'
 import listItemMapper from './tokenListMapper'
 //todo replace with real server api
@@ -9,12 +10,7 @@ const chainDataStore = {}
 
 function buildMap(tokenList) {
   const tokenMap = tokenList.reduce((pre, cur) => {
-    if (cur.reference) {
-      pre[cur.reference.toLowerCase()] = { ...cur, fromRef: true } //operation history data
-    }
-    if (cur.ctoken) {
-      pre[cur.ctoken] = { ...cur, fromCtoken: true } //operation history data
-    }
+    pre[getIdFromToken(cur)] = cur
     return pre
   }, {})
   return { tokenList, tokenMap }
@@ -32,6 +28,7 @@ export const getTokenList = (chain) => {
 
 //It can be updated dynamicallt when searched token come through
 export function updateTokenList(chain, data) {
+  console.log(chainDataStore, chain, data)
   return (chainDataStore[chain] = chainDataStore[chain].then(
     ({ tokenList }) => {
       return buildMap([...tokenList, listItemMapper(data)])

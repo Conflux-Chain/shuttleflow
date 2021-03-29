@@ -15,7 +15,7 @@ import { useHistory, useParams } from 'react-router'
 import useState1 from '../lib/useState1'
 import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
 
-export default function ChooseToken({ captain, cToken, next }) {
+export default function ChooseToken({ captain, cToken, chainFilter, next }) {
   const [chooseCx] = useStyle(chooseStyles)
   const [{ txt: searchTxt, searching }, setSearch] = useState1({
     txt: '',
@@ -48,6 +48,7 @@ export default function ChooseToken({ captain, cToken, next }) {
         />
       </PaddingContainer>
       <TokenList
+        chainFilter={chainFilter}
         search={searchTxt}
         searching={searching}
         frequent={!captain}
@@ -59,10 +60,11 @@ export default function ChooseToken({ captain, cToken, next }) {
       />
 
       {!notFound && (
-        <PaddingContainer>
+        <PaddingContainer bottom={captain}>
           {[
             <Button
               key="btn"
+              fullWidth
               className={chooseCx('btn')}
               onClick={() => {
                 history.push(

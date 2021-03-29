@@ -118,6 +118,7 @@ export default function LayoutLarge() {
       </header>
       <Suspense fallback={<Loading />}>
         <Scrollbars
+          renderThumbHorizontal={() => <div></div>}
           renderThumbVertical={renderThumbVertical}
           style={{
             width: '544px',
