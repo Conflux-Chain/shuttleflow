@@ -24,5 +24,6 @@
     "btn": "Confirm",
     "check": "I have confirmed it is correct",
     "title": "Confirm"
-  }
+  },
+  "no-contract": "Please don't use the deposit address given by centralized exchanges, as they cannot detect cross chain transactions"
 }
