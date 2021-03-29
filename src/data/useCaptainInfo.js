@@ -5,6 +5,7 @@ import useSWR from 'swr'
 import useAddress from './useAddress'
 import CHAIN_CONFIG from '../config/chainConfig'
 import { useParams } from 'react-router'
+import { ZERO_ADDR } from '../config/config'
 
 //txHash is used to flush data from server
 export default function useCaptain(tokenInfo) {
@@ -40,8 +41,9 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
     toCfxOrFromCfx = 'fromCfx'
     referenceOrCtoken = ctoken
     if (referenceOrCtoken === 'cfx') {
-      referenceOrCtoken = 'cfx:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0sfbnjm2'
+      referenceOrCtoken = ZERO_ADDR
     }
+    console.log('referenceOrCtoken', referenceOrCtoken)
     _in = 'burn'
     _out = 'mint'
   } else {
@@ -111,14 +113,14 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
     const default_cooldown_minutes = parseInt(default_cooldown) / 60
 
     const diff = parseInt(Date.now() / 1000 - parseInt(token_cooldown))
+
     return {
       pendingCount: cnt,
-
-      out_fee: burn_fee.div(`1e${decimals}`),
-      in_fee: mint_fee.div(`1e${decimals}`),
+      out_fee: values[`${_out}_fee`].div(`1e${decimals}`),
+      in_fee: values[`${_in}_fee`].div(`1e${decimals}`),
       wallet_fee: wallet_fee.div(`1e${decimals}`),
       minimal_in_value: values[`minimal_${_in}_value`].div(`1e${decimals}`),
-      minimal_out_value: minimal_burn_value.div(`1e${decimals}`),
+      minimal_out_value: values[`minimal_${_out}_value`].div(`1e${decimals}`),
       minMortgage: minimal_sponsor_amount,
       default_cooldown_minutes,
       countdown: Math.max(0, parseInt(default_cooldown + '') - diff),

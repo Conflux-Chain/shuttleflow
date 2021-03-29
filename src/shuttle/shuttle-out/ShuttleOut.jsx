@@ -91,8 +91,6 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
     resolver: yupResolver(schema),
     mode: 'onBlur',
   })
-  //not necessarily trigger render
-  const tx = useRef('')
   const onSubmit = (data) => {
     const { outwallet, outamount } = data
     setOperationPending(true)
