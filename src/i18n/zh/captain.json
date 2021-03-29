@@ -36,5 +36,7 @@
   "be-captain-txt": "您要竞选该服务商，需要给出更优的价格",
   "need-zero": "需要为 0",
   "compete-captain": "竞选服务商",
-  "approve": "Approve"
+  "approve": "Approve",
+  "need-mortgage": "需抵押",
+  "add-token-title": "选择链和代币 "
 }

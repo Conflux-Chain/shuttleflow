@@ -125,7 +125,7 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
         wallet_fee: wallet_fee.div(`1e${decimals}`),
         minimal_in_value: values[`minimal_${_in}_value`].div(`1e${decimals}`),
         minimal_out_value: values[`minimal_${_out}_value`].div(`1e${decimals}`),
-        minMortgage: minimal_sponsor_amount,
+        minimal_sponsor_amount: minimal_sponsor_amount.div('1e18'),
         default_cooldown_minutes,
         countdown: Math.max(0, parseInt(default_cooldown + '') - diff),
         cethBalance: Big(myBaclance + '').div('1e18'),

@@ -29,7 +29,6 @@ export default function TokenInput({
   const [cTokenPopup, setCTokenPopup] = useState(false)
   chain = chain || urlChain
 
-
   const { singleton, origin, symbol, reference, reference_symbol, ctoken } =
     tokenInfo || {}
 
@@ -154,6 +153,6 @@ const Arrow = styled.img`
 
 const Caption = styled.div`
   color: rgba($color: #ffffff, $alpha: 0.6);
-  margin-bottom: 0.5rem;
   font-size: 1rem;
 `
+

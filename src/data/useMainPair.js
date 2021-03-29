@@ -11,7 +11,6 @@ export default function useMairPair() {
 }
 
 function fetcher(key, chain) {
-  console.log('useMairPair fetcher')
   const { mainPair } = CHAIN_CONFIG[chain]
   return getTokenList(chain).then(({ tokenMap }) => {
     return tokenMap[mainPair]

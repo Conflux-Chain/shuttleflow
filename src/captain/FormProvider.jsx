@@ -3,7 +3,7 @@ import useAddress from '../data/useAddress'
 
 import useCaptain from '../data/useCaptainInfo'
 import createBeCaptain from '../data/beCaptain'
-import Big from 'big.js'
+
 
 import CaptainForm from './Form'
 
@@ -20,7 +20,7 @@ export default function FormProvider({ pair }) {
   const {
     pendingCount,
     countdown,
-    minMortgage,
+    minimal_sponsor_amount,
     sponsor,
     cethBalance,
     currentMortgage,
@@ -71,8 +71,7 @@ export default function FormProvider({ pair }) {
     cethBalance
   ) {
     const currentMortgageBig = currentMortgage
-    const minMortgageBig = new Big(minMortgage).div('1e18')
-
+    const minMortgageBig = minimal_sponsor_amount
     const cethBalanceBig = cethBalance
 
     let cethBalanceDisplay = cethBalanceBig.round(MAX_DECIMAL_DISPLAY, 0)
@@ -99,7 +98,7 @@ export default function FormProvider({ pair }) {
       minimal_in_value,
       minimal_out_value,
       default_cooldown_minutes,
-      mainPairSymbol
+      mainPairSymbol,
     }
     return <CaptainForm {...data} />
   }

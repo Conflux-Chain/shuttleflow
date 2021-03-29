@@ -38,9 +38,9 @@ export default function CaptainCenter() {
 }
 
 function CaptainItem({ tokenInfo, t }) {
-  const { origin, to_chain, sponsor_value, status, reference } = tokenInfo
+  const { origin, to_chain, sponsor_value, status } = tokenInfo
+  console.log('CaptainItem', tokenInfo)
   const nonCfxChain = [origin, to_chain].filter((x) => x !== 'cfx')[0]
-  console.log('nonCfxChain', nonCfxChain)
   const nonCfxChainConfig = CHAIN_CONFIG[nonCfxChain]
   const nonCfxChainIcon = nonCfxChainConfig.icon
   const nonCfxChainToken = nonCfxChainConfig.token

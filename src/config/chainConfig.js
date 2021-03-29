@@ -60,21 +60,7 @@ const config = {
     mainPair: 'eth-eth',
     tk_url: ETH_SCAN_URL + '/token/',
     tx_url: ETH_SCAN_URL + '/tx/',
-    searchTokenFromServer(address) {
-      return jsonrpc('searchToken', {
-        url: 'sponsor',
-        params: ['eth', 'cfx', address],
-      }).then((result) => {
-        if (result && result.is_valid_erc20) {
-          const token = { ...result, origin: 'eth', to_chain: 'cfx' }
-
-          const updatedList = updateTokenList('eth', token)
-          return updatedList.then(({ tokenMap }) => {
-            return tokenMap[getIdFromToken(token)]
-          })
-        }
-      })
-    },
+    searchTokenFromServer: createSearchTokenFromServer('eth'),
     display: ({ supported, in_token_list, origin }) => {
       return origin === 'cfx' || (supported === 1 && in_token_list === 1)
     },
@@ -83,7 +69,6 @@ const config = {
       const lowersearch = search.toLowerCase()
 
       if (isEthAddress) {
-        console.log('search', search)
         return Promise.resolve(
           list.filter(
             ({ reference }) => reference.toLowerCase() === lowersearch
@@ -102,13 +87,6 @@ const config = {
         })
       }
 
-      console.log(
-        list.filter(
-          ({ reference_symbol, reference_name }) =>
-            reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
-            reference_name.toLowerCase().indexOf(lowersearch) > -1
-        )
-      )
       return Promise.resolve(
         list.filter(
           ({ reference_symbol, reference_name }) =>
@@ -191,6 +169,7 @@ const config = {
     display: ({ supported, origin }) => {
       return origin === 'cfx' || supported === 1
     },
+    searchTokenFromServer: createSearchTokenFromServer('bsc'),
     searchList: function filterEth(list, search) {
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
@@ -203,7 +182,11 @@ const config = {
           if (list.length === 1) {
             return list
           } else {
-            return []
+            return config['bsc']
+              .searchTokenFromServer(search)
+              .then((result) => {
+                return result ? [result] : []
+              })
           }
         })
       }
@@ -237,57 +220,26 @@ const config = {
         ]
       : ['bnb', '0x045c4324039dA91c52C55DF5D785385Aab073DcF'],
   },
-  heco: {
-    icon: hecoSrc,
-    subIcon: hecoSubSrc,
-    tk_url: HECO_SCAL_URL + '/address/',
-    tx_url: HECO_SCAL_URL + '/tx/',
-    captain: CAPTAIN.NONE,
-    display: ({ supported, origin }) => {
-      return origin === 'cfx' || supported === 1
-    },
-    searchList: function filterEth(list, search) {
-      const isEthAddress = config['eth'].outFormatCheck(search)
-      const lowersearch = search.toLowerCase()
-      if (isEthAddress) {
-        return Promise.resolve(
-          list.filter(
-            ({ reference }) => reference.toLowerCase() === lowersearch
-          )
-        ).then((list) => {
-          if (list.length === 1) {
-            return list
-          } else {
-            return []
-          }
-        })
-      }
-
-      return Promise.resolve(
-        list.filter(
-          ({ reference_symbol, reference_name }) =>
-            reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
-            reference_name.toLowerCase().indexOf(lowersearch) > -1
-        )
-      )
-    },
-    outFormatCheck(address) {
-      return WAValidator.validate(
-        address,
-        'ethereum',
-        IS_DEV ? 'testnet' : 'prod'
-      )
-    },
-    TokenList({ t }) {
-      return <span>{t('list')}</span>
-    },
-    checkAddress() {
-      return Promise.resolve('yes')
-    },
-    frequentTokens: IS_DEV ? ['ht'] : ['ht'],
-  },
 }
 
 export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
 
 export default config
+
+function createSearchTokenFromServer(chain) {
+  return function searchTokenFromServer(address) {
+    return jsonrpc('searchToken', {
+      url: 'sponsor',
+      params: [chain, 'cfx', address],
+    }).then((result) => {
+      if (result && result.is_valid_erc20) {
+        const token = { ...result, origin: chain, to_chain: 'cfx' }
+
+        const updatedList = updateTokenList(chain, token)
+        return updatedList.then(({ tokenMap }) => {
+          return tokenMap[getIdFromToken(token)]
+        })
+      }
+    })
+  }
+}

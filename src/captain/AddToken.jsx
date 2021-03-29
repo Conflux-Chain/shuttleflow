@@ -3,14 +3,20 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router'
 import styled from 'styled-components'
 import Button from '../component/Button/Button'
+import Icon from '../component/Icon/Icon'
+import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import TokenInput from '../component/TokenInput/TokenInput'
 import { CHAIN_SINGLE_PAIR } from '../config/constant'
+import useCaptain from '../data/useCaptainInfo'
 import useTokenList from '../data/useTokenList'
 import Select from '../layout/Select'
 import useUrlSearch from '../lib/useUrlSearch'
+import { formatAddress } from '../util/address'
+import down from './down.svg'
+import left from './left.svg'
 
 export default function AddToken() {
-  const { t } = useTranslation([])
+  const { t } = useTranslation(['captain'])
   const { chain } = useParams()
   const history = useHistory()
   const { pair } = useUrlSearch()
@@ -36,7 +42,6 @@ export default function AddToken() {
   useEffect(() => {
     //when switching fromChain the same as toChain
     //reset toChain
-
     const others = options.filter(({ key }) => {
       return key !== fromChain
     })
@@ -46,7 +51,11 @@ export default function AddToken() {
   }, [fromChain, toChain])
 
   return (
-    <div>
+    <PaddingContainer bottom>
+      <TitleContainer>
+        <Left src={left} alt="left"></Left>
+        <div>{t('add-token-title')}</div>
+      </TitleContainer>
       <Row>
         <SelectContainer>
           <SelectChain
@@ -65,6 +74,7 @@ export default function AddToken() {
           />
         </InputContainer>
       </Row>
+      <Down src={down}></Down>
       <Row>
         <SelectContainer>
           <SelectChain
@@ -87,7 +97,10 @@ export default function AddToken() {
           />
         </InputContainer>
       </Row>
+
+      {tokenInfo && <TokenDetails tokenInfo={tokenInfo} t={t} />}
       <Button
+        style={{ marginTop: 32 }}
         fullWidth
         disabled={!pair}
         onClick={() => {
@@ -96,7 +109,22 @@ export default function AddToken() {
       >
         Next
       </Button>
-    </div>
+    </PaddingContainer>
+  )
+}
+
+function TokenDetails({ tokenInfo, t }) {
+  const { sponsor, minimal_sponsor_amount } = useCaptain(tokenInfo)
+  return (
+    <DetailRow>
+      <Icon txt {...{ ...tokenInfo }}></Icon>
+      <DetailRight>
+        <First>{formatAddress(sponsor, { chain: 'cfx' })}</First>
+        <Second>{`${t('need-mortgage')} ${
+          minimal_sponsor_amount + ''
+        }`}</Second>
+      </DetailRight>
+    </DetailRow>
   )
 }
 
@@ -111,7 +139,7 @@ function SelectChain({ choosen, setChoosen, disabled, options }) {
     <Select
       disabled={disabled}
       render={render}
-      dropdownTitle="cc"
+      dropdownTitle={t('choose-chain')}
       current={choosen}
       title={choosen ? false : 'Choose'}
       setCurrent={setChoosen}
@@ -121,10 +149,52 @@ function SelectChain({ choosen, setChoosen, disabled, options }) {
   )
 }
 
+const TitleContainer = styled.div`
+  height: 72px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: white;
+`
+const Left = styled.img`
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: 0;
+  cursor: pointer;
+`
+
 const Row = styled.div`
   display: flex;
   position: relative;
 `
+
+const DetailRow = styled(Row)`
+  margin-top: 12px;
+  justify-content: space-between;
+`
+const DetailRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`
+const First = styled.div`
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+`
+
+const Second = styled.div`
+  font-size: 14px;
+  color: rgba(255, 255, 255);
+`
+const Down = styled.img`
+  display: block;
+  margin: auto;
+  margin: 12px auto;
+`
+
 const SelectContainer = styled.div`
   flex: 1;
   display: flex;

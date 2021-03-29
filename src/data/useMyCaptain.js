@@ -9,7 +9,6 @@ import { getIdFromSponsorInfo } from '../util/id'
 export default function useMyCaptain() {
   const address = useAddress()
   const { chain } = useParams()
-  console.log('useMyCaptain', chain)
   return useSWR(['useMyCaptain', chain, address], fetcher, {
     revalidateOnMount: true,
     suspense: true,
@@ -21,13 +20,13 @@ function fetcher(key, chain, address) {
     getTokenList(chain),
     jsonrpc('getSponsorInfo', { url: 'sponsor', params: [address] }),
   ]).then(([{ tokenMap }, tokens]) => {
-    console.log('tokens', tokens)
     return tokens
       .filter(({ origin, to_chain }) => origin === chain || to_chain === chain)
       .map((tokenInfo) => {
-        const { status } = tokenInfo
+        // const { status } = tokenInfo
         const pairId = getIdFromSponsorInfo(tokenInfo)
-        return { ...tokenMap[pairId], status }
+        console.log(tokenInfo)
+        return { ...tokenMap[pairId], ...tokenInfo }
       })
       .sort(({ status }) => {
         if (status === 'done') {

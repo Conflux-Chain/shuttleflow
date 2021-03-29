@@ -27,7 +27,8 @@
   "what-captain": "什么是代币服务商？",
   "what-sf-link": "https://juejin.im/post/6886458514097733639",
   "what-captain-link": "https://forum.conflux.fun/t/topic/4719",
-  "choose-chain": "选择跨链对",
+  "choose-chain-pair": "选择跨链对",
+  "choose-chain": "选择链",
   "footer": {
     "whitepaper": "白皮书",
     "doc": "使用文档",

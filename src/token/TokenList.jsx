@@ -55,7 +55,6 @@ function TokenList({
     .filter(({ origin }) => (chainFilter ? origin === chainFilter : true))
 
   const mainPair = useMairPair().data
-  console.log('mainPair', mainPair)
   const mainPairSymbol = mainPair.symbol
   const setToken = (selected) => {
     history.push(buildSearch({ ...searchParams, selected }))
