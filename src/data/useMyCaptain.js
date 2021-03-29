@@ -25,7 +25,6 @@ function fetcher(key, chain, address) {
       .map((tokenInfo) => {
         // const { status } = tokenInfo
         const pairId = getIdFromSponsorInfo(tokenInfo)
-        console.log(tokenInfo)
         return { ...tokenMap[pairId], ...tokenInfo }
       })
       .sort(({ status }) => {

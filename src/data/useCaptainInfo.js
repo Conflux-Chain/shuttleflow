@@ -8,7 +8,6 @@ import { useParams } from 'react-router'
 import { ZERO_ADDR } from '../config/config'
 import { getTokenList } from './tokenList'
 
-//txHash is used to flush data from server
 export default function useCaptain(tokenInfo) {
   const address = useAddress()
   const { chain } = useParams()
@@ -31,10 +30,6 @@ export default function useCaptain(tokenInfo) {
   ).data
 }
 
-//todo: Shuttle in/out page still read from API rather than the contract
-//some level of inconsistancy, tend to be fixed when reverse captain roll out
-//The meaning of mint/burn and in/out is a mess currectly
-//expect to be sorted out in the future
 function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
   let toCfxOrFromCfx, referenceOrCtoken, _in, _out, direction
   if (origin === 'cfx') {
@@ -137,4 +132,48 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
       }
     })
   })
+}
+
+export function useCustodianInfo(tokenInfo) {
+  const { chain } = useParams()
+  return useSWR(
+    tokenInfo ? ['captain1', chain, tokenInfo.origin] : null,
+    fetcher1,
+    {
+      suspense: true,
+    }
+  ).data
+}
+
+function fetcher1(key, chain, origin) {
+  let toCfxOrFromCfx
+  if (origin === 'cfx') {
+    toCfxOrFromCfx = 'fromCfx'
+  } else {
+    toCfxOrFromCfx = 'toCfx'
+  }
+
+  return getContract(`custodian.${toCfxOrFromCfx}.${chain}`)
+    .then((c) => {
+      return Promise.all(
+        [
+          c.minimal_sponsor_amount(),
+          c.default_cooldown(),
+          c.safe_sponsor_amount(),
+        ].map((fn) => fn.call())
+      )
+    })
+    .then(([custodianData]) => {
+      const [
+        minimal_sponsor_amount,
+        default_cooldown,
+        safe_sponsor_amount,
+      ] = custodianData.map((x) => Big(x + ''))
+
+      return {
+        default_cooldown,
+        minimal_sponsor_amount,
+        safeSponsorAmount: safe_sponsor_amount.div('1e18'),
+      }
+    })
 }
