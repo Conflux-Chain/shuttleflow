@@ -25,6 +25,7 @@ import { CONTRACT_CONFIG, getContract } from '../data/contract/contract'
 import CHAIN_CONFIG from '../config/chainConfig'
 import { useParams } from 'react-router'
 import useTokenList from '../data/useTokenList'
+import { giveTransactionResult } from '../globalPopup/TranscationResult'
 
 export default function CaptainForm({
   origin,
@@ -266,28 +267,22 @@ function Approve({ chain }) {
   return (
     <div
       onClick={() => {
-        if (!isOperatorFor) {
+        if (!isOperatorFor || true) {
           setIsApproveing(true)
-          getContract('erc777').then((c) => {
-            return (
+          giveTransactionResult(
+            getContract('erc777').then((c) =>
               c
-                .authorizeOperator(operator)
-                // .revokeOperator(operator)
+                // .authorizeOperator(operator)
+                .revokeOperator(operator)
                 .sendTransaction({
                   from: selectedAddress,
                   to: ctoken,
                 })
-                .then((e) => {
-                  console.log(e)
-                })
-                .catch((e) => {
-                  console.log(e)
-                })
-                .finally(() => {
-                  setIsApproveing(false)
-                })
-            )
-          })
+            ),
+            () => {
+              setIsApproveing(false)
+            }
+          )
         }
       }}
     >

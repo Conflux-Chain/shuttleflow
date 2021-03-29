@@ -14,6 +14,7 @@ import { Loading } from '@cfxjs/react-ui'
 import RouterRoot from './RouterRoot'
 import PrepareData from './PrepareData'
 import { SWRConfig } from 'swr'
+import GlobalPopup from '../globalPopup/globalPopup'
 
 const root = document.getElementById('root')
 
@@ -96,6 +97,7 @@ export default function App() {
               </div>
             </div>
           </Modal>
+          <GlobalPopup />
         </PrepareData>
       </RecoilRoot>
     </Suspense>
