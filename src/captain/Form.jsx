@@ -279,8 +279,10 @@ function Approve({ chain }) {
                   to: ctoken,
                 })
             ),
-            () => {
-              setIsApproveing(false)
+            {
+              done: () => {
+                setIsApproveing(false)
+              },
             }
           )
         }
