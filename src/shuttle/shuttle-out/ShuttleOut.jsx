@@ -30,6 +30,7 @@ import CHAIN_CONFIG from '../../config/chainConfig'
 import { useParams } from 'react-router'
 import shuttleout from '../../data/shuttleOut'
 import { giveTransactionResult } from '../../globalPopup/TranscationResult'
+import styled from 'styled-components'
 
 export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
   const [commonCx, modalCx, shuttleCx, shuttleOutCx, shuttleInCx] = useStyle(
@@ -95,17 +96,19 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
     const { outwallet, outamount } = data
     setOperationPending(true)
 
-    CHAIN_CONFIG[chain]
-      .checkAddress(outwallet, blockShuttleout, t)
-      .then((result) => {
-        console.log('result', result)
-        if (result === 'yes') {
-          giveTransactionResult(
-            shuttleout(tokenInfo, outamount, outwallet, chain),
-            { done: () => setOperationPending(false) }
-          )
-        }
-      })
+    if (origin === 'cfx') {
+      blockShuttleout(() => {
+        giveTransactionResult(
+          shuttleout(tokenInfo, outamount, outwallet, chain),
+          { done: () => setOperationPending(false) }
+        )
+      }, t('no-contract'))
+    } else {
+      giveTransactionResult(
+        shuttleout(tokenInfo, outamount, outwallet, chain),
+        { done: () => setOperationPending(false) }
+      )
+    }
   }
 
   if (token && !tokenInfo) {
@@ -257,6 +260,9 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
                 )
               }}
             />
+            {tokenInfo.origin === 'cfx' && (
+              <Warning>{t('no-contract')}</Warning>
+            )}
 
             <Button
               loading={operationPending}
@@ -369,3 +375,10 @@ function ComfirmPopup({
     </Modal>
   )
 }
+
+const Warning = styled.div`
+  margin-top: 8px;
+  color: #f3504f;
+  font-size: 18px;
+  font-weight: bold;
+`
