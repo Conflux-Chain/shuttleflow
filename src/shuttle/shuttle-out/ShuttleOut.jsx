@@ -102,29 +102,32 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
     let { outwallet, outamount } = data
     const { out_fee, ctoken, origin } = tokenInfo
 
-    CHAIN_CONFIG[chain]
-      .checkAddress(outwallet, blockShuttleout, t)
-      .then((result) => {
-        console.log('result', result)
-        if (result === 'yes') {
-          ;(origin === 'cfx'
-            ? mint(outwallet, outamount.mul('1e18'), chain, ctoken)
-            : burn(
-                outwallet,
-                ctoken,
-                outamount.mul('1e18') + '',
-                out_fee.mul('1e18') + ''
-              )
-          )
-            .then((e) => {
-              tx.current = e
-              setSuccessPopup(true)
-            })
-            .catch((e) => {
-              setErrorPopup(true)
-            })
-        }
-      })
+    if (origin === 'cfx') {
+      blockShuttleout(() => {
+        mint(outwallet, outamount.mul('1e18'), chain, ctoken)
+          .then((e) => {
+            tx.current = e
+            setSuccessPopup(true)
+          })
+          .catch((e) => {
+            setErrorPopup(true)
+          })
+      }, t('no-contract'))
+    } else {
+      burn(
+        outwallet,
+        ctoken,
+        outamount.mul('1e18') + '',
+        out_fee.mul('1e18') + ''
+      )
+        .then((e) => {
+          tx.current = e
+          setSuccessPopup(true)
+        })
+        .catch((e) => {
+          setErrorPopup(true)
+        })
+    }
   }
 
   if (token && !tokenInfo) {
