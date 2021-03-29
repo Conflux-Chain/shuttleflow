@@ -6,11 +6,14 @@ import { useTranslation } from 'react-i18next'
 import plusSrc from './plus.svg'
 import configSrc from './config.svg'
 import { BaseButton } from '../component/Button/Button'
+import notFound from './not-found.svg'
+import warning from './warning-yellow.svg'
 
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import { Loading } from '@cfxjs/react-ui'
 import { useHistory, useRouteMatch } from 'react-router'
 import { getIdFromToken } from '../util/id'
+import { useCustodianInfo } from '../data/useCaptainInfo'
 export default function CaptainCenter() {
   const { data } = useMyCaptain()
   const { t } = useTranslation(['captain'])
@@ -30,15 +33,40 @@ export default function CaptainCenter() {
           <span>{t('support')}</span>
         </Flex>
       </Title>
-      {data.map((tokenInfo, i) => (
-        <CaptainItem key={i} t={t} tokenInfo={tokenInfo} />
-      ))}
+
+      {data.length > 0 ? (
+        data.map((tokenInfo, i) => (
+          <CaptainItem key={i} t={t} tokenInfo={tokenInfo} />
+        ))
+      ) : (
+        <NotFound>
+          <img src={notFound}></img>
+          <div>{t('no-supported-token')}</div>
+        </NotFound>
+      )}
     </PaddingContainer>
   )
 }
 
+const NotFound = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  padding-bottom: 32px;
+  color: rgba(255, 255, 255, 0.6);
+  img {
+    width: 160px;
+    height: 160px;
+  }
+`
+
 function CaptainItem({ tokenInfo, t }) {
   const { origin, to_chain, sponsor_value, status } = tokenInfo
+  const { minimal_sponsor_amount } = useCustodianInfo(tokenInfo)
+
+  const isLow = sponsor_value < minimal_sponsor_amount.mul('2')
+
   const nonCfxChain = [origin, to_chain].filter((x) => x !== 'cfx')[0]
   const nonCfxChainConfig = CHAIN_CONFIG[nonCfxChain]
   const nonCfxChainIcon = nonCfxChainConfig.icon
@@ -57,7 +85,8 @@ function CaptainItem({ tokenInfo, t }) {
               <CfxName>/Conflux</CfxName>
             </Name>
           </Row>
-          <Mortgage>
+          <Mortgage isLow={isLow}>
+            {isLow ? <img src={warning}></img> : null}
             {t('mortgage-amount') +
               ': ' +
               sponsor_value +
@@ -125,8 +154,13 @@ const Row = styled.div`
 
 const Mortgage = styled(Row)`
   font-size: 14px;
-  color: white;
+  color: ${(props) => (props.isLow ? '#FFC438' : 'white')};
   margin-bottom: 32px;
+  img {
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+  }
 `
 
 const Name = styled.span``

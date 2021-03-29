@@ -5,6 +5,7 @@ import { getTokenList } from './tokenList'
 import useAddress from './useAddress'
 import jsonrpc from '../data/jsonrpc'
 import { getIdFromSponsorInfo } from '../util/id'
+import tokenListMapper from './tokenListMapper'
 
 export default function useMyCaptain() {
   const address = useAddress()
@@ -25,7 +26,7 @@ function fetcher(key, chain, address) {
       .map((tokenInfo) => {
         // const { status } = tokenInfo
         const pairId = getIdFromSponsorInfo(tokenInfo)
-        return { ...tokenMap[pairId], ...tokenInfo }
+        return { ...tokenMap[pairId], ...tokenListMapper(tokenInfo) }
       })
       .sort(({ status }) => {
         if (status === 'done') {

@@ -15,6 +15,7 @@ import getFields from './fields'
 import Modal from '../component/Modal'
 import close from './close.svg'
 import warning from './warning.svg'
+import info from './info.svg'
 
 import ApproveIcon from './ApproveIcon'
 
@@ -207,7 +208,11 @@ export default function CaptainForm({
           )}
 
           {shouldDisplayApprove && <Approve t={t} chain={chain} />}
-          {!supported && <CaptainCreate>{t('captain-create')}</CaptainCreate>}
+          {!supported && (
+            <CaptainCreate>
+              <img src={info}></img> {t('captain-create')}
+            </CaptainCreate>
+          )}
           <Button
             fullWidth
             type="submit"
@@ -241,6 +246,13 @@ export default function CaptainForm({
 const CaptainCreate = styled.div`
   color: white;
   margin-top: 16px;
+  display: flex;
+  font-size: 14px;
+  img {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+  }
 `
 const Text = styled.div`
   margin-top: 1rem;

@@ -163,7 +163,8 @@ function fetcher1(key, chain, origin) {
         ].map((fn) => fn.call())
       )
     })
-    .then(([custodianData]) => {
+    .then(([...custodianData]) => {
+      console.log(custodianData)
       const [
         minimal_sponsor_amount,
         default_cooldown,
@@ -172,7 +173,7 @@ function fetcher1(key, chain, origin) {
 
       return {
         default_cooldown,
-        minimal_sponsor_amount,
+        minimal_sponsor_amount: minimal_sponsor_amount.div('1e18'),
         safeSponsorAmount: safe_sponsor_amount.div('1e18'),
       }
     })
