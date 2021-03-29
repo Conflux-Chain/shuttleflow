@@ -17,8 +17,8 @@
     "less-than": "需要小于 {{value}}",
     "less-than-eq": "需要小于等于 {{value}}"
   },
-  "min-mortgage": "最小抵押数量 {{minMortgage}} cETH",
-  "ceth-balance": "钱包余额 {{amount}} cETH",
+  "mainPair-min-mortgage": "最小抵押数量 {{minMortgage}} {{mainPair}}",
+  "mainPair-balance": "钱包余额 {{amount}} {{mainPair}}",
   "for-not-update": "表示不更新抵押数量",
   "update": "更新",
   "success": "交易已发出",

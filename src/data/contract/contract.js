@@ -15,7 +15,7 @@ export const CONTRACT_CONFIG = {
     toCfx: {
       abi: 'TokenSponsor',
       eth: { address: '0x8f2c7ee9d8b541f9b821473ade5caed7ba78e319' },
-      bas: { address: 'cfxtest:aca2kmezyet575cusyzhhp2jmwc1b4ka1ynevxeycf' },
+      bsc: { address: 'cfxtest:aca2kmezyet575cusyzhhp2jmwc1b4ka1ynevxeycf' },
     },
     fromCfx: {
       abi: 'TokenSponsorReverse',

@@ -66,8 +66,6 @@ export default function useTokenList({ pair, search, cToken } = {}) {
   ).data
 }
 
-
-
 function searchCfxList(list, search, chain) {
   const lowerSearch = search.toLowerCase()
   const isAddressCfx = isCfxAddress(search)
@@ -123,7 +121,7 @@ function searchCfxFromServer(addr, chain) {
     if (result && result.is_valid_erc20) {
       const token = { ...result, origin: 'cfx', to_chain: chain }
 
-      const updatedList = updateTokenList('eth', token)
+      const updatedList = updateTokenList(chain, token)
       return updatedList.then(({ tokenMap }) => {
         return tokenMap[getIdFromToken(token)]
       })

@@ -19,8 +19,9 @@ import { useHistory, useParams } from 'react-router-dom'
 import useUrlSearch from '../lib/useUrlSearch'
 import { useBlockWithRisk } from '../layout/Risk'
 import CHAIN_CONFIG from '../config/chainConfig'
-import useTokenList, { useTokenPair } from '../data/useTokenList'
+import useTokenList from '../data/useTokenList'
 import { getIdFromToken } from '../util/id'
+import useMairPair from '../data/useMainPair'
 
 const sorts = (key = 'symbol') => {
   return {
@@ -53,6 +54,9 @@ function TokenList({
     .slice()
     .filter(({ origin }) => (chainFilter ? origin === chainFilter : true))
 
+  const mainPair = useMairPair().data
+  console.log('mainPair', mainPair)
+  const mainPairSymbol = mainPair.symbol
   const setToken = (selected) => {
     history.push(buildSearch({ ...searchParams, selected }))
   }
@@ -72,6 +76,7 @@ function TokenList({
       {/* we should combine frequent token and tokenlist in one component 
       cause they share the same container of fixed height */}
       <Scrollbars
+        renderThumbHorizontal={() => <div></div>}
         renderThumbVertical={renderThumbVertical}
         style={{ flex: 1, position: 'relative' }}
       >
@@ -148,6 +153,7 @@ function TokenList({
                 return (
                   <TokenRow
                     key={i}
+                    mainPairSymbol={mainPairSymbol}
                     tokenInfo={tokenInfo}
                     {...{
                       token: selected,
@@ -181,6 +187,7 @@ function TokenRow({
   setIsNotAvailable,
   checked,
   chain,
+  mainPairSymbol,
 }) {
   const {
     supported,
@@ -240,7 +247,9 @@ function TokenRow({
 
       <div className={ListCx('two-row')} style={{ alignItems: 'flex-end' }}>
         {captain && sponsor_value && (
-          <span className={ListCx('mortgage')}>{sponsor_value + ' cETH'}</span>
+          <span className={ListCx('mortgage')}>
+            {sponsor_value + ' ' + mainPairSymbol}
+          </span>
         )}
 
         {address && (

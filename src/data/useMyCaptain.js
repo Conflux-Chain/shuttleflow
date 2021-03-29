@@ -20,20 +20,10 @@ function fetcher(key, chain, address) {
   return Promise.all([
     getTokenList(chain),
     jsonrpc('getSponsorInfo', { url: 'sponsor', params: [address] }),
-    Promise.resolve([
-      {
-        reference: '0x08130635368aa28b217a4dfb68e1bf8dc525621c',
-        status: 'done',
-      },
-      {
-        reference: '0xd28cfec79db8d0a225767d06140aee280718ab7e',
-        status: 'registering',
-      },
-    ]),
   ]).then(([{ tokenMap }, tokens]) => {
     console.log('tokens', tokens)
-
     return tokens
+      .filter(({ origin, to_chain }) => origin === chain || to_chain === chain)
       .map((tokenInfo) => {
         const { status } = tokenInfo
         const pairId = getIdFromSponsorInfo(tokenInfo)

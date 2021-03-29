@@ -20,6 +20,7 @@ export default function getFields({
   isMe,
   isMortgageLow,
   isLoacking: isLocking,
+  mainPairSymbol,
 }) {
   function createField({ name, label, unit, currentValue, greaterThan }) {
     let validate = basicValidate()
@@ -102,7 +103,7 @@ export default function getFields({
     .concat({
       label: 'mortgage-amount',
       name: 'mortgage_amount',
-      unit: 'cETH',
+      unit: mainPairSymbol,
       validate: showMortgage
         ? basicValidate()
             .min(minMortgageBig, 'error.above-current')

@@ -38,12 +38,12 @@ export default function ChooseToken({ captain, cToken, chainFilter, next }) {
           searchTxt={searchTxt}
           setSearchTxt={(txt) => {
             setSearch({ txt, searching: true })
-            // if (searchTimer.current) {
-            //   clearTimeout(searchTimer.current)
-            // }
-            // searchTimer.current = setTimeout(() => {
-            //   setSearch({ searching: false })
-            // }, 1000)
+            if (searchTimer.current) {
+              clearTimeout(searchTimer.current)
+            }
+            searchTimer.current = setTimeout(() => {
+              setSearch({ searching: false })
+            }, 1000)
           }}
         />
       </PaddingContainer>
@@ -60,7 +60,7 @@ export default function ChooseToken({ captain, cToken, chainFilter, next }) {
       />
 
       {!notFound && (
-        <PaddingContainer>
+        <PaddingContainer bottom={captain}>
           {[
             <Button
               key="btn"

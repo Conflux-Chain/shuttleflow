@@ -80,6 +80,7 @@ export default function Market() {
         </div>
       </div>
       <Scrollbars
+        renderThumbHorizontal={() => <div></div>}
         renderThumbVertical={renderThumbVertical}
         style={{ flex: 1, position: 'relative' }}
       >

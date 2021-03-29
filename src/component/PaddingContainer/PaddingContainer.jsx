@@ -12,5 +12,5 @@ import styled from 'styled-components'
 export default styled.div`
   padding: 0 32px;
   padding-bottom: ${(props) => (props.bottom ? '32px' : '0')};
-  padding-top: ${(props) => (props.top ? '32px' : '0')};
+  padding-top: ${(props) => (props.top ? '16px' : '0')};
 `

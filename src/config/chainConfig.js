@@ -57,14 +57,10 @@ const config = {
     icon: ethSrc,
     subIcon: ethSubSrc,
     token: 'cETH',
+    mainPair: 'eth-eth',
     tk_url: ETH_SCAN_URL + '/token/',
     tx_url: ETH_SCAN_URL + '/tx/',
-    mainPair: 'eth-eth',
-    cAddress: IS_DEV
-      ? '0x8442bc8b5d01bf635bb12e6c63a379cb167ab5bb'
-      : '0x86d2fb177eff4be03a342951269096265b98ac46', //ceth
     searchTokenFromServer(address) {
-      console.log('address', address)
       return jsonrpc('searchToken', {
         url: 'sponsor',
         params: ['eth', 'cfx', address],
@@ -121,7 +117,7 @@ const config = {
         )
       )
     },
-    captain: CAPTAIN.TO_CFX,
+    captain: CAPTAIN.BOTH,
     outFormatCheck(address) {
       return WAValidator.validate(
         address,
@@ -188,9 +184,10 @@ const config = {
     icon: bscSrc,
     subIcon: bscSubSrc,
     token: 'cBNB',
+    mainPair: 'bsc-bnb',
     tk_url: BSC_SCAN_URL + '/address/',
     tx_url: BSC_SCAN_URL + '/tx/',
-    captain: CAPTAIN.NONE,
+    captain: CAPTAIN.BOTH,
     display: ({ supported, origin }) => {
       return origin === 'cfx' || supported === 1
     },

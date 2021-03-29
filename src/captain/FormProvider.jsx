@@ -31,6 +31,7 @@ export default function FormProvider({ pair }) {
     minimal_in_value,
     minimal_out_value,
     default_cooldown_minutes,
+    mainPairSymbol,
   } = useCaptain(tokenInfo)
 
   const beCaptain = function ({
@@ -98,6 +99,7 @@ export default function FormProvider({ pair }) {
       minimal_in_value,
       minimal_out_value,
       default_cooldown_minutes,
+      mainPairSymbol
     }
     return <CaptainForm {...data} />
   }

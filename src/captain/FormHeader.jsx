@@ -20,6 +20,7 @@ export default function Header({
   countdown,
   in_token_list,
   default_cooldown_minutes,
+  mainPairSymbol,
 }) {
   const [cooldownPopup, setCooldownPopup] = useState(false)
 
@@ -39,7 +40,9 @@ export default function Header({
         </div>
         <div className={formCx('right')}>
           <div className={formCx('large-text')}>
-            {(supported ? currentMortgageBig + '' : '--') + ' cETH'}
+            {(supported ? currentMortgageBig + '' : '--') +
+              ' ' +
+              mainPairSymbol}
           </div>
           <div
             className={formCx('small-text')}

@@ -52,6 +52,7 @@ export default function CaptainForm({
   cethBalanceDisplay,
   safeSponsorAmount,
   default_cooldown_minutes,
+  mainPairSymbol,
 }) {
   //the data from tokenList is not accurate due to the delay
   //we can tell based on the contract instead
@@ -105,6 +106,7 @@ export default function CaptainForm({
     minMortgageBig,
     isMe,
     isMortgageLow,
+    mainPairSymbol,
   })
 
   const { defaultValues, schema } = fields.reduce(
@@ -144,6 +146,7 @@ export default function CaptainForm({
             sponsor,
             pendingCount,
             countdown,
+            mainPairSymbol,
           }}
         />
         {!isMe && !isMortgageLow ? (
@@ -178,11 +181,17 @@ export default function CaptainForm({
               })}
               <div className={formCx('small-text', 'bottom-text')}>
                 <div>
-                  {t('min-mortgage', { minMortgage: minMortgageBig + '' })}
+                  {t('mainPair-min-mortgage', {
+                    minMortgage: minMortgageBig + '',
+                    mainPair: mainPairSymbol,
+                  })}
                 </div>
                 <div>
                   <span>
-                    {t('ceth-balance', { amount: cethBalanceDisplay })}
+                    {t('mainPair-balance', {
+                      amount: cethBalanceDisplay,
+                      mainPair: mainPairSymbol,
+                    })}
                   </span>
                   <span
                     onClick={() => {
@@ -197,7 +206,7 @@ export default function CaptainForm({
             </>
           )}
 
-          {shouldDisplayApprove && <Approve chain={chain} />}
+          {shouldDisplayApprove && <Approve t={t} chain={chain} />}
           <Button
             fullWidth
             type="submit"
@@ -241,14 +250,12 @@ const Text = styled.div`
   }
 `
 
-function Approve({ chain }) {
+function Approve({ chain, t }) {
   const selectedAddress = window.conflux.selectedAddress
   const { ctoken } = useTokenList({ pair: CHAIN_CONFIG[chain].mainPair })
   const operator = CONTRACT_CONFIG.custodian.fromCfx[chain].address
   const [isOperatorFor, setIsOperatorFor] = useState(null)
   const [isApproving, setIsApproveing] = useState(false)
-
-  console.log('ctoken', ctoken)
 
   useEffect(() => {
     if (ctoken && selectedAddress) {
@@ -265,15 +272,15 @@ function Approve({ chain }) {
     }
   }, [ctoken, selectedAddress])
   return (
-    <div
+    <ApproveContainer
       onClick={() => {
-        if (!isOperatorFor || true) {
+        if (!isOperatorFor) {
           setIsApproveing(true)
           giveTransactionResult(
             getContract('erc777').then((c) =>
               c
-                // .authorizeOperator(operator)
-                .revokeOperator(operator)
+                .authorizeOperator(operator)
+                // .revokeOperator(operator)
                 .sendTransaction({
                   from: selectedAddress,
                   to: ctoken,
@@ -293,6 +300,15 @@ function Approve({ chain }) {
           isOperatorFor ? 'approved' : isApproving ? 'approving' : 'toApprove'
         }
       />
-    </div>
+      <div style={{ marginLeft: 8 }}>{t('approve')}</div>
+    </ApproveContainer>
   )
 }
+
+const ApproveContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  color: #6fcf97;
+  font-size: 14px;
+`
