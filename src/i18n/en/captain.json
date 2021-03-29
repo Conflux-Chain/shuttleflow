@@ -38,5 +38,12 @@
   "compete-captain": "Compete to be Captain",
   "approve": "Approve",
   "need-mortgage": "需抵押",
-  "add-token-title": "选择链和代币 "
+  "add-token-title": "选择链和代币 ",
+  "status": {
+    "confirming": "confirming",
+    "deploying": "deploying",
+    "registering": "registering",
+    "configuring": "configuring"
+  },
+  "captain-create": "若成为此服务商，需要另外支付100w的 Gas 用于部署代币合约"
 }

@@ -53,7 +53,13 @@ export default function AddToken() {
   return (
     <PaddingContainer bottom>
       <TitleContainer>
-        <Left src={left} alt="left"></Left>
+        <Left
+          onClick={() => {
+            history.push(`/${chain}/captain`)
+          }}
+          src={left}
+          alt="left"
+        ></Left>
         <div>{t('add-token-title')}</div>
       </TitleContainer>
       <Row>

@@ -36,10 +36,11 @@ export default function useCaptain(tokenInfo) {
 //The meaning of mint/burn and in/out is a mess currectly
 //expect to be sorted out in the future
 function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
-  let toCfxOrFromCfx, referenceOrCtoken, _in, _out
+  let toCfxOrFromCfx, referenceOrCtoken, _in, _out, direction
   if (origin === 'cfx') {
     toCfxOrFromCfx = 'fromCfx'
     referenceOrCtoken = ctoken
+    direction = ['cfx', chain]
     if (referenceOrCtoken === 'cfx') {
       referenceOrCtoken = ZERO_ADDR
     }
@@ -48,6 +49,7 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
   } else {
     toCfxOrFromCfx = 'toCfx'
     referenceOrCtoken = reference
+    direction = [chain, 'cfx']
     _in = 'mint'
     _out = 'burn'
   }
@@ -56,11 +58,10 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
     const { mainPair } = CHAIN_CONFIG[chain]
     const mairPairInfo = tokenMap[mainPair]
     const { symbol: mainPairSymbol, ctoken: mainPairCtoken } = mairPairInfo
-    console.log(mairPairInfo)
     return Promise.all([
       jsonrpc('getPendingOperationInfo', {
         url: 'node',
-        params: [referenceOrCtoken],
+        params: [referenceOrCtoken, ...direction],
       }),
       getContract(`custodian.${toCfxOrFromCfx}.${chain}`).then((c) => {
         return Promise.all(

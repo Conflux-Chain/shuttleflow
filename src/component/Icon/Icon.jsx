@@ -25,8 +25,8 @@ export default function Icon({
   const confluxIcon = origin === chain && cToken
   const chainIcon =
     origin === 'cfx' && !cToken ? CHAIN_CONFIG[chain].subIcon : false
-  const symbolName = cToken ? symbol : reference_symbol
-  const fullname = cToken ? name : reference_name
+  const symbolName = (cToken ? symbol : reference_symbol) || ''
+  const fullname = (cToken ? name : reference_name) || ''
   const notAvailable = supported === 0
   const { t } = useTranslation(['token'])
 

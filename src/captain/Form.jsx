@@ -207,6 +207,7 @@ export default function CaptainForm({
           )}
 
           {shouldDisplayApprove && <Approve t={t} chain={chain} />}
+          {!supported && <CaptainCreate>{t('captain-create')}</CaptainCreate>}
           <Button
             fullWidth
             type="submit"
@@ -237,6 +238,10 @@ export default function CaptainForm({
   )
 }
 
+const CaptainCreate = styled.div`
+  color: white;
+  margin-top: 16px;
+`
 const Text = styled.div`
   margin-top: 1rem;
   color: white;
