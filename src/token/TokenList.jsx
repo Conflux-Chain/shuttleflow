@@ -194,6 +194,7 @@ function TokenRow({
     reference,
     sponsor_value,
     ctoken,
+    admin,
   } = tokenInfo
   const [ListCx] = useStyle(tokenListStyles, titleStyles)
   const notAvailable = supported === 0
@@ -213,20 +214,20 @@ function TokenRow({
       bottom={false}
       className={ListCx('row', { checked })}
       onClick={() => {
-        if (checked) {
-          setToken('')
-          setIsNotAvailable(false)
-        } else {
-          const callback = () => {
-            if (!disabled) {
+        if (!disabled) {
+          if (checked) {
+            setToken('')
+            setIsNotAvailable(false)
+          } else {
+            const callback = () => {
               setToken(getIdFromToken(tokenInfo))
               setIsNotAvailable(notAvailable)
             }
-          }
-          if (in_token_list) {
-            callback()
-          } else {
-            block(callback)
+            if (in_token_list) {
+              callback()
+            } else {
+              block(callback)
+            }
           }
         }
       }}

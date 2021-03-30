@@ -84,10 +84,10 @@ export default function Market() {
         renderThumbVertical={renderThumbVertical}
         style={{ flex: 1, position: 'relative' }}
       >
-        {tokens.sort(sorts[sort]).map((tokenInfo) => {
-          const { symbol, reference_name, _total_supply, name } = tokenInfo
+        {tokens.sort(sorts[sort]).map((tokenInfo, i) => {
+          const { _total_supply } = tokenInfo
           return (
-            <PaddingContainer key={symbol} className={cx('list')}>
+            <PaddingContainer key={i} className={cx('list')}>
               <Icon {...tokenInfo} txt cToken style={{ marginRight: '1rem' }} />
               <div className={cx('right')}>{_total_supply}</div>
             </PaddingContainer>

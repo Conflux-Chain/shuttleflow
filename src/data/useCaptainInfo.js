@@ -51,6 +51,7 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
 
   return getTokenList(chain).then(({ tokenMap }) => {
     const { mainPair } = CHAIN_CONFIG[chain]
+    console.log(tokenMap)
     const mairPairInfo = tokenMap[mainPair]
     const { symbol: mainPairSymbol, ctoken: mainPairCtoken } = mairPairInfo
     return Promise.all([
@@ -114,6 +115,8 @@ function fetcher(key, reference, ctoken, address, chain, decimals, origin) {
 
       const diff = parseInt(Date.now() / 1000 - parseInt(token_cooldown))
 
+      console.log('safe_sponsor_amount', safe_sponsor_amount + '')
+      console.log('sponsorValue', sponsorValue + '')
       return {
         pendingCount: cnt,
         out_fee: values[`${_out}_fee`].div(`1e${decimals}`),

@@ -102,18 +102,20 @@ export default function LayoutLarge() {
               history={history}
             />
           )}
-          <Select
-            right="0"
-            border
-            icon
-            type="lng"
-            current={i18n.language}
-            options={[
-              { key: 'en', value: 'English' },
-              { key: 'zh', value: '中文' },
-            ]}
-            setCurrent={i18n.changeLanguage.bind(i18n)}
-          />
+          <div style={{ marginLeft: 16 }}>
+            <Select
+              right="0"
+              border
+              icon
+              type="lng"
+              current={i18n.language}
+              options={[
+                { key: 'en', value: 'English' },
+                { key: 'zh', value: '中文' },
+              ]}
+              setCurrent={i18n.changeLanguage.bind(i18n)}
+            />
+          </div>
         </div>
       </header>
       <Suspense fallback={<Loading />}>
