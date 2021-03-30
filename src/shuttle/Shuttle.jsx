@@ -146,7 +146,6 @@ const Text = styled.div`
   line-height: 26px;
   color: white;
   margin-top: 32px;
-  margin-bottom: 16px;
 `
 
 const BeCaptain = styled(Button)`

@@ -24,11 +24,13 @@ export default function AddToken() {
 
   const [fromChain, setFromChain] = useLocalStorageForChain(
     'addtoken-fromChain',
-    tokenInfo ? tokenInfo.origin : ''
+    tokenInfo ? tokenInfo.origin : '',
+    chain
   )
   const [toChain, setToChain] = useLocalStorageForChain(
     'addtoken-toChain',
-    tokenInfo ? tokenInfo.to_chain : ''
+    tokenInfo ? tokenInfo.to_chain : '',
+    chain
   )
 
   //token can be choosen when both chains are specified
@@ -210,12 +212,12 @@ const InputContainer = styled.div`
   flex: 3;
 `
 
-function useLocalStorageForChain(localKey, chainFromToken) {
+function useLocalStorageForChain(localKey, chainFromToken, chain) {
   const [externalSet, setExternalSet] = useState(false)
   const [storedValue, setStoredValue] = useState(() => {
     try {
       const item = window.localStorage.getItem(localKey)
-      return item ? JSON.parse(item) : chainFromToken
+      return JSON.parse(item)
     } catch (error) {
       return chainFromToken
     }

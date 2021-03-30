@@ -154,5 +154,5 @@ const Arrow = styled.img`
 const Caption = styled.div`
   color: rgba($color: #ffffff, $alpha: 0.6);
   font-size: 1rem;
+  margin-bottom: 4px;
 `
-

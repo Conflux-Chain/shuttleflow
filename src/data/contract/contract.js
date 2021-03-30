@@ -3,6 +3,7 @@ export const CONTRACT_CONFIG = {
     toCfx: {
       abi: 'CustodianImpl',
       eth: { address: '0x89ee646e8ec9184fde03d4a6f73ba5b198d07974' },
+      btc: { address: '0x89ee646e8ec9184fde03d4a6f73ba5b198d07974' },
       bsc: { address: 'cfxtest:acg8g810ntrv2wn62mjd7jn8brackkcc6pxv3u47ae' },
     },
     fromCfx: {
@@ -15,6 +16,7 @@ export const CONTRACT_CONFIG = {
     toCfx: {
       abi: 'TokenSponsor',
       eth: { address: '0x8f2c7ee9d8b541f9b821473ade5caed7ba78e319' },
+      btc: { address: '0x8f2c7ee9d8b541f9b821473ade5caed7ba78e319' },
       bsc: { address: 'cfxtest:aca2kmezyet575cusyzhhp2jmwc1b4ka1ynevxeycf' },
     },
     fromCfx: {

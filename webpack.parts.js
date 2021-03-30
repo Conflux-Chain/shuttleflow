@@ -10,7 +10,7 @@ exports.devServer = () => ({
   devtool: 'eval-source-map',
   devServer: {
     historyApiFallback: true,
-    transportMode: 'ws',
+    // transportMode: 'ws',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers':

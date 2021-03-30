@@ -36,6 +36,7 @@ export const CAPTAIN = {
 const config = {
   btc: {
     icon: btcSrc,
+    mainPair: 'btc-btc',
     display() {
       return true
     },
