@@ -238,7 +238,6 @@ function Approve({ chain, t }) {
     if (ctoken && selectedAddress) {
       getContract('erc777')
         .then((c) => {
-          console.log(ctoken, selectedAddress, c.isOperatorFor)
           return c
             .isOperatorFor(operator, selectedAddress)
             .call({ from: selectedAddress, to: ctoken })

@@ -16,7 +16,6 @@ import { giveTransactionResult } from '../globalPopup/TranscationResult'
 const MAX_DECIMAL_DISPLAY = 8
 export function usePairInfo(pair) {
   const { selectedAddress } = window.conflux
-  console.log('usePairInfo', pair)
   return useSWR(pair ? ['pair', pair, selectedAddress] : null, fetchPair, {
     suspense: true,
     revalidateOnMount: true,

@@ -8,7 +8,6 @@ import useStyle from '../component/useStyle'
 import { useState } from 'react'
 import { useParams } from 'react-router'
 
-console.log(whitePaperEN)
 export default function Footer() {
   const { t, i18n } = useTranslation()
   const [displayPopup, setDisplayPopup] = useState(false)

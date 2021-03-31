@@ -35,7 +35,6 @@ function fetcher1(key, chain, origin) {
       )
     })
     .then(([...custodianData]) => {
-      console.log(custodianData)
       const [
         minimal_sponsor_amount,
         default_cooldown,

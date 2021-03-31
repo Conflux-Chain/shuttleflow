@@ -28,7 +28,6 @@ export const getTokenList = (chain) => {
 
 //It can be updated dynamicallt when searched token come through
 export function updateTokenList(chain, data) {
-  console.log(chainDataStore, chain, data)
   return (chainDataStore[chain] = chainDataStore[chain].then(
     ({ tokenList }) => {
       return buildMap([...tokenList, listItemMapper(data)])

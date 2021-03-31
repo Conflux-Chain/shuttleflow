@@ -108,8 +108,6 @@ function RouteComponent() {
   //not applicable to BTC (singleton)
   if (tokenInfo && !tokenInfo.singleton) {
     const { sponsorValue, safe_sponsor_amount } = tokenInfo
-    console.log(tokenInfo)
-    console.log(sponsorValue + '', safe_sponsor_amount + '')
     notEnoughGas = sponsorValue.lt(safe_sponsor_amount)
     gasLow = sponsorValue.lt(safe_sponsor_amount.mul('2')) ? (
       <div style={{ color: 'white' }}>{t('gas-low')}</div>

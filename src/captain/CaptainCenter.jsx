@@ -105,6 +105,7 @@ function CaptainItem({ tokenInfo, t }) {
 
       {status === 'done' ? (
         <Button
+          
           onClick={() => {
             history.push({ search: `pair=${getIdFromToken(tokenInfo)}` })
           }}

@@ -76,7 +76,6 @@ const config = {
           )
         ).then((list) => {
           if (list.length === 1) {
-            console.log('list', list)
             return list
           } else {
             return config['eth']
