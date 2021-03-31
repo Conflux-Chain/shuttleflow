@@ -47,6 +47,7 @@ function fetchPair(key, pair, address) {
       })
     })
     .then(([token, mairPairInfo]) => {
+      console.log(token)
       function readTokenFromContract({ reference, ctoken, decimals }) {
         let toCfxOrFromCfx, referenceOrCtoken, _in, _out, direction
         if (origin === 'cfx') {
@@ -219,7 +220,6 @@ function fetchPair(key, pair, address) {
 }
 
 function fetcher(key, search, chain, cToken) {
-
   const { display, searchList } = CHAIN_CONFIG[chain]
   return getTokenList(chain).then(({ tokenList }) => {
     if (!search) {

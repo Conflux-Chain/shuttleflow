@@ -22,13 +22,12 @@ export const BaseButton = styled.button`
   white-space: nowrap;
   width: ${(props) => (props.fullWidth ? '100%' : 'fit-content')};
   cursor: pointer;
+  font-size: 16px;
   @media ${device.laptop} {
-    font-size: 1.25rem;
     height: 4.5rem;
   }
   @media ${device.mobile} {
     height: 6.875rem;
-    font-size: 2rem;
   }
 
   &:disabled {

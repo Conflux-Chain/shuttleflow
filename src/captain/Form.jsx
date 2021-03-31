@@ -207,6 +207,7 @@ const CaptainCreate = styled.div`
   color: white;
   margin-top: 16px;
   display: flex;
+  align-items: center;
   font-size: 14px;
   img {
     width: 16px;
@@ -215,7 +216,8 @@ const CaptainCreate = styled.div`
   }
 `
 const Text = styled.div`
-  margin-top: 1rem;
+  margin-top: 16px;
+  margin-bottom: -4px;
   color: white;
   font-size: 14px;
   display: flex;

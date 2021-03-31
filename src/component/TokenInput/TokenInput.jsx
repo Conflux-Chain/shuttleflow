@@ -106,9 +106,7 @@ export default function TokenInput({
         </Left>
 
         {!singleton && !disabled && (
-          <div>
-            <Arrow src={arrow}></Arrow>
-          </div>
+          <Arrow id={`id-${dir}`} alt="arrow" src={arrow}></Arrow>
         )}
       </Container>
       <CTokenPopup

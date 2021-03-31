@@ -4,19 +4,15 @@
   color: white;
   border: none;
   text-overflow: ellipsis;
-
+  font-size: 14px;
+  padding-left: 16px;
   &.small {
-    font-size: 1.875rem;
     height: 6.25rem;
     line-height: 6.25rem;
-    padding-left: 2rem;
     padding-right: 5rem;
   }
-
   &.large {
-    font-size: 1.25rem;
     height: 56px;
-    padding-left: 1.5rem;
     text-overflow: ellipsis;
   }
 
@@ -40,14 +36,12 @@
   color: rgba($color: #ffffff, $alpha: 0.4);
   pointer-events: none;
   white-space: pre;
-
+  font-size: 14px;
   &.small {
     padding-left: 2rem;
-    font-size: 1.875rem;
   }
   &.large {
     padding-left: 1.5rem;
-    font-size: 1.25rem;
   }
 }
 .clear {

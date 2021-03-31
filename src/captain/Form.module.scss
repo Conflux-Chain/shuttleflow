@@ -1,34 +1,20 @@
 .large-text {
   color: white;
   font-size: 500;
-  &.small {
-    font-size: 2rem;
-  }
-  &.large {
-    font-size: 1.25rem;
-  }
+  font-size: 16px;
 }
 
 .small-text {
   color: rgba($color: #ffffff, $alpha: 0.4);
   white-space: pre-line;
-  &.small {
-    font-size: 1.5rem;
-  }
-  &.small {
-    font-size: 1rem;
-  }
+  font-size: 14px;
 }
 
 .bottom-text {
   display: flex;
   justify-content: space-between;
-  &.small {
-    margin-top: 1.5rem;
-  }
-  &.large {
-    margin-top: 0.75rem;
-  }
+  font-size: 12px;
+  margin-top: 12px;
   .all {
     color: #44d7b6;
     cursor: pointer;
@@ -115,26 +101,14 @@
 .input-container {
   position: relative;
   display: flex;
-  &.small {
-    margin-top: 1.5rem;
-    padding-right: 0;
-  }
-  &.large {
-    margin-top: 1rem;
-    padding-right: 0;
-  }
+  margin-top: 16px;
+  padding-right: 0;
 }
 .label {
   color: rgba($color: #ffffff, $alpha: 0.6);
   white-space: nowrap;
   display: flex;
   align-items: center;
-  &.small {
-    font-size: 1.75rem;
-  }
-  &.large {
-    font-size: 1.125rem;
-  }
 }
 
 .after {
@@ -143,14 +117,7 @@
   display: flex;
   align-items: center;
   white-space: nowrap;
-  &.small {
-    font-size: 1.75rem;
-    margin-right: 1rem;
-  }
-  &.large {
-    font-size: 1.25rem;
-    margin-right: 1rem;
-  }
+  margin-right: 24px;
 }
 
 .input {
