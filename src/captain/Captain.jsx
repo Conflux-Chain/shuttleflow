@@ -1,6 +1,5 @@
 import MainContainer from '../component/MainContainer/MainContainer'
-import useStyle from '../component/useStyle'
-import CaptainForm from './FormProvider'
+import CaptainForm from './Form'
 import CaptainCenter from './CaptainCenter'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
 import useUrlSearch from '../lib/useUrlSearch'

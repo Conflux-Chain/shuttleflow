@@ -25,42 +25,41 @@ import { isZeroAddress } from '../util/address'
 import { CONTRACT_CONFIG, getContract } from '../data/contract/contract'
 import CHAIN_CONFIG from '../config/chainConfig'
 import { useParams } from 'react-router'
-import useTokenList from '../data/useTokenList'
+import useTokenList, { usePairInfo } from '../data/useTokenList'
 import { giveTransactionResult } from '../globalPopup/TranscationResult'
+import useAddress from '../data/useAddress'
 
-export default function CaptainForm({
-  origin,
-  pendingCount,
-  countdown,
-  address,
-  icon,
-  beCaptain,
-  cethBalanceBig,
-  out_fee,
-  in_fee,
-  minimal_out_value,
-  minimal_in_value,
-  reference_symbol,
-  reference_name,
-  in_token_list,
-  symbol,
-  wallet_fee,
-  supported,
-  sponsor,
-  decimals,
-  minMortgageBig,
-  currentMortgageBig,
-  cethBalanceDisplay,
-  safeSponsorAmount,
-  default_cooldown_minutes,
-  mainPairSymbol,
-}) {
+export default function CaptainForm({ pair }) {
+  const { data: tokenInfo } = usePairInfo(pair)
+  const address = useAddress()
+  const {
+    origin,
+    out_fee,
+    in_fee,
+    minimal_out_value,
+    minimal_in_value,
+    reference_symbol,
+    reference_name,
+    in_token_list,
+    icon,
+    minimal_sponsor_amount,
+    sponsorValue,
+    gasBalance,
+    gasBalanceDisplay,
+    safe_sponsor_amount,
+    symbol,
+    wallet_fee,
+    supported,
+    sponsor,
+    decimals,
+    default_cooldown_minutes,
+    mainPairSymbol,
+    pendingCount,
+    countdown,
+    beCaptain,
+  } = tokenInfo
 
-  //the data from tokenList is not accurate due to the delay
-  //we can tell based on the contract instead
-  supported = supported || !isZeroAddress(sponsor)
   const { chain } = useParams()
-
   const shouldDisplayApprove = origin === 'cfx'
 
   const { t } = useTranslation(['captain'])
@@ -73,7 +72,7 @@ export default function CaptainForm({
     setMortgagePopup(true)
   }
   const isMe = address === sponsor
-  const isMortgageLow = safeSponsorAmount.gt(currentMortgageBig)
+  const isMortgageLow = safe_sponsor_amount.gt(sponsorValue)
   const isLoacking = countdown > 0
 
   const [showMortgage, setShowMortgage] = useState(!isMe)
@@ -104,8 +103,8 @@ export default function CaptainForm({
     decimals,
     wallet_fee,
     showMortgage,
-    cethBalanceBig,
-    minMortgageBig,
+    cethBalanceBig: gasBalance,
+    minMortgageBig: minimal_sponsor_amount,
     isMe,
     isMortgageLow,
     mainPairSymbol,
@@ -143,7 +142,7 @@ export default function CaptainForm({
             reference_symbol,
             reference_name,
             supported,
-            currentMortgageBig,
+            currentMortgageBig: sponsorValue,
             in_token_list,
             sponsor,
             pendingCount,
@@ -184,20 +183,20 @@ export default function CaptainForm({
               <div className={formCx('small-text', 'bottom-text')}>
                 <div>
                   {t('mainPair-min-mortgage', {
-                    minMortgage: minMortgageBig + '',
+                    minMortgage: minimal_sponsor_amount + '',
                     mainPair: mainPairSymbol,
                   })}
                 </div>
                 <div>
                   <span>
                     {t('mainPair-balance', {
-                      amount: cethBalanceDisplay,
+                      amount: gasBalanceDisplay,
                       mainPair: mainPairSymbol,
                     })}
                   </span>
                   <span
                     onClick={() => {
-                      setValue('mortgage_amount', cethBalanceBig)
+                      setValue('mortgage_amount', gasBalance)
                     }}
                     className={formCx('all')}
                   >

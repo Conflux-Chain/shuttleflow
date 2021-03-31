@@ -8,9 +8,10 @@ import { getIdFromToken, parseId } from '../util/id'
 import jsonrpc from './jsonrpc'
 
 import { updateTokenList } from './tokenList'
-import { isCfxAddress } from '../util/address'
+import { isCfxAddress, isZeroAddress } from '../util/address'
 import { getContract } from './contract/contract'
 import Big from 'big.js'
+import { giveTransactionResult } from '../globalPopup/TranscationResult'
 
 const MAX_DECIMAL_DISPLAY = 8
 export function usePairInfo(pair) {
@@ -155,14 +156,16 @@ function fetchPair(key, pair, address) {
             safe_sponsor_amount: safe_sponsor_amount.div('1e18'),
             mainPairSymbol,
             gasBalanceDisplay,
-            beCaptain({
+            supported: !isZeroAddress(sponsor),
+            beCaptain: ({
               amount,
               burnFee,
               mintFee,
               walletFee,
               minimalMintValue,
               minimalBurnValue,
-            }) {
+              cb,
+            }) => {
               amount = amount && Big(amount + '').mul('1e18')
               burnFee = Big(burnFee + '').mul(`1e${decimals}`)
               mintFee = mintFee.mul(`1e${decimals}`)
@@ -170,44 +173,47 @@ function fetchPair(key, pair, address) {
               minimalMintValue = minimalMintValue.mul(`1e${decimals}`)
               minimalBurnValue = minimalBurnValue.mul(`1e${decimals}`)
 
-              return getContract(
-                `custodian.${toCfxOrFromCfx}.${nonCfxChain}`
-              ).then((c) => {
-                const contract = c
-                if (!amount) {
-                  return contract
-                    .setTokenParams(
-                      referenceOrCtoken,
-                      burnFee,
-                      mintFee,
-                      walletFee,
-                      minimalMintValue,
-                      minimalBurnValue
-                    )
-                    .sendTransaction({ from: address })
-                } else {
-                  console.log(
-                    referenceOrCtoken,
-                    amount,
-                    burnFee,
-                    mintFee,
-                    walletFee,
-                    minimalMintValue,
-                    minimalBurnValue
-                  )
-                  return contract
-                    .sponsorToken(
-                      referenceOrCtoken,
-                      amount,
-                      burnFee,
-                      mintFee,
-                      walletFee,
-                      minimalMintValue,
-                      minimalBurnValue
-                    )
-                    .sendTransaction({ from: address })
-                }
-              })
+              return giveTransactionResult(
+                getContract(`custodian.${toCfxOrFromCfx}.${nonCfxChain}`).then(
+                  (c) => {
+                    const contract = c
+                    if (!amount) {
+                      return contract
+                        .setTokenParams(
+                          referenceOrCtoken,
+                          burnFee,
+                          mintFee,
+                          walletFee,
+                          minimalMintValue,
+                          minimalBurnValue
+                        )
+                        .sendTransaction({ from: address })
+                    } else {
+                      console.log(
+                        referenceOrCtoken,
+                        amount,
+                        burnFee,
+                        mintFee,
+                        walletFee,
+                        minimalMintValue,
+                        minimalBurnValue
+                      )
+                      return contract
+                        .sponsorToken(
+                          referenceOrCtoken,
+                          amount,
+                          burnFee,
+                          mintFee,
+                          walletFee,
+                          minimalMintValue,
+                          minimalBurnValue
+                        )
+                        .sendTransaction({ from: address })
+                    }
+                  }
+                ),
+                { done: cb }
+              )
             },
           }
         })
