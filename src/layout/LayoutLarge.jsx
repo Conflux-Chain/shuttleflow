@@ -69,26 +69,28 @@ export default function LayoutLarge() {
             history={history}
           />
 
-          <Select
-            title={t('help')}
-            options={[
-              [t('what-sf'), t('what-sf-link')],
-              [t('what-captain'), t('what-captain-link')],
-            ].map(([txt, link]) => {
-              return {
-                value: (
-                  <div
-                    key={txt}
-                    onClick={() => {
-                      window.open(link, '_blank')
-                    }}
-                  >
-                    {txt}
-                  </div>
-                ),
-              }
-            })}
-          />
+          <div className={cx('item')}>
+            <Select
+              title={t('help')}
+              options={[
+                [t('what-sf'), t('what-sf-link')],
+                [t('what-captain'), t('what-captain-link')],
+              ].map(([txt, link]) => {
+                return {
+                  value: (
+                    <div
+                      key={txt}
+                      onClick={() => {
+                        window.open(link, '_blank')
+                      }}
+                    >
+                      {txt}
+                    </div>
+                  ),
+                }
+              })}
+            />
+          </div>
 
           {CHAIN_CONFIG[chain].captain !== CAPTAIN.NONE && (
             <LinkItem
@@ -102,7 +104,7 @@ export default function LayoutLarge() {
               history={history}
             />
           )}
-          <div style={{ marginLeft: 16 }}>
+          <div className={cx('item')}>
             <Select
               right="0"
               border
@@ -148,7 +150,6 @@ function LinkItem({ to, content, alsoMatch = [] }) {
         return match || matchSearch
       }}
       className={cx('item')}
-      // id={to}
       activeClassName={cx('active')}
     >
       {content}
