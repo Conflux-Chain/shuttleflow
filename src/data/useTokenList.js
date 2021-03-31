@@ -16,7 +16,8 @@ import { giveTransactionResult } from '../globalPopup/TranscationResult'
 const MAX_DECIMAL_DISPLAY = 8
 export function usePairInfo(pair) {
   const { selectedAddress } = window.conflux
-  return useSWR(['pair', pair, selectedAddress], fetchPair, {
+  console.log('usePairInfo', pair)
+  return useSWR(pair ? ['pair', pair, selectedAddress] : null, fetchPair, {
     suspense: true,
     revalidateOnMount: true,
   })
@@ -27,12 +28,12 @@ function fetchPair(key, pair, address) {
   return getTokenList(nonCfxChain)
     .then(({ tokenMap }) => {
       const pairFromServer = tokenMap[pair]
-      const { mainPair } = CHAIN_CONFIG[nonCfxChain]
+      const { mainPair, singleToken } = CHAIN_CONFIG[nonCfxChain]
       const mairTokenInfo = tokenMap[mainPair]
 
       function getTokenInfo() {
         if (pairFromServer) {
-          return Promise.resolve(pairFromServer)
+          return Promise.resolve({ ...pairFromServer, singleton: singleToken })
         } else {
           if (origin === nonCfxChain) {
             return CHAIN_CONFIG[nonCfxChain].searchTokenFromServer(originAddr)
@@ -189,15 +190,6 @@ function fetchPair(key, pair, address) {
                         )
                         .sendTransaction({ from: address })
                     } else {
-                      console.log(
-                        referenceOrCtoken,
-                        amount,
-                        burnFee,
-                        mintFee,
-                        walletFee,
-                        minimalMintValue,
-                        minimalBurnValue
-                      )
                       return contract
                         .sponsorToken(
                           referenceOrCtoken,
@@ -227,37 +219,10 @@ function fetchPair(key, pair, address) {
     })
 }
 
-function fetcher(key, searchOrPair, chain, cToken) {
-  console.log(key, searchOrPair, chain, cToken)
+function fetcher(key, search, chain, cToken) {
 
-  let search, pair
-  if (key === 'search') {
-    search = searchOrPair
-  } else if (key === 'pair') {
-    pair = searchOrPair
-  }
-  const { singleToken, display, searchList } = CHAIN_CONFIG[chain]
-  return getTokenList(chain).then(({ tokenList, tokenMap }) => {
-    if (pair) {
-      if (singleToken) {
-        return { ...tokenList[0], singleton: true }
-      } else {
-        if (pair === CHAIN_SINGLE_PAIR) {
-          return null
-        } else {
-          if (tokenMap[pair]) {
-            return tokenMap[pair]
-          } else {
-            const { origin, originAddr } = parseId(pair)
-            if (origin === chain) {
-              return CHAIN_CONFIG[chain].searchTokenFromServer(originAddr)
-            } else if (origin === 'cfx') {
-              return searchCfxFromServer(originAddr, chain)
-            }
-          }
-        }
-      }
-    }
+  const { display, searchList } = CHAIN_CONFIG[chain]
+  return getTokenList(chain).then(({ tokenList }) => {
     if (!search) {
       return tokenList.filter(display)
     }
@@ -272,14 +237,13 @@ function fetcher(key, searchOrPair, chain, cToken) {
   })
 }
 
-export default function useTokenList({ pair, search, cToken } = {}) {
+export default function useTokenList({ search, cToken } = {}) {
   const { chain } = useParams()
 
-  return useSWR(
-    pair ? ['pair', pair, chain] : ['search', search, chain, cToken],
-    fetcher,
-    { suspense: true, revalidateOnMount: false }
-  ).data
+  return useSWR(['search', search, chain, cToken], fetcher, {
+    suspense: true,
+    revalidateOnMount: false,
+  }).data
 }
 
 function searchCfxList(list, search, chain) {

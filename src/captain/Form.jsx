@@ -13,7 +13,6 @@ import Toggle from '../component/Toggle/Toggle'
 import createInput from './createInput'
 import getFields from './fields'
 import Modal from '../component/Modal'
-import close from './close.svg'
 import warning from './warning.svg'
 import info from './info.svg'
 
@@ -21,7 +20,6 @@ import ApproveIcon from './ApproveIcon'
 
 import Button from '../component/Button/Button'
 import styled from 'styled-components'
-import { isZeroAddress } from '../util/address'
 import { CONTRACT_CONFIG, getContract } from '../data/contract/contract'
 import CHAIN_CONFIG from '../config/chainConfig'
 import { useParams } from 'react-router'
@@ -34,27 +32,15 @@ export default function CaptainForm({ pair }) {
   const address = useAddress()
   const {
     origin,
-    out_fee,
-    in_fee,
-    minimal_out_value,
-    minimal_in_value,
-    reference_symbol,
-    reference_name,
-    in_token_list,
     icon,
     minimal_sponsor_amount,
     sponsorValue,
     gasBalance,
     gasBalanceDisplay,
     safe_sponsor_amount,
-    symbol,
-    wallet_fee,
     supported,
     sponsor,
-    decimals,
-    default_cooldown_minutes,
     mainPairSymbol,
-    pendingCount,
     countdown,
     beCaptain,
   } = tokenInfo
@@ -65,7 +51,6 @@ export default function CaptainForm({ pair }) {
   const { t } = useTranslation(['captain'])
   const [inputCx, formCx] = useStyle(inputStyles, formStyles)
   const [mortgagePopup, setMortgagePopup] = useState(false)
-  const [readonlyPopup, setReadonlyPopup] = useState(false)
   const [transactionPending, setTranscationPending] = useState(false)
 
   function clickLabel() {
@@ -73,7 +58,7 @@ export default function CaptainForm({ pair }) {
   }
   const isMe = address === sponsor
   const isMortgageLow = safe_sponsor_amount.gt(sponsorValue)
-  const isLoacking = countdown > 0
+  const isLocking = countdown > 0
 
   const [showMortgage, setShowMortgage] = useState(!isMe)
 
@@ -93,21 +78,11 @@ export default function CaptainForm({ pair }) {
   }
   const fields = getFields({
     t,
-    reference_symbol,
-    symbol,
-    out_fee,
-    in_fee,
-    minimal_out_value,
-    minimal_in_value,
-    isLoacking,
-    decimals,
-    wallet_fee,
-    showMortgage,
-    cethBalanceBig: gasBalance,
-    minMortgageBig: minimal_sponsor_amount,
     isMe,
     isMortgageLow,
-    mainPairSymbol,
+    isLocking,
+    showMortgage,
+    ...tokenInfo,
   })
 
   const { defaultValues, schema } = fields.reduce(
@@ -135,19 +110,10 @@ export default function CaptainForm({ pair }) {
         <Header
           {...{
             isMe,
-            icon,
             formCx,
             t,
-            default_cooldown_minutes,
-            reference_symbol,
-            reference_name,
-            supported,
-            currentMortgageBig: sponsorValue,
-            in_token_list,
-            sponsor,
-            pendingCount,
-            countdown,
-            mainPairSymbol,
+            icon,
+            ...tokenInfo,
           }}
         />
         {!isMe && !isMortgageLow ? (
@@ -161,7 +127,6 @@ export default function CaptainForm({ pair }) {
             createInput({
               ...props,
               ...inputCtx,
-              onReadonly: () => setReadonlyPopup(true),
             })
           )}
           {isMe && (
@@ -234,11 +199,6 @@ export default function CaptainForm({ pair }) {
         ok
         content={t('mortgage-popup')}
       />
-      <Modal clickAway={() => setReadonlyPopup(false)} show={readonlyPopup}>
-        <span className={formCx('locked')}>
-          <img src={close} alt="close" /> {t('locked')}
-        </span>
-      </Modal>
     </>
   )
 }

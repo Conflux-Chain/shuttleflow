@@ -14,7 +14,7 @@ export default function Header({
   reference_symbol,
   reference_name,
   supported,
-  currentMortgageBig,
+  sponsorValue,
   sponsor,
   pendingCount,
   countdown,
@@ -40,9 +40,7 @@ export default function Header({
         </div>
         <div className={formCx('right')}>
           <div className={formCx('large-text')}>
-            {(supported ? currentMortgageBig + '' : '--') +
-              ' ' +
-              mainPairSymbol}
+            {(supported ? sponsorValue + '' : '--') + ' ' + mainPairSymbol}
           </div>
           <div
             className={formCx('small-text')}
