@@ -23,7 +23,6 @@ function ShuttleOutInput(
         autoComplete="off"
         {...['onFocus', 'onBlur'].reduce((pre, cur) => {
           pre[cur] = (e) => {
-            console.log(e.target.value)
             setDisplayPlaceholder(!e.target.value)
           }
           return pre
@@ -36,7 +35,6 @@ function ShuttleOutInput(
             const value = e.target.value
             let [p0, p1] = (value + '').split('.')
             if ((p0 && p0.length > 40) || (p1 && p1.length > decimals)) {
-              // console.log()
               e.target.value = oldValue.current
             }
           }

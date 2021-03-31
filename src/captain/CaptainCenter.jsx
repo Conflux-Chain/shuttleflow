@@ -63,9 +63,8 @@ const NotFound = styled.div`
 
 function CaptainItem({ tokenInfo, t }) {
   const { origin, to_chain, sponsor_value, status } = tokenInfo
-  const { minimal_sponsor_amount } = useCustodianInfo(tokenInfo)
-
-  const isLow = sponsor_value < minimal_sponsor_amount.mul('2')
+  const { safe_sponsor_amount } = useCustodianInfo(tokenInfo)
+  const isLow = sponsor_value < safe_sponsor_amount.mul('2')
 
   const nonCfxChain = [origin, to_chain].filter((x) => x !== 'cfx')[0]
   const nonCfxChainConfig = CHAIN_CONFIG[nonCfxChain]
@@ -106,6 +105,7 @@ function CaptainItem({ tokenInfo, t }) {
 
       {status === 'done' ? (
         <Button
+          
           onClick={() => {
             history.push({ search: `pair=${getIdFromToken(tokenInfo)}` })
           }}

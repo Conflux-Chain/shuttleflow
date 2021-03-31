@@ -13,7 +13,6 @@ import Toggle from '../component/Toggle/Toggle'
 import createInput from './createInput'
 import getFields from './fields'
 import Modal from '../component/Modal'
-import close from './close.svg'
 import warning from './warning.svg'
 import info from './info.svg'
 
@@ -21,59 +20,45 @@ import ApproveIcon from './ApproveIcon'
 
 import Button from '../component/Button/Button'
 import styled from 'styled-components'
-import { isZeroAddress } from '../util/address'
 import { CONTRACT_CONFIG, getContract } from '../data/contract/contract'
 import CHAIN_CONFIG from '../config/chainConfig'
 import { useParams } from 'react-router'
-import useTokenList from '../data/useTokenList'
+import useTokenList, { usePairInfo } from '../data/useTokenList'
 import { giveTransactionResult } from '../globalPopup/TranscationResult'
+import useAddress from '../data/useAddress'
 
-export default function CaptainForm({
-  origin,
-  pendingCount,
-  countdown,
-  address,
-  icon,
-  beCaptain,
-  cethBalanceBig,
-  out_fee,
-  in_fee,
-  minimal_out_value,
-  minimal_in_value,
-  reference_symbol,
-  reference_name,
-  in_token_list,
-  symbol,
-  wallet_fee,
-  supported,
-  sponsor,
-  decimals,
-  minMortgageBig,
-  currentMortgageBig,
-  cethBalanceDisplay,
-  safeSponsorAmount,
-  default_cooldown_minutes,
-  mainPairSymbol,
-}) {
-  //the data from tokenList is not accurate due to the delay
-  //we can tell based on the contract instead
-  supported = supported || !isZeroAddress(sponsor)
+export default function CaptainForm({ pair }) {
+  const { data: tokenInfo } = usePairInfo(pair)
+  const address = useAddress()
+  const {
+    origin,
+    icon,
+    minimal_sponsor_amount,
+    sponsorValue,
+    gasBalance,
+    gasBalanceDisplay,
+    safe_sponsor_amount,
+    supported,
+    sponsor,
+    mainPairSymbol,
+    countdown,
+    beCaptain,
+  } = tokenInfo
+
   const { chain } = useParams()
-
   const shouldDisplayApprove = origin === 'cfx'
 
   const { t } = useTranslation(['captain'])
   const [inputCx, formCx] = useStyle(inputStyles, formStyles)
   const [mortgagePopup, setMortgagePopup] = useState(false)
-  const [readonlyPopup, setReadonlyPopup] = useState(false)
   const [transactionPending, setTranscationPending] = useState(false)
 
   function clickLabel() {
     setMortgagePopup(true)
   }
   const isMe = address === sponsor
-  const isMortgageLow = safeSponsorAmount.gt(currentMortgageBig)
-  const isLoacking = countdown > 0
+  const isMortgageLow = safe_sponsor_amount.gt(sponsorValue)
+  const isLocking = countdown > 0
 
   const [showMortgage, setShowMortgage] = useState(!isMe)
 
@@ -93,21 +78,11 @@ export default function CaptainForm({
   }
   const fields = getFields({
     t,
-    reference_symbol,
-    symbol,
-    out_fee,
-    in_fee,
-    minimal_out_value,
-    minimal_in_value,
-    isLoacking,
-    decimals,
-    wallet_fee,
-    showMortgage,
-    cethBalanceBig,
-    minMortgageBig,
     isMe,
     isMortgageLow,
-    mainPairSymbol,
+    isLocking,
+    showMortgage,
+    ...tokenInfo,
   })
 
   const { defaultValues, schema } = fields.reduce(
@@ -135,19 +110,10 @@ export default function CaptainForm({
         <Header
           {...{
             isMe,
-            icon,
             formCx,
             t,
-            default_cooldown_minutes,
-            reference_symbol,
-            reference_name,
-            supported,
-            currentMortgageBig,
-            in_token_list,
-            sponsor,
-            pendingCount,
-            countdown,
-            mainPairSymbol,
+            icon,
+            ...tokenInfo,
           }}
         />
         {!isMe && !isMortgageLow ? (
@@ -161,7 +127,6 @@ export default function CaptainForm({
             createInput({
               ...props,
               ...inputCtx,
-              onReadonly: () => setReadonlyPopup(true),
             })
           )}
           {isMe && (
@@ -183,20 +148,20 @@ export default function CaptainForm({
               <div className={formCx('small-text', 'bottom-text')}>
                 <div>
                   {t('mainPair-min-mortgage', {
-                    minMortgage: minMortgageBig + '',
+                    minMortgage: minimal_sponsor_amount + '',
                     mainPair: mainPairSymbol,
                   })}
                 </div>
                 <div>
                   <span>
                     {t('mainPair-balance', {
-                      amount: cethBalanceDisplay,
+                      amount: gasBalanceDisplay,
                       mainPair: mainPairSymbol,
                     })}
                   </span>
                   <span
                     onClick={() => {
-                      setValue('mortgage_amount', cethBalanceBig)
+                      setValue('mortgage_amount', gasBalance)
                     }}
                     className={formCx('all')}
                   >
@@ -234,11 +199,6 @@ export default function CaptainForm({
         ok
         content={t('mortgage-popup')}
       />
-      <Modal clickAway={() => setReadonlyPopup(false)} show={readonlyPopup}>
-        <span className={formCx('locked')}>
-          <img src={close} alt="close" /> {t('locked')}
-        </span>
-      </Modal>
     </>
   )
 }
@@ -278,7 +238,6 @@ function Approve({ chain, t }) {
     if (ctoken && selectedAddress) {
       getContract('erc777')
         .then((c) => {
-          console.log(ctoken, selectedAddress, c.isOperatorFor)
           return c
             .isOperatorFor(operator, selectedAddress)
             .call({ from: selectedAddress, to: ctoken })

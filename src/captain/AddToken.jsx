@@ -6,9 +6,7 @@ import Button from '../component/Button/Button'
 import Icon from '../component/Icon/Icon'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import TokenInput from '../component/TokenInput/TokenInput'
-import { CHAIN_SINGLE_PAIR } from '../config/constant'
-import useCaptain from '../data/useCaptainInfo'
-import useTokenList from '../data/useTokenList'
+import { usePairInfo } from '../data/useTokenList'
 import Select from '../layout/Select'
 import useUrlSearch from '../lib/useUrlSearch'
 import { formatAddress } from '../util/address'
@@ -20,7 +18,9 @@ export default function AddToken() {
   const { chain } = useParams()
   const history = useHistory()
   const { pair } = useUrlSearch()
-  const tokenInfo = useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
+  const { data: tokenInfo } = usePairInfo(pair)
+
+  // useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
 
   const [fromChain, setFromChain] = useLocalStorageForChain(
     'addtoken-fromChain',
@@ -122,7 +122,7 @@ export default function AddToken() {
 }
 
 function TokenDetails({ tokenInfo, t }) {
-  const { sponsor, minimal_sponsor_amount } = useCaptain(tokenInfo)
+  const { sponsor, minimal_sponsor_amount } = tokenInfo
   return (
     <DetailRow>
       <Icon txt {...{ ...tokenInfo }}></Icon>
