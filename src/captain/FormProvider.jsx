@@ -1,30 +1,23 @@
-import { buildNum } from '../util/formatNum'
 import useAddress from '../data/useAddress'
-
-import useCaptain from '../data/useCaptainInfo'
-import createBeCaptain from '../data/beCaptain'
 
 
 import CaptainForm from './Form'
 
-import useTokenList from '../data/useTokenList'
+import useTokenList, { usePairInfo } from '../data/useTokenList'
 import { giveTransactionResult } from '../globalPopup/TranscationResult'
-
-const MAX_DECIMAL_DISPLAY = 8
 
 export default function FormProvider({ pair }) {
   const address = useAddress()
-  const tokenInfo = useTokenList({ pair })
+  const { data: tokenInfo } = usePairInfo(pair)
 
-  const { decimals } = tokenInfo
-  const {
+  let {
     pendingCount,
     countdown,
     minimal_sponsor_amount,
     sponsor,
-    cethBalance,
-    currentMortgage,
-    safeSponsorAmount,
+
+    sponsorValue,
+    safe_sponsor_amount,
     out_fee,
     in_fee,
     wallet_fee,
@@ -32,9 +25,12 @@ export default function FormProvider({ pair }) {
     minimal_out_value,
     default_cooldown_minutes,
     mainPairSymbol,
-  } = useCaptain(tokenInfo)
+    gasBalance,
+    gasBalanceDisplay,
+    beCaptain,
+  } = tokenInfo
 
-  const beCaptain = function ({
+  const beCaptain1 = function ({
     amount,
     burnFee,
     mintFee,
@@ -44,16 +40,13 @@ export default function FormProvider({ pair }) {
     cb,
   }) {
     giveTransactionResult(
-      createBeCaptain(
-        address,
-        tokenInfo
-      )({
-        amount: amount && buildNum(amount, 18),
-        burnFee: buildNum(burnFee, decimals),
-        mintFee: buildNum(mintFee, decimals),
-        walletFee: buildNum(walletFee, decimals),
-        minimalMintValue: buildNum(minimalMintValue, decimals),
-        minimalBurnValue: buildNum(minimalBurnValue, decimals),
+      beCaptain({
+        amount,
+        burnFee,
+        mintFee,
+        walletFee,
+        minimalMintValue,
+        minimalBurnValue,
       }),
       { done: cb }
     )
@@ -64,34 +57,20 @@ export default function FormProvider({ pair }) {
    * make sure the default from data available when
    * the form compoment rendered the first time
    **/
-  if (
-    // false &&
-    typeof pendingCount === 'number' &&
-    currentMortgage &&
-    cethBalance
-  ) {
-    const currentMortgageBig = currentMortgage
-    const minMortgageBig = minimal_sponsor_amount
-    const cethBalanceBig = cethBalance
-
-    let cethBalanceDisplay = cethBalanceBig.round(MAX_DECIMAL_DISPLAY, 0)
-    if (!cethBalanceDisplay.eq(cethBalanceBig)) {
-      cethBalanceDisplay += '...'
-    }
-
+  if (typeof pendingCount === 'number' && sponsorValue && gasBalance) {
     const data = {
       address,
       ...tokenInfo,
       pendingCount,
       countdown,
-      currentMortgage,
+      currentMortgage: sponsorValue,
+      currentMortgageBig: sponsorValue,
       sponsor,
-      beCaptain,
-      minMortgageBig,
-      currentMortgageBig,
-      cethBalanceBig,
-      cethBalanceDisplay,
-      safeSponsorAmount,
+      beCaptain: beCaptain1,
+      minMortgageBig: minimal_sponsor_amount,
+      cethBalanceBig: gasBalance,
+      cethBalanceDisplay: gasBalanceDisplay,
+      safeSponsorAmount: safe_sponsor_amount,
       out_fee,
       in_fee,
       wallet_fee,

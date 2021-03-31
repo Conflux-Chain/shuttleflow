@@ -177,7 +177,7 @@ function fetcher1(key, chain, origin) {
       return {
         default_cooldown,
         minimal_sponsor_amount: minimal_sponsor_amount.div('1e18'),
-        safeSponsorAmount: safe_sponsor_amount.div('1e18'),
+        safe_sponsor_amount: safe_sponsor_amount.div('1e18'),
       }
     })
 }

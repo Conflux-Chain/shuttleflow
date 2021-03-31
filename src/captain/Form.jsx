@@ -55,6 +55,7 @@ export default function CaptainForm({
   default_cooldown_minutes,
   mainPairSymbol,
 }) {
+
   //the data from tokenList is not accurate due to the delay
   //we can tell based on the contract instead
   supported = supported || !isZeroAddress(sponsor)

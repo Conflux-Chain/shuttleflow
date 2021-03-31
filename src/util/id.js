@@ -7,9 +7,9 @@ export function getIdFromToken(tokenInfo) {
 }
 
 export function parseId(id) {
-  const [notCfxChain, originAddr] = id.split('-')
-  const origin = isCfxAddress(originAddr) ? 'cfx' : notCfxChain
-  return { origin, originAddr }
+  const [nonCfxChain, originAddr] = id.split('-')
+  const origin = isCfxAddress(originAddr) ? 'cfx' : nonCfxChain
+  return { origin, originAddr, nonCfxChain }
 }
 
 export function getIdfromOperationHistory(token, chain) {

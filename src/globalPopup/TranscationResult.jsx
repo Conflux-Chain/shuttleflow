@@ -48,6 +48,7 @@ export function giveTransactionResult(result, { success, fail, done } = {}) {
       mutate(TranscationKey, { successHash })
     })
     .catch((errorReason) => {
+      console.log(errorReason)
       if (fail) {
         fail()
       }
