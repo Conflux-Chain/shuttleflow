@@ -62,7 +62,14 @@ const NotFound = styled.div`
 `
 
 function CaptainItem({ tokenInfo, t }) {
-  const { origin, to_chain, sponsor_value, status } = tokenInfo
+  const {
+    origin,
+    to_chain,
+    sponsor_value,
+    status,
+    toCFX,
+    originAddr,
+  } = tokenInfo
   const { safe_sponsor_amount } = useCustodianInfo(tokenInfo)
   const isLow = sponsor_value < safe_sponsor_amount.mul('2')
 
@@ -75,7 +82,7 @@ function CaptainItem({ tokenInfo, t }) {
   return (
     <div>
       <Line>
-        <Icon {...tokenInfo} txt />
+        <Icon {...tokenInfo} cToken={!toCFX} txt />
         <Right>
           <Row>
             <ChainIcon src={nonCfxChainIcon} alt="chain" />
@@ -84,6 +91,7 @@ function CaptainItem({ tokenInfo, t }) {
               <CfxName>/Conflux</CfxName>
             </Name>
           </Row>
+          <div>{originAddr}</div>
           <Mortgage isLow={isLow}>
             {isLow ? <img src={warning}></img> : null}
             {t('mortgage-amount') +
@@ -105,7 +113,6 @@ function CaptainItem({ tokenInfo, t }) {
 
       {status === 'done' ? (
         <Button
-          
           onClick={() => {
             history.push({ search: `pair=${getIdFromToken(tokenInfo)}` })
           }}

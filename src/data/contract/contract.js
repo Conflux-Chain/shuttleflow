@@ -6,13 +6,13 @@ export const CONTRACT_CONFIG = {
       abi: 'CustodianImpl',
       eth: {
         address: IS_DEV
-          ? '0x89ee646e8ec9184fde03d4a6f73ba5b198d07974'
-          : '0x890e3feac4a2c33d7594bc5be62e7970ef5481e0',
+          ? 'cfxtest:ace863dsv5evux88atmmr735y023vyd3sufutajna1'
+          : 'cfx:aceu6t9m2wvpgtnzww8f13vstf2s8zeb6a4eja1756',
       },
       btc: {
         address: IS_DEV
-          ? '0x89ee646e8ec9184fde03d4a6f73ba5b198d07974'
-          : '0x890e3feac4a2c33d7594bc5be62e7970ef5481e0',
+          ? 'cfxtest:ace863dsv5evux88atmmr735y023vyd3sufutajna1'
+          : 'cfx:aceu6t9m2wvpgtnzww8f13vstf2s8zeb6a4eja1756',
       },
       bsc: {
         address: IS_DEV
@@ -39,13 +39,13 @@ export const CONTRACT_CONFIG = {
       abi: 'TokenSponsor',
       eth: {
         address: IS_DEV
-          ? '0x8f2c7ee9d8b541f9b821473ade5caed7ba78e319'
-          : '0x8a129cde0a730fb0b8e355e3e18a5361d138a958',
+          ? 'cfxtest:achw291k5c4yd8r2efdxz1w6z5n5y8hddernmat51y'
+          : 'cfx:acfbfhg8bk3u9pf26rm8h2pmmru7csfkna4pfvy6ac',
       },
       btc: {
         address: IS_DEV
-          ? '0x8f2c7ee9d8b541f9b821473ade5caed7ba78e319'
-          : '0x8a129cde0a730fb0b8e355e3e18a5361d138a958',
+          ? 'cfxtest:achw291k5c4yd8r2efdxz1w6z5n5y8hddernmat51y'
+          : 'cfx:acfbfhg8bk3u9pf26rm8h2pmmru7csfkna4pfvy6ac',
       },
       bsc: {
         address: IS_DEV
@@ -69,7 +69,9 @@ export const CONTRACT_CONFIG = {
   },
   balance: {
     abi: 'Balance',
-    address: '0x8f35930629fce5b5cf4cd762e71006045bfeb24d',
+    address: IS_DEV
+      ? 'cfxtest:achxne2gfh8snrstkxn0f32ua2cf19zwkyw9tpbc6k'
+      : 'cfx:achxne2gfh8snrstkxn0f32ua2cf19zwky2y66hj2d',
   },
   erc777: {
     abi: 'TokenBase',
