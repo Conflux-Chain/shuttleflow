@@ -105,6 +105,7 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
           )
         }, t('no-contract'))
       } else {
+        
         giveTransactionResult(
           shuttleout(tokenInfo, outamount, outwallet, chain),
           { done: () => setOperationPending(false) }
