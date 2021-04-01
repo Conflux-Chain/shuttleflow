@@ -19,16 +19,15 @@ export default function AddToken() {
   const history = useHistory()
   const { pair } = useUrlSearch()
   const { data: tokenInfo } = usePairInfo(pair)
+  const urlChain = chain
 
   const [fromChain, setFromChain] = useState('cfx')
   const [toChain, setToChain] = useState(chain)
 
-  useEffect(() => {
-    return () => {
-      setToChain('')
-      setFromChain('')
-    }
-  }, [])
+  function setFromChain1(chain) {
+    setFromChain(chain)
+    history.push(`/${urlChain}/captain/add`)
+  }
 
   //token can be choosen when both chains are specified
   const bothChain = fromChain && toChain
@@ -65,7 +64,7 @@ export default function AddToken() {
         <SelectContainer>
           <SelectChain
             options={options}
-            {...{ choosen: fromChain, setChoosen: setFromChain }}
+            {...{ choosen: fromChain, setChoosen: setFromChain1 }}
           />
         </SelectContainer>
         <InputContainer>
@@ -119,10 +118,10 @@ export default function AddToken() {
 }
 
 function TokenDetails({ tokenInfo, t }) {
-  const { sponsor, minimal_sponsor_amount } = tokenInfo
+  const { sponsor, minimal_sponsor_amount, toCFX } = tokenInfo
   return (
     <DetailRow>
-      <Icon txt {...{ ...tokenInfo }}></Icon>
+      <Icon cToken={!toCFX} txt {...{ ...tokenInfo }}></Icon>
       <DetailRight>
         <First>{formatAddress(sponsor, { chain: 'cfx' })}</First>
         <Second>{`${t('need-mortgage')} ${
@@ -208,3 +207,16 @@ const SelectContainer = styled.div`
 const InputContainer = styled.div`
   flex: 3;
 `
+
+function useStateRef(defaultValue) {
+  var [state, setState] = React.useState(defaultValue)
+  var ref = React.useRef(state)
+
+  var dispatch = React.useCallback(function (val) {
+    ref.current = typeof val === 'function' ? val(ref.current) : val
+
+    setState(ref.current)
+  }, [])
+
+  return [state, dispatch, ref]
+}

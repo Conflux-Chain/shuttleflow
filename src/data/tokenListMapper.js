@@ -15,11 +15,7 @@ export default function tokenListMapper(d) {
     name,
   } = d
 
-  let {
-    sponsor_value,
-    origin,
-    to_chain,
-  } = d
+  let { sponsor_value, origin, to_chain } = d
 
   delete d.minimal_burn_value
   delete d.minimal_mint_value
@@ -35,6 +31,10 @@ export default function tokenListMapper(d) {
 
   return {
     ...d,
+    toCFX,
+    orginName: toCFX ? reference_name : name,
+    originSymbol: toCFX ? reference_symbol : symbol,
+    originAddr: toCFX ? reference : ctoken,
     name: name || 'Conflux ' + reference_name,
     symbol: symbol || 'c' + reference_symbol,
     //Todo: name and symbol is chain related if the origin is conflux

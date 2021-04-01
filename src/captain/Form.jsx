@@ -64,18 +64,20 @@ export default function CaptainForm({ pair }) {
   const [showMortgage, setShowMortgage] = useState(!isMe)
 
   const onSubmit = (data) => {
-    setTranscationPending(true)
-    beCaptain({
-      amount: data.mortgage_amount,
-      burnFee: data.burn_fee,
-      mintFee: data.mint_fee,
-      walletFee: data.wallet_fee,
-      minimalMintValue: data.minimal_mint_value,
-      minimalBurnValue: data.minimal_burn_value,
-      cb: () => {
-        setTranscationPending(false)
-      },
-    })
+    if (!transactionPending) {
+      setTranscationPending(true)
+      beCaptain({
+        amount: data.mortgage_amount,
+        burnFee: data.burn_fee,
+        mintFee: data.mint_fee,
+        walletFee: data.wallet_fee,
+        minimalMintValue: data.minimal_mint_value,
+        minimalBurnValue: data.minimal_burn_value,
+        cb: () => {
+          setTranscationPending(false)
+        },
+      })
+    }
   }
   const fields = getFields({
     t,
