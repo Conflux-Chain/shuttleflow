@@ -207,16 +207,3 @@ const SelectContainer = styled.div`
 const InputContainer = styled.div`
   flex: 3;
 `
-
-function useStateRef(defaultValue) {
-  var [state, setState] = React.useState(defaultValue)
-  var ref = React.useRef(state)
-
-  var dispatch = React.useCallback(function (val) {
-    ref.current = typeof val === 'function' ? val(ref.current) : val
-
-    setState(ref.current)
-  }, [])
-
-  return [state, dispatch, ref]
-}
