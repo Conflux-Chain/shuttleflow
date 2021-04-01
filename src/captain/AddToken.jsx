@@ -20,8 +20,6 @@ export default function AddToken() {
   const { pair } = useUrlSearch()
   const { data: tokenInfo } = usePairInfo(pair)
 
-  // useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
-
   const [fromChain, setFromChain] = useLocalStorageForChain(
     'addtoken-fromChain',
     tokenInfo ? tokenInfo.origin : '',
@@ -32,6 +30,13 @@ export default function AddToken() {
     tokenInfo ? tokenInfo.to_chain : '',
     chain
   )
+
+  useEffect(() => {
+    return () => {
+      setToChain('')
+      setFromChain('')
+    }
+  }, [])
 
   //token can be choosen when both chains are specified
   const bothChain = fromChain && toChain
@@ -115,7 +120,7 @@ export default function AddToken() {
           history.push(`/${chain}/captain?pair=${pair}`)
         }}
       >
-        Next
+        {t('next')}
       </Button>
     </PaddingContainer>
   )
@@ -149,7 +154,7 @@ function SelectChain({ choosen, setChoosen, disabled, options }) {
       render={render}
       dropdownTitle={t('choose-chain')}
       current={choosen}
-      title={choosen ? false : 'Choose'}
+      title={choosen ? false : t('choose-chain')}
       setCurrent={setChoosen}
       icon={!disabled}
       options={options}
