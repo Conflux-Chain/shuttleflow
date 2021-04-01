@@ -6,12 +6,12 @@ export const CONTRACT_CONFIG = {
       abi: 'CustodianImpl',
       eth: {
         address: IS_DEV
-          ? 'cfx:ace863dsv5evux88atmmr735y023vyd3sut56usbe7'
+          ? 'cfxtest:ace863dsv5evux88atmmr735y023vyd3sufutajna1'
           : 'cfx:aceu6t9m2wvpgtnzww8f13vstf2s8zeb6a4eja1756',
       },
       btc: {
         address: IS_DEV
-          ? 'cfx:ace863dsv5evux88atmmr735y023vyd3sut56usbe7'
+          ? 'cfxtest:ace863dsv5evux88atmmr735y023vyd3sufutajna1'
           : 'cfx:aceu6t9m2wvpgtnzww8f13vstf2s8zeb6a4eja1756',
       },
       bsc: {
