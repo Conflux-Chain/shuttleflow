@@ -9,8 +9,6 @@ import ethSrc from './ether.svg'
 import bscSrc from './bsc.svg'
 import ethSubSrc from './eth-sub.svg'
 import bscSubSrc from './bsc-sub.svg'
-import hecoSrc from './heco.svg'
-import hecoSubSrc from './heco-sub.svg'
 
 import { getTokenList, updateTokenList } from '../data/tokenList'
 import { getIdFromToken } from '../util/id'
@@ -54,6 +52,7 @@ const config = {
       return Promise.resolve('yes')
     },
   },
+  //to document
   eth: {
     icon: ethSrc,
     subIcon: ethSubSrc,
@@ -161,7 +160,7 @@ const config = {
   bsc: {
     icon: bscSrc,
     subIcon: bscSubSrc,
-    token: 'cBNB',
+    // token: 'cBNB',
     mainPair: 'bsc-bnb',
     tk_url: BSC_SCAN_URL + '/address/',
     tx_url: BSC_SCAN_URL + '/tx/',

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import useSWR from 'swr'
 import { getTokenList } from './tokenList'
@@ -24,7 +23,6 @@ function fetcher(key, chain, address) {
     return tokens
       .filter(({ origin, to_chain }) => origin === chain || to_chain === chain)
       .map((tokenInfo) => {
-        // const { status } = tokenInfo
         const pairId = getIdFromSponsorInfo(tokenInfo)
         return { ...tokenMap[pairId], ...tokenListMapper(tokenInfo) }
       })

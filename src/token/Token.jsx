@@ -41,7 +41,7 @@ function Token(props) {
   const { next, cToken, captain, chainFilter } = useUrlSearch()
   return (
     <MainContainer className={cx('container')}>
-      {/* promote the navigation to top level is samll screen */}
+      {/* promote the navigation to top level if samll screen */}
       {!isSmall && <TokenNavigation {...props} next={next} />}
       <Choose
         next={(token) => `${next}?pair=${token}`}

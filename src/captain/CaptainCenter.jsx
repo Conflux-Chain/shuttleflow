@@ -195,7 +195,6 @@ const Button = styled(BaseButton)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 82px;
   height: 40px;
   line-height: 40px;
   border: 1px solid rgba(255, 255, 255, 0.1);
