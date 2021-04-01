@@ -69,7 +69,9 @@ export const CONTRACT_CONFIG = {
   },
   balance: {
     abi: 'Balance',
-    address: '0x8f35930629fce5b5cf4cd762e71006045bfeb24d',
+    address: IS_DEV
+      ? 'cfxtest:achxne2gfh8snrstkxn0f32ua2cf19zwkyw9tpbc6k'
+      : 'cfx:achxne2gfh8snrstkxn0f32ua2cf19zwky2y66hj2d',
   },
   erc777: {
     abi: 'TokenBase',
