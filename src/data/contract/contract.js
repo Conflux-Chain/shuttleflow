@@ -39,13 +39,13 @@ export const CONTRACT_CONFIG = {
       abi: 'TokenSponsor',
       eth: {
         address: IS_DEV
-          ? '0x8f2c7ee9d8b541f9b821473ade5caed7ba78e319'
-          : '0x8a129cde0a730fb0b8e355e3e18a5361d138a958',
+          ? 'cfxtest:achw291k5c4yd8r2efdxz1w6z5n5y8hddernmat51y'
+          : 'cfx:acfbfhg8bk3u9pf26rm8h2pmmru7csfkna4pfvy6ac',
       },
       btc: {
         address: IS_DEV
-          ? '0x8f2c7ee9d8b541f9b821473ade5caed7ba78e319'
-          : '0x8a129cde0a730fb0b8e355e3e18a5361d138a958',
+          ? 'cfxtest:achw291k5c4yd8r2efdxz1w6z5n5y8hddernmat51y'
+          : 'cfx:acfbfhg8bk3u9pf26rm8h2pmmru7csfkna4pfvy6ac',
       },
       bsc: {
         address: IS_DEV
