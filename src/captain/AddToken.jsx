@@ -20,16 +20,8 @@ export default function AddToken() {
   const { pair } = useUrlSearch()
   const { data: tokenInfo } = usePairInfo(pair)
 
-  const [fromChain, setFromChain] = useLocalStorageForChain(
-    'addtoken-fromChain',
-    tokenInfo ? tokenInfo.origin : '',
-    chain
-  )
-  const [toChain, setToChain] = useLocalStorageForChain(
-    'addtoken-toChain',
-    tokenInfo ? tokenInfo.to_chain : '',
-    chain
-  )
+  const [fromChain, setFromChain] = useState('cfx')
+  const [toChain, setToChain] = useState(chain)
 
   useEffect(() => {
     return () => {
@@ -216,42 +208,3 @@ const SelectContainer = styled.div`
 const InputContainer = styled.div`
   flex: 3;
 `
-
-function useLocalStorageForChain(localKey, chainFromToken, chain) {
-  const [externalSet, setExternalSet] = useState(false)
-  const [storedValue, setStoredValue] = useState(() => {
-    try {
-      const item = window.localStorage.getItem(localKey)
-      return JSON.parse(item)
-    } catch (error) {
-      return chainFromToken
-    }
-  })
-
-  const _setValue = (value) => {
-    try {
-      // Allow value to be a function so we have same API as useState
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value
-      // Save state
-      setStoredValue(valueToStore)
-      // Save to local storage
-      window.localStorage.setItem(localKey, JSON.stringify(valueToStore))
-    } catch (error) {
-      // A more advanced implementation would handle the error case
-      console.log(error)
-    }
-  }
-  useEffect(() => {
-    if (chainFromToken && !externalSet) {
-      _setValue(chainFromToken)
-    }
-  }, [chainFromToken, externalSet])
-
-  const setChainExternal = (value) => {
-    setExternalSet(true)
-    _setValue(value)
-  }
-
-  return [storedValue, setChainExternal]
-}

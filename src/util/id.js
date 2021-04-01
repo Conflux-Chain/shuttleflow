@@ -1,5 +1,6 @@
 import { isCfxAddress } from '../util/address'
 export function getIdFromToken(tokenInfo) {
+  //To document
   const { origin, to_chain, ctoken, reference } = tokenInfo
   const notCfxChain = origin === 'cfx' ? to_chain : origin
   const originAddr = origin === 'cfx' ? ctoken : reference

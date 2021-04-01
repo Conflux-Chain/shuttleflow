@@ -3,7 +3,6 @@ import CHAIN_CONFIG from '../config/chainConfig'
 
 import { getTokenList } from './tokenList'
 import useSWR from 'swr'
-import { CHAIN_SINGLE_PAIR } from '../config/constant'
 import { getIdFromToken, parseId } from '../util/id'
 import jsonrpc from './jsonrpc'
 
@@ -12,6 +11,7 @@ import { isCfxAddress, isZeroAddress } from '../util/address'
 import { getContract } from './contract/contract'
 import Big from 'big.js'
 import { giveTransactionResult } from '../globalPopup/TranscationResult'
+import { ZERO_ADDR } from '../config/config'
 
 const MAX_DECIMAL_DISPLAY = 8
 export function usePairInfo(pair) {
@@ -47,8 +47,7 @@ function fetchPair(key, pair, address) {
       })
     })
     .then(([token, mairPairInfo]) => {
-      console.log(token)
-      function readTokenFromContract({ reference, ctoken, decimals }) {
+      function readTokenFromContract({ reference, ctoken, decimals, origin }) {
         let toCfxOrFromCfx, referenceOrCtoken, _in, _out, direction
         if (origin === 'cfx') {
           toCfxOrFromCfx = 'fromCfx'
@@ -80,8 +79,12 @@ function fetchPair(key, pair, address) {
                   c.burn_fee(referenceOrCtoken),
                   c.mint_fee(referenceOrCtoken),
                   c.wallet_fee(referenceOrCtoken),
-                  c.minimal_mint_value(referenceOrCtoken),
-                  c.minimal_burn_value(referenceOrCtoken),
+                  referenceOrCtoken === 'btc'
+                    ? c.btc_minimal_burn_value()
+                    : c.minimal_mint_value(referenceOrCtoken),
+                  referenceOrCtoken === 'btc'
+                    ? c.btc_minimal_burn_value()
+                    : c.minimal_burn_value(referenceOrCtoken),
                   c.token_cooldown(referenceOrCtoken),
                   c.minimal_sponsor_amount(),
                   c.default_cooldown(),
@@ -167,8 +170,8 @@ function fetchPair(key, pair, address) {
               minimalBurnValue,
               cb,
             }) => {
-              amount = amount && Big(amount + '').mul('1e18')
-              burnFee = Big(burnFee + '').mul(`1e${decimals}`)
+              amount = amount && amount.mul('1e18')
+              burnFee = burnFee.mul(`1e${decimals}`)
               mintFee = mintFee.mul(`1e${decimals}`)
               walletFee = walletFee.mul(`1e${decimals}`)
               minimalMintValue = minimalMintValue.mul(`1e${decimals}`)

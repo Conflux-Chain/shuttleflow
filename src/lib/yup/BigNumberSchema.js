@@ -2,6 +2,7 @@
 import BaseSchema from 'yup/es/mixed'
 import Big from 'big.js'
 
+//To document
 const TYPE_ERROR = 'TYPE_ERROR'
 export default class BigSchema extends BaseSchema {
   constructor() {
