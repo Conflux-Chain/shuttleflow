@@ -23,13 +23,14 @@ import styled from 'styled-components'
 import { CONTRACT_CONFIG, getContract } from '../data/contract/contract'
 import CHAIN_CONFIG from '../config/chainConfig'
 import { useParams } from 'react-router'
-import useTokenList, { usePairInfo } from '../data/useTokenList'
+import { usePairInfo } from '../data/useTokenList'
 import { giveTransactionResult } from '../globalPopup/TranscationResult'
 import useAddress from '../data/useAddress'
 
 export default function CaptainForm({ pair }) {
   const { data: tokenInfo } = usePairInfo(pair)
   const address = useAddress()
+  const [disabled, setDisabled] = useState()
   const {
     origin,
     icon,
@@ -172,7 +173,9 @@ export default function CaptainForm({ pair }) {
             </>
           )}
 
-          {shouldDisplayApprove && <Approve t={t} chain={chain} />}
+          {shouldDisplayApprove && (
+            <Approve setDisabled={setDisabled} t={t} chain={chain} />
+          )}
           {!supported && (
             <CaptainCreate>
               <img src={info}></img> {t('captain-create')}
@@ -180,6 +183,7 @@ export default function CaptainForm({ pair }) {
           )}
           <Button
             fullWidth
+            disabled={disabled}
             type="submit"
             loading={transactionPending}
             className={formCx('btn')}
@@ -229,12 +233,17 @@ const Text = styled.div`
   }
 `
 
-function Approve({ chain, t }) {
+function Approve({ chain, t, setDisabled }) {
   const selectedAddress = window.conflux.selectedAddress
-  const { ctoken } = useTokenList({ pair: CHAIN_CONFIG[chain].mainPair })
+  const { ctoken } = usePairInfo(CHAIN_CONFIG[chain].mainPair).data
   const operator = CONTRACT_CONFIG.custodian.fromCfx[chain].address
   const [isOperatorFor, setIsOperatorFor] = useState(null)
   const [isApproving, setIsApproveing] = useState(false)
+
+  useEffect(() => {
+    console.log('isOperatorFor', isOperatorFor)
+    setDisabled(!isOperatorFor)
+  }, [isOperatorFor])
 
   useEffect(() => {
     if (ctoken && selectedAddress) {
@@ -246,9 +255,11 @@ function Approve({ chain, t }) {
         })
         .then((isOperatorFor) => {
           setIsOperatorFor(isOperatorFor)
+          // setDisabled(!isOperatorFor)
         })
     }
   }, [ctoken, selectedAddress])
+  console.log(operator, selectedAddress)
   return (
     <ApproveContainer
       onClick={() => {
@@ -267,6 +278,7 @@ function Approve({ chain, t }) {
             {
               done: () => {
                 setIsApproveing(false)
+                setIsOperatorFor(true)
               },
             }
           )

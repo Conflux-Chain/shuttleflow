@@ -10,18 +10,12 @@ export default function tokenListMapper(d) {
     reference_name,
     ctoken,
     total_supply,
-    decimals,
     icon,
     in_token_list,
     name,
   } = d
 
   let {
-    minimal_burn_value,
-    minimal_mint_value,
-    mint_fee,
-    burn_fee,
-    wallet_fee,
     sponsor_value,
     origin,
     to_chain,
@@ -36,16 +30,7 @@ export default function tokenListMapper(d) {
   const totalSupplyBig = total_supply && parseNum(total_supply, 18)
   //18 is the decimal of cXXX token which is always 18 decimals
   sponsor_value = parseNum(sponsor_value, 18)
-  const values = {
-    minimal_burn_value: parseNum(minimal_burn_value, decimals),
-    minimal_mint_value: parseNum(minimal_mint_value, decimals),
-    mint_fee: parseNum(mint_fee, decimals),
-    burn_fee: parseNum(burn_fee, decimals),
-  }
-
   const toCFX = origin !== 'cfx'
-  const _out = toCFX ? 'burn' : 'mint'
-  const _in = toCFX ? 'mint' : 'burn'
   const nonCfxChain = toCFX ? origin : to_chain
 
   return {
@@ -58,12 +43,6 @@ export default function tokenListMapper(d) {
       reference_symbol || nonCfxChain.slice(0, 1) + ' ' + symbol,
     _total_supply: totalSupplyBig && formatSupply(totalSupplyBig),
     sponsor_value,
-
-    minimal_in_value: values[`minimal_${_in}_value`],
-    minimal_out_value: values[`minimal_${_out}_value`],
-    in_fee: values[`${_in}_fee`],
-    out_fee: values[`${_out}_fee`],
-    wallet_fee: parseNum(wallet_fee, decimals),
     icon: icon || CHAIN_CONFIG[reference].icon,
     reference: reference || 'null',
     ctoken: ctoken || 'null',
