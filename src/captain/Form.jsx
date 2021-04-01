@@ -241,7 +241,6 @@ function Approve({ chain, t, setDisabled }) {
   const [isApproving, setIsApproveing] = useState(false)
 
   useEffect(() => {
-    console.log('isOperatorFor', isOperatorFor)
     setDisabled(!isOperatorFor)
   }, [isOperatorFor])
 
@@ -259,7 +258,6 @@ function Approve({ chain, t, setDisabled }) {
         })
     }
   }, [ctoken, selectedAddress])
-  console.log(operator, selectedAddress)
   return (
     <ApproveContainer
       onClick={() => {
