@@ -7,7 +7,7 @@
   "popup": {
     "address": "1. Please do not transfer any non-designated assets to the above address, otherwise the assets will not be recovered.\n2.The Shuttle In address may be updated, please refer to the latest address.\n3. Shuttle-In requires several blocks to confirm the transaction.\n4. ShuttleFlow is a truly decentralized product, and the user's private key is not accessible under any circumstances.\n5. The users' assets are escrowed in the smart contract, which has passed the third party security audit, and is protected by ShuttleFlow Cross-chain Multi-signature Alliance. Even if the ShuttleFlow private key is leaked, the users' assets could still be protected from hacking or moving by the platform itself or any third party. ",
     "in-address": "Shuttle-In Address",
-    "min": "If the Shuttle-In quantity is less than the minimum quantity, the user needs to accumulate the Shuttle-In amount to reach the minimum quantity requirement before continuing processing."
+    "min": "If the amount entered is less than the minimum amount, the asset will be lost."
   },
   "qr": "View QR Code",
   "correct-wallet-btc": "Use <strong>{{type}}</strong> wallet to transfer, <strong>NOT</strong> Conflux wallet",
