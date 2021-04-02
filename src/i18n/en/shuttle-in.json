@@ -11,5 +11,10 @@
   },
   "qr": "View QR Code",
   "correct-wallet-btc": "Use <strong>{{type}}</strong> wallet to transfer, <strong>NOT</strong> Conflux wallet",
-  "correct-wallet-evm": "<strong>Don't</strong> use contract account, use <strong>{{ type }}</strong> externally owned account"
+  "correct-wallet-evm": "<strong>Don't</strong> use contract account, use <strong>{{ type }}</strong> externally owned account",
+  "blockInfo": {
+    "title": "Because of the Hard Fork upgrade of Ethereum EIP-2929, we have to shut down the shuttle-in function on the native ETH. The launch time is to be determined",
+    "moreDetails": "For details: Notice",
+    "link": "https://forum.conflux.fun/t/notice-shuttleflow-will-temporarily-shut-down-the-shuttle-in-function-on-the-native-eth/6212"
+  }
 }
