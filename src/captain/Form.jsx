@@ -278,6 +278,8 @@ function Approve({ chain, t, setDisabled }) {
             {
               done: () => {
                 setIsApproveing(false)
+              },
+              success: () => {
                 setIsOperatorFor(true)
               },
             }
