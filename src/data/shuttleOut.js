@@ -16,11 +16,12 @@ export default function shuttleout(tokenInfo, amount, externalAddress, chain) {
       ],
     }).then((address) => {
       if (ctoken === 'cfx') {
-        return window.confluxJS.sendTransaction({
-          from: selectedAddress,
-          to: address,
-          value: amount.mul(),
-        })
+        return window.confluxJS
+          .sendTransaction({
+            from: selectedAddress,
+            to: address,
+            value: amount,
+          })
       } else {
         return getContract('erc777').then((c) => {
           return c.transfer(address, amount).sendTransaction({
