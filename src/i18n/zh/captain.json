@@ -36,16 +36,16 @@
   "be-captain-txt": "您要竞选该服务商，需要给出更优的价格",
   "need-zero": "需要为 0",
   "compete-captain": "竞选服务商",
-  "approve": "Approve",
+  "approve": "授权合约",
   "need-mortgage": "需抵押",
   "add-token-title": "选择链和代币 ",
   "status": {
-    "confirming": "confirming",
-    "deploying": "deploying",
-    "registering": "registering",
-    "configuring": "configuring"
+    "confirming": "Conflux 网络确认中",
+    "deploying": "代币合约部署进行中",
+    "registering": "注册到跨链协议",
+    "configuring": "跨链协议配置中"
   },
-  "captain-create": "若成为此服务商，需要另外支付100w的 Gas 用于部署代币合约",
+  "captain-create": "若成为此服务商，会从您的抵押中扣掉一笔约100万 Gas的费用，用于部署跨链代币合约",
   "no-supported-token": "你还没有支持任何代币\n快去添加代币吧",
   "next": "下一步"
 }
