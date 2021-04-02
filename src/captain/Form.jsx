@@ -247,19 +247,25 @@ function Approve({ chain, t, setDisabled }) {
   }, [isOperatorFor])
 
   useEffect(() => {
-    if (ctoken && selectedAddress) {
-      getContract('erc777')
-        .then((c) => {
-          return c
-            .isOperatorFor(operator, selectedAddress)
-            .call({ from: selectedAddress, to: ctoken })
-        })
-        .then((isOperatorFor) => {
-          setIsOperatorFor(isOperatorFor)
-          // setDisabled(!isOperatorFor)
-        })
-    }
-  }, [ctoken, selectedAddress])
+    let checkIsOperatorFor = () => {
+      if (ctoken && selectedAddress) {
+        getContract('erc777')
+          .then((c) => {
+            return c
+              .isOperatorFor(operator, selectedAddress)
+              .call({ from: selectedAddress, to: ctoken })
+          })
+          .then((isOperatorFor) => {
+            setIsOperatorFor(isOperatorFor)
+          })
+      }
+    };
+    checkIsOperatorFor();
+    let interval = setInterval(() => checkIsOperatorFor(), 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
   return (
     <ApproveContainer
       onClick={() => {
