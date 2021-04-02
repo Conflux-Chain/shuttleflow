@@ -263,7 +263,7 @@ function Approve({ chain, t, setDisabled }) {
   return (
     <ApproveContainer
       onClick={() => {
-        if (!isOperatorFor) {
+        if (!isOperatorFor && !isApproving) {
           setIsApproveing(true)
           giveTransactionResult(
             getContract('erc777').then((c) =>

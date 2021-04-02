@@ -96,8 +96,7 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
     if (!operationPending) {
       const { outwallet, outamount } = data
       setOperationPending(true)
-
-      if (origin === 'cfx') {
+      if (tokenInfo.origin === 'cfx') {
         blockShuttleout(() => {
           giveTransactionResult(
             shuttleout(tokenInfo, outamount, outwallet, chain),
@@ -105,7 +104,6 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
           )
         }, t('no-contract'))
       } else {
-        
         giveTransactionResult(
           shuttleout(tokenInfo, outamount, outwallet, chain),
           { done: () => setOperationPending(false) }
