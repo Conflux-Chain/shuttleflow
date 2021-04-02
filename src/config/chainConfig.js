@@ -160,7 +160,7 @@ const config = {
   bsc: {
     icon: bscSrc,
     subIcon: bscSubSrc,
-    // token: 'cBNB',
+    token: 'cBNB',
     mainPair: 'bsc-bnb',
     tk_url: BSC_SCAN_URL + '/address/',
     tx_url: BSC_SCAN_URL + '/tx/',

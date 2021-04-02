@@ -11,6 +11,8 @@ export default function Header({
   formCx,
   isMe,
   t,
+  symbol,
+  name,
   reference_symbol,
   reference_name,
   supported,
@@ -21,6 +23,7 @@ export default function Header({
   in_token_list,
   default_cooldown_minutes,
   mainPairSymbol,
+  toCFX
 }) {
   const [cooldownPopup, setCooldownPopup] = useState(false)
 
@@ -29,14 +32,20 @@ export default function Header({
       <div className={formCx('first-container')}>
         <div className={formCx('left')}>
           <Icon
+            txt
             icon={icon}
+            cToken={!toCFX}
+            symbol={symbol}
+            name={name}
+            reference_name={reference_name}
+            reference_symbol={reference_symbol}
             in_token_list={in_token_list}
             style={{ marginRight: '1rem' }}
           />
-          <div className={formCx('left-text')}>
+          {/* <div className={formCx('left-text')}>
             <div className={formCx('large-text')}>{reference_symbol}</div>
             <div className={formCx('small-text')}>{reference_name}</div>
-          </div>
+          </div> */}
         </div>
         <div className={formCx('right')}>
           <div className={formCx('large-text')}>
