@@ -37,15 +37,15 @@
   "need-zero": "Fill in 0",
   "compete-captain": "Compete to be Captain",
   "approve": "Approve",
-  "need-mortgage": "需抵押",
-  "add-token-title": "选择链和代币 ",
+  "need-mortgage": "Need collateral",
+  "add-token-title": "Choose chain and token",
   "status": {
-    "confirming": "confirming",
-    "deploying": "deploying",
-    "registering": "registering",
-    "configuring": "configuring"
+    "confirming": "Conflux network confirming",
+    "deploying": "Token smart contract deploying",
+    "registering": "Register to the cross-chain protocol",
+    "configuring": "Cross-chain service configuring"
   },
-  "captain-create": "若成为此服务商，需要另外支付100w的 Gas 用于部署代币合约",
-  "no-supported-token": "你还没有支持任何代币\n快去添加代币吧",
+  "captain-create": "In order to become the Captain of this token, about 1 million Gas fee will be deducted from your collateral, which will be used to deploy a cross-chain token contract",
+  "no-supported-token": "You have not been any token‘s Captain.\nApply as soon as possible.",
   "next": "Next"
 }
