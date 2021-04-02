@@ -37,7 +37,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   const [minPopup, setMinPopup] = useState(false)
 
   const [copyPopup, setCopyPopup] = useState(false)
-  const [isEthMainPair, setIsEthMinPair] = useState(false)
+  const [isEthMainPair, setIsEthMainPair] = useState(false)
   const displayCopy = useCallback(() => {
     setCopyPopup(true)
     const tm = setTimeout(() => setCopyPopup(false), 2000)
@@ -53,9 +53,9 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
       tokenInfo.to_chain === 'cfx' &&
       tokenInfo.symbol === 'cETH'
     ) {
-      setIsEthMinPair(true)
+      setIsEthMainPair(true)
     } else {
-      setIsEthMinPair(false)
+      setIsEthMainPair(false)
     }
   }, [tokenInfo])
 
