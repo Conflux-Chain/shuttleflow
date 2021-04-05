@@ -25,6 +25,7 @@ import WithQuestion from '../../component/WithQuestion'
 import { Loading } from '@cfxjs/react-ui'
 import { useParams } from 'react-router'
 import linkImg from '../../component/link-64.png'
+import { useApproveCallback } from '../../hooks/useApproveCallback'
 export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
     commonInputStyles,
