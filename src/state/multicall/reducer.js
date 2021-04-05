@@ -8,6 +8,10 @@ import {
   updateMulticallResults
 } from './actions'
 
+const initialState = {
+  callResults: {}
+}
+
 export default createReducer(initialState, builder =>
   builder
     .addCase(addMulticallListeners, (state, { payload: { calls, chainId, options: { blocksPerFetch = 1 } = {} } }) => {

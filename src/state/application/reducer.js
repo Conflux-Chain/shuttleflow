@@ -2,6 +2,11 @@ import { createReducer } from '@reduxjs/toolkit'
 import { updateBlockNumber } from './actions'
 
 
+const initialState = {
+  blockNumber: {},
+  popupList: [],
+  openModal: null
+}
 
 export default createReducer(initialState, builder =>
   builder
