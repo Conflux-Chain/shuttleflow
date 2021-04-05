@@ -116,6 +116,13 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
     return null //the token info is loading
   }
 
+  const closeCallback = () => {
+    setComfirmTxt(false)
+    if (operationPending) {
+      setOperationPending(false)
+    }
+  }
+
   return (
     <div className={shuttleCx('root')}>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="chrome-off">
@@ -335,7 +342,7 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
           blockCallback.current = null
           setComfirmTxt(false)
         }}
-        close={() => setComfirmTxt(false)}
+        close={closeCallback}
         t={t}
         modalCx={modalCx}
         shuttleOutCx={shuttleOutCx}
