@@ -4,13 +4,13 @@ import { device } from '../../config/size'
 
 export default function Button({ children, loading, ...props }) {
   return (
-    <StyledButton {...props}>
+    <BaseButton {...props}>
       {loading ? <Loading color="white" size="1.5rem" /> : children}
-    </StyledButton>
+    </BaseButton>
   )
 }
 
-const StyledButton = styled.button`
+export const BaseButton = styled.button`
   background: #44d7b6;
   color: white;
   box-shadow: 0px 0px 0px transparent;
@@ -20,14 +20,14 @@ const StyledButton = styled.button`
   margin: auto;
   font-weight: 500;
   white-space: nowrap;
+  width: ${(props) => (props.fullWidth ? '100%' : 'fit-content')};
   cursor: pointer;
+  font-size: 16px;
   @media ${device.laptop} {
-    font-size: 1.25rem;
     height: 4.5rem;
   }
   @media ${device.mobile} {
     height: 6.875rem;
-    font-size: 2rem;
   }
 
   &:disabled {

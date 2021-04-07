@@ -14,7 +14,6 @@ export default function useShuttleAddress({ type, origin }) {
 }
 
 function fetcher(_key, address, chain, origin, type) {
-  console.log('fetcher', address, chain, origin, type)
   return new Promise((resolve) => {
     setTimeout(() => resolve(), 0)
   }).then(() => {

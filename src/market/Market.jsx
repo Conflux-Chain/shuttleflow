@@ -80,23 +80,15 @@ export default function Market() {
         </div>
       </div>
       <Scrollbars
+        renderThumbHorizontal={() => <div></div>}
         renderThumbVertical={renderThumbVertical}
         style={{ flex: 1, position: 'relative' }}
       >
-        {tokens.sort(sorts[sort]).map((tokenInfo) => {
-          const { symbol, reference_name, _total_supply, name } = tokenInfo
+        {tokens.sort(sorts[sort]).map((tokenInfo, i) => {
+          const { _total_supply } = tokenInfo
           return (
-            <PaddingContainer key={symbol} className={cx('list')}>
-              {/* <div key={symbol} className={cx('list')}> */}
-              <div className={cx('left')}>
-                <Icon {...tokenInfo} cToken style={{ marginRight: '1rem' }} />
-                <div className={cx('txt')}>
-                  <div className={cx('large-txt')}>{symbol}</div>
-                  <div className={cx('small-txt')}>
-                    {name || 'conflux ' + reference_name}
-                  </div>
-                </div>
-              </div>
+            <PaddingContainer key={i} className={cx('list')}>
+              <Icon {...tokenInfo} txt cToken style={{ marginRight: '1rem' }} />
               <div className={cx('right')}>{_total_supply}</div>
             </PaddingContainer>
           )

@@ -7,9 +7,10 @@ const path = require('path')
 const APP_SOURCE = path.join(__dirname, 'src')
 
 exports.devServer = () => ({
+  devtool: 'eval-source-map',
   devServer: {
     historyApiFallback: true,
-    transportMode: 'ws',
+    // transportMode: 'ws',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers':
@@ -20,6 +21,7 @@ exports.devServer = () => ({
     proxy: {
       '/rpcshuttleflow': {
         target: 'https://test.shuttleflow.confluxnetwork.org/rpcshuttleflow',
+        // target: 'https://shuttleflow.io/rpcshuttleflow',
         changeOrigin: true,
         pathRewrite: {
           '/rpcshuttleflow': '',
@@ -27,6 +29,7 @@ exports.devServer = () => ({
       },
       '/rpcsponsor': {
         target: 'https://test.shuttleflow.confluxnetwork.org/rpcsponsor',
+        // target: 'https://shuttleflow.io/rpcsponsor',
         changeOrigin: true,
         pathRewrite: {
           '/rpcsponsor': '',
@@ -34,37 +37,6 @@ exports.devServer = () => ({
       },
     },
   },
-  plugins: [
-    // new WebpackPluginServe({
-    //   port: process.env.PORT || 8080,
-    //   host: 'localhost',
-    //   historyFallback: true,
-    //   static: './build', // Expose if output.path changes
-    //   liveReload: true,
-    //   waitForBuild: true,
-    //   middleware: (app, builtins) => {
-    //     app.use(
-    //       builtins.proxy('/rpcshuttleflow', {
-    //         target:
-    //           'https://test.shuttleflow.confluxnetwork.org/rpcshuttleflow',
-    //         changeOrigin: true,
-    //         pathRewrite: {
-    //           '/rpcshuttleflow': '',
-    //         },
-    //       })
-    //     )
-    //     app.use(
-    //       builtins.proxy('/rpcsponsor', {
-    //         changeOrigin: true,
-    //         target: 'https://test.shuttleflow.confluxnetwork.org/rpcsponsor',
-    //         pathRewrite: {
-    //           '/rpcsponsor': '',
-    //         },
-    //       })
-    //     )
-    //   },
-    // }),
-  ],
 })
 
 exports.page = ({ title, isDev }) => ({
@@ -99,9 +71,7 @@ exports.extractCSS = ({ options = {}, loaders = [], isDev } = {}) => {
               loader: 'css-loader',
               options: {
                 modules: {
-                  localIdentName: isDev
-                    ? '[path][name]__[local]--[hash:base64:10]'
-                    : '[hash:base64:5]',
+                  localIdentName: isDev ? '[name]__[local]' : '[hash:base64:5]',
                 },
               },
             },

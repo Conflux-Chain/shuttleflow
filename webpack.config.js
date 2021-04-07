@@ -7,6 +7,7 @@ const Dotenv = require('dotenv-webpack')
 const path = require('path')
 const webpack = require('webpack')
 
+let isDev
 const commonConfig = (isDev) =>
   merge([
     {
@@ -36,7 +37,10 @@ const commonConfig = (isDev) =>
       ],
       resolve: {
         extensions: ['.js', '.jsx'],
-        fallback: { assert: require.resolve('assert/') },
+        fallback: {
+          assert: require.resolve('assert/'),
+          buffer: require.resolve('buffer/'),
+        },
       },
       optimization: {
         runtimeChunk: { name: 'runtime' },
@@ -60,10 +64,6 @@ const productionConfig = () =>
 
 const developmentConfig = () =>
   merge([
-    {
-      // entry: ["webpack-plugin-serve/client"],
-      // devtool: false,
-    },
     parts.devServer(),
   ])
 
@@ -72,7 +72,7 @@ const statusConfig = () =>
     plugins: [new BundleAnalyzerPlugin()],
   })
 const getConfig = (mode) => {
-  const isDev = mode === 'development'
+  isDev = mode === 'development'
   switch (mode) {
     case 'prod:webview':
       process.env.BROWSERSLIST_ENV = 'webview'

@@ -1,0 +1,9 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<rect opacity="0.01" width="24" height="24" fill="#D8D8D8" />
+	<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+		<rect width="24" height="24" fill="white" />
+	</mask>
+	<g mask="url(#mask0)">
+		<path d="M12 19.0711L4.92891 12L12 4.92893" stroke="#BBBBBB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+	</g>
+</svg>

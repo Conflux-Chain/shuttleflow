@@ -1,19 +1,19 @@
 import { IS_DEV } from '../config/config'
 const confluxAddr = require('conflux-address-js')
 
-function isNewCfxAddress(value) {
-  let isNewCfxAddress
+export function isCfxAddress(value) {
+  let _isCfxAddress
   try {
     confluxAddr.decode(value).hexAddress.toString('hex')
-    isNewCfxAddress = true
+    _isCfxAddress = true
   } catch (error) {
-    isNewCfxAddress = false
+    _isCfxAddress = false
   }
-  return isNewCfxAddress
+  return _isCfxAddress
 }
 
 export function isAddress(value = '') {
-  return /^0x[0-9a-fA-F]{40}$/.test(value) || isNewCfxAddress(value)
+  return /^0x[0-9a-fA-F]{40}$/.test(value) || isCfxAddress(value)
 }
 
 function formatEth(txt) {
@@ -37,16 +37,10 @@ export function formatAddress(addr, { chain } = { chain: 'eth' }) {
   if (chain === 'eth') {
     return formatEth(addr)
   } else if (chain === 'cfx') {
-    try {
-      addr = confluxAddr.encode(
-        Buffer.from(addr.slice(2), 'hex'),
-        IS_DEV ? 1 : 1029
-      )
-    } catch (e) {}
     return formatCfx(addr)
   } else {
     //address type is unpredictable due to mixed version of portal
-    isNewCfxAddress(addr) ? formatCfx(addr) : formatEth(addr)
+    isCfxAddress(addr) ? formatCfx(addr) : formatEth(addr)
   }
 }
 

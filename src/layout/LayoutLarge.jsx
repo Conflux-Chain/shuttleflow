@@ -69,26 +69,28 @@ export default function LayoutLarge() {
             history={history}
           />
 
-          <Select
-            title={t('help')}
-            options={[
-              [t('what-sf'), t('what-sf-link')],
-              [t('what-captain'), t('what-captain-link')],
-            ].map(([txt, link]) => {
-              return {
-                value: (
-                  <div
-                    key={txt}
-                    onClick={() => {
-                      window.open(link, '_blank')
-                    }}
-                  >
-                    {txt}
-                  </div>
-                ),
-              }
-            })}
-          />
+          <div className={cx('item')}>
+            <Select
+              title={t('help')}
+              options={[
+                [t('what-sf'), t('what-sf-link')],
+                [t('what-captain'), t('what-captain-link')],
+              ].map(([txt, link]) => {
+                return {
+                  value: (
+                    <div
+                      key={txt}
+                      onClick={() => {
+                        window.open(link, '_blank')
+                      }}
+                    >
+                      {txt}
+                    </div>
+                  ),
+                }
+              })}
+            />
+          </div>
 
           {CHAIN_CONFIG[chain].captain !== CAPTAIN.NONE && (
             <LinkItem
@@ -102,22 +104,25 @@ export default function LayoutLarge() {
               history={history}
             />
           )}
-          <Select
-            right="0"
-            border
-            icon
-            type="lng"
-            current={i18n.language}
-            options={[
-              { key: 'en', value: 'English' },
-              { key: 'zh', value: '中文' },
-            ]}
-            setCurrent={i18n.changeLanguage.bind(i18n)}
-          />
+          <div className={cx('item')}>
+            <Select
+              right="0"
+              border
+              icon
+              type="lng"
+              current={i18n.language}
+              options={[
+                { key: 'en', value: 'English' },
+                { key: 'zh', value: '中文' },
+              ]}
+              setCurrent={i18n.changeLanguage.bind(i18n)}
+            />
+          </div>
         </div>
       </header>
       <Suspense fallback={<Loading />}>
         <Scrollbars
+          renderThumbHorizontal={() => <div></div>}
           renderThumbVertical={renderThumbVertical}
           style={{
             width: '544px',
@@ -145,7 +150,6 @@ function LinkItem({ to, content, alsoMatch = [] }) {
         return match || matchSearch
       }}
       className={cx('item')}
-      // id={to}
       activeClassName={cx('active')}
     >
       {content}

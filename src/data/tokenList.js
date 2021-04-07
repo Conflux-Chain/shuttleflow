@@ -1,3 +1,5 @@
+import { ZERO_ADDR } from '../config/config'
+import { getIdFromToken } from '../util/id'
 import jsonrpc from './jsonrpc'
 import listItemMapper from './tokenListMapper'
 //todo replace with real server api
@@ -9,11 +11,9 @@ const chainDataStore = {}
 
 function buildMap(tokenList) {
   const tokenMap = tokenList.reduce((pre, cur) => {
-    if (cur.reference) {
-      pre[cur.reference.toLowerCase()] = { ...cur, fromRef: true } //operation history data
-    }
-    if (cur.ctoken) {
-      pre[cur.ctoken] = { ...cur, fromCtoken: true } //operation history data
+    pre[getIdFromToken(cur)] = cur
+    if (cur.ctoken === 'cfx') {
+      pre[`${cur.to_chain}-${ZERO_ADDR}`] = cur
     }
     return pre
   }, {})

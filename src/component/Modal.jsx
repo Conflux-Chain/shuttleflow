@@ -7,6 +7,7 @@ import close from './i-close-48.png'
 
 import { Scrollbars } from 'react-custom-scrollbars-2'
 import { renderThumbVerticalDark } from '../component/renderThumbVertical'
+import styled from 'styled-components'
 
 export const modalStyles = styles
 export default function Modal({ children, show, ...props }) {
@@ -48,6 +49,7 @@ function Inner({ children, clickAway, title, onClose, ok, content }) {
         <Scrollbars
           autoHeight
           autoHeightMax="80vh"
+          renderThumbHorizontal={() => <div></div>}
           renderThumbVertical={renderThumbVerticalDark}
         >
           <div className={cx('inner')}>
@@ -69,3 +71,10 @@ function Inner({ children, clickAway, title, onClose, ok, content }) {
     </>
   )
 }
+
+export const Strong=styled.div`
+  color: #333333;
+  font-weight: 500;
+  text-align: center;
+  font-size: 1.5rem;
+`

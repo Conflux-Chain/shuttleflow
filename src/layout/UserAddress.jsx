@@ -4,13 +4,14 @@ import styles from './UserAddress.module.scss'
 import useStyle from '../component/useStyle'
 import { useTranslation } from 'react-i18next'
 import useAddress, { login } from '../data/useAddress'
+import styled from 'styled-components'
 
 export default function UserAddress() {
   const { t } = useTranslation(['nav'])
   const [cx] = useStyle(styles)
   const address = useAddress()
   return (
-    <div style={{ whiteSpace: 'nowrap' }}>
+    <Container>
       <Circle active={!!address} />
       <span className={cx('address', { active: address })}>
         {address ? (
@@ -21,7 +22,7 @@ export default function UserAddress() {
           </span>
         )}
       </span>
-    </div>
+    </Container>
   )
 }
 
@@ -42,3 +43,13 @@ function Circle({ active }) {
     </svg>
   )
 }
+
+const Container = styled.div`
+  padding: 8px 14px;
+  font-size: 16px;
+  border: 1px solid #44d7b6;
+  border-radius: 18.5px;
+  color: #44d7b6;
+  font-size: 16px;
+  white-space: nowrap;
+`

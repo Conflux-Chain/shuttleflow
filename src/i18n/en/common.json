@@ -22,11 +22,12 @@
     "switch-main": "Unsupported network, please change it in the wallet: Conflux Tethys",
     "insufficient": "Insufficient balance"
   },
-  "btc": "BTC",
-  "eth": "Ethereum",
   "all": "All",
   "from": "From {{value}}",
   "to": "To {{value}}",
+  "btc": "BTC",
+  "eth": "Ethereum",
   "bsc": "BSC",
-  "heco": "Heco"
+  "heco": "Heco",
+  "cfx": "Conflux"
 }

@@ -14,7 +14,7 @@ export default function ChooseChain() {
       setCurrent={(v) => history.push(`/${v}`)}
       render={renderChainSelect}
       current={chain}
-      dropdownTitle={t('choose-chain')}
+      dropdownTitle={t('choose-chain-pair')}
       options={SUPPORT_CHAINS.map((key) => {
         return {
           key,

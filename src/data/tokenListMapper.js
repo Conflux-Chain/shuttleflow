@@ -8,23 +8,14 @@ export default function tokenListMapper(d) {
     symbol,
     reference_symbol,
     reference_name,
-
+    ctoken,
     total_supply,
-    decimals,
     icon,
     in_token_list,
-    origin = 'eth',
     name,
   } = d
 
-  let {
-    minimal_burn_value,
-    minimal_mint_value,
-    mint_fee,
-    burn_fee,
-    wallet_fee,
-    sponsor_value,
-  } = d
+  let { sponsor_value, origin, to_chain } = d
 
   delete d.minimal_burn_value
   delete d.minimal_mint_value
@@ -35,33 +26,26 @@ export default function tokenListMapper(d) {
   const totalSupplyBig = total_supply && parseNum(total_supply, 18)
   //18 is the decimal of cXXX token which is always 18 decimals
   sponsor_value = parseNum(sponsor_value, 18)
-  const values = {
-    minimal_burn_value: parseNum(minimal_burn_value, decimals),
-    minimal_mint_value: parseNum(minimal_mint_value, decimals),
-    mint_fee: parseNum(mint_fee, decimals),
-    burn_fee: parseNum(burn_fee, decimals),
-  }
-
   const toCFX = origin !== 'cfx'
-  const _out = toCFX ? 'burn' : 'mint'
-  const _in = toCFX ? 'mint' : 'burn'
+  const nonCfxChain = toCFX ? origin : to_chain
 
   return {
     ...d,
+    toCFX,
+    orginName: toCFX ? reference_name : name,
+    originSymbol: toCFX ? reference_symbol : symbol,
+    originAddr: toCFX ? reference : ctoken,
     name: name || 'Conflux ' + reference_name,
     symbol: symbol || 'c' + reference_symbol,
     //Todo: name and symbol is chain related if the origin is conflux
-    reference_name: reference_name || '',
-    reference_symbol: reference_symbol || '',
+    reference_name: reference_name || nonCfxChain + ' ' + name,
+    reference_symbol:
+      reference_symbol || nonCfxChain.slice(0, 1) + ' ' + symbol,
     _total_supply: totalSupplyBig && formatSupply(totalSupplyBig),
     sponsor_value,
-
-    minimal_in_value: values[`minimal_${_in}_value`],
-    minimal_out_value: values[`minimal_${_out}_value`],
-    in_fee: values[`${_in}_fee`],
-    out_fee: values[`${_out}_fee`],
-    wallet_fee: parseNum(wallet_fee, decimals),
     icon: icon || CHAIN_CONFIG[reference].icon,
+    reference: reference || 'null',
+    ctoken: ctoken || 'null',
 
     //btc and eth is not in gecko list,but they are trusted
     in_token_list: ['btc', 'eth'].indexOf(reference) > -1 ? 1 : in_token_list,

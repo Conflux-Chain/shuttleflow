@@ -119,9 +119,8 @@ function Main() {
         />
       </Switch>
       <Modal show={popup}>
-        <div style={{ whiteSpace: 'nowrap' }}>{t('login')}</div>
+        <div>{t('login')}</div>
       </Modal>
-
     </>
   )
 }

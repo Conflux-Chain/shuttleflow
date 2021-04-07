@@ -14,12 +14,13 @@ export default function getFields({
   decimals,
   wallet_fee,
   showMortgage,
-  cethBalanceBig,
-  minMortgageBig,
+  gasBalance,
+  minimal_sponsor_amount,
   t,
   isMe,
   isMortgageLow,
-  isLoacking: isLocking,
+  isLocking,
+  mainPairSymbol,
 }) {
   function createField({ name, label, unit, currentValue, greaterThan }) {
     let validate = basicValidate()
@@ -102,11 +103,11 @@ export default function getFields({
     .concat({
       label: 'mortgage-amount',
       name: 'mortgage_amount',
-      unit: 'cETH',
+      unit: mainPairSymbol,
       validate: showMortgage
         ? basicValidate()
-            .min(minMortgageBig, 'error.above-current')
-            .max(cethBalanceBig, 'error.insufficient')
+            .min(minimal_sponsor_amount, 'error.above-current')
+            .max(gasBalance, 'error.insufficient')
         : false,
       decimals: 18,
       placeholder: t('enter'),

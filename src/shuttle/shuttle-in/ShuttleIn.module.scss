@@ -108,3 +108,24 @@
     }
   }
 }
+.blockContainer{
+  margin-top: 32px;
+  .title{
+    font-size: 16px;
+    color: #fff;
+    font-weight: 300;
+  }
+  .linkContainer{
+    cursor: pointer;
+    color: #44D7B6;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-top: 2px;
+    height: 26px;
+    .link{
+      margin-left: 2px;
+      width: 1.5rem;
+    }
+  }
+}

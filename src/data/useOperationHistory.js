@@ -6,6 +6,7 @@ import useDeepCompareEffect from 'use-deep-compare-effect'
 import formatNum from '../util/formatNum'
 import useAddress from './useAddress'
 import { useParams } from 'react-router'
+import { getIdfromOperationHistory } from '../util/id'
 
 export default function useOperationHistory({
   token,
@@ -96,14 +97,10 @@ function fetchHistory({
   ]).then(([tokenMap, histories = []]) => {
     return histories
       .map(({ token, ...rest }) => {
-        //todo make up for data error
-        const { type: op_type } = rest
-        if (!tokenMap[token] && op_type.split('_')[0] === 'cfx') {
-          token = 'cfx'
-        }
         //It can happen due to some unexpected human operation
-        if (tokenMap[token]) {
-          return { ...rest, ...tokenMap[token], token, dir: type }
+        const pairId = getIdfromOperationHistory(token, chain)
+        if (tokenMap[pairId]) {
+          return { ...rest, ...tokenMap[pairId], token, dir: type }
         } else {
           return false
         }

@@ -27,10 +27,8 @@ import MainContainer from '../component/MainContainer/MainContainer'
 import useStyle from '../component/useStyle'
 import useIsSamll from '../component/useSmallScreen'
 import useUrlSearch from '../lib/useUrlSearch'
-import useTokenList from '../data/useTokenList'
-import { CHAIN_SINGLE_PAIR } from '../config/constant'
+import { usePairInfo } from '../data/useTokenList'
 import ChooseChain from '../layout/ChooseChain'
-import useCaptain from '../data/captain'
 import Button from '../component/Button/Button'
 import styled from 'styled-components'
 import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
@@ -40,7 +38,6 @@ export default function Shuttle({ match: { path, url } }) {
   const { t } = useTranslation(['nav'])
   const inUrl = `${url}/in`
   const outUrl = `${url}/out`
-  const isSmall = useIsSamll()
   const [, setLayoutBottom] = useRecoilState(layoutBottomState)
   useEffect(() => {
     setLayoutBottom('8.5rem')
@@ -97,24 +94,31 @@ export default function Shuttle({ match: { path, url } }) {
 function RouteComponent() {
   const { pair = '' } = useUrlSearch()
   const { chain } = useParams()
-  const tokenInfo = useTokenList({ pair: pair || CHAIN_SINGLE_PAIR })
+  const { data: tokenInfo } = usePairInfo(
+    pair || (chain === 'btc' ? 'btc-btc' : '')
+  )
   const [feePopup, setFeePopup] = useState(false)
   const { type } = useParams()
   const isSmall = useIsSamll()
   const history = useHistory()
   const Component = type === 'in' ? ShuttleIn : ShuttleOut
-  const moreInfo = useCaptain(tokenInfo)
   const { t } = useTranslation(['shuttle'])
-
   let notEnoughGas = false
   let gasLow = null
-  if (moreInfo) {
-    const { currentMortgage, safeSponsorAmount } = moreInfo
-    notEnoughGas = currentMortgage.lt(safeSponsorAmount)
-    gasLow = currentMortgage.lt(safeSponsorAmount.mul('2')) ? (
+  //not applicable to BTC (singleton)
+  if (tokenInfo && !tokenInfo.singleton) {
+    const { sponsorValue, safe_sponsor_amount } = tokenInfo
+    console.log(
+      'sponsorValue, safe_sponsor_amount',
+      sponsorValue + '',
+      safe_sponsor_amount + ''
+    )
+    notEnoughGas = sponsorValue.lt(safe_sponsor_amount)
+    gasLow = sponsorValue.lt(safe_sponsor_amount.mul('2')) ? (
       <div style={{ color: 'white' }}>{t('gas-low')}</div>
     ) : null
-  }  return (
+  }
+  return (
     <>
       {isSmall && <ChooseChain />}
       <Component
@@ -146,7 +150,6 @@ const Text = styled.div`
   line-height: 26px;
   color: white;
   margin-top: 32px;
-  margin-bottom: 16px;
 `
 
 const BeCaptain = styled(Button)`
