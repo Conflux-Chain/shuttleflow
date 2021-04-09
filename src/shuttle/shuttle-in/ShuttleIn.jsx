@@ -25,7 +25,6 @@ import WithQuestion from '../../component/WithQuestion'
 import { Loading } from '@cfxjs/react-ui'
 import { useParams } from 'react-router'
 import linkImg from '../../component/link-64.png'
-import { useApproveCallback } from '../../hooks/useApproveCallback'
 export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   const [commonCx, shuttleCx, shuttleInCx, modalCx] = useStyle(
     commonInputStyles,
@@ -38,7 +37,6 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   const [minPopup, setMinPopup] = useState(false)
 
   const [copyPopup, setCopyPopup] = useState(false)
-  const [isEthMainPair, setIsEthMainPair] = useState(false)
   const displayCopy = useCallback(() => {
     setCopyPopup(true)
     const tm = setTimeout(() => setCopyPopup(false), 2000)
@@ -46,19 +44,6 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
       clearTimeout(tm)
     }
   }, [])
-
-  useEffect(() => {
-    if (
-      tokenInfo &&
-      tokenInfo.origin === 'eth' &&
-      tokenInfo.to_chain === 'cfx' &&
-      tokenInfo.symbol === 'cETH'
-    ) {
-      setIsEthMainPair(true)
-    } else {
-      setIsEthMainPair(false)
-    }
-  }, [tokenInfo])
 
   return (
     <div className={shuttleInCx('container')}>
@@ -78,10 +63,8 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
         displayCopy={displayCopy}
         cToken
       />
-      {tokenInfo && isEthMainPair && (
-        <BlockInfo {...{ t, shuttleInCx }}></BlockInfo>
-      )}
-      {tokenInfo && !isEthMainPair && !notEnoughGas ? (
+
+      {tokenInfo && !notEnoughGas ? (
         <TokenInfoDetails
           {...{
             shuttleCx,
@@ -266,24 +249,3 @@ function TokenInfoDetails({
   )
 }
 
-/**
- * If the token pair is ETH-cETH, block user because of Ethereum hardfork
- * @param {*}
- * @returns
- */
-function BlockInfo({ t, shuttleInCx }) {
-  return (
-    <>
-      <div className={shuttleInCx('blockContainer')}>
-        <div className={shuttleInCx('title')}>{t('blockInfo.title')}</div>
-        <div
-          className={shuttleInCx('linkContainer')}
-          onClick={() => window.open(t('blockInfo.link'), '_blank')}
-        >
-          {t('blockInfo.moreDetails')}
-          <img alt="link" className={shuttleInCx('link')} src={linkImg}></img>
-        </div>
-      </div>
-    </>
-  )
-}
