@@ -18,7 +18,9 @@
     "block": "错误",
     "switch-test": "请在钱包中将网络切换到 Conflux 测试网，再进行操作",
     "switch-main": "请在钱包中将网络切换到 Conflux Tethys，再进行操作",
-    "insufficient": "余额不足"
+    "insufficient": "余额不足",
+    "unsupported-network-mm": "不支持的网络，请将 MetaMask 网络切换至：",
+    "unsupported-network-portal": "不支持的网络，请将 ConfluxPortal 网络切换至："
   },
   "history": "交易历史",
   "more": "查看更多",
@@ -29,5 +31,11 @@
   "eth": "以太坊",
   "bsc": "币安智能链",
   "heco": "火币生态链",
-  "cfx": "Conflux"
+  "cfx": "Conflux",
+  "ethereum-mainnet": "以太坊主网",
+  "ethereum-testnet": "以太坊测试网",
+  "bsc-mainnet": "币安智能链主网",
+  "bsc-testnet": "币安智能链测试网",
+  "conflux-mainnet": "Conflux Tethys",
+  "conflux-testnet": "Conflux 测试网"
 }
