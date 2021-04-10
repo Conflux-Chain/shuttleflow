@@ -26,6 +26,7 @@ import TokenInput from '../../component/TokenInput/TokenInput'
 import WithQuestion from '../../component/WithQuestion'
 import Button from '../../component/Button/Button'
 import ShuttleOutInput from '../ShuttleoutInput'
+import { giveTransactionResult } from '../../globalPopup/TranscationResult'
 
 /**
  * hooks
@@ -230,16 +231,15 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     } else {
       const { amount, address } = data
       if (isNativeToken) {
-        dRcontract
-          .deposit(format.hexAddress(address), ZERO_ADDR_HEX, {
-            value: BigNumber.from(amount.times(`1e${decimals}`).toString()),
-          })
-          .then((data) => {
-            //TODO: success
-          })
-          .catch((error) => {
-            //TODO: fail
-          })
+        setOperationPending(true)
+        giveTransactionResult(
+          dRcontract
+            .deposit(format.hexAddress(address), ZERO_ADDR_HEX, {
+              value: BigNumber.from(amount.times(`1e${decimals}`).toString()),
+            })
+            .then((data) => data.hash),
+          { chain: origin, done: () => setOperationPending(false) }
+        )
       } else {
         switch (btnType) {
           case ButtonType.APPROVE:
@@ -247,7 +247,6 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
             tokenContract
               .approve(getDepositRelayerAddressChain(origin), MaxUint256)
               .then((txResponse) => {
-                console.log(txResponse)
                 txResponse &&
                   txResponse
                     .wait()
@@ -274,22 +273,20 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
               setBtnType(ButtonType.APPROVE)
               return
             }
-            dRcontract
-              .depositToken(
-                originAddr,
-                format.hexAddress(address),
-                ZERO_ADDR_HEX,
-                BigNumber.from(amount.times(`1e${decimals}`).toString()),
-                {
-                  value: BigNumber.from(0),
-                }
-              )
-              .then((txResponse) => {
-                //TODO: success
-              })
-              .catch((error) => {
-                //TODO: error
-              })
+            giveTransactionResult(
+              dRcontract
+                .depositToken(
+                  originAddr,
+                  format.hexAddress(address),
+                  ZERO_ADDR_HEX,
+                  BigNumber.from(amount.times(`1e${decimals}`).toString()),
+                  {
+                    value: BigNumber.from(0),
+                  }
+                )
+                .then((data) => data.hash),
+              { chain: origin, done: () => setOperationPending(false) }
+            )
 
             break
         }
