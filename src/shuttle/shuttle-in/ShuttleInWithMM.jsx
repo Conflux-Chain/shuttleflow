@@ -60,7 +60,7 @@ import { BIGNUMBER_ZERO } from '../../constants'
  * internal library
  */
 import { big } from '../../lib/yup/BigNumberSchema'
-import { calculateBalance } from './../../util'
+import { calculateBalance, calculateGasMargin } from './../../util'
 import { checkCfxAddressWithNet } from './../../util/address'
 import {
   getTokenContract,
@@ -250,6 +250,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     }
     return showBlock
   }
+
   const {
     register,
     watch,
@@ -270,10 +271,23 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
       const { amount, address } = data
       if (isNativeToken) {
         setOperationPending(true)
+        let params = [
+          format.hexAddress(address),
+          ZERO_ADDR_HEX,
+          {
+            value: BigNumber.from(amount.times(`1e${decimals}`).toString()),
+          },
+        ]
+        let gas = await dRcontract.estimateGas.deposit(
+          params[0],
+          params[1],
+          params[2]
+        )
         giveTransactionResult(
           dRcontract
-            .deposit(format.hexAddress(address), ZERO_ADDR_HEX, {
-              value: BigNumber.from(amount.times(`1e${decimals}`).toString()),
+            .deposit(params[0], params[1], {
+              ...params[2],
+              gasLimit: calculateGasMargin(gas),
             })
             .then((data) => data.hash),
           { chain: origin, done: () => setOperationPending(false) }
@@ -282,8 +296,14 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
         switch (btnType) {
           case ButtonType.APPROVE:
             setOperationPending(true)
+            let gas = await tokenContract.estimateGas.approve(
+              getDepositRelayerAddressChain(origin),
+              MaxUint256
+            )
             tokenContract
-              .approve(getDepositRelayerAddressChain(origin), MaxUint256)
+              .approve(getDepositRelayerAddressChain(origin), MaxUint256, {
+                gasLimit: calculateGasMargin(gas),
+              })
               .then((txResponse) => {
                 txResponse &&
                   txResponse
@@ -311,17 +331,28 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
               setBtnType(ButtonType.APPROVE)
               return
             }
+            let params = [
+              originAddr,
+              format.hexAddress(address),
+              ZERO_ADDR_HEX,
+              BigNumber.from(amount.times(`1e${decimals}`).toString()),
+              {
+                value: BigNumber.from(0),
+              },
+            ]
+            let gasDt = await dRcontract.estimateGas.depositToken(
+              params[0],
+              params[1],
+              params[2],
+              params[3],
+              params[4]
+            )
             giveTransactionResult(
               dRcontract
-                .depositToken(
-                  originAddr,
-                  format.hexAddress(address),
-                  ZERO_ADDR_HEX,
-                  BigNumber.from(amount.times(`1e${decimals}`).toString()),
-                  {
-                    value: BigNumber.from(0),
-                  }
-                )
+                .depositToken(params[0], params[1], params[2], params[3], {
+                  ...params[4],
+                  gasLimit: calculateGasMargin(gasDt),
+                })
                 .then((data) => data.hash),
               { chain: origin, done: () => setOperationPending(false) }
             )
@@ -329,12 +360,6 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
             break
         }
       }
-
-      // contract.estimateGas.deposit('0x16cd8119910e04ff0cc3821dba6b10c51053840d','0x0000000000000000000000000000000000000000',{value:10000}).then(data=>{
-      //     console.log(data)
-      // }).catch(error=>{
-      //     console.log(error)
-      // })
     }
   }
   return (
