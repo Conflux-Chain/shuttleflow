@@ -3,6 +3,7 @@ const confluxAddr = require('conflux-address-js')
 
 export function isCfxAddress(value) {
   let _isCfxAddress
+  
   try {
     confluxAddr.decode(value).hexAddress.toString('hex')
     _isCfxAddress = true
@@ -42,6 +43,24 @@ export function formatAddress(addr, { chain } = { chain: 'eth' }) {
     //address type is unpredictable due to mixed version of portal
     isCfxAddress(addr) ? formatCfx(addr) : formatEth(addr)
   }
+}
+
+export function checkCfxAddressWithNet(address){
+  let _isCfxAddress=false
+  
+  try {
+    confluxAddr.decode(address).hexAddress.toString('hex')
+    if(IS_DEV&&address.toLowerCase().startsWith('cfxtest:')){
+      _isCfxAddress=true
+    }
+    if(!IS_DEV&&address.toLowerCase().startsWith('cfx:')){
+      _isCfxAddress=true
+    }
+  } catch (error) {
+    _isCfxAddress = false
+  }
+  console.log('_isCfxAddress',_isCfxAddress)
+  return _isCfxAddress
 }
 
 export function isZeroAddress(addr) {

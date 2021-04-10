@@ -16,5 +16,9 @@
     "title": "由于以太坊 EIP-2929 硬分叉，暂停 ETH 跨入，开放时间待定",
     "moreDetails": "详见：公告",
     "link": "https://forum.conflux.fun/t/shuttleflow-eth/6179"
-  }
+  },
+  "minimum-amount-unlimited": "最小跨入数量无限制",
+  "no-fee": "无手续费",
+  "connect-Metamask": "Connect MetaMask",
+  "approve": "Approve"
 }

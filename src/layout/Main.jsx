@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, lazy } from 'react'
 import { Switch, Route, Redirect, useParams } from 'react-router-dom'
 import Modal from '../component/Modal'
-
+import Web3ReactManager from '../component/Web3ReactManager'
 import { useTranslation } from 'react-i18next'
 
 import useState1 from '../lib/useState1'
 import useAddress, { login } from '../data/useAddress'
 import { useRouteMatch } from 'react-router-dom'
 import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
+
 const Token = lazy(() =>
   import(
     /* webpackChunkName: "Token" */
@@ -80,7 +81,7 @@ function Main() {
 
   const { t } = useTranslation()
   return (
-    <>
+    <Web3ReactManager>
       <Switch>
         <Redirect from={match.url} exact to={`${match.url}/shuttle`} />
         <Route
@@ -121,7 +122,7 @@ function Main() {
       <Modal show={popup}>
         <div>{t('login')}</div>
       </Modal>
-    </>
+    </Web3ReactManager>
   )
 }
 

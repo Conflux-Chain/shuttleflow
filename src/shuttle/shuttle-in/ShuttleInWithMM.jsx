@@ -1,0 +1,482 @@
+import React, { useCallback, useState, useEffect } from 'react'
+/**
+ * library
+ */
+import { useParams } from 'react-router'
+import { Loading } from '@cfxjs/react-ui'
+import { useTranslation, Trans } from 'react-i18next'
+import QRCode from 'qrcode.react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { ErrorMessage } from '@hookform/error-message'
+import { string, object } from 'yup'
+import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
+import Big from 'big.js'
+import { format } from 'js-conflux-sdk/dist/js-conflux-sdk.umd.min.js'
+import { MaxUint256 } from '@ethersproject/constants'
+import { BigNumber } from '@ethersproject/bignumber'
+/**
+ * component
+ */
+import clear from '../../component/clear.svg'
+import Modal, { modalStyles } from '../../component/Modal'
+import ShuttleHistory from '../../history/ShuttleHistory'
+import TokenInput from '../../component/TokenInput/TokenInput'
+import WithQuestion from '../../component/WithQuestion'
+import Button from '../../component/Button/Button'
+import ShuttleOutInput from '../ShuttleoutInput'
+import { giveTransactionResult } from '../../globalPopup/TranscationResult'
+
+/**
+ * hooks
+ */
+import useStyle from '../../component/useStyle'
+import { useBalance } from '../../data/useBalance'
+
+/**
+ * css
+ */
+
+import commonInputStyles from '../../component/input.module.scss'
+import shuttleStyle from '../Shuttle.module.scss'
+import shuttleInStyles from './ShuttleIn.module.scss'
+import shuttleOutStyles from './../shuttle-out/ShuttleOut.module.scss'
+
+/**
+ * image
+ */
+import down from '../down.svg'
+import tick from './tick.svg'
+
+/**
+ * constant
+ */
+import { ZERO_ADDR, ZERO_ADDR_HEX } from '../../config/config'
+import { BIGNUMBER_ZERO } from '../../constants'
+
+/**
+ * internal library
+ */
+import { big } from '../../lib/yup/BigNumberSchema'
+import { calculateBalance } from './../../util'
+import { checkCfxAddressWithNet } from './../../util/address'
+import {
+  getTokenContract,
+  getDepositRelayerContract,
+  getDepositRelayerAddressChain,
+} from './../../util/contract'
+import { injected } from '../../connectors'
+const ButtonType = Object.freeze({
+  CONNECT_METAMASK: 'connect_metamask',
+  APPROVE: 'approve',
+  SHUTTLEIN: 'shuttlein',
+})
+export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
+  console.log('tokenInfo', tokenInfo)
+  const { decimals, originSymbol, originAddr, origin } = tokenInfo
+  console.log(originSymbol)
+  const [commonCx, shuttleCx, shuttleInCx, shuttleOutCx, modalCx] = useStyle(
+    commonInputStyles,
+    shuttleStyle,
+    shuttleInStyles,
+    shuttleOutStyles,
+    modalStyles
+  )
+  const {
+    active,
+    account,
+    connector,
+    activate,
+    error,
+    chainId,
+    library,
+  } = useWeb3React()
+  console.log(active)
+  console.log(account)
+  console.log(connector)
+  console.log(chainId)
+  const { t } = useTranslation(['shuttle-out', 'shuttle-in', 'shuttle'])
+  const [addressPopup, setAddressPopup] = useState(false)
+  const [minPopup, setMinPopup] = useState(false)
+  const [copyPopup, setCopyPopup] = useState(false)
+  const [operationPending, setOperationPending] = useState(false)
+  const [btnI18nKey, setBtnI18nKey] = useState('shuttle-in')
+  const [balance, setBalance] = useState(Big(0))
+  const [btnType, setBtnType] = useState('')
+  //ETH OR BNB
+  const isNativeToken = ['ETH', 'BNB'].indexOf(originSymbol) !== -1
+  const dRcontract = getDepositRelayerContract(
+    origin === 'eth' ? 'eth' : 'bsc',
+    library,
+    account
+  )
+  let tokenContract = {}
+  if (!isNativeToken) {
+    tokenContract = getTokenContract(originAddr, library, account)
+  }
+  useEffect(() => {
+    if (!active) {
+      setBtnType(ButtonType.CONNECT_METAMASK)
+    } else {
+      setBtnType(ButtonType.SHUTTLEIN)
+    }
+  }, [active])
+  useEffect(() => {
+    switch (btnType) {
+      case ButtonType.CONNECT_METAMASK:
+        setBtnI18nKey('connect-Metamask')
+        break
+      case ButtonType.APPROVE:
+        setBtnI18nKey('approve')
+        break
+      case ButtonType.SHUTTLEIN:
+        setBtnI18nKey('shuttle-in')
+        break
+    }
+  }, [btnType])
+
+  /**
+   * ERC20 token on Ethereum or BEP20 token on BSC
+   */
+  useEffect(() => {
+    const shouldFetch = account && tokenInfo && !isNativeToken
+    console.log(shouldFetch)
+    async function fetchData() {
+      const val = await getValFromTokenContract('balanceOf', [account])
+      setBalance(calculateBalance(val, decimals))
+    }
+    shouldFetch && fetchData()
+  }, [tokenInfo, account, isNativeToken])
+  /**
+   * ETH OR BNB
+   */
+  useEffect(() => {
+    const shouldFetch = account && isNativeToken
+    console.log(shouldFetch)
+    async function fetchData() {
+      const val = await getNativeBalance(account)
+      setBalance(val)
+    }
+    shouldFetch && fetchData()
+    // let interval;
+    // if(shouldFetch){
+    //     interval=setInterval(() => {
+    //         fetchData()
+    //     }, 2000);
+    // }
+    // return ()=>{
+    //     interval&&clearInterval(interval)
+    // }
+  }, [tokenInfo, account])
+  const displayCopy = useCallback(() => {
+    setCopyPopup(true)
+    const tm = setTimeout(() => setCopyPopup(false), 2000)
+    return () => {
+      clearTimeout(tm)
+    }
+  }, [])
+  const schema = object().shape({
+    amount: big().min(0, 'error.min').max(balance, 'error.insufficient'),
+    address: string()
+      .required('error.required')
+      .test('address-valid', 'error.invalid-address', (address) =>
+        checkCfxAddressWithNet(address)
+      ),
+  })
+
+  /**
+   * get ETH/BNB balance from remote
+   * @param {} address
+   * @returns
+   */
+  async function getNativeBalance(address) {
+    if (!library) return 0
+    const balance = await library.getBalance(address)
+    return calculateBalance(balance, decimals)
+  }
+
+  async function getValFromTokenContract(methodName, params) {
+    const contract = getTokenContract(originAddr, library, account)
+    const val = await contract[methodName](...params)
+    console.log(val)
+    return val
+  }
+
+  function tryActivation() {
+    activate(injected, undefined, true).catch((error) => {
+      if (error instanceof UnsupportedChainIdError) {
+        activate(injected) // a little janky...can't use setError because the connector isn't set
+      } else {
+        //TODO: handle the error
+      }
+    })
+  }
+  const {
+    register,
+    watch,
+    handleSubmit,
+    getValues,
+    setValue,
+    errors,
+    trigger,
+  } = useForm({
+    resolver: yupResolver(schema),
+    mode: 'onSubmit',
+  })
+  const onSubmit = async (data) => {
+    if (!active) {
+      //if the user have not connnected MetaMask
+      tryActivation()
+    } else {
+      const { amount, address } = data
+      if (isNativeToken) {
+        setOperationPending(true)
+        giveTransactionResult(
+          dRcontract
+            .deposit(format.hexAddress(address), ZERO_ADDR_HEX, {
+              value: BigNumber.from(amount.times(`1e${decimals}`).toString()),
+            })
+            .then((data) => data.hash),
+          { chain: origin, done: () => setOperationPending(false) }
+        )
+      } else {
+        switch (btnType) {
+          case ButtonType.APPROVE:
+            setOperationPending(true)
+            tokenContract
+              .approve(getDepositRelayerAddressChain(origin), MaxUint256)
+              .then((txResponse) => {
+                txResponse &&
+                  txResponse
+                    .wait()
+                    .then((data) => {
+                      setOperationPending(false)
+                      setBtnType(ButtonType.SHUTTLEIN)
+                    })
+                    .catch((error) => {
+                      setOperationPending(false)
+                    })
+              })
+              .catch((error) => {
+                setOperationPending(false)
+              })
+            break
+          case ButtonType.SHUTTLEIN:
+            const allowance = await getValFromTokenContract('allowance', [
+              account,
+              getDepositRelayerAddressChain(origin),
+            ])
+            if (
+              new Big(allowance.toString()).lt(amount.times(`1e${decimals}`))
+            ) {
+              setBtnType(ButtonType.APPROVE)
+              return
+            }
+            giveTransactionResult(
+              dRcontract
+                .depositToken(
+                  originAddr,
+                  format.hexAddress(address),
+                  ZERO_ADDR_HEX,
+                  BigNumber.from(amount.times(`1e${decimals}`).toString()),
+                  {
+                    value: BigNumber.from(0),
+                  }
+                )
+                .then((data) => data.hash),
+              { chain: origin, done: () => setOperationPending(false) }
+            )
+
+            break
+        }
+      }
+
+      // contract.estimateGas.deposit('0x16cd8119910e04ff0cc3821dba6b10c51053840d','0x0000000000000000000000000000000000000000',{value:10000}).then(data=>{
+      //     console.log(data)
+      // }).catch(error=>{
+      //     console.log(error)
+      // })
+    }
+  }
+  return (
+    <div className={shuttleCx('root')}>
+      <form onSubmit={handleSubmit(onSubmit)} autoComplete="chrome-off">
+        <TokenInput
+          tokenInfo={tokenInfo}
+          dir="from"
+          placeholder={t('placeholder.out')}
+          displayCopy={displayCopy}
+        />
+        <div className={shuttleCx('down')}>
+          <img alt="down" src={down}></img>
+        </div>
+        <TokenInput
+          dir="to"
+          tokenInfo={tokenInfo}
+          placeholder={t('placeholder.in')}
+          displayCopy={displayCopy}
+          cToken
+        />
+        {tokenInfo && !notEnoughGas && (
+          <>
+            <label className={shuttleOutCx('amount-container')}>
+              <div>
+                <span className={shuttleCx('title')}>
+                  {t('shuttlein-amount')}{' '}
+                </span>
+              </div>
+
+              <div className={shuttleOutCx('amount-input')}>
+                <ShuttleOutInput
+                  showPlaceholder={watch('amount')}
+                  name="amount"
+                  ref={register}
+                  decimals={tokenInfo && tokenInfo.decimals}
+                  error={errors.amount}
+                  placeholder={
+                    !tokenInfo
+                      ? t('placeholder.input-amount')
+                      : t('balance', {
+                          amount: balance,
+                          symbol: tokenInfo.symbol,
+                        })
+                  }
+                />
+                <div
+                  onClick={() => {
+                    setValue('amount', balance)
+                  }}
+                  className={
+                    shuttleOutCx('all') + ' ' + shuttleCx('small-text')
+                  }
+                >
+                  {t('all')}
+                </div>
+              </div>
+            </label>
+
+            <div className={shuttleCx('small-text')}>
+              <span> {t('minimum-amount-unlimited')}</span>
+              <span>{t('no-fee')}</span>
+            </div>
+
+            <div>
+              <ErrorMessage
+                errors={errors}
+                name="amount"
+                render={({ message }) => {
+                  return (
+                    <span
+                      className={shuttleCx('small-text')}
+                      style={{ color: '#F3504F' }}
+                    >
+                      {t(message, tokenInfo)}
+                    </span>
+                  )
+                }}
+              />
+            </div>
+            {gasLow}
+            {/* shuttle out address */}
+            <div className={shuttleOutCx('address-container')}>
+              <div>
+                <span className={shuttleCx('title')}>
+                  {t('receiving-address')}{' '}
+                </span>
+              </div>
+              <div className={shuttleOutCx('address-input')}>
+                <ShuttleOutInput
+                  showPlaceholder={watch('address')}
+                  style={{ fontSize: '1.1rem', paddingRight: '5rem' }}
+                  ref={register}
+                  name="address"
+                  error={errors.address}
+                  placeholder={
+                    <Trans
+                      values={{
+                        type: t('cfx'),
+                      }}
+                      i18nKey={`placeholder.address-evm`}
+                      t={t}
+                    ></Trans>
+                  }
+                />
+                <img
+                  style={{
+                    display: !!getValues().address ? 'block' : 'none',
+                  }}
+                  onClick={() => {
+                    setValue('address', '')
+                  }}
+                  src={clear}
+                  alt="clear"
+                  className={commonCx('clear')}
+                ></img>
+              </div>
+            </div>
+
+            <ErrorMessage
+              errors={errors}
+              name="address"
+              render={({ message }) => {
+                return (
+                  <p
+                    style={{ color: '#F3504F' }}
+                    className={shuttleCx('small-text')}
+                  >
+                    {t(message)}
+                  </p>
+                )
+              }}
+            />
+            {origin === 'cfx' && <Warning>{t('no-contract')}</Warning>}
+
+            <Button
+              loading={operationPending}
+              disabled={!tokenInfo}
+              type="submit"
+              className={shuttleOutCx('btn')}
+            >
+              {t(btnI18nKey)}
+            </Button>
+          </>
+        )}
+      </form>
+      <ShuttleHistory type="in" />
+      <Modal
+        show={addressPopup}
+        title
+        onClose={() => setAddressPopup(false)}
+        clickAway={() => setAddressPopup(false)}
+      >
+        <div className={modalCx('content')}>{t('popup.address')}</div>
+        <div className={modalCx('btn')} onClick={() => setAddressPopup(false)}>
+          {t('popup.ok')}
+        </div>
+      </Modal>
+      <Modal
+        show={minPopup}
+        title
+        onClose={() => setMinPopup(false)}
+        clickAway={() => setMinPopup(false)}
+      >
+        <div className={modalCx('content')}>{t('popup.min')}</div>
+        <div className={modalCx('btn')} onClick={() => setMinPopup(false)}>
+          {t('popup.ok')}
+        </div>
+      </Modal>
+      <Modal
+        show={copyPopup}
+        clickAway={() => {
+          setCopyPopup(false)
+        }}
+      >
+        <div className={shuttleInCx('copy-popup')}>
+          <img alt="tick" src={tick}></img>
+          <div>{t('popup.copy')}</div>
+        </div>
+      </Modal>
+    </div>
+  )
+}
