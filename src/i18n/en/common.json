@@ -21,7 +21,7 @@
     "switch-test": "Unsupported network, please change it in the wallet: Conflux Test Network",
     "switch-main": "Unsupported network, please change it in the wallet: Conflux Tethys",
     "insufficient": "Insufficient balance",
-    "unsupported-network": "Unsupported network, please change it in the MetaMask: ",
+    "unsupported-network-mm": "Unsupported network, please change it in the MetaMask: ",
     "unsupported-network-portal": "Unsupported network, please change it in the ConfluxPortal: "
   },
   "all": "All",
