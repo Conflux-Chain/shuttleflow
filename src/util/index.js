@@ -31,7 +31,6 @@ export function calculateGasMargin(value) {
 
 // account is not optional
 export function getSigner(library, account) {
-  console.log("=test=");
   return library.getSigner(account).connectUnchecked();
 }
 

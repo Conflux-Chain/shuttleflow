@@ -76,9 +76,7 @@ const ButtonType = Object.freeze({
   SHUTTLEIN: 'shuttlein',
 })
 export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
-  console.log('tokenInfo', tokenInfo)
   const { decimals, originSymbol, originAddr, origin } = tokenInfo
-  console.log(originSymbol)
   const [
     commonCx,
     shuttleCx,
@@ -103,10 +101,6 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     chainId,
     library,
   } = useWeb3React()
-  console.log(active)
-  console.log(account)
-  console.log(connector)
-  console.log(chainId)
   const { t } = useTranslation([
     'shuttle-out',
     'shuttle-in',
@@ -167,7 +161,6 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
    */
   useEffect(() => {
     const shouldFetch = account && tokenInfo && !isNativeToken
-    console.log(shouldFetch)
     async function fetchData() {
       const val = await getValFromTokenContract('balanceOf', [account])
       setBalance(calculateBalance(val, decimals))
@@ -191,10 +184,8 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
    */
   useEffect(() => {
     const shouldFetch = account && isNativeToken
-    console.log(shouldFetch)
     async function fetchData() {
       const val = await getNativeBalance(account)
-      console.log(val.toString(10))
       setBalance(val)
     }
     shouldFetch && fetchData()
@@ -241,7 +232,6 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   async function getValFromTokenContract(methodName, params) {
     const contract = getTokenContract(originAddr, library, account)
     const val = await contract[methodName](...params)
-    console.log(val)
     return val
   }
 
@@ -292,9 +282,6 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     } else {
       const { amount, address } = data
       if (isNativeToken) {
-        console.log(
-          BigNumber.from(amount.times(`1e${decimals}`).toString()).toString(10)
-        )
         setOperationPending(true)
         let params = [
           format.hexAddress(address),
@@ -427,7 +414,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
                       ? t('placeholder.input-amount')
                       : t('balance', {
                           amount: balance,
-                          symbol: tokenInfo.symbol,
+                          symbol: originSymbol,
                         })
                   }
                 />

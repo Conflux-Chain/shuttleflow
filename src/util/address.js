@@ -59,7 +59,6 @@ export function checkCfxAddressWithNet(address){
   } catch (error) {
     _isCfxAddress = false
   }
-  console.log('_isCfxAddress',_isCfxAddress)
   return _isCfxAddress
 }
 
