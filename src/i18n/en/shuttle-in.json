@@ -19,7 +19,7 @@
   },
   "minimum-amount-unlimited": "No minimum amount",
   "no-fee": "No fee",
-  "connectMetamask": "Connect MetaMask",
+  "connect-Metamask": "Connect MetaMask",
   "approve": "Approve",
   "transfer-no-save":"Transfer to this address (Do not save)"
 }
