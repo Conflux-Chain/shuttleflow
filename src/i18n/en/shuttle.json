@@ -6,5 +6,7 @@
   "miner-fee": "Need to pay miner fees",
   "miner-fee-content": "{{operation}} fee：<strong>{{fee}} {{symbol}}</strong>\n\nNeed to pay the Bitcoin network's miner fees",
   "not-enough-gas": "Insufficient collateral of Token Captain, temporarily suspend cross-chain",
-  "gas-low": "The Token Captain may be changed and the fee will be adjusted. Please operate with caution"
+  "gas-low": "The Token Captain may be changed and the fee will be adjusted. Please operate with caution",
+  "shuttlein-amount": "Shuttle-In Amount",
+  "receiving-address":"Your destination"
 }
