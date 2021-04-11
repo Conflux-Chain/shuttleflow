@@ -3,6 +3,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
 import Big from "big.js";
+import { MIN_ETH, MIN_BSC } from "./../config/config";
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value) {
   try {
@@ -50,4 +51,20 @@ export function getContract(address, ABI, library, account) {
 
 export function calculateBalance(bignumber, decimals) {
   return Big(bignumber).div(`1e${decimals}`);
+}
+export function maxAmountSpend(amount, chain) {
+  let minAmount = MIN_ETH;
+  switch (chain) {
+    case "eth":
+      minAmount = MIN_ETH;
+      break;
+    case "bsc":
+      minAmount = MIN_BSC;
+      break;
+  }
+  if (amount.gt(minAmount)) {
+    return amount.minus(minAmount);
+  } else {
+    return Big(0);
+  }
 }

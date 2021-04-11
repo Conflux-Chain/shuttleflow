@@ -58,7 +58,11 @@ import {
  * internal library
  */
 import { big } from '../../lib/yup/BigNumberSchema'
-import { calculateBalance, calculateGasMargin } from './../../util'
+import {
+  calculateBalance,
+  calculateGasMargin,
+  maxAmountSpend,
+} from './../../util'
 import { checkCfxAddressWithNet } from './../../util/address'
 import {
   getTokenContract,
@@ -275,7 +279,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     trigger,
   } = useForm({
     resolver: yupResolver(schema),
-    mode: 'onSubmit',
+    mode: 'onBlur',
   })
   const onSubmit = async (data) => {
     if (!active) {
@@ -429,7 +433,10 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
                 />
                 <div
                   onClick={() => {
-                    setValue('amount', balance)
+                    setValue(
+                      'amount',
+                      isNativeToken ? maxAmountSpend(balance, origin) : balance
+                    )
                   }}
                   className={
                     shuttleOutCx('all') + ' ' + shuttleCx('small-text')

@@ -54,10 +54,12 @@ export const NETWORKS = {
   1029: "main",
 };
 
-export const CHAINID={
-  ETHEREUM_MAINNET:1,
-  ETHEREUM_RINKEBY:4,
-  BSC_MAINNEET:56,
-  BSC_TESTNET:97
-}
-export const MetaMask_WEBSITE='https://metamask.io'
+export const CHAINID = {
+  ETHEREUM_MAINNET: 1,
+  ETHEREUM_RINKEBY: 4,
+  BSC_MAINNEET: 56,
+  BSC_TESTNET: 97,
+};
+export const MetaMask_WEBSITE = "https://metamask.io";
+export const MIN_ETH = 0.2;
+export const MIN_BSC = 0.2;
