@@ -374,142 +374,148 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
       }
     }
   }
-  return (
-    <div className={shuttleCx('root')}>
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete="chrome-off">
-        <TokenInput
-          tokenInfo={tokenInfo}
-          dir="from"
-          placeholder={t('placeholder.out')}
-          displayCopy={displayCopy}
-        />
-        <div className={shuttleCx('down')}>
-          <img alt="down" src={down}></img>
-        </div>
-        <TokenInput
-          dir="to"
-          tokenInfo={tokenInfo}
-          placeholder={t('placeholder.in')}
-          displayCopy={displayCopy}
-          cToken
-        />
-        {tokenInfo && !notEnoughGas && (
-          <>
-            <label className={shuttleOutCx('amount-container')}>
-              <div>
-                <span className={shuttleCx('title')}>
-                  {t('shuttlein-amount')}{' '}
-                </span>
-              </div>
-
-              <div className={shuttleOutCx('amount-input')}>
-                <ShuttleOutInput
-                  showPlaceholder={watch('amount')}
-                  name="amount"
-                  ref={register}
-                  decimals={tokenInfo && tokenInfo.decimals}
-                  error={errors.amount}
-                  placeholder={
-                    !tokenInfo
-                      ? t('placeholder.input-amount')
-                      : t('balance', {
-                          amount: balance,
-                          symbol: originSymbol,
-                        })
-                  }
-                />
-                <div
-                  onClick={() => {
-                    setValue(
-                      'amount',
-                      isNativeToken ? maxAmountSpend(balance, origin) : balance
-                    )
-                  }}
-                  className={
-                    shuttleOutCx('all') + ' ' + shuttleCx('small-text')
-                  }
-                >
-                  {t('all')}
-                </div>
-              </div>
-            </label>
-
-            <div className={shuttleCx('small-text')}>
-              <span> {t('minimum-amount-unlimited')}</span>
-              <span>{t('no-fee')}</span>
+  const btnClick = () => {
+    if (!window.ethereum) {
+      window.open(MetaMask_WEBSITE, '_blank')
+      return
+    }
+    //if the user have not connnected MetaMask
+    tryActivation()
+  }
+  const ContainerContent = (
+    <>
+      <TokenInput
+        tokenInfo={tokenInfo}
+        dir="from"
+        placeholder={t('placeholder.out')}
+        displayCopy={displayCopy}
+      />
+      <div className={shuttleCx('down')}>
+        <img alt="down" src={down}></img>
+      </div>
+      <TokenInput
+        dir="to"
+        tokenInfo={tokenInfo}
+        placeholder={t('placeholder.in')}
+        displayCopy={displayCopy}
+        cToken
+      />
+      {tokenInfo && !notEnoughGas && (
+        <>
+          <label className={shuttleOutCx('amount-container')}>
+            <div>
+              <span className={shuttleCx('title')}>
+                {t('shuttlein-amount')}{' '}
+              </span>
             </div>
 
-            <div>
-              <ErrorMessage
-                errors={errors}
+            <div className={shuttleOutCx('amount-input')}>
+              <ShuttleOutInput
+                showPlaceholder={watch('amount')}
                 name="amount"
-                render={({ message }) => {
-                  return (
-                    <span
-                      className={shuttleCx('small-text')}
-                      style={{ color: '#F3504F' }}
-                    >
-                      {t(message, tokenInfo)}
-                    </span>
+                ref={register}
+                decimals={tokenInfo && tokenInfo.decimals}
+                error={errors.amount}
+                placeholder={
+                  !tokenInfo
+                    ? t('placeholder.input-amount')
+                    : t('balance', {
+                        amount: balance,
+                        symbol: originSymbol,
+                      })
+                }
+              />
+              <div
+                onClick={() => {
+                  setValue(
+                    'amount',
+                    isNativeToken ? maxAmountSpend(balance, origin) : balance
                   )
                 }}
-              />
-            </div>
-            {gasLow}
-            {/* shuttle out address */}
-            <div className={shuttleOutCx('address-container')}>
-              <div>
-                <span className={shuttleCx('title')}>
-                  {t('receiving-address')}{' '}
-                </span>
-              </div>
-              <div className={shuttleOutCx('address-input')}>
-                <ShuttleOutInput
-                  showPlaceholder={watch('address')}
-                  style={{ fontSize: '1.1rem', paddingRight: '5rem' }}
-                  ref={register}
-                  name="address"
-                  error={errors.address}
-                  placeholder={
-                    <Trans
-                      values={{
-                        type: t('cfx'),
-                      }}
-                      i18nKey={`placeholder.address-evm`}
-                      t={t}
-                    ></Trans>
-                  }
-                />
-                <img
-                  style={{
-                    display: !!getValues().address ? 'block' : 'none',
-                  }}
-                  onClick={() => {
-                    setValue('address', '')
-                  }}
-                  src={clear}
-                  alt="clear"
-                  className={commonCx('clear')}
-                ></img>
+                className={shuttleOutCx('all') + ' ' + shuttleCx('small-text')}
+              >
+                {t('all')}
               </div>
             </div>
+          </label>
 
+          <div className={shuttleCx('small-text')}>
+            <span> {t('minimum-amount-unlimited')}</span>
+            <span>{t('no-fee')}</span>
+          </div>
+
+          <div>
             <ErrorMessage
               errors={errors}
-              name="address"
+              name="amount"
               render={({ message }) => {
                 return (
-                  <p
-                    style={{ color: '#F3504F' }}
+                  <span
                     className={shuttleCx('small-text')}
+                    style={{ color: '#F3504F' }}
                   >
-                    {t(message)}
-                  </p>
+                    {t(message, tokenInfo)}
+                  </span>
                 )
               }}
             />
-            {origin === 'cfx' && <Warning>{t('no-contract')}</Warning>}
+          </div>
+          {gasLow}
+          {/* shuttle out address */}
+          <div className={shuttleOutCx('address-container')}>
+            <div>
+              <span className={shuttleCx('title')}>
+                {t('receiving-address')}{' '}
+              </span>
+            </div>
+            <div className={shuttleOutCx('address-input')}>
+              <ShuttleOutInput
+                showPlaceholder={watch('address')}
+                style={{ fontSize: '1.1rem', paddingRight: '5rem' }}
+                ref={register}
+                name="address"
+                error={errors.address}
+                placeholder={
+                  <Trans
+                    values={{
+                      type: t('cfx'),
+                    }}
+                    i18nKey={`placeholder.address-evm`}
+                    t={t}
+                  ></Trans>
+                }
+              />
+              <img
+                style={{
+                  display: !!getValues().address ? 'block' : 'none',
+                }}
+                onClick={() => {
+                  setValue('address', '')
+                }}
+                src={clear}
+                alt="clear"
+                className={commonCx('clear')}
+              ></img>
+            </div>
+          </div>
 
+          <ErrorMessage
+            errors={errors}
+            name="address"
+            render={({ message }) => {
+              return (
+                <p
+                  style={{ color: '#F3504F' }}
+                  className={shuttleCx('small-text')}
+                >
+                  {t(message)}
+                </p>
+              )
+            }}
+          />
+          {origin === 'cfx' && <Warning>{t('no-contract')}</Warning>}
+
+          {active ? (
             <Button
               loading={operationPending}
               disabled={!tokenInfo}
@@ -518,9 +524,30 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
             >
               {t(btnI18nKey)}
             </Button>
-          </>
-        )}
-      </form>
+          ) : (
+            <Button
+              loading={operationPending}
+              disabled={!tokenInfo}
+              type="button"
+              className={shuttleOutCx('btn')}
+              onClick={btnClick}
+            >
+              {t(btnI18nKey)}
+            </Button>
+          )}
+        </>
+      )}
+    </>
+  )
+  return (
+    <div className={shuttleCx('root')}>
+      {active ? (
+        <FormContainer onSubmitCallback={handleSubmit(onSubmit)}>
+          {ContainerContent}
+        </FormContainer>
+      ) : (
+        <CommonContainer>{ContainerContent}</CommonContainer>
+      )}
       <ShuttleHistory type="in" />
       <Modal
         show={addressPopup}
@@ -579,4 +606,15 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
       </Modal>
     </div>
   )
+}
+
+function FormContainer({ children, onSubmitCallback }) {
+  return (
+    <form onSubmit={onSubmitCallback} autoComplete="chrome-off">
+      {children}
+    </form>
+  )
+}
+function CommonContainer({ children }) {
+  return <>{children}</>
 }
