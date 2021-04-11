@@ -42,24 +42,25 @@ import commonInputStyles from '../../component/input.module.scss'
 import shuttleStyle from '../Shuttle.module.scss'
 import shuttleInStyles from './ShuttleIn.module.scss'
 import shuttleOutStyles from './../shuttle-out/ShuttleOut.module.scss'
-
+import rootLayoutStyles from './../../../src/layout/Layout.module.scss'
 /**
  * image
  */
 import down from '../down.svg'
 import tick from './tick.svg'
+import notAllowImg from './../../../src/layout/not-allow.png'
 
 /**
  * constant
  */
-import { ZERO_ADDR, ZERO_ADDR_HEX } from '../../config/config'
+import { IS_DEV, ZERO_ADDR, ZERO_ADDR_HEX } from '../../config/config'
 import { BIGNUMBER_ZERO } from '../../constants'
 
 /**
  * internal library
  */
 import { big } from '../../lib/yup/BigNumberSchema'
-import { calculateBalance } from './../../util'
+import { calculateBalance, calculateGasMargin } from './../../util'
 import { checkCfxAddressWithNet } from './../../util/address'
 import {
   getTokenContract,
@@ -76,12 +77,20 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   console.log('tokenInfo', tokenInfo)
   const { decimals, originSymbol, originAddr, origin } = tokenInfo
   console.log(originSymbol)
-  const [commonCx, shuttleCx, shuttleInCx, shuttleOutCx, modalCx] = useStyle(
+  const [
+    commonCx,
+    shuttleCx,
+    shuttleInCx,
+    shuttleOutCx,
+    modalCx,
+    rootCx,
+  ] = useStyle(
     commonInputStyles,
     shuttleStyle,
     shuttleInStyles,
     shuttleOutStyles,
-    modalStyles
+    modalStyles,
+    rootLayoutStyles
   )
   const {
     active,
@@ -96,7 +105,12 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   console.log(account)
   console.log(connector)
   console.log(chainId)
-  const { t } = useTranslation(['shuttle-out', 'shuttle-in', 'shuttle'])
+  const { t } = useTranslation([
+    'shuttle-out',
+    'shuttle-in',
+    'shuttle',
+    'common',
+  ])
   const [addressPopup, setAddressPopup] = useState(false)
   const [minPopup, setMinPopup] = useState(false)
   const [copyPopup, setCopyPopup] = useState(false)
@@ -104,8 +118,11 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   const [btnI18nKey, setBtnI18nKey] = useState('shuttle-in')
   const [balance, setBalance] = useState(Big(0))
   const [btnType, setBtnType] = useState('')
+  const [isNetworkBlock, setIsNetworkBlock] = useState(false)
   //ETH OR BNB
   const isNativeToken = ['ETH', 'BNB'].indexOf(originSymbol) !== -1
+  const ORIGIN_ETH = 'eth'
+  const ORIGIN_BSC = 'bsc'
   const dRcontract = getDepositRelayerContract(
     origin === 'eth' ? 'eth' : 'bsc',
     library,
@@ -115,6 +132,13 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   if (!isNativeToken) {
     tokenContract = getTokenContract(originAddr, library, account)
   }
+  useEffect(() => {
+    if (active) {
+      setIsNetworkBlock(getIsNetworkBlock(origin, chainId))
+    } else {
+      setIsNetworkBlock(false)
+    }
+  }, [active, chainId])
   useEffect(() => {
     if (!active) {
       setBtnType(ButtonType.CONNECT_METAMASK)
@@ -212,6 +236,21 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
       }
     })
   }
+
+  function getIsNetworkBlock(chain, chainId) {
+    let showBlock = false
+    if (!chain || !chainId) return false
+    if (chain === ORIGIN_ETH) {
+      IS_DEV && (showBlock = chainId != 4)
+      !IS_DEV && (showBlock = chainId != 1)
+    }
+    if (chain === ORIGIN_BSC) {
+      IS_DEV && (showBlock = chainId != 97)
+      !IS_DEV && (showBlock = chainId != 56)
+    }
+    return showBlock
+  }
+
   const {
     register,
     watch,
@@ -232,10 +271,23 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
       const { amount, address } = data
       if (isNativeToken) {
         setOperationPending(true)
+        let params = [
+          format.hexAddress(address),
+          ZERO_ADDR_HEX,
+          {
+            value: BigNumber.from(amount.times(`1e${decimals}`).toString()),
+          },
+        ]
+        let gas = await dRcontract.estimateGas.deposit(
+          params[0],
+          params[1],
+          params[2]
+        )
         giveTransactionResult(
           dRcontract
-            .deposit(format.hexAddress(address), ZERO_ADDR_HEX, {
-              value: BigNumber.from(amount.times(`1e${decimals}`).toString()),
+            .deposit(params[0], params[1], {
+              ...params[2],
+              gasLimit: calculateGasMargin(gas),
             })
             .then((data) => data.hash),
           { chain: origin, done: () => setOperationPending(false) }
@@ -244,8 +296,14 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
         switch (btnType) {
           case ButtonType.APPROVE:
             setOperationPending(true)
+            let gas = await tokenContract.estimateGas.approve(
+              getDepositRelayerAddressChain(origin),
+              MaxUint256
+            )
             tokenContract
-              .approve(getDepositRelayerAddressChain(origin), MaxUint256)
+              .approve(getDepositRelayerAddressChain(origin), MaxUint256, {
+                gasLimit: calculateGasMargin(gas),
+              })
               .then((txResponse) => {
                 txResponse &&
                   txResponse
@@ -273,17 +331,28 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
               setBtnType(ButtonType.APPROVE)
               return
             }
+            let params = [
+              originAddr,
+              format.hexAddress(address),
+              ZERO_ADDR_HEX,
+              BigNumber.from(amount.times(`1e${decimals}`).toString()),
+              {
+                value: BigNumber.from(0),
+              },
+            ]
+            let gasDt = await dRcontract.estimateGas.depositToken(
+              params[0],
+              params[1],
+              params[2],
+              params[3],
+              params[4]
+            )
             giveTransactionResult(
               dRcontract
-                .depositToken(
-                  originAddr,
-                  format.hexAddress(address),
-                  ZERO_ADDR_HEX,
-                  BigNumber.from(amount.times(`1e${decimals}`).toString()),
-                  {
-                    value: BigNumber.from(0),
-                  }
-                )
+                .depositToken(params[0], params[1], params[2], params[3], {
+                  ...params[4],
+                  gasLimit: calculateGasMargin(gasDt),
+                })
                 .then((data) => data.hash),
               { chain: origin, done: () => setOperationPending(false) }
             )
@@ -291,12 +360,6 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
             break
         }
       }
-
-      // contract.estimateGas.deposit('0x16cd8119910e04ff0cc3821dba6b10c51053840d','0x0000000000000000000000000000000000000000',{value:10000}).then(data=>{
-      //     console.log(data)
-      // }).catch(error=>{
-      //     console.log(error)
-      // })
     }
   }
   return (
@@ -475,6 +538,28 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
         <div className={shuttleInCx('copy-popup')}>
           <img alt="tick" src={tick}></img>
           <div>{t('popup.copy')}</div>
+        </div>
+      </Modal>
+      <Modal show={isNetworkBlock}>
+        <div className={rootCx('not-allow')}>
+          <img src={notAllowImg} alt={notAllowImg}></img>
+          <div className={rootCx('title')}>{t('error.block')}</div>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              // whiteSpace: 'nowrap',
+            }}
+          >
+            {t('error.unsupported-network-mm') +
+              '' +
+              t(
+                `${origin === 'eth' ? 'ethereum' : 'bsc'}` +
+                  '-' +
+                  `${!IS_DEV ? 'mainnet' : 'testnet'}`
+              )}
+          </div>
         </div>
       </Modal>
     </div>

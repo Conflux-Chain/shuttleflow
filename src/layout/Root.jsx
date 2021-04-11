@@ -92,7 +92,7 @@ export default function App() {
                     </a>
                   </>
                 ) : (
-                  t(`error.switch-${!IS_DEV ? 'main' : 'test'}`)
+                  t('error.unsupported-network-portal') +''+t(`${!IS_DEV ? 'conflux-mainnet' : 'conflux-testnet'}`)
                 )}
               </div>
             </div>

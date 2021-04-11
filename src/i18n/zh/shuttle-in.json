@@ -19,6 +19,7 @@
   },
   "minimum-amount-unlimited": "最小跨入数量无限制",
   "no-fee": "无手续费",
-  "connect-Metamask": "Connect MetaMask",
-  "approve": "Approve"
+  "connect-Metamask": "连接 MetaMask",
+  "approve": "授权代币",
+  "transfer-no-save":"请向以下地址转账（不要保存地址）"
 }

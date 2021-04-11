@@ -21,8 +21,22 @@ export default function getFields({
   isMortgageLow,
   isLocking,
   mainPairSymbol,
+  origin,
+  to_chain,
 }) {
-  function createField({ name, label, unit, currentValue, greaterThan }) {
+  const isObverseIn =
+    ['eth', 'bsc'].indexOf(origin) !== -1 && to_chain === 'cfx'
+  const isReverseIn =
+    ['eth', 'bsc'].indexOf(to_chain) !== -1 && origin === 'cfx'
+  function createField({
+    name,
+    label,
+    unit,
+    currentValue,
+    greaterThan,
+    readOnly,
+    showDefaultValue,
+  }) {
     let validate = basicValidate()
     let errOrPlaceholder
 
@@ -58,9 +72,10 @@ export default function getFields({
       label,
       unit,
       decimals,
-      defaultValue: isMe ? currentValue : undefined,
+      defaultValue: showDefaultValue ? 0 : isMe ? currentValue : undefined,
       placeholder: isMortgageLow ? t('enter') : errOrPlaceholder,
       validate,
+      readOnly,
     }
   }
 
@@ -70,6 +85,8 @@ export default function getFields({
       label: 'shuttle-in-fee',
       unit: symbol,
       currentValue: in_fee,
+      readOnly: isObverseIn || isReverseIn,
+      showDefaultValue: isObverseIn || isReverseIn,
     },
     {
       label: 'shuttle-in-amount',
@@ -77,6 +94,8 @@ export default function getFields({
       unit: reference_symbol,
       currentValue: minimal_in_value,
       greaterThan: { ref: 'mint_fee', msg: 'error.above-in-fee' },
+      readOnly: isObverseIn,
+      showDefaultValue: isObverseIn,
     },
     {
       name: 'burn_fee',
@@ -97,6 +116,8 @@ export default function getFields({
       label: 'create-fee',
       unit: symbol,
       currentValue: wallet_fee,
+      readOnly: isObverseIn,
+      showDefaultValue: isObverseIn,
     },
   ]
     .map(createField)
