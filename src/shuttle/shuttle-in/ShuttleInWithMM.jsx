@@ -2,11 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react'
 /**
  * library
  */
-import { useParams } from 'react-router'
-import { Loading } from '@cfxjs/react-ui'
 import { useTranslation, Trans } from 'react-i18next'
-import QRCode from 'qrcode.react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ErrorMessage } from '@hookform/error-message'
@@ -23,7 +19,6 @@ import clear from '../../component/clear.svg'
 import Modal, { modalStyles } from '../../component/Modal'
 import ShuttleHistory from '../../history/ShuttleHistory'
 import TokenInput from '../../component/TokenInput/TokenInput'
-import WithQuestion from '../../component/WithQuestion'
 import Button from '../../component/Button/Button'
 import ShuttleOutInput from '../ShuttleoutInput'
 import { giveTransactionResult } from '../../globalPopup/TranscationResult'
@@ -32,7 +27,6 @@ import { giveTransactionResult } from '../../globalPopup/TranscationResult'
  * hooks
  */
 import useStyle from '../../component/useStyle'
-import { useBalance } from '../../data/useBalance'
 
 /**
  * css
@@ -53,8 +47,7 @@ import notAllowImg from './../../../src/layout/not-allow.png'
 /**
  * constant
  */
-import { IS_DEV, ZERO_ADDR, ZERO_ADDR_HEX } from '../../config/config'
-import { BIGNUMBER_ZERO } from '../../constants'
+import { IS_DEV, ZERO_ADDR_HEX,CHAINID } from '../../config/config'
 
 /**
  * internal library
@@ -241,12 +234,12 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     let showBlock = false
     if (!chain || !chainId) return false
     if (chain === ORIGIN_ETH) {
-      IS_DEV && (showBlock = chainId != 4)
-      !IS_DEV && (showBlock = chainId != 1)
+      IS_DEV && (showBlock = chainId != CHAINID.ETHEREUM_RINKEBY)
+      !IS_DEV && (showBlock = chainId != CHAINID.ETHEREUM_MAINNET)
     }
     if (chain === ORIGIN_BSC) {
-      IS_DEV && (showBlock = chainId != 97)
-      !IS_DEV && (showBlock = chainId != 56)
+      IS_DEV && (showBlock = chainId != CHAINID.BSC_TESTNET)
+      !IS_DEV && (showBlock = chainId != CHAINID.BSC_MAINNEET)
     }
     return showBlock
   }
