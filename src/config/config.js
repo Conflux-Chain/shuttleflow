@@ -60,3 +60,4 @@ export const CHAINID={
   BSC_MAINNEET:56,
   BSC_TESTNET:97
 }
+export const MetaMask_WEBSITE='https://metamask.io'

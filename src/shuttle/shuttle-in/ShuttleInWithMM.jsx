@@ -47,7 +47,12 @@ import notAllowImg from './../../../src/layout/not-allow.png'
 /**
  * constant
  */
-import { IS_DEV, ZERO_ADDR_HEX,CHAINID } from '../../config/config'
+import {
+  IS_DEV,
+  ZERO_ADDR_HEX,
+  CHAINID,
+  MetaMask_WEBSITE,
+} from '../../config/config'
 
 /**
  * internal library
@@ -164,6 +169,18 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
       setBalance(calculateBalance(val, decimals))
     }
     shouldFetch && fetchData()
+    let interval
+    if (shouldFetch) {
+      interval = setInterval(() => {
+        fetchData()
+      }, 2000)
+    }
+    if (!account) {
+      interval && clearInterval(interval)
+    }
+    return () => {
+      interval && clearInterval(interval)
+    }
   }, [tokenInfo, account, isNativeToken])
   /**
    * ETH OR BNB
@@ -173,19 +190,23 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     console.log(shouldFetch)
     async function fetchData() {
       const val = await getNativeBalance(account)
+      console.log(val.toString(10))
       setBalance(val)
     }
     shouldFetch && fetchData()
-    // let interval;
-    // if(shouldFetch){
-    //     interval=setInterval(() => {
-    //         fetchData()
-    //     }, 2000);
-    // }
-    // return ()=>{
-    //     interval&&clearInterval(interval)
-    // }
-  }, [tokenInfo, account])
+    let interval
+    if (shouldFetch) {
+      interval = setInterval(() => {
+        fetchData()
+      }, 2000)
+    }
+    if (!account) {
+      interval && clearInterval(interval)
+    }
+    return () => {
+      interval && clearInterval(interval)
+    }
+  }, [tokenInfo, account, isNativeToken])
   const displayCopy = useCallback(() => {
     setCopyPopup(true)
     const tm = setTimeout(() => setCopyPopup(false), 2000)
@@ -258,11 +279,18 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   })
   const onSubmit = async (data) => {
     if (!active) {
+      if (!window.ethereum) {
+        window.open(MetaMask_WEBSITE, '_blank')
+        return
+      }
       //if the user have not connnected MetaMask
       tryActivation()
     } else {
       const { amount, address } = data
       if (isNativeToken) {
+        console.log(
+          BigNumber.from(amount.times(`1e${decimals}`).toString()).toString(10)
+        )
         setOperationPending(true)
         let params = [
           format.hexAddress(address),
