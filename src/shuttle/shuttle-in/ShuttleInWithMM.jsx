@@ -210,7 +210,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     }
   }, [])
   const schema = object().shape({
-    amount: big().min(0, 'error.min').max(balance, 'error.insufficient'),
+    amount: big().gt(0, 'min-error').max(balance, 'error.insufficient'),
     address: string()
       .required('error.required')
       .test('address-valid', 'error.invalid-address', (address) =>
