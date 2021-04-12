@@ -40,6 +40,33 @@ sudo cp -r build /www/shuttleflow
           }
         }
 
+        stage('staging env') {
+          when {
+            beforeAgent true
+            allOf {
+              branch 'staging'
+            }
+          }
+          agent {label 'pre_product_for_shuttleflow_frontend'}
+          steps {
+            nodejs(nodeJSInstallationName: 'nodejs15') {
+              script {
+                sh (label: 'build', script: """
+yarn && yarn build
+"""
+                )
+              }
+            }
+            script {
+              sh (label: 'move builds', script: """
+mkdir -p /www
+sudo rm -rf /www/shuttleflow/ || true
+sudo cp -r build /www/shuttleflow
+""")
+            }
+          }
+        }
+        
         stage('prod env') {
           when {
             beforeAgent true
