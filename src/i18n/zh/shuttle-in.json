@@ -21,5 +21,6 @@
   "no-fee": "无手续费",
   "connect-Metamask": "连接 MetaMask",
   "approve": "授权代币",
-  "transfer-no-save":"请向以下地址转账（不要保存地址）"
+  "transfer-no-save": "请向以下地址转账（不要保存地址）",
+  "min-error": "数值必须大于0"
 }

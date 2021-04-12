@@ -21,5 +21,6 @@
   "no-fee": "No fee",
   "connect-Metamask": "Connect MetaMask",
   "approve": "Approve",
-  "transfer-no-save":"Transfer to this address (Do not save)"
+  "transfer-no-save": "Transfer to this address (Do not save)",
+  "min-error": "The value must be greater than 0"
 }
