@@ -280,6 +280,9 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
       //if the user have not connnected MetaMask
       tryActivation()
     } else {
+      if(operationPending){
+        return
+      }
       const { amount, address } = data
       if (isNativeToken) {
         setOperationPending(true)
