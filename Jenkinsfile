@@ -11,6 +11,7 @@ pipeline {
   agent none
 
   stages {
+    
     stage('multiple env') {
       parallel {
         stage('ci env') {
