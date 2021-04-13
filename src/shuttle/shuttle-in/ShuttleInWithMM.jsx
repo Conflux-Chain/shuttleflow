@@ -13,6 +13,9 @@ import { format } from 'js-conflux-sdk/dist/js-conflux-sdk.umd.min.js'
 import { MaxUint256 } from '@ethersproject/constants'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Logger } from '@ethersproject/logger'
+import { useMessages } from '@cfxjs/react-ui'
+import { Info } from '@zeit-ui/react-icons'
+
 /**
  * component
  */
@@ -116,6 +119,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   const [balance, setBalance] = useState(Big(0))
   const [btnType, setBtnType] = useState('')
   const [isNetworkBlock, setIsNetworkBlock] = useState(false)
+  const [, setMessage] = useMessages()
   //ETH OR BNB
   const isNativeToken = ['ETH', 'BNB'].indexOf(originSymbol) !== -1
   const ORIGIN_ETH = 'eth'
@@ -240,8 +244,13 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     activate(injected, undefined, true).catch((error) => {
       if (error instanceof UnsupportedChainIdError) {
         activate(injected) // a little janky...can't use setError because the connector isn't set
-      } else {
-        //TODO: handle the error
+      }
+      if (error && error.code === -32002) {
+        setMessage({
+          icon: <Info />,
+          text: t('tip-metamask-operate'),
+          color: 'warning',
+        })
       }
     })
   }
