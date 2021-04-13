@@ -279,7 +279,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     trigger,
   } = useForm({
     resolver: yupResolver(schema),
-    mode: 'onBlur',
+    mode: 'onSubmit',
   })
   function contractApprove(tokenContract, value, gas) {
     tokenContract
@@ -567,13 +567,9 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   )
   return (
     <div className={shuttleCx('root')}>
-      {active ? (
-        <FormContainer onSubmitCallback={handleSubmit(onSubmit)}>
-          {ContainerContent}
-        </FormContainer>
-      ) : (
-        <CommonContainer>{ContainerContent}</CommonContainer>
-      )}
+      <FormContainer onSubmitCallback={handleSubmit(onSubmit)}>
+        {ContainerContent}
+      </FormContainer>
       <ShuttleHistory type="in" />
       <Modal
         show={addressPopup}
