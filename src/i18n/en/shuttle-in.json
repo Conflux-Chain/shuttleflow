@@ -22,5 +22,6 @@
   "connect-Metamask": "Connect MetaMask",
   "approve": "Approve",
   "transfer-no-save": "Transfer to this address (Do not save)",
-  "min-error": "The value must be greater than 0"
+  "min-error": "The value must be greater than 0",
+  "tip-metamask-operate": "Please operate in MetaMask to continue"
 }

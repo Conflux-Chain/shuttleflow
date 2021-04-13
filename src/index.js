@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import store from './state'
 import App from './layout/Root'
+import { CfxProvider, CssBaseline } from '@cfxjs/react-ui'
 import { NetworkContextName } from './constants'
 
 import getLibrary from './util/getLibrary'
@@ -35,8 +36,10 @@ ReactDOM.render(
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
         <Provider store={store}>
-          <Updaters/>
-          <App />
+          <CfxProvider>
+            <Updaters/>
+            <App />
+          </CfxProvider>
         </Provider>
       </Web3ProviderNetwork>
     </Web3ReactProvider>

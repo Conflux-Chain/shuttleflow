@@ -1710,7 +1710,7 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zeit-ui/react-icons@^1.3.0":
+"@zeit-ui/react-icons@^1.3.0", "@zeit-ui/react-icons@^1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@zeit-ui/react-icons/-/react-icons-1.3.1.tgz#f8baa5118e002d6e534252a556fe829458a893a0"
   integrity sha512-I2oO8rJn+fnAEQDtMZSmVRBeF4bkU9+6BpN/U5WN64v9Tr/5MHnO/ZQ6vDbehDvOsVzideXWFmvybM5Tt5v8pg==
