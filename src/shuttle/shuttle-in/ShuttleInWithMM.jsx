@@ -12,6 +12,7 @@ import Big from 'big.js'
 import { format } from 'js-conflux-sdk/dist/js-conflux-sdk.umd.min.js'
 import { MaxUint256 } from '@ethersproject/constants'
 import { BigNumber } from '@ethersproject/bignumber'
+import { Logger } from '@ethersproject/logger'
 /**
  * component
  */
@@ -271,6 +272,27 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     resolver: yupResolver(schema),
     mode: 'onBlur',
   })
+  function contractApprove(tokenContract, value, gas) {
+    tokenContract
+      .approve(getDepositRelayerAddressChain(origin), value, {
+        gasLimit: gas ? calculateGasMargin(gas) : undefined,
+      })
+      .then((txResponse) => {
+        txResponse &&
+          txResponse
+            .wait()
+            .then((data) => {
+              setOperationPending(false)
+              setBtnType(ButtonType.SHUTTLEIN)
+            })
+            .catch((error) => {
+              setOperationPending(false)
+            })
+      })
+      .catch((error) => {
+        setOperationPending(false)
+      })
+  }
   const onSubmit = async (data) => {
     if (!active) {
       if (!window.ethereum) {
@@ -280,7 +302,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
       //if the user have not connnected MetaMask
       tryActivation()
     } else {
-      if(operationPending){
+      if (operationPending) {
         return
       }
       const { amount, address } = data
@@ -311,28 +333,20 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
         switch (btnType) {
           case ButtonType.APPROVE:
             setOperationPending(true)
-            let gas = await tokenContract.estimateGas.approve(
-              getDepositRelayerAddressChain(origin),
-              MaxUint256
-            )
-            tokenContract
-              .approve(getDepositRelayerAddressChain(origin), MaxUint256, {
-                gasLimit: calculateGasMargin(gas),
-              })
-              .then((txResponse) => {
-                txResponse &&
-                  txResponse
-                    .wait()
-                    .then((data) => {
-                      setOperationPending(false)
-                      setBtnType(ButtonType.SHUTTLEIN)
-                    })
-                    .catch((error) => {
-                      setOperationPending(false)
-                    })
+            tokenContract.estimateGas
+              .approve(getDepositRelayerAddressChain(origin), MaxUint256)
+              .then((gas) => {
+                contractApprove(tokenContract, MaxUint256, gas)
               })
               .catch((error) => {
-                setOperationPending(false)
+                if (
+                  error.code === Logger.errors.UNPREDICTABLE_GAS_LIMIT ||
+                  (error.data && error.data.code === -32000)
+                ) {
+                  contractApprove(tokenContract, 0)
+                } else {
+                  setOperationPending(false)
+                }
               })
             break
           case ButtonType.SHUTTLEIN:
