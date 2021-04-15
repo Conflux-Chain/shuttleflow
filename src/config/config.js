@@ -34,7 +34,7 @@ if (IS_DEV) {
   CONFLUXSCAN_URL = "https://confluxscan.io";
   ZERO_ADDR = "cfx:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0sfbnjm2";
   ETH_SCAN_URL = "https://etherscan.io";
-  BSC_SCAN_URL == "https://bscscan.com";
+  BSC_SCAN_URL = "https://bscscan.com";
 }
 
 CONFLUXSCAN_TX = CONFLUXSCAN_URL + "/transaction/";
