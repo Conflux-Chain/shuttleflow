@@ -63,3 +63,4 @@ export const CHAINID = {
 export const MetaMask_WEBSITE = "https://metamask.io";
 export const MIN_ETH = 0.2;
 export const MIN_BSC = 0.2;
+export const MIN_CFX = 2;
