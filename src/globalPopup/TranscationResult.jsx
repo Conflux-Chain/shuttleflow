@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import useSWR, { mutate } from 'swr'
 import Modal, { Strong } from '../component/Modal'
-import { CONFLUXSCAN_TX } from '../config/config'
+import { CONFLUXSCAN_TX, ETHSCAN_TX, BSCSCAN_TX } from '../config/config'
 import fail from './fail.svg'
 import sent from './sent.svg'
 import Button from '../component/Button/Button'
@@ -12,10 +12,19 @@ export default function TransactionResult() {
   const { data, mutate } = useSWR(TranscationKey, {
     initialData: {},
   })
-  const { successHash, errorReason } = data
+  const { successHash, errorReason, chain } = data
   const { t } = useTranslation()
   function close() {
     mutate({}, false)
+  }
+  let scanTxUrl = CONFLUXSCAN_TX
+  switch (chain) {
+    case 'eth':
+      scanTxUrl = ETHSCAN_TX
+      break
+    case 'bsc':
+      scanTxUrl = BSCSCAN_TX
+      break
   }
   return (
     <>
@@ -29,7 +38,7 @@ export default function TransactionResult() {
         <Strong>{t('popup.sent')}</Strong>
         <PopupButton
           onClick={() => {
-            window.open(CONFLUXSCAN_TX + successHash, '_blank')
+            window.open(scanTxUrl + successHash, '_blank')
           }}
         >
           {t('popup.details')}
@@ -39,19 +48,22 @@ export default function TransactionResult() {
   )
 }
 
-export function giveTransactionResult(result, { success, fail, done } = {}) {
+export function giveTransactionResult(
+  result,
+  { success, fail, done, chain } = {}
+) {
   result
     .then((successHash) => {
       if (success) {
         success()
       }
-      mutate(TranscationKey, { successHash })
+      mutate(TranscationKey, { successHash, chain })
     })
     .catch((errorReason) => {
       if (fail) {
         fail()
       }
-      mutate(TranscationKey, { errorReason })
+      mutate(TranscationKey, { errorReason, chain })
     })
     .finally(() => {
       if (done) {

@@ -12,18 +12,8 @@ import bscSubSrc from './bsc-sub.svg'
 
 import { getTokenList, updateTokenList } from '../data/tokenList'
 import { getIdFromToken } from '../util/id'
-
+import { ETH_SCAN_URL, BSC_SCAN_URL } from './config'
 var WAValidator = require('wallet-address-validator')
-const ETH_SCAN_URL = IS_DEV
-  ? 'https://rinkeby.etherscan.io'
-  : 'https://etherscan.io'
-const BSC_SCAN_URL = IS_DEV
-  ? 'https://testnet.bscscan.com'
-  : 'https://bscscan.com'
-
-const HECO_SCAL_URL = IS_DEV
-  ? 'https://testnet.hecoinfo.com'
-  : 'https://hecoinfo.com'
 
 export const CAPTAIN = {
   NONE: 0,

@@ -105,6 +105,16 @@ export default class BigSchema extends BaseSchema {
       },
     })
   }
+  gt(value, message) {
+    return this.test({
+      message,
+      name: 'gt',
+      exclusive: true,
+      test(params) {
+        return params.gt(value)
+      },
+    })
+  }
 }
 
 export const big = () => {

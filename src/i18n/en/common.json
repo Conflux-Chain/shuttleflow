@@ -20,7 +20,9 @@
     "block": "Error",
     "switch-test": "Unsupported network, please change it in the wallet: Conflux Test Network",
     "switch-main": "Unsupported network, please change it in the wallet: Conflux Tethys",
-    "insufficient": "Insufficient balance"
+    "insufficient": "Insufficient balance",
+    "unsupported-network-mm": "Unsupported network, please change it in the MetaMask: ",
+    "unsupported-network-portal": "Unsupported network, please change it in the ConfluxPortal: "
   },
   "all": "All",
   "from": "From {{value}}",
@@ -29,5 +31,11 @@
   "eth": "Ethereum",
   "bsc": "BSC",
   "heco": "Heco",
-  "cfx": "Conflux"
+  "cfx": "Conflux",
+  "ethereum-mainnet": "Ethereum Mainnet",
+  "ethereum-testnet": "Ethereum Testnet",
+  "bsc-mainnet": "BSC Mainnet",
+  "bsc-testnet": "BSC Testnet",
+  "conflux-mainnet": "Conflux Tethys",
+  "conflux-testnet": "Conflux Testnet"
 }

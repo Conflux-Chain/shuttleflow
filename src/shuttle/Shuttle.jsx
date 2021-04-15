@@ -12,7 +12,7 @@ import layoutBottomState from '../layout/LayoutButtomState'
 
 import ShuttleIn from './shuttle-in/ShuttleIn'
 import ShuttleOut from './shuttle-out/ShuttleOut'
-
+import ShuttleInWithMM from './shuttle-in/ShuttleInWithMM'
 import { useTranslation } from 'react-i18next'
 import styles from './Shuttle.module.scss'
 
@@ -101,7 +101,16 @@ function RouteComponent() {
   const { type } = useParams()
   const isSmall = useIsSamll()
   const history = useHistory()
-  const Component = type === 'in' ? ShuttleIn : ShuttleOut
+  let Component = type === 'in' ? ShuttleIn : ShuttleOut
+  // upgrade: because of EIP-2929, you must shuttle in some pairs using MetaMask
+  if (
+    type === 'in' &&
+    tokenInfo &&
+    ['eth', 'bsc'].indexOf(tokenInfo.origin) !== -1 &&
+    tokenInfo.to_chain === 'cfx'
+  ) {
+    Component = ShuttleInWithMM
+  }
   const { t } = useTranslation(['shuttle'])
   let notEnoughGas = false
   let gasLow = null
