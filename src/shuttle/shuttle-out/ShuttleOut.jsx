@@ -31,7 +31,7 @@ import { useParams } from 'react-router'
 import shuttleout from '../../data/shuttleOut'
 import { giveTransactionResult } from '../../globalPopup/TranscationResult'
 import styled from 'styled-components'
-
+import { maxAmountSpend } from './../../util'
 export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
   const [commonCx, modalCx, shuttleCx, shuttleOutCx, shuttleInCx] = useStyle(
     inputStyles,
@@ -123,6 +123,17 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
     }
   }
 
+  const getMaxAmount = () => {
+    if (
+      tokenInfo &&
+      tokenInfo.origin === 'cfx' &&
+      tokenInfo.originSymbol === 'CFX'
+    ) {
+      return maxAmountSpend(balance, tokenInfo.origin)
+    }
+    return balance
+  }
+
   return (
     <div className={shuttleCx('root')}>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="chrome-off">
@@ -173,7 +184,7 @@ export default function ShuttleOut({ tokenInfo, notEnoughGas, gasLow }) {
                 />
                 <div
                   onClick={() => {
-                    setValue('outamount', balance)
+                    setValue('outamount', getMaxAmount())
                   }}
                   className={
                     shuttleOutCx('all') + ' ' + shuttleCx('small-text')
