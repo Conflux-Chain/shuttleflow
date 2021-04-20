@@ -18,12 +18,11 @@ export function usePairInfo(pair) {
   const { selectedAddress } = window.conflux
   if (!pair) {
     const data = useTokenList()
-    if(data.haserror === true) {
+    if (data.haserror === true) {
       return { data }
     } else {
-      return {data: undefined}
+      return { data: undefined }
     }
-
   }
   return useSWR(['pair', pair, selectedAddress], fetchPair, {
     suspense: true,
