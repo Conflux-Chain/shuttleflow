@@ -22,7 +22,8 @@
     "switch-main": "Unsupported network, please change it in the wallet: Conflux Tethys",
     "insufficient": "Insufficient balance",
     "unsupported-network-mm": "Unsupported network, please change it in the MetaMask: ",
-    "unsupported-network-portal": "Unsupported network, please change it in the ConfluxPortal: "
+    "unsupported-network-portal": "Unsupported network, please change it in the ConfluxPortal: ",
+    "bsc-issue":"Due to the instability of ETH and BSC nodes, ShuttleFlow is temporarily suspended for your asset's security.After the network is stable, ShuttleFlow will automatically resume functionality."
   },
   "all": "All",
   "from": "From {{value}}",

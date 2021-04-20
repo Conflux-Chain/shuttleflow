@@ -18,6 +18,11 @@ export default function jsonrpc(method, data) {
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   })
     .then((response) => {
+      if(!response.ok){
+        const error=new Error()
+        error.status=response.status
+        return Promise.reject(error)
+      }
       return response.json()
     })
     .then((json) => {
