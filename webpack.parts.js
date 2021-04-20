@@ -28,7 +28,7 @@ exports.devServer = () => ({
         },
       },
       '/rpcsponsor': {
-        target: 'https://test.shuttleflow.confluxnetwork.org/rpcsponsor',
+        target: 'https://test1.shuttleflow.confluxnetwork.org/rpcsponsor',
         // target: 'https://shuttleflow.io/rpcsponsor',
         changeOrigin: true,
         pathRewrite: {
