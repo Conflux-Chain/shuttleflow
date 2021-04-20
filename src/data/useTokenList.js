@@ -16,7 +16,11 @@ import { ZERO_ADDR } from '../config/config'
 const MAX_DECIMAL_DISPLAY = 8
 export function usePairInfo(pair) {
   const { selectedAddress } = window.conflux
-  return useSWR(pair ? ['pair', pair, selectedAddress] : null, fetchPair, {
+  if (!pair) {
+    const data = useTokenList()
+    return { data }
+  }
+  return useSWR(['pair', pair, selectedAddress], fetchPair, {
     suspense: true,
     revalidateOnMount: true,
   })
