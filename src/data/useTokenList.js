@@ -218,34 +218,45 @@ function fetchPair(key, pair, address) {
       })
     })
     .catch((e) => {
-      console.log(e)
+      return {
+        haserror: true,
+      }
     })
 }
 
 function fetcher(key, search, chain, cToken) {
   const { display, searchList } = CHAIN_CONFIG[chain]
-  return getTokenList(chain).then(({ tokenList }) => {
-    if (!search) {
-      return tokenList.filter(display)
-    }
+  return getTokenList(chain)
+    .then((data) => {
+      const tokenList = data?.tokenList
+      if (!search) {
+        return tokenList.filter(display)
+      }
 
-    return (cToken ? searchCfxList : searchList)(tokenList, search, chain).then(
-      (e) => {
+      return (cToken ? searchCfxList : searchList)(
+        tokenList,
+        search,
+        chain
+      ).then((e) => {
         console.log(e)
         return e
+      })
+      // .then((list) => sortSearchResult(list))
+    })
+    .catch((error) => {
+      return {
+        haserror: true,
       }
-    )
-    // .then((list) => sortSearchResult(list))
-  })
+    })
 }
 
 export default function useTokenList({ search, cToken } = {}) {
   const { chain } = useParams()
-
-  return useSWR(['search', search, chain, cToken], fetcher, {
+  const res = useSWR(['search', search, chain, cToken], fetcher, {
     suspense: true,
     revalidateOnMount: false,
-  }).data
+  })
+  return res?.data
 }
 
 function searchCfxList(list, search, chain) {
