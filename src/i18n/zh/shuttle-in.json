@@ -23,5 +23,6 @@
   "approve": "授权代币",
   "transfer-no-save": "请向以下地址转账（不要保存地址）",
   "min-error": "数值必须大于0",
-  "tip-metamask-operate": "请在 MetaMask 中完成操作"
+  "tip-metamask-operate": "请在 MetaMask 中完成操作",
+  "token-alarm": "请勿向以上地址转入除了 {{ reference_symbol }} 以外的代币"
 }

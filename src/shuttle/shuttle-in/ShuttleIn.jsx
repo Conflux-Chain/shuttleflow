@@ -135,6 +135,7 @@ function TokenInfoDetails({
   const [feePopup, setFeePopup] = useState(false)
   const [qrPopup, setQrPopup] = useState(false)
   const shuttleInAddress = useShuttleAddress({ type: 'in', origin })
+  console.log(tokenInfo)
   return (
     <>
       <div className={shuttleCx('small-text')}>
@@ -198,6 +199,9 @@ function TokenInfoDetails({
           <img className={shuttleInCx('img')} alt="qr" src={qr}></img>
           <span>{t('qr')}</span>
         </span>
+      </div>
+      <div style={{color: '#f3504f'}}>
+      {t('token-alarm', tokenInfo)}
       </div>
 
       <Modal
