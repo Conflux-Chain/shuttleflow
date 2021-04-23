@@ -20,7 +20,10 @@
     "switch-main": "请在钱包中将网络切换到 Conflux Tethys，再进行操作",
     "insufficient": "余额不足",
     "unsupported-network-mm": "不支持的网络，请将 MetaMask 网络切换至：",
-    "unsupported-network-portal": "不支持的网络，请将 ConfluxPortal 网络切换至："
+    "unsupported-network-portal": "不支持的网络，请将 ConfluxPortal 网络切换至：",
+    "bsc-issue":"ShuttleFlow 正在维护，具体原因与恢复时间，请移步",
+    "issue-link":"https://forum.conflux.fun/c/Chinese/Shuttleflow",
+    "forum":"论坛"
   },
   "history": "交易历史",
   "more": "查看更多",

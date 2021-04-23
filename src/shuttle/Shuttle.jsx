@@ -9,18 +9,17 @@ import {
 } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import layoutBottomState from '../layout/LayoutButtomState'
-
 import ShuttleIn from './shuttle-in/ShuttleIn'
 import ShuttleOut from './shuttle-out/ShuttleOut'
 import ShuttleInWithMM from './shuttle-in/ShuttleInWithMM'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import styles from './Shuttle.module.scss'
-
+import layouStyles from './../layout/Layout.module.scss'
 import inActiveSvg from './i-in-active-64.png'
 import inSvg from './i-in-64.png'
 import outActiveSvg from './i-out-active-64.png'
 import outSvg from './i-out-64.png'
-
+import notAllow from './../layout/not-allow.png'
 import MenuLink from '../component/MenuLink'
 import PaddingContainer from '../component/PaddingContainer/PaddingContainer'
 import MainContainer from '../component/MainContainer/MainContainer'
@@ -30,11 +29,12 @@ import useUrlSearch from '../lib/useUrlSearch'
 import { usePairInfo } from '../data/useTokenList'
 import ChooseChain from '../layout/ChooseChain'
 import Button from '../component/Button/Button'
+import Modal from '../component/Modal'
 import styled from 'styled-components'
 import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
 
 export default function Shuttle({ match: { path, url } }) {
-  const [cx] = useStyle(styles)
+  const [cx] = useStyle(styles, layouStyles)
   const { t } = useTranslation(['nav'])
   const inUrl = `${url}/in`
   const outUrl = `${url}/out`
@@ -94,9 +94,38 @@ export default function Shuttle({ match: { path, url } }) {
 function RouteComponent() {
   const { pair = '' } = useUrlSearch()
   const { chain } = useParams()
+  const [layoutCx] = useStyle(layouStyles)
+  const { t } = useTranslation()
   const { data: tokenInfo } = usePairInfo(
     pair || (chain === 'btc' ? 'btc-btc' : '')
   )
+  if (tokenInfo && tokenInfo.haserror) {
+    return (
+      <Modal show={true}>
+        <div className={layoutCx('not-allow')}>
+          <img src={notAllow} alt={notAllow}></img>
+          <div className={layoutCx('title')}>{t('error.block')}</div>
+          <div
+            style={
+              {
+                // whiteSpace: 'nowrap',
+              }
+            }
+          >
+            {t('error.bsc-issue')}
+            <a
+              href={t('error.issue-link')}
+              className="a-link"
+              target="_blank"
+              style={{ color: '#44D7B6' }}
+            >
+              {t('error.forum')}
+            </a>
+          </div>
+        </div>
+      </Modal>
+    )
+  }
   const [feePopup, setFeePopup] = useState(false)
   const { type } = useParams()
   const isSmall = useIsSamll()
@@ -111,7 +140,7 @@ function RouteComponent() {
   ) {
     Component = ShuttleInWithMM
   }
-  const { t } = useTranslation(['shuttle'])
+
   let notEnoughGas = false
   let gasLow = null
   //not applicable to BTC (singleton)
