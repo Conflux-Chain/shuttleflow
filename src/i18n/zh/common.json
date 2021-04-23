@@ -21,7 +21,9 @@
     "insufficient": "余额不足",
     "unsupported-network-mm": "不支持的网络，请将 MetaMask 网络切换至：",
     "unsupported-network-portal": "不支持的网络，请将 ConfluxPortal 网络切换至：",
-    "bsc-issue":"由于 ETH 和 BSC 跨链节点的不稳定，ShuttleFlow 为了安全考虑，暂时关闭了服务。当网络节点稳定后，ShuttleFlow 将会自动恢复服务"
+    "bsc-issue":"ShuttleFlow 正在维护，具体原因与恢复时间，请移步",
+    "issue-link":"https://forum.conflux.fun/c/Chinese/Shuttleflow",
+    "forum":"论坛"
   },
   "history": "交易历史",
   "more": "查看更多",

@@ -9,11 +9,10 @@ import {
 } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import layoutBottomState from '../layout/LayoutButtomState'
-
 import ShuttleIn from './shuttle-in/ShuttleIn'
 import ShuttleOut from './shuttle-out/ShuttleOut'
 import ShuttleInWithMM from './shuttle-in/ShuttleInWithMM'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import styles from './Shuttle.module.scss'
 import layouStyles from './../layout/Layout.module.scss'
 import inActiveSvg from './i-in-active-64.png'
@@ -107,13 +106,21 @@ function RouteComponent() {
           <img src={notAllow} alt={notAllow}></img>
           <div className={layoutCx('title')}>{t('error.block')}</div>
           <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              // whiteSpace: 'nowrap',
-            }}
+            style={
+              {
+                // whiteSpace: 'nowrap',
+              }
+            }
           >
             {t('error.bsc-issue')}
+            <a
+              href={t('error.issue-link')}
+              className="a-link"
+              target="_blank"
+              style={{ color: '#44D7B6' }}
+            >
+              {t('error.forum')}
+            </a>
           </div>
         </div>
       </Modal>
