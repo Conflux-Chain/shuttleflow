@@ -23,5 +23,6 @@
   "approve": "Approve",
   "transfer-no-save": "Transfer to this address (Do not save)",
   "min-error": "The value must be greater than 0",
-  "tip-metamask-operate": "Please operate in MetaMask to continue"
+  "tip-metamask-operate": "Please operate in MetaMask to continue",
+  "token-alarm": "CAUTION! : DO NOT TRANSFER IN ANY TOKEN OTHER THAN {{reference_symbol}} TO THE ABOVE ADDRESS."
 }

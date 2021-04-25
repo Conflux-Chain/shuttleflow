@@ -22,7 +22,10 @@
     "switch-main": "Unsupported network, please change it in the wallet: Conflux Tethys",
     "insufficient": "Insufficient balance",
     "unsupported-network-mm": "Unsupported network, please change it in the MetaMask: ",
-    "unsupported-network-portal": "Unsupported network, please change it in the ConfluxPortal: "
+    "unsupported-network-portal": "Unsupported network, please change it in the ConfluxPortal: ",
+    "bsc-issue":"ShuttleFlow is currently under maintenance. More detailed information in ",
+    "issue-link":"https://forum.conflux.fun/c/English/shuttleflow",
+    "forum":"forum"
   },
   "all": "All",
   "from": "From {{value}}",
