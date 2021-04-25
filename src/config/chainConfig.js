@@ -52,7 +52,7 @@ const config = {
     tx_url: ETH_SCAN_URL + '/tx/',
     searchTokenFromServer: createSearchTokenFromServer('eth'),
     display: ({ supported, in_token_list, origin }) => {
-      return origin === 'cfx' || (supported === 1 && in_token_list === 1)
+      return supported === 1 && in_token_list === 1
     },
     searchList: function filterEth(list, search) {
       const isEthAddress = config['eth'].outFormatCheck(search)
@@ -155,8 +155,8 @@ const config = {
     tk_url: BSC_SCAN_URL + '/address/',
     tx_url: BSC_SCAN_URL + '/tx/',
     captain: CAPTAIN.BOTH,
-    display: ({ supported, origin }) => {
-      return origin === 'cfx' || supported === 1
+    display: ({ supported, in_token_list, origin }) => {
+      return supported === 1 && in_token_list === 1
     },
     searchTokenFromServer: createSearchTokenFromServer('bsc'),
     searchList: function filterEth(list, search) {
