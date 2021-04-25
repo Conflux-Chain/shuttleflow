@@ -286,10 +286,10 @@ function searchCfxList(list, search, chain) {
   } else {
     return Promise.resolve(
       list.filter(
-        ({ reference_name, reference_symbol, ctoken, symbol, supported }) => {
+        ({ reference_name, reference_symbol, ctoken, symbol, supported, in_token_list }) => {
           return (
             //DO NOT present unsupported with ctoken
-            supported &&
+            supported === 1 && in_token_list === 1 &&
             (ctoken === search ||
               reference_symbol.toLowerCase().indexOf(lowerSearch) > -1 ||
               symbol.toLowerCase().indexOf(lowerSearch) > -1 ||
