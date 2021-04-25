@@ -78,8 +78,8 @@ const config = {
 
       return Promise.resolve(
         list.filter(
-          ({ reference_symbol, reference_name, in_token_list }) =>
-            in_token_list === 1 &&
+          ({ reference_symbol, reference_name, in_token_list, supported  }) =>
+            in_token_list === 1 && supported === 1
             (reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
               reference_name.toLowerCase().indexOf(lowersearch) > -1)
         )
@@ -183,8 +183,8 @@ const config = {
 
       return Promise.resolve(
         list.filter(
-          ({ reference_symbol, reference_name, in_token_list }) =>
-            in_token_list === 1 &&
+          ({ reference_symbol, reference_name, in_token_list, supported }) =>
+            in_token_list === 1 && supported === 1
             (reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
               reference_name.toLowerCase().indexOf(lowersearch) > -1)
         )
