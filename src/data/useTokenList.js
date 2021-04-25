@@ -111,7 +111,7 @@ function fetchPair(key, pair, address) {
           }),
 
           getContract('balance').then((c) => {
-            return c.tokenBalance(address, mainPairCtoken).call()
+            return address ? c.tokenBalance(address, mainPairCtoken).call() : '0'
           }),
         ]).then(([pendingInfo, custodianData, sponsorData, gasBalance]) => {
           const { cnt } = pendingInfo || { cnt: 0 }
