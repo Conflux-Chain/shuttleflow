@@ -51,7 +51,7 @@ const config = {
     tk_url: ETH_SCAN_URL + '/token/',
     tx_url: ETH_SCAN_URL + '/tx/',
     searchTokenFromServer: createSearchTokenFromServer('eth'),
-    display: ({ supported, in_token_list, origin }) => {
+    display: ({ supported, in_token_list }) => {
       return supported === 1 && in_token_list === 1
     },
     searchList: function filterEth(list, search) {
@@ -79,7 +79,7 @@ const config = {
       return Promise.resolve(
         list.filter(
           ({ reference_symbol, reference_name, in_token_list, supported  }) =>
-            in_token_list === 1 && supported === 1
+            in_token_list === 1 && supported === 1 &&
             (reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
               reference_name.toLowerCase().indexOf(lowersearch) > -1)
         )
@@ -156,7 +156,7 @@ const config = {
     tk_url: BSC_SCAN_URL + '/address/',
     tx_url: BSC_SCAN_URL + '/tx/',
     captain: CAPTAIN.BOTH,
-    display: ({ supported, in_token_list, origin }) => {
+    display: ({ supported, in_token_list }) => {
       return supported === 1 && in_token_list === 1
     },
     searchTokenFromServer: createSearchTokenFromServer('bsc'),
@@ -184,7 +184,7 @@ const config = {
       return Promise.resolve(
         list.filter(
           ({ reference_symbol, reference_name, in_token_list, supported }) =>
-            in_token_list === 1 && supported === 1
+            in_token_list === 1 && supported === 1 &&
             (reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
               reference_name.toLowerCase().indexOf(lowersearch) > -1)
         )
