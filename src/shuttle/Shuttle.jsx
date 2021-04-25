@@ -35,7 +35,7 @@ import CHAIN_CONFIG, { CAPTAIN } from '../config/chainConfig'
 
 export default function Shuttle({ match: { path, url } }) {
   const [cx] = useStyle(styles, layouStyles)
-  const { t } = useTranslation(['nav'])
+  const { t } = useTranslation(['nav', 'shuttle'])
   const inUrl = `${url}/in`
   const outUrl = `${url}/out`
   const [, setLayoutBottom] = useRecoilState(layoutBottomState)
@@ -95,7 +95,7 @@ function RouteComponent() {
   const { pair = '' } = useUrlSearch()
   const { chain } = useParams()
   const [layoutCx] = useStyle(layouStyles)
-  const { t } = useTranslation()
+  const { t } = useTranslation(['shuttle'])
   const { data: tokenInfo } = usePairInfo(
     pair || (chain === 'btc' ? 'btc-btc' : '')
   )
