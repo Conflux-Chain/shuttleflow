@@ -226,9 +226,13 @@ function fetchPair(key, pair, address) {
       })
     })
     .catch((e) => {
-      return {
-        haserror: true,
+      if(e&&e.code===-32602){
+      }else{
+        return {
+          haserror: true,
+        }
       }
+      
     })
 }
 
