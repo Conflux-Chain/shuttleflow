@@ -50,7 +50,6 @@ function TokenList({
 
   const ListSourceComponent = CHAIN_CONFIG[chain].TokenList
 
-  console.log(useTokenList({ search, cToken }))
   const tokenList = useTokenList({ search, cToken })
     .slice()
     .filter(({ origin }) => (chainFilter ? origin === chainFilter : true))
