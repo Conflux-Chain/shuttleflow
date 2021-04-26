@@ -111,7 +111,7 @@ function fetchPair(key, pair, address) {
           }),
 
           getContract('balance').then((c) => {
-            return c.tokenBalance(address, mainPairCtoken).call()
+            return address ? c.tokenBalance(address, mainPairCtoken).call() : '0'
           }),
         ]).then(([pendingInfo, custodianData, sponsorData, gasBalance]) => {
           const { cnt } = pendingInfo || { cnt: 0 }
@@ -226,9 +226,13 @@ function fetchPair(key, pair, address) {
       })
     })
     .catch((e) => {
-      return {
-        haserror: true,
+      if(e&&e.code===-32602){
+      }else{
+        return {
+          haserror: true,
+        }
       }
+      
     })
 }
 
@@ -286,10 +290,10 @@ function searchCfxList(list, search, chain) {
   } else {
     return Promise.resolve(
       list.filter(
-        ({ reference_name, reference_symbol, ctoken, symbol, supported }) => {
+        ({ reference_name, reference_symbol, ctoken, symbol, supported, in_token_list }) => {
           return (
             //DO NOT present unsupported with ctoken
-            supported &&
+            supported === 1 && in_token_list === 1 &&
             (ctoken === search ||
               reference_symbol.toLowerCase().indexOf(lowerSearch) > -1 ||
               symbol.toLowerCase().indexOf(lowerSearch) > -1 ||
