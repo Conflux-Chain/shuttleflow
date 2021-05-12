@@ -22,19 +22,22 @@ export let CONFLUXSCAN_TX,
   BSCSCAN_TK,
   CONFLUXSCAN_URL,
   ETH_SCAN_URL,
-  BSC_SCAN_URL;
+  BSC_SCAN_URL,
+  OKT_SCAN_URL;
 //dev
 if (IS_DEV) {
   CONFLUXSCAN_URL = "http://testnet.confluxscan.io";
   ZERO_ADDR = "cfxtest:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa6f0vrcsw";
   ETH_SCAN_URL = "https://rinkeby.etherscan.io";
   BSC_SCAN_URL = "https://testnet.bscscan.com";
+  OKT_SCAN_URL="https://www.oklink.com/okexchain-test/"
 } else {
   //prod
   CONFLUXSCAN_URL = "https://confluxscan.io";
   ZERO_ADDR = "cfx:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0sfbnjm2";
   ETH_SCAN_URL = "https://etherscan.io";
   BSC_SCAN_URL = "https://bscscan.com";
+  OKT_SCAN_URL="https://www.oklink.com/okexchain/"
 }
 
 CONFLUXSCAN_TX = CONFLUXSCAN_URL + "/transaction/";

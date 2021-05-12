@@ -9,10 +9,11 @@ import ethSrc from './ether.svg'
 import bscSrc from './bsc.svg'
 import ethSubSrc from './eth-sub.svg'
 import bscSubSrc from './bsc-sub.svg'
-
+import oktSrc from './okt.svg'
+import oktSubSrc from './okt-sub.svg'
 import { getTokenList, updateTokenList } from '../data/tokenList'
 import { getIdFromToken } from '../util/id'
-import { ETH_SCAN_URL, BSC_SCAN_URL } from './config'
+import { ETH_SCAN_URL, BSC_SCAN_URL,OKT_SCAN_URL } from './config'
 var WAValidator = require('wallet-address-validator')
 
 export const CAPTAIN = {
@@ -211,9 +212,65 @@ const config = {
         ]
       : ['bnb', '0x045c4324039dA91c52C55DF5D785385Aab073DcF'],
   },
+  okt: {
+    icon: oktSrc,
+    subIcon: oktSubSrc,
+    tk_url: OKT_SCAN_URL + '/tokenAddr/',
+    tx_url: OKT_SCAN_URL + '/tx/',
+    captain: CAPTAIN.NONE,
+    display: ({ supported, origin }) => {
+      return origin === 'cfx' || supported === 1
+    },
+    searchTokenFromServer: createSearchTokenFromServer('okt'),
+    searchList: function filterEth(list, search) {
+      const isEthAddress = config['eth'].outFormatCheck(search)
+      const lowersearch = search.toLowerCase()
+      if (isEthAddress) {
+        return Promise.resolve(
+          list.filter(
+            ({ reference }) => reference.toLowerCase() === lowersearch
+          )
+        ).then((list) => {
+          if (list.length === 1) {
+            return list
+          } else {
+            return config['okt']
+              .searchTokenFromServer(search)
+              .then((result) => {
+                return result ? [result] : []
+              })
+          }
+        })
+      }
+
+      return Promise.resolve(
+        list.filter(
+          ({ reference_symbol, reference_name, in_token_list, supported }) =>
+            in_token_list === 1 && supported === 1 &&
+            (reference_symbol.toLowerCase().indexOf(lowersearch) > -1 ||
+              reference_name.toLowerCase().indexOf(lowersearch) > -1)
+        )
+      )
+    },
+    outFormatCheck(address) {
+      return WAValidator.validate(
+        address,
+        'ethereum',
+        IS_DEV ? 'testnet' : 'prod'
+      )
+    },
+    TokenList({ t }) {
+      return <span>{t('list')}</span>
+    },
+    checkAddress() {
+      return Promise.resolve('yes')
+    },
+    //TODO: add contract address
+    frequentTokens: IS_DEV? ['okt']: ['okt'],
+  },
 }
 
-export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc']
+export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc','okt']
 
 export default config
 
