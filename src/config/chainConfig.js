@@ -9,11 +9,11 @@ import ethSrc from './ether.svg'
 import bscSrc from './bsc.svg'
 import ethSubSrc from './eth-sub.svg'
 import bscSubSrc from './bsc-sub.svg'
-import oktSrc from './okt.svg'
-import oktSubSrc from './okt-sub.svg'
+import oecSrc from './oec.svg'
+import oecSubSrc from './oec-sub.svg'
 import { getTokenList, updateTokenList } from '../data/tokenList'
 import { getIdFromToken } from '../util/id'
-import { ETH_SCAN_URL, BSC_SCAN_URL,OKT_SCAN_URL } from './config'
+import { ETH_SCAN_URL, BSC_SCAN_URL, OEC_SCAN_URL } from './config'
 var WAValidator = require('wallet-address-validator')
 
 export const CAPTAIN = {
@@ -212,16 +212,16 @@ const config = {
         ]
       : ['bnb', '0x045c4324039dA91c52C55DF5D785385Aab073DcF'],
   },
-  okt: {
-    icon: oktSrc,
-    subIcon: oktSubSrc,
-    tk_url: OKT_SCAN_URL + '/tokenAddr/',
-    tx_url: OKT_SCAN_URL + '/tx/',
+  oec: {
+    icon: oecSrc,
+    subIcon: oecSubSrc,
+    tk_url: OEC_SCAN_URL + '/tokenAddr/',
+    tx_url: OEC_SCAN_URL + '/tx/',
     captain: CAPTAIN.NONE,
     display: ({ supported, origin }) => {
       return origin === 'cfx' || supported === 1
     },
-    searchTokenFromServer: createSearchTokenFromServer('okt'),
+    searchTokenFromServer: createSearchTokenFromServer('oec'),
     searchList: function filterEth(list, search) {
       const isEthAddress = config['eth'].outFormatCheck(search)
       const lowersearch = search.toLowerCase()
@@ -234,7 +234,7 @@ const config = {
           if (list.length === 1) {
             return list
           } else {
-            return config['okt']
+            return config['oec']
               .searchTokenFromServer(search)
               .then((result) => {
                 return result ? [result] : []
@@ -270,7 +270,7 @@ const config = {
   },
 }
 
-export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc','okt']
+export const SUPPORT_CHAINS = ['btc', 'eth', 'bsc','oec']
 
 export default config
 
