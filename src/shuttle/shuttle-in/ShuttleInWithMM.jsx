@@ -120,15 +120,11 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   const [btnType, setBtnType] = useState('')
   const [isNetworkBlock, setIsNetworkBlock] = useState(false)
   const [, setMessage] = useMessages()
-  //ETH OR BNB
-  const isNativeToken = ['ETH', 'BNB'].indexOf(originSymbol) !== -1
+  const isNativeToken = ['ETH', 'BNB', 'OKT'].indexOf(originSymbol) !== -1
   const ORIGIN_ETH = 'eth'
   const ORIGIN_BSC = 'bsc'
-  const dRcontract = getDepositRelayerContract(
-    origin === 'eth' ? 'eth' : 'bsc',
-    library,
-    account
-  )
+  const ORIGIN_OEC = 'oec'
+  const dRcontract = getDepositRelayerContract(origin, library, account)
   let tokenContract = {}
   if (!isNativeToken) {
     tokenContract = getTokenContract(originAddr, library, account)
@@ -185,7 +181,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     }
   }, [tokenInfo, account, isNativeToken])
   /**
-   * ETH OR BNB
+   * ETH BNB OKT
    */
   useEffect(() => {
     const shouldFetch = account && isNativeToken
@@ -224,7 +220,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
   })
 
   /**
-   * get ETH/BNB balance from remote
+   * get ETH/BNB/OKT balance from remote
    * @param {} address
    * @returns
    */
@@ -265,6 +261,10 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
     if (chain === ORIGIN_BSC) {
       IS_DEV && (showBlock = chainId != CHAINID.BSC_TESTNET)
       !IS_DEV && (showBlock = chainId != CHAINID.BSC_MAINNEET)
+    }
+    if (chain === ORIGIN_OEC) {
+      IS_DEV && (showBlock = chainId != CHAINID.OEC_TESTNET)
+      !IS_DEV && (showBlock = chainId != CHAINID.OEC_MAINNET)
     }
     return showBlock
   }
@@ -618,11 +618,7 @@ export default function ShuttleIn({ tokenInfo, notEnoughGas, gasLow }) {
           >
             {t('error.unsupported-network-mm') +
               '' +
-              t(
-                `${origin === 'eth' ? 'ethereum' : 'bsc'}` +
-                  '-' +
-                  `${!IS_DEV ? 'mainnet' : 'testnet'}`
-              )}
+              t(`${origin}` + '-' + `${!IS_DEV ? 'mainnet' : 'testnet'}`)}
           </div>
         </div>
       </Modal>

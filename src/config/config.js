@@ -62,6 +62,8 @@ export const CHAINID = {
   ETHEREUM_RINKEBY: 4,
   BSC_MAINNEET: 56,
   BSC_TESTNET: 97,
+  OEC_MAINNET: 66,
+  OEC_TESTNET: 65
 };
 export const MetaMask_WEBSITE = "https://metamask.io";
 export const MIN_ETH = 0.2;
