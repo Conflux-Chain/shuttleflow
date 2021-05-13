@@ -19,6 +19,10 @@ export const CONTRACT_CONFIG = {
           ? 'cfxtest:acg8g810ntrv2wn62mjd7jn8brackkcc6pxv3u47ae'
           : 'cfx:acb3gfhjazfbxtajmfm1x5vc12drvs382ew0ykwyv8',
       },
+      //TODO: oec: contract address
+      oec:{
+
+      }
     },
     fromCfx: {
       abi: 'CustodianImplReverse',
@@ -32,6 +36,10 @@ export const CONTRACT_CONFIG = {
           ? 'cfxtest:acdbc6vygv2rcejrf59rga0b1ze52h94by3en9b77n'
           : 'cfx:acfgmctw40vy2a608uey5g9t32b8m4kp1268zwhrh1',
       },
+      //TODO: oec: contract address
+      oec:{
+
+      }
     },
   },
   sponsor: {
@@ -52,6 +60,10 @@ export const CONTRACT_CONFIG = {
           ? 'cfxtest:aca2kmezyet575cusyzhhp2jmwc1b4ka1ynevxeycf'
           : 'cfx:acfet2rcf4uag2daavzrsddkkvefpz4wmp1n76msw4',
       },
+      //TODO: oec: contract address
+      oec:{
+
+      }
     },
     fromCfx: {
       abi: 'TokenSponsorReverse',
@@ -65,6 +77,10 @@ export const CONTRACT_CONFIG = {
           ? 'cfxtest:acgw7pkuhvb8nk1a98jjzveugn7bkhj9za79hgwu4p'
           : 'cfx:aceftme5ycg8zj0gw71b3r1kurzpmhpn92ka1x565t',
       },
+      //TODO :oec: contract address
+      oec:{
+
+      }
     },
   },
   balance: {

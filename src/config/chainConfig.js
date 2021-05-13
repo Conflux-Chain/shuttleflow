@@ -265,7 +265,7 @@ const config = {
     checkAddress() {
       return Promise.resolve('yes')
     },
-    //TODO: add contract address
+    //TODO: oec - add contract address
     frequentTokens: IS_DEV? ['okt']: ['okt'],
   },
 }
