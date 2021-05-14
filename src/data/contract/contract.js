@@ -21,7 +21,9 @@ export const CONTRACT_CONFIG = {
       },
       //TODO: oec: contract address
       oec:{
-
+        address: IS_DEV
+          ? 'cfxtest:achs3f2knh85024646aex8j226y96ynukesc46s63h'
+          : 'cfx:acb3gfhjazfbxtajmfm1x5vc12drvs382ew0ykwyv8',
       }
     },
     fromCfx: {
@@ -38,7 +40,9 @@ export const CONTRACT_CONFIG = {
       },
       //TODO: oec: contract address
       oec:{
-
+        address: IS_DEV
+          ? 'cfxtest:acbsbs2cp9secres4kfd3zvwbp42zrr4fee3unj3bz'
+          : 'cfx:acb3gfhjazfbxtajmfm1x5vc12drvs382ew0ykwyv8',
       }
     },
   },
@@ -62,7 +66,9 @@ export const CONTRACT_CONFIG = {
       },
       //TODO: oec: contract address
       oec:{
-
+        address: IS_DEV
+          ? 'cfxtest:aca6tuc7cyarypp9ht8tkh34suuasv7uz6myay066j'
+          : 'cfx:aceftme5ycg8zj0gw71b3r1kurzpmhpn92ka1x565t',
       }
     },
     fromCfx: {
@@ -79,7 +85,9 @@ export const CONTRACT_CONFIG = {
       },
       //TODO :oec: contract address
       oec:{
-
+        address: IS_DEV
+          ? 'cfxtest:acfkp578z73dhecgprf8n4rd9g4751049yd75xun65'
+          : 'cfx:aceftme5ycg8zj0gw71b3r1kurzpmhpn92ka1x565t',
       }
     },
   },

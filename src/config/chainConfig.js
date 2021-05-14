@@ -215,11 +215,13 @@ const config = {
   oec: {
     icon: oecSrc,
     subIcon: oecSubSrc,
+    token: 'cOKT',
+    mainPair: 'oec-okt',
     tk_url: OEC_SCAN_URL + '/tokenAddr/',
     tx_url: OEC_SCAN_URL + '/tx/',
-    captain: CAPTAIN.NONE,
-    display: ({ supported, origin }) => {
-      return origin === 'cfx' || supported === 1
+    captain: CAPTAIN.BOTH,
+    display: ({ supported, in_token_list }) => {
+      return supported === 1 && in_token_list === 1
     },
     searchTokenFromServer: createSearchTokenFromServer('oec'),
     searchList: function filterEth(list, search) {
@@ -266,7 +268,7 @@ const config = {
       return Promise.resolve('yes')
     },
     //TODO: oec - add contract address
-    frequentTokens: IS_DEV? ['okt']: ['okt'],
+    frequentTokens: IS_DEV? ['okt','0xae6155367003e028b594f1139f2b6edbcb5bb297']: ['okt'],
   },
 }
 

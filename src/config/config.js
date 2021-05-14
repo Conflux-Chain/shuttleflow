@@ -30,14 +30,14 @@ if (IS_DEV) {
   ZERO_ADDR = "cfxtest:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa6f0vrcsw";
   ETH_SCAN_URL = "https://rinkeby.etherscan.io";
   BSC_SCAN_URL = "https://testnet.bscscan.com";
-  OEC_SCAN_URL="https://www.oklink.com/okexchain-test/"
+  OEC_SCAN_URL="https://www.oklink.com/okexchain-test"
 } else {
   //prod
   CONFLUXSCAN_URL = "https://confluxscan.io";
   ZERO_ADDR = "cfx:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0sfbnjm2";
   ETH_SCAN_URL = "https://etherscan.io";
   BSC_SCAN_URL = "https://bscscan.com";
-  OEC_SCAN_URL="https://www.oklink.com/okexchain/"
+  OEC_SCAN_URL="https://www.oklink.com/okexchain"
 }
 
 CONFLUXSCAN_TX = CONFLUXSCAN_URL + "/transaction/";
@@ -69,3 +69,4 @@ export const MetaMask_WEBSITE = "https://metamask.io";
 export const MIN_ETH = 0.2;
 export const MIN_BSC = 0.2;
 export const MIN_CFX = 2;
+export const MIN_OEC = 0.2;
