@@ -25,9 +25,9 @@ export default function TransactionResult() {
     case 'bsc':
       scanTxUrl = BSCSCAN_TX
       break
-    case 'oec':
-      scanTxUrl = OECSCAN_TX
-      break  
+    // case 'oec':
+    //   scanTxUrl = OECSCAN_TX
+    //   break  
   }
   return (
     <>
