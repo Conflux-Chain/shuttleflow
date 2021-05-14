@@ -35,10 +35,13 @@
   "bsc": "BSC",
   "heco": "Heco",
   "cfx": "Conflux",
-  "ethereum-mainnet": "Ethereum Mainnet",
-  "ethereum-testnet": "Ethereum Testnet",
+  "oec":"OKExChain",
+  "eth-mainnet": "Ethereum Mainnet",
+  "eth-testnet": "Ethereum Testnet",
   "bsc-mainnet": "BSC Mainnet",
   "bsc-testnet": "BSC Testnet",
+  "oec-mainnet": "OKExChain Mainnet",
+  "oec-testnet": "OKExChain Testnet",
   "conflux-mainnet": "Conflux Tethys",
   "conflux-testnet": "Conflux Testnet"
 }

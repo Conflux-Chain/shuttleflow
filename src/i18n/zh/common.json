@@ -35,10 +35,13 @@
   "bsc": "币安智能链",
   "heco": "火币生态链",
   "cfx": "Conflux",
-  "ethereum-mainnet": "以太坊主网",
-  "ethereum-testnet": "以太坊测试网",
+  "oec":"OKExChain",
+  "eth-mainnet": "以太坊主网",
+  "eth-testnet": "以太坊测试网",
   "bsc-mainnet": "币安智能链主网",
   "bsc-testnet": "币安智能链测试网",
+  "oec-mainnet": "OKExChain Mainnet",
+  "oec-testnet": "OKExChain Testnet",
   "conflux-mainnet": "Conflux Tethys",
   "conflux-testnet": "Conflux 测试网"
 }
