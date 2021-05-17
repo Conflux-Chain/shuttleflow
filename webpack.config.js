@@ -34,6 +34,7 @@ const commonConfig = (isDev) =>
         new webpack.ProvidePlugin({
           Buffer: ['buffer', 'Buffer'],
         }),
+        new webpack.SourceMapDevToolPlugin({})
       ],
       resolve: {
         extensions: ['.js', '.jsx'],
