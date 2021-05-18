@@ -25,9 +25,9 @@ export default function getFields({
   to_chain,
 }) {
   const isObverseIn =
-    ['eth', 'bsc'].indexOf(origin) !== -1 && to_chain === 'cfx'
+    ['eth', 'bsc', 'oec'].indexOf(origin) !== -1 && to_chain === 'cfx'
   const isReverseIn =
-    ['eth', 'bsc'].indexOf(to_chain) !== -1 && origin === 'cfx'
+    ['eth', 'bsc', 'oec'].indexOf(to_chain) !== -1 && origin === 'cfx'
   function createField({
     name,
     label,
