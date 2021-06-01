@@ -1,7 +1,6 @@
 function createSubscribeNetwork() {
   let listeners = []
   let started = false
-  //TODO: should be a better way to detect portal
   //i.e event is contentscript
   setInterval(() => {
     //portal is detected
