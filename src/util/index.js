@@ -3,7 +3,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
 import Big from "big.js";
-import { MIN_ETH, MIN_BSC, MIN_CFX } from "./../config/config";
+import { MIN_ETH, MIN_BSC, MIN_CFX, MIN_OEC } from "./../config/config";
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value) {
   try {
@@ -63,6 +63,9 @@ export function maxAmountSpend(amount, chain) {
     case "cfx":
       minAmount = MIN_CFX;
       break;
+    case "oec":
+      minAmount = MIN_OEC;
+      break;  
   }
   if (amount.gt(minAmount)) {
     return amount.minus(minAmount);

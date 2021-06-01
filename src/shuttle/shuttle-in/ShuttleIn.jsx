@@ -135,7 +135,6 @@ function TokenInfoDetails({
   const [feePopup, setFeePopup] = useState(false)
   const [qrPopup, setQrPopup] = useState(false)
   const shuttleInAddress = useShuttleAddress({ type: 'in', origin })
-  console.log(tokenInfo)
   return (
     <>
       <div className={shuttleCx('small-text')}>

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import useSWR, { mutate } from 'swr'
 import Modal, { Strong } from '../component/Modal'
-import { CONFLUXSCAN_TX, ETHSCAN_TX, BSCSCAN_TX } from '../config/config'
+import { CONFLUXSCAN_TX, ETHSCAN_TX, BSCSCAN_TX, OECSCAN_TX } from '../config/config'
 import fail from './fail.svg'
 import sent from './sent.svg'
 import Button from '../component/Button/Button'
@@ -25,6 +25,9 @@ export default function TransactionResult() {
     case 'bsc':
       scanTxUrl = BSCSCAN_TX
       break
+    case 'oec':
+      scanTxUrl = OECSCAN_TX
+      break  
   }
   return (
     <>

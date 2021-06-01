@@ -135,7 +135,7 @@ function RouteComponent() {
   if (
     type === 'in' &&
     tokenInfo &&
-    ['eth', 'bsc'].indexOf(tokenInfo.origin) !== -1 &&
+    ['eth', 'bsc', 'oec'].indexOf(tokenInfo.origin) !== -1 &&
     tokenInfo.to_chain === 'cfx'
   ) {
     Component = ShuttleInWithMM
