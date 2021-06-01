@@ -19,11 +19,10 @@ export const CONTRACT_CONFIG = {
           ? 'cfxtest:acg8g810ntrv2wn62mjd7jn8brackkcc6pxv3u47ae'
           : 'cfx:acb3gfhjazfbxtajmfm1x5vc12drvs382ew0ykwyv8',
       },
-      //TODO: oec: contract address
       oec:{
         address: IS_DEV
           ? 'cfxtest:achs3f2knh85024646aex8j226y96ynukesc46s63h'
-          : 'cfx:acb3gfhjazfbxtajmfm1x5vc12drvs382ew0ykwyv8',
+          : 'cfx:acfscwx5sr9yfasnypgdmujc71gt66sajpzr0mhzpz',
       }
     },
     fromCfx: {
@@ -38,11 +37,10 @@ export const CONTRACT_CONFIG = {
           ? 'cfxtest:acdbc6vygv2rcejrf59rga0b1ze52h94by3en9b77n'
           : 'cfx:acfgmctw40vy2a608uey5g9t32b8m4kp1268zwhrh1',
       },
-      //TODO: oec: contract address
       oec:{
         address: IS_DEV
           ? 'cfxtest:acbsbs2cp9secres4kfd3zvwbp42zrr4fee3unj3bz'
-          : 'cfx:acb3gfhjazfbxtajmfm1x5vc12drvs382ew0ykwyv8',
+          : 'cfx:acf0xp9vrv55gkft3tjntkjagvwme19vcu2wsj39fz',
       }
     },
   },
@@ -64,11 +62,10 @@ export const CONTRACT_CONFIG = {
           ? 'cfxtest:aca2kmezyet575cusyzhhp2jmwc1b4ka1ynevxeycf'
           : 'cfx:acfet2rcf4uag2daavzrsddkkvefpz4wmp1n76msw4',
       },
-      //TODO: oec: contract address
       oec:{
         address: IS_DEV
           ? 'cfxtest:aca6tuc7cyarypp9ht8tkh34suuasv7uz6myay066j'
-          : 'cfx:aceftme5ycg8zj0gw71b3r1kurzpmhpn92ka1x565t',
+          : 'cfx:acc3zs32wsn06b5betf8g1g1phb7cg24xpbfjnfg7j',
       }
     },
     fromCfx: {
@@ -83,11 +80,10 @@ export const CONTRACT_CONFIG = {
           ? 'cfxtest:acgw7pkuhvb8nk1a98jjzveugn7bkhj9za79hgwu4p'
           : 'cfx:aceftme5ycg8zj0gw71b3r1kurzpmhpn92ka1x565t',
       },
-      //TODO :oec: contract address
       oec:{
         address: IS_DEV
           ? 'cfxtest:acfkp578z73dhecgprf8n4rd9g4751049yd75xun65'
-          : 'cfx:aceftme5ycg8zj0gw71b3r1kurzpmhpn92ka1x565t',
+          : 'cfx:acghjp9u0s4kgbars93dun5kftjhe1xjre3fa6smv4',
       }
     },
   },

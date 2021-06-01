@@ -267,8 +267,7 @@ const config = {
     checkAddress() {
       return Promise.resolve('yes')
     },
-    //TODO: oec - add contract address
-    frequentTokens: IS_DEV? ['okt','0xae6155367003e028b594f1139f2b6edbcb5bb297']: ['okt'],
+    frequentTokens: IS_DEV? ['okt','0xae6155367003e028b594f1139f2b6edbcb5bb297']: ['okt','0xfcd4d15f09548cd90efcaf0b1d9531bba670b7b1'],
   },
 }
 
